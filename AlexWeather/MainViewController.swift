@@ -8,13 +8,25 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .orange
+        
+        configureGradientLayer()
     }
-
-
+    
+    
+    let gradientLayer = CAGradientLayer()
+    var topColor = UIColor.orange
+    var bottomColor = UIColor.yellow
+    
+    func configureGradientLayer() {
+        gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
+        gradientLayer.locations = [0,1]
+        view.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = view.bounds
+    }
+    
+    
 }
 
