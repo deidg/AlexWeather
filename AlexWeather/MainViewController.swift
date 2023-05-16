@@ -9,18 +9,23 @@ import UIKit
 import SnapKit
 
 class MainViewController: UIViewController {
+    let gradientLayer = CAGradientLayer()
+    var topColor = UIColor.orange
+    var bottomColor = UIColor.yellow
+    
+
+    let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
+
+    остановился на добавлении камня на картинку.
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureGradientLayer()
+        setupUI()
     }
-    
-    
-    let gradientLayer = CAGradientLayer()
-    var topColor = UIColor.orange
-    var bottomColor = UIColor.yellow
-    
+   
     func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -28,9 +33,18 @@ class MainViewController: UIViewController {
         gradientLayer.frame = view.bounds
     }
     
-    let theStone = UIImage(named: image_stone_cracks.png)
-    
-    
-    
+    func setupUI() {
+//        view.addSubview(theStone)
+        view.snp.makeConstraints { make in
+            make.center.equalTo(view)
+        }
+    }
 }
+
+
+
+//extension
+
+
+//    theStoneImage.image = theStone
 
