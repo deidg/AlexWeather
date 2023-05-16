@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainViewController: UIViewController {
     
@@ -26,6 +27,9 @@ class MainViewController: UIViewController {
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
     }
+    
+    let theStone = UIImage(named: image_stone_cracks.png)
+    
     
     
 }
