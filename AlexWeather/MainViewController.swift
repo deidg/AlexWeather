@@ -27,6 +27,15 @@ class MainViewController: UIViewController {
         locationLabel.backgroundColor = .white
         return locationLabel
     }()
+    //TODO: убрать снизу кнопки закругления
+    let infoButton: UIButton = {
+        let infoButton = UIButton()
+        infoButton.backgroundColor = .blue
+//        infoButton.titleLabel = "Info"
+//        infoBu tton.layer.name = "Info"
+        infoButton.layer.cornerRadius = 5
+        return infoButton
+    }()
     
     
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
@@ -70,10 +79,19 @@ class MainViewController: UIViewController {
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom).inset(50)
+//            make.bottom.equalTo(infoButton.snp.top).inset(50)
+            make.bottom.equalTo(view.snp.bottom).inset(70)
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
+        view.addSubview(infoButton)
+        infoButton.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(view.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(100)
+            make.height.equalTo(50)
+        }
+        
     }
 }
 
