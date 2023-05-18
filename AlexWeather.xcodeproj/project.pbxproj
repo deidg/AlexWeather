@@ -16,6 +16,7 @@
 		FA9FCF192A13550100D13D2A /* AlexWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FCF182A13550100D13D2A /* AlexWeatherTests.swift */; };
 		FA9FCF232A13550100D13D2A /* AlexWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FCF222A13550100D13D2A /* AlexWeatherUITests.swift */; };
 		FA9FCF252A13550100D13D2A /* AlexWeatherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FCF242A13550100D13D2A /* AlexWeatherUITestsLaunchTests.swift */; };
+		FAD5FC352A1689FD00F01959 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD5FC342A1689FD00F01959 /* InfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		FA9FCF1E2A13550100D13D2A /* AlexWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlexWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA9FCF222A13550100D13D2A /* AlexWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlexWeatherUITests.swift; sourceTree = "<group>"; };
 		FA9FCF242A13550100D13D2A /* AlexWeatherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlexWeatherUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FAD5FC342A1689FD00F01959 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
 				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
 				FA9FCF052A13550000D13D2A /* MainViewController.swift */,
+				FAD5FC342A1689FD00F01959 /* InfoViewController.swift */,
 				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
 				FA9FCF0C2A13550100D13D2A /* LaunchScreen.storyboard */,
 				FA9FCF0F2A13550100D13D2A /* Info.plist */,
@@ -324,6 +327,7 @@
 			files = (
 				FA9FCF062A13550000D13D2A /* MainViewController.swift in Sources */,
 				FA9FCF022A13550000D13D2A /* AppDelegate.swift in Sources */,
+				FAD5FC352A1689FD00F01959 /* InfoViewController.swift in Sources */,
 				FA9FCF042A13550000D13D2A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

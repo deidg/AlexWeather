@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class MainViewController: UIViewController {
+    private let InfoViewController = InfoViewController()
     let gradientLayer = CAGradientLayer()
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
@@ -16,12 +17,12 @@ class MainViewController: UIViewController {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
 //        temperatureLabel.textAlignment = .left
-        temperatureLabel.backgroundColor = .gray
+//        temperatureLabel.backgroundColor = .gray
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
-        conditionsLabel.backgroundColor = .gray
+//        conditionsLabel.backgroundColor = .gray
         conditionsLabel.textColor = .black
 
         return conditionsLabel
@@ -33,7 +34,7 @@ class MainViewController: UIViewController {
     }()
   
     
-    //TODO: убрать снизу кнопки закругления
+    //TODO: убрать снизу кнопки закругления микро лейбла снизу с прямыми углами?)
     let infoButton: UIButton = {
         let infoButton = UIButton()
         infoButton.backgroundColor = .gray
