@@ -15,8 +15,9 @@ class MainViewController: UIViewController {
     
 
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
+//    theStoneImageView.sizeToFit()
 
-    остановился на добавлении камня на картинку.
+//    остановился на добавлении камня на картинку.
 
     
     override func viewDidLoad() {
@@ -34,9 +35,10 @@ class MainViewController: UIViewController {
     }
     
     func setupUI() {
-//        view.addSubview(theStone)
-        view.snp.makeConstraints { make in
-            make.center.equalTo(view)
+        view.addSubview(theStoneImageView)
+        theStoneImageView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.top)
+            make.centerX.equalTo(self.view)
         }
     }
 }
