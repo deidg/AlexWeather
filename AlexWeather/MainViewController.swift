@@ -12,19 +12,23 @@ class MainViewController: UIViewController {
     let gradientLayer = CAGradientLayer()
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
-    let temperatureLabel: UILabel = {
+    var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
-        temperatureLabel.backgroundColor = .red
+        temperatureLabel.textColor = .black
+//        temperatureLabel.textAlignment = .left
+        temperatureLabel.backgroundColor = .gray
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
-        conditionsLabel.backgroundColor = .green
+        conditionsLabel.backgroundColor = .gray
+        conditionsLabel.textColor = .black
+
         return conditionsLabel
     }()
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
-        locationLabel.backgroundColor = .white
+        locationLabel.backgroundColor = .gray
         return locationLabel
     }()
   
@@ -32,7 +36,7 @@ class MainViewController: UIViewController {
     //TODO: убрать снизу кнопки закругления
     let infoButton: UIButton = {
         let infoButton = UIButton()
-        infoButton.backgroundColor = .blue
+        infoButton.backgroundColor = .gray
 //        infoButton.titleLabel = "Info"
 //        infoBu tton.layer.name = "Info"
         infoButton.layer.cornerRadius = 5
@@ -47,9 +51,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureGradientLayer()
         setupUI()
+        temperatureLabel.attributedText = makeAttributedTemprature().attributedText
+        conditionsLabel.attributedText = makeAttributedConditions().attributedText
     }
     
     func configureGradientLayer() {
@@ -100,21 +105,49 @@ class MainViewController: UIViewController {
             make.leading.equalTo(locationLabel).inset(-30)
             make.height.equalTo(20)
         }
-        
         view.addSubview(searchIcon)
         searchIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(80)
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
-        
     }
+    
+    func makeAttributedTemprature() -> UILabel {
+        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
+        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
+        
+        let temprature = NSAttributedString(string: "10", attributes: tempratureDigits)
+        let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
+        
+        let attributedString = NSMutableAttributedString()
+        attributedString.append(temprature)
+        attributedString.append(degree)
+        
+        let label = UILabel()
+        label.attributedText = attributedString
+        return label
+    }
+    
+    func makeAttributedConditions() -> UILabel {
+        let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
+        
+        let conditions = NSAttributedString(string: "Samarqand", attributes: conditionAttributes)
+        
+        let attributedConditions = NSMutableAttributedString()
+        attributedConditions.append(conditions)
+        
+        let label = UILabel()
+        label.attributedText = attributedConditions
+        return label
+    }
+    
+    
+    
+    
+    
 }
 
 
 
-//extension
-
-
-//    theStoneImage.image = theStone
 
