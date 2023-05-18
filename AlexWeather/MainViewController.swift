@@ -9,8 +9,13 @@ import UIKit
 import SnapKit
 
 class MainViewController: UIViewController {
-    private let InfoViewController = InfoViewController()
     let gradientLayer = CAGradientLayer()
+    let infoLargeLabel: UILabel = {
+       let infoLargeLabel = UILabel()
+        infoLargeLabel.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
+        infoLargeLabel.isHidden = true
+        return infoLargeLabel
+    }()
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
@@ -35,11 +40,10 @@ class MainViewController: UIViewController {
   
     
     //TODO: убрать снизу кнопки закругления микро лейбла снизу с прямыми углами?)
-    let infoButton: UIButton = {
+    @objc let infoButton: UIButton = {
         let infoButton = UIButton()
         infoButton.backgroundColor = .gray
-//        infoButton.titleLabel = "Info"
-//        infoBu tton.layer.name = "Info"
+        infoButton.setTitle("Info", for: .normal)
         infoButton.layer.cornerRadius = 5
         return infoButton
     }()
@@ -54,6 +58,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         configureGradientLayer()
         setupUI()
+        defaultConfiguration()
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
     }
@@ -70,6 +75,13 @@ class MainViewController: UIViewController {
         theStoneImageView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top)
             make.centerX.equalTo(self.view)
+        }
+        
+        view.addSubview(infoLargeLabel)
+        infoLargeLabel.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.view)
+            make.top.bottom.equalTo(view).inset(100)
+            make.leading.trailing.equalTo(view).inset(40)
         }
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
@@ -112,6 +124,11 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
+        
+    }
+
+    @objc func defaultConfiguration() {
+        infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
     
     func makeAttributedTemprature() -> UILabel {
@@ -144,7 +161,17 @@ class MainViewController: UIViewController {
     }
     
     
-    
+    @objc private func buttonPressed(sender: UIButton) {
+        print("henko")
+        infoLargeLabel.isHidden = false
+        theStoneImageView.isHidden = true
+        temperatureLabel.isHidden = true
+        conditionsLabel.isHidden = true
+        locationLabel.isHidden = true
+        locationPinIcon.isHidden = true
+        searchIcon.isHidden = true
+        infoButton.isHidden = true
+    }
     
     
 }
