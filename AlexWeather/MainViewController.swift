@@ -27,6 +27,8 @@ class MainViewController: UIViewController {
         locationLabel.backgroundColor = .white
         return locationLabel
     }()
+  
+    
     //TODO: убрать снизу кнопки закругления
     let infoButton: UIButton = {
         let infoButton = UIButton()
@@ -39,7 +41,8 @@ class MainViewController: UIViewController {
     
     
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
-    
+    let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
+    let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
     
     override func viewDidLoad() {
@@ -90,6 +93,19 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(view.snp.bottom)
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
+        }
+        view.addSubview(locationPinIcon)
+        locationPinIcon.snp.makeConstraints{ make in
+            make.bottom.equalTo(view.snp.bottom).inset(80)
+            make.leading.equalTo(locationLabel).inset(-30)
+            make.height.equalTo(20)
+        }
+        
+        view.addSubview(searchIcon)
+        searchIcon.snp.makeConstraints{ make in
+            make.bottom.equalTo(view.snp.bottom).inset(80)
+            make.trailing.equalTo(locationLabel).offset(30)
+            make.height.equalTo(20)
         }
         
     }
