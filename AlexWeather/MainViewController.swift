@@ -19,17 +19,28 @@ class MainViewController: UIViewController {
         infoLargeView.layer.cornerRadius = 25
         return infoLargeView
     }()
+    let infoLargeViewTitle: UILabel = {
+        let label = UILabel()
+        label.text = "INFO"
+        label.font =  UIFont.boldSystemFont(ofSize: label.font.pointSize)
+        label.textAlignment = .center
+        
+//        label.capitalized = true
+        return label
+    }()
     
-    
-    
-//    let infoLargeLabel: UILabel = {
-//       let infoLargeLabel = UILabel()
-//        infoLargeLabel.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
-//        infoLargeLabel.isHidden = true
-//        infoLargeLabel.layer.masksToBounds = true
-//        infoLargeLabel.layer.cornerRadius = 25
-//        return infoLargeLabel
-//    }()
+    //TOD): make a shadow
+@objc  let infoLargeViewHideButton: UIButton = {
+    let infoLargeViewHideButton = UIButton()
+    infoLargeViewHideButton.isEnabled = true
+    infoLargeViewHideButton.setTitle("Hide", for: .normal)
+    infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
+    infoLargeViewHideButton.layer.borderWidth = 1.5
+    infoLargeViewHideButton.layer.cornerRadius = 15
+//    infoLargeViewHideButton.titleShadowColor(for: <#T##UIControl.State#>)
+    return infoLargeViewHideButton
+}()
+   
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
@@ -97,6 +108,24 @@ class MainViewController: UIViewController {
             make.top.bottom.equalTo(view).inset(200)
             make.leading.trailing.equalTo(view).inset(60)
         }
+        
+        infoLargeView.addSubview(infoLargeViewTitle)
+        infoLargeViewTitle.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.infoLargeView)
+            make.leading.trailing.equalTo(infoLargeView).inset(30)
+            make.top.equalTo(infoLargeView.snp.top).inset(20)
+            
+        }
+        
+        infoLargeView.addSubview(infoLargeViewHideButton)
+        infoLargeViewHideButton.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.infoLargeView)
+            make.leading.trailing.equalTo(infoLargeView).inset(30)
+            make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
+            
+        }
+        
+        
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
             make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
@@ -138,6 +167,9 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
+        
+        
+        
         
     }
 
