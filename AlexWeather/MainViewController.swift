@@ -10,12 +10,26 @@ import SnapKit
 
 class MainViewController: UIViewController {
     let gradientLayer = CAGradientLayer()
-    let infoLargeLabel: UILabel = {
-       let infoLargeLabel = UILabel()
-        infoLargeLabel.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
-        infoLargeLabel.isHidden = true
-        return infoLargeLabel
+    
+    let infoLargeView: UIView = {
+       let infoLargeView = UIView()
+        infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
+        infoLargeView.isHidden = true
+        infoLargeView.layer.masksToBounds = true
+        infoLargeView.layer.cornerRadius = 25
+        return infoLargeView
     }()
+    
+    
+    
+//    let infoLargeLabel: UILabel = {
+//       let infoLargeLabel = UILabel()
+//        infoLargeLabel.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
+//        infoLargeLabel.isHidden = true
+//        infoLargeLabel.layer.masksToBounds = true
+//        infoLargeLabel.layer.cornerRadius = 25
+//        return infoLargeLabel
+//    }()
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
@@ -77,11 +91,11 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(self.view)
         }
         
-        view.addSubview(infoLargeLabel)
-        infoLargeLabel.snp.makeConstraints{ make in
+        view.addSubview(infoLargeView)
+        infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            make.top.bottom.equalTo(view).inset(100)
-            make.leading.trailing.equalTo(view).inset(40)
+            make.top.bottom.equalTo(view).inset(200)
+            make.leading.trailing.equalTo(view).inset(60)
         }
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
@@ -163,7 +177,7 @@ class MainViewController: UIViewController {
     
     @objc private func buttonPressed(sender: UIButton) {
         print("henko")
-        infoLargeLabel.isHidden = false
+        infoLargeView.isHidden = false
         theStoneImageView.isHidden = true
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
