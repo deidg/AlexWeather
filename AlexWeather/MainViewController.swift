@@ -27,15 +27,6 @@ class MainViewController: UIViewController {
         return label
     }()
     
-//    let infoLargeViewLabel: UILabel = {
-//        let label = UILabel()
-//        label.numberOfLines = 7
-//        label.text = "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet"
-//        label.textAlignment = .left
-//        label.lineSpacing(20)
-//        return label
-//    }()
-    
     let infoLargeViewLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 7
@@ -53,6 +44,7 @@ class MainViewController: UIViewController {
     let infoLargeViewHideButton = UIButton()
     infoLargeViewHideButton.isEnabled = true
     infoLargeViewHideButton.setTitle("Hide", for: .normal)
+//    infoLargeViewHideButton.titleLabel?.textColor = UIColor.gray.cgColor
     infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
     infoLargeViewHideButton.layer.borderWidth = 1.5
     infoLargeViewHideButton.layer.cornerRadius = 15
@@ -91,7 +83,6 @@ class MainViewController: UIViewController {
         infoButton.layer.cornerRadius = 5
         return infoButton
     }()
-    
     
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
@@ -141,16 +132,12 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
         }
-        
-        
         infoLargeView.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
-            
         }
-        
         
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
@@ -201,6 +188,7 @@ class MainViewController: UIViewController {
 
     @objc func defaultConfiguration() {
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
     
     func makeAttributedTemprature() -> UILabel {
@@ -245,6 +233,17 @@ class MainViewController: UIViewController {
         infoButton.isHidden = true
     }
     
+    @objc private func hideButtonPressed(sender: UIButton) {
+        print("closed!")
+        infoLargeView.isHidden = true
+        theStoneImageView.isHidden = false
+        temperatureLabel.isHidden = false
+        conditionsLabel.isHidden = false
+        locationLabel.isHidden = false
+        locationPinIcon.isHidden = false
+        searchIcon.isHidden = false
+        infoButton.isHidden = false
+    }
     
 }
 
