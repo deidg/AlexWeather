@@ -19,13 +19,32 @@ class MainViewController: UIViewController {
         infoLargeView.layer.cornerRadius = 25
         return infoLargeView
     }()
-    let infoLargeViewTitle: UILabel = {
+    let infoLargeViewTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "INFO"
         label.font =  UIFont.boldSystemFont(ofSize: label.font.pointSize)
         label.textAlignment = .center
-        
-//        label.capitalized = true
+        return label
+    }()
+    
+//    let infoLargeViewLabel: UILabel = {
+//        let label = UILabel()
+//        label.numberOfLines = 7
+//        label.text = "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet"
+//        label.textAlignment = .left
+//        label.lineSpacing(20)
+//        return label
+//    }()
+    
+    let infoLargeViewLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 7
+        label.textAlignment = .left
+        let attributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 20
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        label.attributedText = attributedString
         return label
     }()
     
@@ -109,13 +128,20 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(view).inset(60)
         }
         
-        infoLargeView.addSubview(infoLargeViewTitle)
-        infoLargeViewTitle.snp.makeConstraints{ make in
+        infoLargeView.addSubview(infoLargeViewTitleLabel)
+        infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
-            make.top.equalTo(infoLargeView.snp.top).inset(20)
-            
+            make.top.equalTo(infoLargeView.snp.top).inset(30)
         }
+        
+        infoLargeView.addSubview(infoLargeViewLabel)
+        infoLargeViewLabel.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.infoLargeView)
+            make.leading.trailing.equalTo(infoLargeView).inset(30)
+            make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
+        }
+        
         
         infoLargeView.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
