@@ -18,6 +18,7 @@ import SnapKit
 class MainViewController: UIViewController {
     //MARK: elements
     let gradientLayer = CAGradientLayer()
+    let networkManager = NetworkManager()
     let infoLargeView: UIView = {
        let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -99,24 +100,7 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         
-        //130af965a13542537138a6ef5cc6216f
-        // 39°39′15″ с. ш. 66°57′35″ в. д.
-        
-    //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-        
-//    https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f
-        
-        
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f"
-        guard let url = URL(string: urlString) else { return }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { data, response, error in
-            if let data = data {
-                let dataString = String(data: data, encoding: .utf8)
-                print(dataString ?? "")
-            }
-        }
-        task.resume()
+        networkManager.apiRequest(latitude: 39.39, longitude: 66.57)
     }
     // MARK: methods
     func configureGradientLayer() {
