@@ -116,7 +116,7 @@ class MainViewController: UIViewController {
     func updateInterfaceWith(weather: CurrentWeather) {
         DispatchQueue.main.async {
             self.temperatureLabel.text = weather.temperatureString
-            self.conditionsLabel.text = weather.description
+//            self.conditionsLabel.attributedText = weather.description
             self.locationLabel.text = weather.cityName
         }
     }
@@ -225,7 +225,7 @@ class MainViewController: UIViewController {
     func makeAttributedConditions() -> UILabel {
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
         
-        let conditions = NSAttributedString(string: "Sunny", attributes: conditionAttributes)
+        let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
         
         let attributedConditions = NSMutableAttributedString()
         attributedConditions.append(conditions)

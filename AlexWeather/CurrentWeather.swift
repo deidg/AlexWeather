@@ -20,6 +20,6 @@ struct CurrentWeather {
     init?(currentWeatherData: CurrentWeatherData) {
         cityName = currentWeatherData.name
         temperature = currentWeatherData.main.temp
-        description = currentWeatherData.name.description
+//        description = currentWeatherData.main.main
     }
 }
