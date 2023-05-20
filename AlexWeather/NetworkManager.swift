@@ -10,20 +10,29 @@ import UIKit
 
 struct NetworkManager {
 
-    func apiRequest(latitude: Double, longitude: Double) { // установка города 8.41  ч 5
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=130af965a13542537138a6ef5cc6216f"
+    func apiRequest(latitude: Double, longitude: Double) {
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)"
         guard let url = URL(string: urlString) else { return }
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
-                let dataString = String(data: data, encoding: .utf8)
-                print(dataString ?? "")
+                parseJSON(withData: data)  //.self?
             }
         }
         task.resume()
     }
 }
 
+func parseJSON(withData data: Data) {
+    let decoder = JSONDecoder()
+    do {
+        let currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
+        print(currentWeatherData)
+    } catch let error as NSError {
+        print(error.localizedDescription)
+    }
+   
+}
 
 
 //130af965a13542537138a6ef5cc6216f
