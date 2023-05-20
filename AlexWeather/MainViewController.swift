@@ -18,7 +18,7 @@ import SnapKit
 class MainViewController: UIViewController {
     //MARK: elements
     let gradientLayer = CAGradientLayer()
-    let networkManager = NetworkManager()
+    var networkManager = NetworkManager()
     let infoLargeView: UIView = {
        let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -100,11 +100,10 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         
-        networkManager.apiRequest(latitude: 39.39, longitude: 66.57) {
-            currentWeather  in
+        networkManager.onComletion = { currentWeather in
             print(currentWeather.cityName)
-            
         }
+        networkManager.apiRequest(latitude: 39.39, longitude: 66.57) 
     }
     // MARK: methods
     func configureGradientLayer() {
