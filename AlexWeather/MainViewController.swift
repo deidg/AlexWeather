@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
     }()
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
-        locationLabel.text = "Samarqand"
+        locationLabel.text = "anywhere" //"Samarqand"
         locationLabel.textAlignment = .center
 //        locationLabel.backgroundColor = .gray
         return locationLabel
@@ -100,11 +100,28 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         
-        networkManager.onComletion = { currentWeather in
+        networkManager.onComletion = { [weak self] currentWeather in
+            guard let self = self else { return }
+            self.updateInterfaceWith(weather: currentWeather)
+            
+            
             print(currentWeather.cityName)
+            print(currentWeather.temperatureString)
+            print(currentWeather.description)
+            
         }
-        networkManager.apiRequest(latitude: 39.39, longitude: 66.57) 
+        networkManager.apiRequest(latitude: 39.39, longitude: 66.57)
     }
+    
+    func updateInterfaceWith(weather: CurrentWeather) {
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = weather.temperatureString
+            self.conditionsLabel.text = weather.description
+            self.locationLabel.text = weather.cityName
+        }
+    }
+    
+    
     // MARK: methods
     func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]

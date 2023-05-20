@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct NetworkManager {
+class NetworkManager {
     
         var onComletion: ((CurrentWeather) -> Void)?
     
@@ -18,7 +18,7 @@ struct NetworkManager {
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let data = data {
-                if let currentWeather = parseJSON(withData: data) {
+                if let currentWeather = self.parseJSON(withData: data) {
                     self.onComletion?(currentWeather)
             }
         }
