@@ -5,12 +5,19 @@
 //  Created by Alex on 16.05.2023.
 //
 
+//TODO: определение местоположения
+//TODO: получение данных
+//TODO: отображение данных и замена камня
+//TODO: распозначание жестов
+
+
+
 import UIKit
 import SnapKit
 
 class MainViewController: UIViewController {
+    //MARK: elements
     let gradientLayer = CAGradientLayer()
-    
     let infoLargeView: UIView = {
        let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -26,7 +33,6 @@ class MainViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
     let infoLargeViewLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 7
@@ -38,7 +44,6 @@ class MainViewController: UIViewController {
         label.attributedText = attributedString
         return label
     }()
-    
     //TOD): make a shadow
 @objc  let infoLargeViewHideButton: UIButton = {
     let infoLargeViewHideButton = UIButton()
@@ -51,7 +56,6 @@ class MainViewController: UIViewController {
 //    infoLargeViewHideButton.titleShadowColor(for: <#T##UIControl.State#>)
     return infoLargeViewHideButton
 }()
-   
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
@@ -65,16 +69,15 @@ class MainViewController: UIViewController {
         let conditionsLabel = UILabel()
 //        conditionsLabel.backgroundColor = .gray
         conditionsLabel.textColor = .black
-
         return conditionsLabel
     }()
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
-        locationLabel.backgroundColor = .gray
+        locationLabel.text = "Samarqand"
+        locationLabel.textAlignment = .center
+//        locationLabel.backgroundColor = .gray
         return locationLabel
     }()
-  
-    
     //TODO: убрать снизу кнопки закругления микро лейбла снизу с прямыми углами?)
     @objc let infoButton: UIButton = {
         let infoButton = UIButton()
@@ -83,12 +86,11 @@ class MainViewController: UIViewController {
         infoButton.layer.cornerRadius = 5
         return infoButton
     }()
-    
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
-    
+    //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGradientLayer()
@@ -96,36 +98,51 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
+        
+        //130af965a13542537138a6ef5cc6216f
+        // 39°39′15″ с. ш. 66°57′35″ в. д.
+        
+    //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+        
+//    https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f
+        
+        
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f"
+        guard let url = URL(string: urlString) else { return }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let dataString = String(data: data, encoding: .utf8)
+                print(dataString ?? "")
+            }
+        }
+        task.resume()
     }
-    
+    // MARK: methods
     func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
     }
-    
     func setupUI() {
         view.addSubview(theStoneImageView)
         theStoneImageView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top)
             make.centerX.equalTo(self.view)
         }
-        
         view.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
             make.leading.trailing.equalTo(view).inset(60)
         }
-        
         infoLargeView.addSubview(infoLargeViewTitleLabel)
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.top.equalTo(infoLargeView.snp.top).inset(30)
         }
-        
         infoLargeView.addSubview(infoLargeViewLabel)
         infoLargeViewLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
@@ -138,7 +155,6 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
         }
-        
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
             make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
@@ -180,17 +196,12 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
-        
-        
-        
-        
     }
-
     @objc func defaultConfiguration() {
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
-    
+
     func makeAttributedTemprature() -> UILabel {
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
         let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
@@ -210,7 +221,7 @@ class MainViewController: UIViewController {
     func makeAttributedConditions() -> UILabel {
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
         
-        let conditions = NSAttributedString(string: "Samarqand", attributes: conditionAttributes)
+        let conditions = NSAttributedString(string: "Sunny", attributes: conditionAttributes)
         
         let attributedConditions = NSMutableAttributedString()
         attributedConditions.append(conditions)
@@ -219,7 +230,6 @@ class MainViewController: UIViewController {
         label.attributedText = attributedConditions
         return label
     }
-    
     
     @objc private func buttonPressed(sender: UIButton) {
         print("henko")
