@@ -100,7 +100,11 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         
-        networkManager.apiRequest(latitude: 39.39, longitude: 66.57)
+        networkManager.apiRequest(latitude: 39.39, longitude: 66.57) {
+            currentWeather  in
+            print(currentWeather.cityName)
+            
+        }
     }
     // MARK: methods
     func configureGradientLayer() {
