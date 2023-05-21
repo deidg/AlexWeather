@@ -11,7 +11,7 @@ import CoreLocation
 
 class NetworkManager {
     
-        var onComletion: ((CurrentWeather) -> Void)?
+    var onComletion: ((CurrentWeather) -> Void)?
     
     func apiRequest(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=metric"
@@ -21,27 +21,27 @@ class NetworkManager {
             if let data = data {
                 if let currentWeather = self.parseJSON(withData: data) {
                     self.onComletion?(currentWeather)
+                }
             }
         }
+        task.resume()
     }
-    task.resume()
-}
-
-func parseJSON(withData data: Data) -> CurrentWeather? {
-    let decoder = JSONDecoder()
-    do {
-        let currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-        
-        guard let currentWeather = CurrentWeather(currentWeatherData: currentWeatherData)
-        else {
-            return nil
+    
+    func parseJSON(withData data: Data) -> CurrentWeather? {
+        let decoder = JSONDecoder()
+        do {
+            let currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
+            
+            guard let currentWeather = CurrentWeather(currentWeatherData: currentWeatherData)
+            else {
+                return nil
+            }
+            return currentWeather
+        } catch let error as NSError {
+            print(error)
         }
-        return currentWeather
-    } catch let error as NSError {
-        print(error) 
+        return nil
     }
-    return nil
-}
 }
 
 //130af965a13542537138a6ef5cc6216f

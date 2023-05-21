@@ -12,7 +12,6 @@ import Foundation
 //город - name
     //страна - country
 
-
 struct CurrentWeatherData: Codable {
     
     let main: Main
@@ -34,41 +33,3 @@ struct Weather: Codable {
 struct Sys: Codable {
     let country: String
 }
-
-//=============
-//struct CurrentWeatherData: Decodable {
-//
-//    let name: String
-//    let main: Main
-//    let weather: [Weather]
-//}
-//
-//struct Main: Decodable {
-//    let temp: Double
-//    let main: String
-////    let feelsLike: Double
-////
-////    enum CodingKeys: String, CodingKey {
-////        case temp
-//////        case description
-////        case feelsLike = "feels_like"
-////    }
-//}
-//
-//struct Weather: Decodable {
-//    let id: Int
-//    let description: String
-//    let weather: String
-//}
-
-
-
-
-
-
-
-
-
-
-
-

@@ -129,15 +129,9 @@
 		FA9FCF002A13550000D13D2A /* AlexWeather */ = {
 			isa = PBXGroup;
 			children = (
-				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
-				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
-				FA9FCF052A13550000D13D2A /* MainViewController.swift */,
-				FAAAFC482A18915B007F5CAE /* NetworkManager.swift */,
-				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
-				FAD4665D2A18D7570028760C /* CurrentWeather.swift */,
-				FAD466592A18A3FC0028760C /* Constants.swift */,
-				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
-				FA9FCF0C2A13550100D13D2A /* LaunchScreen.storyboard */,
+				FAA73D682A1A42DF0043D4D6 /* Managers */,
+				FAA73D692A1A42F30043D4D6 /* Controllers */,
+				FAA73D6A2A1A43050043D4D6 /* Other files */,
 				FA9FCF0F2A13550100D13D2A /* Info.plist */,
 			);
 			path = AlexWeather;
@@ -158,6 +152,36 @@
 				FA9FCF242A13550100D13D2A /* AlexWeatherUITestsLaunchTests.swift */,
 			);
 			path = AlexWeatherUITests;
+			sourceTree = "<group>";
+		};
+		FAA73D682A1A42DF0043D4D6 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				FAAAFC482A18915B007F5CAE /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		FAA73D692A1A42F30043D4D6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FA9FCF052A13550000D13D2A /* MainViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		FAA73D6A2A1A43050043D4D6 /* Other files */ = {
+			isa = PBXGroup;
+			children = (
+				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
+				FAD4665D2A18D7570028760C /* CurrentWeather.swift */,
+				FAD466592A18A3FC0028760C /* Constants.swift */,
+				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
+				FA9FCF0C2A13550100D13D2A /* LaunchScreen.storyboard */,
+				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
+				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
+			);
+			path = "Other files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

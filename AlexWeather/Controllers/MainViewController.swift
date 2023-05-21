@@ -15,7 +15,6 @@ import UIKit
 import CoreLocation
 import SnapKit
 
-
 class MainViewController: UIViewController {
     //MARK: elements
     let gradientLayer = CAGradientLayer()
@@ -27,9 +26,6 @@ class MainViewController: UIViewController {
         lm.requestWhenInUseAuthorization()
         return lm
     }()
-    
-    
-    
     let infoLargeView: UIView = {
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -74,20 +70,17 @@ class MainViewController: UIViewController {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
         //        temperatureLabel.textAlignment = .left
-        //        temperatureLabel.backgroundColor = .gray
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
-        //        conditionsLabel.backgroundColor = .gray
         conditionsLabel.textColor = .black
         return conditionsLabel
     }()
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
-        locationLabel.text = "anywhere" //"Samarqand"
+        locationLabel.text = "anywhere"
         locationLabel.textAlignment = .center
-        //        locationLabel.backgroundColor = .gray
         return locationLabel
     }()
     //TODO: убрать снизу кнопки закругления микро лейбла снизу с прямыми углами?)
@@ -108,7 +101,6 @@ class MainViewController: UIViewController {
 //        return recognizer
 //    }()
     
-    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,9 +109,7 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
-        
-        
-        
+     
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
@@ -146,25 +136,20 @@ class MainViewController: UIViewController {
         
         networkManager.apiRequest(latitude: 55.45, longitude: 37.37) //(latitude: 39.39, longitude: 66.57)
         //    }
-        
-        
-        
     }
-    
-    
-    func updateInterfaceWith(weather: CurrentWeather) {
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
-            self.conditionsLabel.text = weather.conditionDescription
-            
-            //            self.conditionsLabel.attributedText = weather.description
-            self.locationLabel.text = weather.cityName + ", " + weather.countryName
-        }
-        
-    }
+   
     
     
     // MARK: methods
+    func updateInterfaceWith(weather: CurrentWeather) {
+         DispatchQueue.main.async {
+             self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
+             self.conditionsLabel.text = weather.conditionDescription
+             
+             //            self.conditionsLabel.attributedText = weather.description
+             self.locationLabel.text = weather.cityName + ", " + weather.countryName
+         }
+     }
     func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -290,7 +275,6 @@ class MainViewController: UIViewController {
         searchIcon.isHidden = true
         infoButton.isHidden = true
     }
-    
     @objc private func hideButtonPressed(sender: UIButton) {
         print("closed!")
         infoLargeView.isHidden = true
@@ -302,11 +286,9 @@ class MainViewController: UIViewController {
         searchIcon.isHidden = false
         infoButton.isHidden = false
     }
-    
     @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
         view.backgroundColor = .blue
     }
-    
 }
 
 
@@ -316,12 +298,10 @@ extension MainViewController: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
-        
         networkManager.apiRequest(latitude: latitude, longitude: longitude)
     }
-    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)  //.localizedDescription)
+        print(error)
     }
 }
 
