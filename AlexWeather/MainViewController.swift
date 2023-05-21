@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
     
     
     let infoLargeView: UIView = {
-       let infoLargeView = UIView()
+        let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
         infoLargeView.isHidden = true
         infoLargeView.layer.masksToBounds = true
@@ -57,29 +57,29 @@ class MainViewController: UIViewController {
         return label
     }()
     //TOD): make a shadow
-@objc  let infoLargeViewHideButton: UIButton = {
-    let infoLargeViewHideButton = UIButton()
-    infoLargeViewHideButton.isEnabled = true
-    infoLargeViewHideButton.setTitle("Hide", for: .normal)
-//    infoLargeViewHideButton.titleLabel?.textColor = UIColor.gray.cgColor
-    infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
-    infoLargeViewHideButton.layer.borderWidth = 1.5
-    infoLargeViewHideButton.layer.cornerRadius = 15
-//    infoLargeViewHideButton.titleShadowColor(for: <#T##UIControl.State#>)
-    return infoLargeViewHideButton
-}()
+    @objc  let infoLargeViewHideButton: UIButton = {
+        let infoLargeViewHideButton = UIButton()
+        infoLargeViewHideButton.isEnabled = true
+        infoLargeViewHideButton.setTitle("Hide", for: .normal)
+        //    infoLargeViewHideButton.titleLabel?.textColor = UIColor.gray.cgColor
+        infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
+        infoLargeViewHideButton.layer.borderWidth = 1.5
+        infoLargeViewHideButton.layer.cornerRadius = 15
+        //    infoLargeViewHideButton.titleShadowColor(for: <#T##UIControl.State#>)
+        return infoLargeViewHideButton
+    }()
     var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
-//        temperatureLabel.textAlignment = .left
-//        temperatureLabel.backgroundColor = .gray
+        //        temperatureLabel.textAlignment = .left
+        //        temperatureLabel.backgroundColor = .gray
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
-//        conditionsLabel.backgroundColor = .gray
+        //        conditionsLabel.backgroundColor = .gray
         conditionsLabel.textColor = .black
         return conditionsLabel
     }()
@@ -87,7 +87,7 @@ class MainViewController: UIViewController {
         let locationLabel = UILabel()
         locationLabel.text = "anywhere" //"Samarqand"
         locationLabel.textAlignment = .center
-//        locationLabel.backgroundColor = .gray
+        //        locationLabel.backgroundColor = .gray
         return locationLabel
     }()
     //TODO: убрать снизу кнопки закругления микро лейбла снизу с прямыми углами?)
@@ -102,6 +102,13 @@ class MainViewController: UIViewController {
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
+//    lazy var swipeRecognizer: UISwipeGestureRecognizer = {
+//        let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
+//        swipeRecognizer.direction = .down
+//        return recognizer
+//    }()
+    
+    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,39 +118,49 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         
+        
+        
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
-        
+            
             print(currentWeather.temperature)
             print(currentWeather.conditionCode)
             print(currentWeather.conditionDescription)
-
+            
             print(currentWeather.cityName)
-//            print(currentWeather.countryName)
+            //            print(currentWeather.countryName)
         }
+        //                    locationManager.requestLocation()
         
-//        if CLLocationManager.locationServicesEnabled(){
-//            self.locationManager.requestLocation()
-//        }
+        //        if CLLocationManager.locationServicesEnabled(){
+        //            self.locationManager.requestLocation()
+        //        }
+        //
+        //        DispatchQueue.global().async {
+        //              if CLLocationManager.locationServicesEnabled() {
+        //                  self.locationManager.requestLocation()
+        //              }
+        //        }
+//        view.addGestureRecognizer(swipeRecognizer)
         
-        DispatchQueue.global().async {
-              if CLLocationManager.locationServicesEnabled() {
-                  self.locationManager.requestLocation()
-              }
-        }
-      
-        //networkManager.apiRequest(latitude: 55.45, longitude: 37.37) //(latitude: 39.39, longitude: 66.57)
+        networkManager.apiRequest(latitude: 55.45, longitude: 37.37) //(latitude: 39.39, longitude: 66.57)
+        //    }
+        
+        
+        
     }
+    
     
     func updateInterfaceWith(weather: CurrentWeather) {
         DispatchQueue.main.async {
             self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
             self.conditionsLabel.text = weather.conditionDescription
             
-//            self.conditionsLabel.attributedText = weather.description
+            //            self.conditionsLabel.attributedText = weather.description
             self.locationLabel.text = weather.cityName + ", " + weather.countryName
         }
+        
     }
     
     
@@ -155,6 +172,8 @@ class MainViewController: UIViewController {
         gradientLayer.frame = view.bounds
     }
     func setupUI() {
+        //        view.addGestureRecognizer(swipeRecognizer)
+        
         view.addSubview(theStoneImageView)
         theStoneImageView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top)
@@ -195,13 +214,13 @@ class MainViewController: UIViewController {
         conditionsLabel.snp.makeConstraints{ make in
             make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(250)
+            make.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-//            make.bottom.equalTo(infoButton.snp.top).inset(50)
+            //            make.bottom.equalTo(infoButton.snp.top).inset(50)
             make.bottom.equalTo(view.snp.bottom).inset(70)
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
@@ -230,7 +249,7 @@ class MainViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
-
+    
     func makeAttributedTemprature() -> UILabel {
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
         let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
@@ -261,7 +280,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func buttonPressed(sender: UIButton) {
-        print("henko")
+        print("INFO opened")
         infoLargeView.isHidden = false
         theStoneImageView.isHidden = true
         temperatureLabel.isHidden = true
@@ -282,6 +301,10 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = false
         searchIcon.isHidden = false
         infoButton.isHidden = false
+    }
+    
+    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
+        view.backgroundColor = .blue
     }
     
 }
