@@ -88,7 +88,7 @@ class MainViewController: UIViewController {
         let infoButton = UIButton()
         infoButton.backgroundColor = .gray
         infoButton.setTitle("Info", for: .normal)
-        infoButton.layer.cornerRadius = 5
+        infoButton.layer.cornerRadius = 15
         return infoButton
     }()
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
@@ -213,9 +213,9 @@ class MainViewController: UIViewController {
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom)
+            make.bottom.equalTo(view.snp.bottom).offset(15) //усаживает кнопку на глубину
             make.leading.trailing.equalToSuperview().inset(100)
-            make.height.equalTo(50)
+            make.height.equalTo(80)
         }
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
