@@ -6,7 +6,6 @@
 //
 
 //TODO: определение местоположения
-//TODO: получение данных
 //TODO: отображение данных и замена камня
 //TODO: распозначание жестов
 
@@ -116,7 +115,7 @@ class MainViewController: UIViewController {
     
     func updateInterfaceWith(weather: CurrentWeather) {
         DispatchQueue.main.async {
-            self.temperatureLabel.text = String(weather.temperature)
+            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
             self.conditionsLabel.text = weather.conditionDescription
             
 //            self.conditionsLabel.attributedText = weather.description

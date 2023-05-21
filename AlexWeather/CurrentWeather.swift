@@ -11,7 +11,7 @@ struct CurrentWeather {
     
     let temperature: Double
     var temperatureString: String {
-        return "\(temperature.rounded())"
+        return String(format: "%.0f", temperature) //"\(temperature.rounded())"
     }
     let conditionCode: Int
     let conditionDescription: String // condition code
