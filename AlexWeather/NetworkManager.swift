@@ -7,12 +7,13 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class NetworkManager {
     
         var onComletion: ((CurrentWeather) -> Void)?
     
-    func apiRequest(latitude: Double, longitude: Double) {
+    func apiRequest(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=metric"
         guard let url = URL(string: urlString) else { return }
         let session = URLSession(configuration: .default)
@@ -45,6 +46,8 @@ func parseJSON(withData data: Data) -> CurrentWeather? {
 
 //130af965a13542537138a6ef5cc6216f
 // 39°39′15″ с. ш. 66°57′35″ в. д.
+
+//55 45    37 37
 
 //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
