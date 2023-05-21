@@ -17,7 +17,7 @@ struct CurrentWeather {
     let conditionDescription: String // condition code
     
     let cityName: String  //  name?
-//    let countryName: String
+    let countryName: String
     
     init?(currentWeatherData: CurrentWeatherData) {
         
@@ -26,6 +26,6 @@ struct CurrentWeather {
         conditionDescription = currentWeatherData.weather.first!.description
         
         cityName = currentWeatherData.name
-//        countryName = currentWeatherData.sys.init(country: countryName)
+        countryName = currentWeatherData.sys.country
     }
 }

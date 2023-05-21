@@ -103,16 +103,13 @@ class MainViewController: UIViewController {
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
-            
-            
+        
             print(currentWeather.temperature)
             print(currentWeather.conditionCode)
             print(currentWeather.conditionDescription)
 
             print(currentWeather.cityName)
 //            print(currentWeather.countryName)
-
-
         }
         networkManager.apiRequest(latitude: 39.39, longitude: 66.57)
     }
@@ -123,7 +120,7 @@ class MainViewController: UIViewController {
             self.conditionsLabel.text = weather.conditionDescription
             
 //            self.conditionsLabel.attributedText = weather.description
-            self.locationLabel.text = weather.cityName //", " + weather.countryName
+            self.locationLabel.text = weather.cityName + ", " + weather.countryName
         }
     }
     
