@@ -19,7 +19,7 @@ struct CurrentWeatherData: Codable {
     let weather: [Weather]
     
     let name: String
-    let country: String
+//    let country: String
 }
 
 struct Main: Codable {
@@ -31,9 +31,9 @@ struct Weather: Codable {
     let description: String
 }
 
-struct Sys: Codable {
-    let country: String
-}
+//struct Sys: Codable {
+//    let country: String
+//}
 
 //=============
 //struct CurrentWeatherData: Decodable {

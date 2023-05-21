@@ -105,19 +105,25 @@ class MainViewController: UIViewController {
             self.updateInterfaceWith(weather: currentWeather)
             
             
+            print(currentWeather.temperature)
+            print(currentWeather.conditionCode)
+            print(currentWeather.conditionDescription)
+
             print(currentWeather.cityName)
-            print(currentWeather.temperatureString)
-//            print(currentWeather.description)
-            
+//            print(currentWeather.countryName)
+
+
         }
         networkManager.apiRequest(latitude: 39.39, longitude: 66.57)
     }
     
     func updateInterfaceWith(weather: CurrentWeather) {
         DispatchQueue.main.async {
-            self.temperatureLabel.text = weather.temperatureString
+            self.temperatureLabel.text = String(weather.temperature)
+            self.conditionsLabel.text = weather.conditionDescription
+            
 //            self.conditionsLabel.attributedText = weather.description
-            self.locationLabel.text = weather.cityName
+            self.locationLabel.text = weather.cityName //", " + weather.countryName
         }
     }
     

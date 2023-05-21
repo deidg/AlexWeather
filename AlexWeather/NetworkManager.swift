@@ -37,7 +37,7 @@ func parseJSON(withData data: Data) -> CurrentWeather? {
         }
         return currentWeather
     } catch let error as NSError {
-        print(error.localizedDescription)
+        print(error) 
     }
     return nil
 }
