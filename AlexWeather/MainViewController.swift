@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
             
             print(currentWeather.cityName)
             print(currentWeather.temperatureString)
-            print(currentWeather.description)
+//            print(currentWeather.description)
             
         }
         networkManager.apiRequest(latitude: 39.39, longitude: 66.57)

@@ -8,18 +8,27 @@
 import Foundation
 
 struct CurrentWeather {
-    let cityName: String  //  name?
-    
+
     let temperature: Double
     var temperatureString: String {
         return "\(temperature.rounded())"
     }
+    let conditionCode: Int
+    let conditionDescription: String
     
-    let description: String
+    let cityName: String  //  name?
+    let countryName: String
+    
 
     init?(currentWeatherData: CurrentWeatherData) {
-        cityName = currentWeatherData.name
+        
         temperature = currentWeatherData.main.temp
-//        description = currentWeatherData.main.main
+        conditionCode = currentWeatherData.weather.first!.id
+        conditionDescription = currentWeatherData.weather.first!.description
+
+        
+        
+        cityName = currentWeatherData.name
+        countryName = currentWeatherData.country
     }
 }
