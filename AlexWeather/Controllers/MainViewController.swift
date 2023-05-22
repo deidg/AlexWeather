@@ -22,13 +22,7 @@ class MainViewController: UIViewController {
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
-//    lazy var locationManager: CLLocationManager = {
-//        let lm = CLLocationManager()
-//        lm.delegate = self
-////        lm.desiredAccuracy = kCLLocationAccuracyKilometer
-////        lm.requestWhenInUseAuthorization()
-//        return lm
-//    }()
+
     let infoLargeView: UIView = {
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -112,7 +106,12 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
      
-        setupLocation()
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        
+//        setupLocation()
         
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
@@ -121,9 +120,6 @@ class MainViewController: UIViewController {
             print(currentWeather.temperature)
             print(currentWeather.conditionCode)
             print(currentWeather.conditionDescription)
-            //            print(currentWeather.countryName)
-            
-//            locationManager.requestWhenInUseAuthorization()
 
         }
         
@@ -138,17 +134,18 @@ class MainViewController: UIViewController {
         //        }
         
 //        networkManager.apiRequest(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
-//        networkManager.apiRequest(latitude: 55.45, longitude: 37.37) //(latitude: 39.39, longitude: 66.57)
+//        networkManager.apiRequest() //(latitude: 39.39, longitude: 66.57)
         //    }
     }
+
    
-    func setupLocation() {
-        locationManager.delegate = self
-        
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-//        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-    }
+//    func setupLocation() {
+//        locationManager.delegate = self
+//
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.startUpdatingLocation()
+////        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+//    }
     
     // MARK: methods
     func updateInterfaceWith(weather: CurrentWeather) {
@@ -315,40 +312,72 @@ extension MainViewController {
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
-//          checkLocationAuthorization()
-//        locationManager.requestWhenInUseAuthorization()
       }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if !locations.isEmpty, currentLocation == nil {
-            currentLocation = locations.first
-            locationManager.stopUpdatingLocation()
-            print(currentLocation ?? "There are problems w coordinates")
-            requestWeatherForLocation()
-        }
-    }
-    
-    func requestWeatherForLocation() {
-        guard let currentLocation = currentLocation else { return }
-        let long = currentLocation.coordinate.longitude
-        let lat =  currentLocation.coordinate.latitude
+        let coordinate = manager.location?.coordinate
+        print("Lat - \(coordinate?.latitude ?? 0), long - \(coordinate?.longitude ?? 0)")
+        networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
         
-        print("CoordinatesSSSS: \(long), \(lat)")
+        
+        
+//        if let location = locations.first {
+//            currentLocation = location
+//            locationManager.stopUpdatingLocation()
+//            print(currentLocation ?? "There are problems with coordinates")
+//            requestWeatherForLocation()
+        }
+    
+    
     }
-
     
-    
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let location = locations.last else { return }
-//        print(location)
-//        let latitude = location.coordinate.latitude
-//        let longitude = location.coordinate.longitude
-////        networkManager.apiRequest(latitude: latitude, longitude: longitude)
+//    func requestWeatherForLocation() {
+//        guard let currentLocation = currentLocation else { return }
+//        let longitude = currentLocation.coordinate.longitude
+//        let latitude = currentLocation.coordinate.latitude
+//        networkManager.apiRequest(latitude: latitude, longitude: longitude)
+//
 //    }
+
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
-}
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// код из видео 2 шт
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        if !locations.isEmpty, currentLocation == nil {
+//            currentLocation = locations.first
+////            locationManager.stopUpdatingLocation()
+//            print(currentLocation ?? "There are problems w coordinates")
+//            requestWeatherForLocation()
+//        }
+//    }
+
+//    func requestWeatherForLocation() {
+//        guard let currentLocation = currentLocation else { return }
+//        let long = currentLocation.coordinate.longitude
+//        let lat =  currentLocation.coordinate.latitude
+//
+////        return
+//        print("CoordinatesSSSS: \(long), \(lat)")
+//    }
 
 
