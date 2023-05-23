@@ -16,12 +16,19 @@ import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: elements
+    private let scrollView: UIScrollView = {
+        var view = UIScrollView()
+//        view = UIScrollView(frame: CGRect(x: 100, y: 0, width: 224, height: 455))
+        view.backgroundColor = .yellow
+        return view
+    }()
+    
     let gradientLayer = CAGradientLayer()
     var networkManager = NetworkManager()
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
-
+    
     let infoLargeView: UIView = {
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -90,11 +97,11 @@ class MainViewController: UIViewController {
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
-//    lazy var swipeRecognizer: UISwipeGestureRecognizer = {
-//        let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
-//        swipeRecognizer.direction = .down
-//        return recognizer
-//    }()
+    //    lazy var swipeRecognizer: UISwipeGestureRecognizer = {
+    //        let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
+    //        swipeRecognizer.direction = .down
+    //        return recognizer
+    //    }()
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -104,13 +111,13 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
-     
+        
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
         
-//        setupLocation()
+        //        setupLocation()
         
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
@@ -119,12 +126,12 @@ class MainViewController: UIViewController {
             print(currentWeather.temperature)
             print(currentWeather.conditionCode)
             print(currentWeather.conditionDescription)
-
+            
         }
         
-//                if CLLocationManager.locationServicesEnabled(){
-//                    self.locationManager.requestLocation()
-//                }
+        //                if CLLocationManager.locationServicesEnabled(){
+        //                    self.locationManager.requestLocation()
+        //                }
         //
         //        DispatchQueue.global().async {
         //              if CLLocationManager.locationServicesEnabled() {
@@ -132,30 +139,30 @@ class MainViewController: UIViewController {
         //              }
         //        }
         
-//        networkManager.apiRequest(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
-//        networkManager.apiRequest() //(latitude: 39.39, longitude: 66.57)
+        //        networkManager.apiRequest(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
+        //        networkManager.apiRequest() //(latitude: 39.39, longitude: 66.57)
         //    }
     }
-
-   
-//    func setupLocation() {
-//        locationManager.delegate = self
-//
-//        locationManager.requestWhenInUseAuthorization()
-//        locationManager.startUpdatingLocation()
-////        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-//    }
+    
+    
+    //    func setupLocation() {
+    //        locationManager.delegate = self
+    //
+    //        locationManager.requestWhenInUseAuthorization()
+    //        locationManager.startUpdatingLocation()
+    ////        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+    //    }
     
     // MARK: methods
     func updateInterfaceWith(weather: CurrentWeather) {
-         DispatchQueue.main.async {
-             self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
-             self.conditionsLabel.text = weather.conditionDescription
-             
-             //            self.conditionsLabel.attributedText = weather.description
-             self.locationLabel.text = weather.cityName + ", " + weather.countryName
-         }
-     }
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
+            self.conditionsLabel.text = weather.conditionDescription
+            
+            //            self.conditionsLabel.attributedText = weather.description
+            self.locationLabel.text = weather.cityName + ", " + weather.countryName
+        }
+    }
     func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -165,76 +172,83 @@ class MainViewController: UIViewController {
     func setupUI() {
         //        view.addGestureRecognizer(swipeRecognizer)
         
-        view.addSubview(theStoneImageView)
-        theStoneImageView.snp.makeConstraints { make in
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top)
-            make.centerX.equalTo(self.view)
+            make.centerX.equalTo(view)
+            make.height.equalTo(455)
+            make.width.equalTo(224)
         }
-        view.addSubview(infoLargeView)
-        infoLargeView.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            make.top.bottom.equalTo(view).inset(200)
-            make.leading.trailing.equalTo(view).inset(60)
-        }
-        infoLargeView.addSubview(infoLargeViewTitleLabel)
-        infoLargeViewTitleLabel.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.infoLargeView)
-            make.leading.trailing.equalTo(infoLargeView).inset(30)
-            make.top.equalTo(infoLargeView.snp.top).inset(30)
-        }
-        infoLargeView.addSubview(infoLargeViewLabel)
-        infoLargeViewLabel.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.infoLargeView)
-            make.leading.trailing.equalTo(infoLargeView).inset(30)
-            make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
-        }
-        infoLargeView.addSubview(infoLargeViewHideButton)
-        infoLargeViewHideButton.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.infoLargeView)
-            make.leading.trailing.equalTo(infoLargeView).inset(30)
-            make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
-        }
-        view.addSubview(temperatureLabel)
-        temperatureLabel.snp.makeConstraints{ make in
-            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(270)
-            make.height.equalTo(100)
-        }
-        view.addSubview(conditionsLabel)
-        conditionsLabel.snp.makeConstraints{ make in
-            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(100)
-            make.height.equalTo(50)
-        }
-        view.addSubview(locationLabel)
-        locationLabel.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            //            make.bottom.equalTo(infoButton.snp.top).inset(50)
-            make.bottom.equalTo(view.snp.bottom).inset(70)
-            make.leading.trailing.equalToSuperview().inset(100)
-            make.height.equalTo(50)
-        }
-        view.addSubview(infoButton)
-        infoButton.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom).offset(15) //усаживает кнопку на глубину
-            make.leading.trailing.equalToSuperview().inset(100)
-            make.height.equalTo(80)
-        }
-        view.addSubview(locationPinIcon)
-        locationPinIcon.snp.makeConstraints{ make in
-            make.bottom.equalTo(view.snp.bottom).inset(80)
-            make.leading.equalTo(locationLabel).inset(-30)
-            make.height.equalTo(20)
-        }
-        view.addSubview(searchIcon)
-        searchIcon.snp.makeConstraints{ make in
-            make.bottom.equalTo(view.snp.bottom).inset(80)
-            make.trailing.equalTo(locationLabel).offset(30)
-            make.height.equalTo(20)
-        }
+        //        scrollView.addSubview(theStoneImageView)
+        //        theStoneImageView.snp.makeConstraints { make in
+        //            make.top.equalTo(scrollView.snp.top)
+        //            make.centerX.equalTo(self.scrollView)
+        //        }
+        //        view.addSubview(infoLargeView)
+        //        infoLargeView.snp.makeConstraints{ make in
+        //            make.centerX.equalTo(self.view)
+        //            make.top.bottom.equalTo(view).inset(200)
+        //            make.leading.trailing.equalTo(view).inset(60)
+        //        }
+        //        infoLargeView.addSubview(infoLargeViewTitleLabel)
+        //        infoLargeViewTitleLabel.snp.makeConstraints{ make in
+        //            make.centerX.equalTo(self.infoLargeView)
+        //            make.leading.trailing.equalTo(infoLargeView).inset(30)
+        //            make.top.equalTo(infoLargeView.snp.top).inset(30)
+        //        }
+        //        infoLargeView.addSubview(infoLargeViewLabel)
+        //        infoLargeViewLabel.snp.makeConstraints{ make in
+        //            make.centerX.equalTo(self.infoLargeView)
+        //            make.leading.trailing.equalTo(infoLargeView).inset(30)
+        //            make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
+        //        }
+        //        infoLargeView.addSubview(infoLargeViewHideButton)
+        //        infoLargeViewHideButton.snp.makeConstraints{ make in
+        //            make.centerX.equalTo(self.infoLargeView)
+        //            make.leading.trailing.equalTo(infoLargeView).inset(30)
+        //            make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
+        //        }
+        //        view.addSubview(temperatureLabel)
+        //        temperatureLabel.snp.makeConstraints{ make in
+        //            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
+        //            make.leading.equalToSuperview().inset(20)
+        //            make.trailing.equalToSuperview().inset(270)
+        //            make.height.equalTo(100)
+        //        }
+        //        view.addSubview(conditionsLabel)
+        //        conditionsLabel.snp.makeConstraints{ make in
+        //            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
+        //            make.leading.equalToSuperview().inset(20)
+        //            make.trailing.equalToSuperview().inset(100)
+        //            make.height.equalTo(50)
+        //        }
+        //        view.addSubview(locationLabel)
+        //        locationLabel.snp.makeConstraints{ make in
+        //            make.centerX.equalTo(self.view)
+        //            //            make.bottom.equalTo(infoButton.snp.top).inset(50)
+        //            make.bottom.equalTo(view.snp.bottom).inset(70)
+        //            make.leading.trailing.equalToSuperview().inset(100)
+        //            make.height.equalTo(50)
+        //        }
+        //        view.addSubview(infoButton)
+        //        infoButton.snp.makeConstraints{ make in
+        //            make.centerX.equalTo(self.view)
+        //            make.bottom.equalTo(view.snp.bottom).offset(15) //усаживает кнопку на глубину
+        //            make.leading.trailing.equalToSuperview().inset(100)
+        //            make.height.equalTo(80)
+        //        }
+        //        view.addSubview(locationPinIcon)
+        //        locationPinIcon.snp.makeConstraints{ make in
+        //            make.bottom.equalTo(view.snp.bottom).inset(80)
+        //            make.leading.equalTo(locationLabel).inset(-30)
+        //            make.height.equalTo(20)
+        //        }
+        //        view.addSubview(searchIcon)
+        //        searchIcon.snp.makeConstraints{ make in
+        //            make.bottom.equalTo(view.snp.bottom).inset(80)
+        //            make.trailing.equalTo(locationLabel).offset(30)
+        //            make.height.equalTo(20)
+        //        }
     }
     @objc func defaultConfiguration() {
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
@@ -270,7 +284,7 @@ class MainViewController: UIViewController {
         return label
     }
     
-//    func
+    //    func
     
     @objc private func buttonPressed(sender: UIButton) {
         print("INFO opened")
@@ -311,7 +325,7 @@ extension MainViewController {
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-      }
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let coordinate = manager.location?.coordinate
@@ -320,16 +334,16 @@ extension MainViewController: CLLocationManagerDelegate {
         
         
         
-//        if let location = locations.first {
-//            currentLocation = location
-//            locationManager.stopUpdatingLocation()
-//            print(currentLocation ?? "There are problems with coordinates")
-//            requestWeatherForLocation()
-        }
-    
-    
+        //        if let location = locations.first {
+        //            currentLocation = location
+        //            locationManager.stopUpdatingLocation()
+        //            print(currentLocation ?? "There are problems with coordinates")
+        //            requestWeatherForLocation()
     }
     
+    
+}
+
 //    func requestWeatherForLocation() {
 //        guard let currentLocation = currentLocation else { return }
 //        let longitude = currentLocation.coordinate.longitude
@@ -339,9 +353,9 @@ extension MainViewController: CLLocationManagerDelegate {
 //    }
 
 
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
-    }
+func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print(error)
+}
 //}
 
 
