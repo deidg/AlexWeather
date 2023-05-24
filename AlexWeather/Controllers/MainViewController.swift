@@ -133,12 +133,12 @@ class MainViewController: UIViewController {
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged) //.valueChanged)
         
-        scrollView.addSubview(refreshControl) // not required when using UITableViewController
+        theStoneImageView.addSubview(refreshControl) // not required when using UITableViewController
 
     }
     @objc func refreshAction(sender: AnyObject) {
         print("func refreshAction done")
-        
+        refreshControl.endRefreshing()
     }
     
 //    scrollView.refreshControl = refreshControl
@@ -178,6 +178,7 @@ class MainViewController: UIViewController {
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
+//            make.top.equalTo(view.snp.top).inset(-20)
             make.top.equalTo(view.snp.top).inset(-20)
             make.centerX.equalTo(view)
             make.height.equalTo(455)
@@ -228,14 +229,18 @@ class MainViewController: UIViewController {
         }
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
-            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
+//            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
+            make.bottom.equalTo(view.snp.bottom).inset(230)
+            
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(270)
             make.height.equalTo(100)
         }
         view.addSubview(conditionsLabel)
         conditionsLabel.snp.makeConstraints{ make in
-            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
+//            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
+            make.bottom.equalTo(view.snp.bottom).inset(200)
+
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
