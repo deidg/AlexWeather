@@ -18,18 +18,18 @@ import SnapKit
 class MainViewController: UIViewController {
     //MARK: elements
     
-//    let refreshControl = UIRefreshControl()
+    let refreshControl = UIRefreshControl()
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .yellow
+        view.isScrollEnabled =  true
+        view.alwaysBounceVertical = true
         return view
     }()
     
     private let contentView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -131,16 +131,23 @@ class MainViewController: UIViewController {
             print(currentWeather.conditionDescription)
         }
         
-        //        refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
+        self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged) //.valueChanged)
+        
+        scrollView.addSubview(refreshControl) // not required when using UITableViewController
+
+    }
+    @objc func refreshAction(sender: AnyObject) {
+        print("func refreshAction done")
         
     }
     
-    //    @objc func refreshAction(sender: AnyObject) {
-    //        print("func refreshAction done")
-    //        let coordinate = locationManager.location?.coordinate
-    //
-    //        networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
+//    scrollView.refreshControl = refreshControl
+
     
+    
+    //        networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
+    //        let coordinate = locationManager.location?.coordinate
+
     
     //    }
     //    private var contentSize: CGSize {
@@ -187,7 +194,12 @@ class MainViewController: UIViewController {
             make.top.equalTo(contentView.snp.top)
             make.trailing.leading.equalTo(contentView)
         }
-        
+//        theStoneImageView.addSubview(refreshControl)
+//        refreshControl.snp.makeConstraints{ make in
+////            make.top.equalTo(theStoneImageView.snp.top)
+////            make.trailing.leading.equalTo(theStoneImageView)
+//            make.edges.equalTo(view)
+//        }
         
         //=====
         view.addSubview(infoLargeView)
