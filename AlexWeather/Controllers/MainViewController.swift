@@ -23,7 +23,8 @@ class MainViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
-//        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
+        
+        
         view.backgroundColor = .yellow
         view.isScrollEnabled =  true
         view.alwaysBounceVertical = true
@@ -176,11 +177,14 @@ class MainViewController: UIViewController {
         //        scrollView.translatesAutoresizingMaskIntoConstraints = false
         //        contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        
+        let viewFrame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
+        scrollView.frame = viewFrame
 //        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
 //        theStoneImageView.frame = contentView.bounds
 
         
+        
+        // вообщем проблема в том, что из за привязки к топу нельзя дергать камень, т.к. верх то привязан. нормальным решением кажется сделать CGRECT, где y = 0, т.е. не надо опускать вверх.
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             
