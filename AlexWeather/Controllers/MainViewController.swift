@@ -23,8 +23,6 @@ class MainViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
-        
-        
         view.backgroundColor = .yellow
         view.isScrollEnabled =  true
         view.alwaysBounceVertical = true
@@ -119,7 +117,7 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
-        
+        scrollView.refreshControl = refreshControl  //сам добавился
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
@@ -135,27 +133,13 @@ class MainViewController: UIViewController {
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged) //.valueChanged)
         
-        theStoneImageView.addSubview(refreshControl) // not required when using UITableViewController
+//        theStoneImageView.addSubview(refreshControl) // not required when using UITableViewController
 
     }
     @objc func refreshAction(sender: AnyObject) {
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
-    
-//    scrollView.refreshControl = refreshControl
-
-    
-    
-    //        networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
-    //        let coordinate = locationManager.location?.coordinate
-
-    
-    //    }
-    //    private var contentSize: CGSize {
-    //        CGSize(width: view.frame.width, height: view.frame.height + 400)
-    //    }
-    
     
     // MARK: methods
     func updateInterfaceWith(weather: CurrentWeather) {
@@ -174,27 +158,15 @@ class MainViewController: UIViewController {
         gradientLayer.frame = view.bounds
     }
     func setupUI() {
-        //        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        //        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewFrame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
-        scrollView.frame = viewFrame
-//        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
-//        theStoneImageView.frame = contentView.bounds
 
-        
-        
-        // вообщем проблема в том, что из за привязки к топу нельзя дергать камень, т.к. верх то привязан. нормальным решением кажется сделать CGRECT, где y = 0, т.е. не надо опускать вверх.
+
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-            
-            make.top.equalTo(view.snp.top)//.inset(-20)
+            make.top.equalToSuperview()
             make.centerX.equalTo(view)
             make.height.equalTo(455)
             make.width.equalTo(224)
         }
-//        scrollView.refreshControl = refreshControl
-        
         scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.centerX.equalTo(scrollView)
@@ -212,16 +184,9 @@ class MainViewController: UIViewController {
 //            make.top.equalTo(contentView.snp.top)
             make.trailing.leading.equalTo(contentView)
 //            make.bottom.equalTo(view.snp.bottom).inset(300)
-
         }
-        
-        
-        theStoneImageView.addSubview(refreshControl)
-        refreshControl.snp.makeConstraints{ make in
-//            make.top.equalTo(theStoneImageView.snp.top)
-//            make.trailing.leading.equalTo(theStoneImageView)
-            make.edges.equalTo(view)
-        }
+  
+    
         
         //=====
         view.addSubview(infoLargeView)
