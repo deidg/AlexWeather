@@ -7,8 +7,9 @@
 
 //TODO: отображение данных и замена камня
 //TODO: распозначание жестов
+//TODO: отрегулировать лейблы темп и условий (чтобы не пересекались в иерархии)
 
-
+//подумать почему контент вью и камень ниже верхней границы. Надо сделать их появление без значения TOP  топ.
 
 import UIKit
 import CoreLocation
@@ -22,6 +23,7 @@ class MainViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
+//        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
         view.backgroundColor = .yellow
         view.isScrollEnabled =  true
         view.alwaysBounceVertical = true
@@ -30,10 +32,9 @@ class MainViewController: UIViewController {
     
     private let contentView: UIView = {
         let view = UIView()
+//        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
         return view
     }()
-    
-    
     
     let gradientLayer = CAGradientLayer()
     var networkManager = NetworkManager()
@@ -176,25 +177,38 @@ class MainViewController: UIViewController {
         //        contentView.translatesAutoresizingMaskIntoConstraints = false
         
         
+        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
+        theStoneImageView.frame = contentView.bounds
+
+        
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
 //            make.top.equalTo(view.snp.top).inset(-20)
-            make.top.equalTo(view.snp.top).inset(-20)
+            make.top.equalTo(view.snp.top)//.inset(-20)
             make.centerX.equalTo(view)
             make.height.equalTo(455)
             make.width.equalTo(224)
         }
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints { make in
-            make.leading.trailing.width.equalTo(scrollView)
-            make.top.equalTo(scrollView)
-            make.height.equalTo(600)
-        }
-        contentView.addSubview(theStoneImageView)
-        theStoneImageView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top)
-            make.trailing.leading.equalTo(contentView)
-        }
+//        scrollView.addSubview(contentView)
+//        contentView.snp.makeConstraints { make in
+//            make.centerX.equalTo(scrollView)
+////            make.top.equalTo(view.snp.top)
+//            make.leading.trailing.width.equalTo(scrollView)
+////            make.top.equalTo(scrollView)
+//            make.height.equalTo(600)
+////            make.bottom.equalTo(view.snp.bottom).inset(300)
+//        }
+//        contentView.addSubview(theStoneImageView)
+//        theStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//
+////            make.top.equalTo(contentView.snp.top)
+//            make.trailing.leading.equalTo(contentView)
+////            make.bottom.equalTo(view.snp.bottom).inset(300)
+//
+//        }
+        
+        
 //        theStoneImageView.addSubview(refreshControl)
 //        refreshControl.snp.makeConstraints{ make in
 ////            make.top.equalTo(theStoneImageView.snp.top)
