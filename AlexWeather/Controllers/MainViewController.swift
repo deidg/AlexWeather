@@ -177,44 +177,47 @@ class MainViewController: UIViewController {
         //        contentView.translatesAutoresizingMaskIntoConstraints = false
         
         
-        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
-        theStoneImageView.frame = contentView.bounds
+//        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
+//        theStoneImageView.frame = contentView.bounds
 
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
-//            make.top.equalTo(view.snp.top).inset(-20)
+            
             make.top.equalTo(view.snp.top)//.inset(-20)
             make.centerX.equalTo(view)
             make.height.equalTo(455)
             make.width.equalTo(224)
         }
-//        scrollView.addSubview(contentView)
-//        contentView.snp.makeConstraints { make in
-//            make.centerX.equalTo(scrollView)
-////            make.top.equalTo(view.snp.top)
-//            make.leading.trailing.width.equalTo(scrollView)
-////            make.top.equalTo(scrollView)
-//            make.height.equalTo(600)
-////            make.bottom.equalTo(view.snp.bottom).inset(300)
-//        }
-//        contentView.addSubview(theStoneImageView)
-//        theStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//
-////            make.top.equalTo(contentView.snp.top)
-//            make.trailing.leading.equalTo(contentView)
-////            make.bottom.equalTo(view.snp.bottom).inset(300)
-//
-//        }
+//        scrollView.refreshControl = refreshControl
+        
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.centerX.equalTo(scrollView)
+//            make.top.equalTo(view.snp.top)
+            make.leading.trailing.width.equalTo(scrollView)
+//            make.top.equalTo(scrollView)
+            make.height.equalTo(600)
+//            make.bottom.equalTo(view.snp.bottom).inset(300)
+        }
+        
+        contentView.addSubview(theStoneImageView)
+        theStoneImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+
+//            make.top.equalTo(contentView.snp.top)
+            make.trailing.leading.equalTo(contentView)
+//            make.bottom.equalTo(view.snp.bottom).inset(300)
+
+        }
         
         
-//        theStoneImageView.addSubview(refreshControl)
-//        refreshControl.snp.makeConstraints{ make in
-////            make.top.equalTo(theStoneImageView.snp.top)
-////            make.trailing.leading.equalTo(theStoneImageView)
-//            make.edges.equalTo(view)
-//        }
+        theStoneImageView.addSubview(refreshControl)
+        refreshControl.snp.makeConstraints{ make in
+//            make.top.equalTo(theStoneImageView.snp.top)
+//            make.trailing.leading.equalTo(theStoneImageView)
+            make.edges.equalTo(view)
+        }
         
         //=====
         view.addSubview(infoLargeView)
