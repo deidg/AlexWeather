@@ -163,16 +163,14 @@ class MainViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-
         }
         
         scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.centerX.equalTo(scrollView)
-//            make.top.equalTo(view.snp.top)
-//            make.leading.trailing.width.equalTo(scrollView)
-//            make.top.equalTo(scrollView)
-            make.height.equalTo(600)
+            make.top.bottom.equalTo(scrollView).offset(-60)
+
+//            make.height.equalTo(455)
 //            make.bottom.equalTo(view.snp.bottom).inset(300)
         }
         
