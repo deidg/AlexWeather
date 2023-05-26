@@ -6,10 +6,8 @@
 //
 
 //TODO: отображение данных и замена камня
-//TODO: распозначание жестов
-//TODO: отрегулировать лейблы темп и условий (чтобы не пересекались в иерархии)
 
-//подумать почему контент вью и камень ниже верхней границы. Надо сделать их появление без значения TOP  топ.
+
 
 import UIKit
 import CoreLocation
@@ -106,6 +104,9 @@ class MainViewController: UIViewController {
         return infoButton
     }()
     let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
+    
+    
+    
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
@@ -189,7 +190,7 @@ class MainViewController: UIViewController {
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
 //            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
-            make.bottom.equalTo(view.snp.bottom).inset(230)
+            make.bottom.equalTo(view.snp.bottom).inset(300)
             
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(270)
@@ -198,7 +199,7 @@ class MainViewController: UIViewController {
         view.addSubview(conditionsLabel)
         conditionsLabel.snp.makeConstraints{ make in
 //            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
-            make.bottom.equalTo(view.snp.bottom).inset(200)
+            make.bottom.equalTo(view.snp.bottom).inset(250)
 
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(100)
