@@ -16,7 +16,7 @@ import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: elements
-    var state: State = .normalState {
+    var state: State = .cracksState {
         didSet {
             applyState(state)
         }
@@ -138,7 +138,7 @@ class MainViewController: UIViewController {
             print(currentWeather.conditionDescription)
         }
         
-        
+        applyState(state)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
     }
@@ -179,30 +179,30 @@ class MainViewController: UIViewController {
 //            make.bottom.equalTo(view.snp.bottom).inset(300)
         }
         
-//        contentView.addSubview(normalStoneImageView)
-//        normalStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
-//        contentView.addSubview(wetStoneImageView)
-//        wetStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
-//        contentView.addSubview(snowStoneImageView)
-//        snowStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
-//        contentView.addSubview(cracksStoneImageView)
-//        cracksStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
+        contentView.addSubview(normalStoneImageView)
+        normalStoneImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.trailing.leading.equalTo(contentView)
+        }
+
+        contentView.addSubview(wetStoneImageView)
+        wetStoneImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.trailing.leading.equalTo(contentView)
+        }
+
+        contentView.addSubview(snowStoneImageView)
+        snowStoneImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.trailing.leading.equalTo(contentView)
+        }
+
+        contentView.addSubview(cracksStoneImageView)
+        cracksStoneImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.trailing.leading.equalTo(contentView)
+        }
+
     
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
@@ -340,43 +340,24 @@ class MainViewController: UIViewController {
         switch state {
         case .normalState:
             normalStoneImageView.isHidden = false
-            
-            contentView.addSubview(normalStoneImageView)
-            normalStoneImageView.snp.makeConstraints { make in
-                make.centerX.equalTo(contentView)
-                make.trailing.leading.equalTo(contentView)
-            }
-            
-            
-            
-//            wetStoneImageView.isHidden = true
-//            snowStoneImageView.isHidden = true
-//            cracksStoneImageView.isHidden = true
+            wetStoneImageView.isHidden = true
+            snowStoneImageView.isHidden = true
+            cracksStoneImageView.isHidden = true
         case .wetState:
+            normalStoneImageView.isHidden = true
             wetStoneImageView.isHidden = false
-            
-            contentView.addSubview(wetStoneImageView)
-            wetStoneImageView.snp.makeConstraints { make in
-                make.centerX.equalTo(contentView)
-                make.trailing.leading.equalTo(contentView)
-            }
-            
+            snowStoneImageView.isHidden = true
+            cracksStoneImageView.isHidden = true
         case .snowState:
+            normalStoneImageView.isHidden = true
+            wetStoneImageView.isHidden = true
             snowStoneImageView.isHidden = false
-            
-            contentView.addSubview(snowStoneImageView)
-            snowStoneImageView.snp.makeConstraints { make in
-                make.centerX.equalTo(contentView)
-                make.trailing.leading.equalTo(contentView)
-            }
+            cracksStoneImageView.isHidden = true
         case .cracksState:
+            normalStoneImageView.isHidden = true
+            wetStoneImageView.isHidden = true
+            snowStoneImageView.isHidden = true
             cracksStoneImageView.isHidden = false
-            
-            contentView.addSubview(cracksStoneImageView)
-            cracksStoneImageView.snp.makeConstraints { make in
-                make.centerX.equalTo(contentView)
-                make.trailing.leading.equalTo(contentView)
-            }
         }
     }
     
