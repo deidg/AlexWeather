@@ -16,6 +16,12 @@ import SnapKit
 
 class MainViewController: UIViewController {
     //MARK: elements
+    var state: State = .normalState {
+        didSet {
+            applyState(state)
+        }
+    }
+    
     
     let refreshControl = UIRefreshControl()
     
@@ -29,7 +35,6 @@ class MainViewController: UIViewController {
     
     private let contentView: UIView = {
         let view = UIView()
-//        view.frame = CGRect(x: view.center.x, y: 0, width: 100, height: 400)
         return view
     }()
     
@@ -70,7 +75,6 @@ class MainViewController: UIViewController {
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
         infoLargeViewHideButton.setTitle("Hide", for: .normal)
-        //    infoLargeViewHideButton.titleLabel?.textColor = UIColor.gray.cgColor
         infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
         infoLargeViewHideButton.layer.borderWidth = 1.5
         infoLargeViewHideButton.layer.cornerRadius = 15
@@ -103,9 +107,11 @@ class MainViewController: UIViewController {
         infoButton.layer.cornerRadius = 15
         return infoButton
     }()
-    let theStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
+    let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
+    let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
     
-    
+    let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
+    let cracksStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
@@ -118,7 +124,7 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
-        scrollView.refreshControl = refreshControl  //сам добавился
+        scrollView.refreshControl = refreshControl
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
@@ -132,10 +138,9 @@ class MainViewController: UIViewController {
             print(currentWeather.conditionDescription)
         }
         
-        self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged) //.valueChanged)
         
-//        theStoneImageView.addSubview(refreshControl) // not required when using UITableViewController
-
+        
+        self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
     }
     @objc func refreshAction(sender: AnyObject) {
         print("func refreshAction done")
@@ -160,7 +165,6 @@ class MainViewController: UIViewController {
     }
     func setupUI() {
 
-
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -175,18 +179,31 @@ class MainViewController: UIViewController {
 //            make.bottom.equalTo(view.snp.bottom).inset(300)
         }
         
-        contentView.addSubview(theStoneImageView)
-        theStoneImageView.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-
-//            make.top.equalTo(contentView.snp.top)
-            make.trailing.leading.equalTo(contentView)
-//            make.bottom.equalTo(view.snp.bottom).inset(300)
-        }
-  
-        
-        
-        
+//        contentView.addSubview(normalStoneImageView)
+//        normalStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+//        contentView.addSubview(wetStoneImageView)
+//        wetStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+//        contentView.addSubview(snowStoneImageView)
+//        snowStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+//        contentView.addSubview(cracksStoneImageView)
+//        cracksStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+    
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
 //            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
@@ -205,8 +222,7 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
-        
-        
+   
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -293,13 +309,11 @@ class MainViewController: UIViewController {
         label.attributedText = attributedConditions
         return label
     }
-    
-    //    func
-    
+        
     @objc private func buttonPressed(sender: UIButton) {
         print("INFO opened")
         infoLargeView.isHidden = false
-        theStoneImageView.isHidden = true
+        normalStoneImageView.isHidden = true
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
         locationLabel.isHidden = true
@@ -310,7 +324,7 @@ class MainViewController: UIViewController {
     @objc private func hideButtonPressed(sender: UIButton) {
         print("closed!")
         infoLargeView.isHidden = true
-        theStoneImageView.isHidden = false
+        normalStoneImageView.isHidden = false
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
@@ -321,15 +335,61 @@ class MainViewController: UIViewController {
     @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
         view.backgroundColor = .blue
     }
+    
+    private func applyState(_ state: State) {
+        switch state {
+        case .normalState:
+            normalStoneImageView.isHidden = false
+            
+            contentView.addSubview(normalStoneImageView)
+            normalStoneImageView.snp.makeConstraints { make in
+                make.centerX.equalTo(contentView)
+                make.trailing.leading.equalTo(contentView)
+            }
+            
+            
+            
+//            wetStoneImageView.isHidden = true
+//            snowStoneImageView.isHidden = true
+//            cracksStoneImageView.isHidden = true
+        case .wetState:
+            wetStoneImageView.isHidden = false
+            
+            contentView.addSubview(wetStoneImageView)
+            wetStoneImageView.snp.makeConstraints { make in
+                make.centerX.equalTo(contentView)
+                make.trailing.leading.equalTo(contentView)
+            }
+            
+        case .snowState:
+            snowStoneImageView.isHidden = false
+            
+            contentView.addSubview(snowStoneImageView)
+            snowStoneImageView.snp.makeConstraints { make in
+                make.centerX.equalTo(contentView)
+                make.trailing.leading.equalTo(contentView)
+            }
+        case .cracksState:
+            cracksStoneImageView.isHidden = false
+            
+            contentView.addSubview(cracksStoneImageView)
+            cracksStoneImageView.snp.makeConstraints { make in
+                make.centerX.equalTo(contentView)
+                make.trailing.leading.equalTo(contentView)
+            }
+        }
+    }
+    
+    
 }
 
 //MARK: extension
 extension MainViewController {
     
-    enum State {
-        case isHiddenInfoView
-        case isShownInfoView
-    }
+//    enum State {
+//        case isHiddenInfoView
+//        case isShownInfoView
+//    }
 }
 
 //MARK: LocationManagerDelegate
@@ -344,6 +404,9 @@ extension MainViewController: CLLocationManagerDelegate {
         
         
         
+        
+        
+        
         //        if let location = locations.first {
         //            currentLocation = location
         //            locationManager.stopUpdatingLocation()
@@ -353,59 +416,19 @@ extension MainViewController: CLLocationManagerDelegate {
     
     
 }
-
-//    func requestWeatherForLocation() {
-//        guard let currentLocation = currentLocation else { return }
-//        let longitude = currentLocation.coordinate.longitude
-//        let latitude = currentLocation.coordinate.latitude
-//        networkManager.apiRequest(latitude: latitude, longitude: longitude)
-//
-//    }
+extension MainViewController {
+    enum State {
+        case normalState
+        case wetState
+        case snowState
+        case cracksState
+    }
+    
+}
 
 
 func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     print(error)
 }
-//}
-
-
-//extension MainViewController {
-//
-//
-//
-//    private var contentSize: CGSize {
-//                CGSize(width: view.frame.width, height: view.frame.height + 400)
-//            }
-//
-//
-//
-//    }
-
-
-
-
-
-
-
-
-
-// код из видео 2 шт
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if !locations.isEmpty, currentLocation == nil {
-//            currentLocation = locations.first
-////            locationManager.stopUpdatingLocation()
-//            print(currentLocation ?? "There are problems w coordinates")
-//            requestWeatherForLocation()
-//        }
-//    }
-
-//    func requestWeatherForLocation() {
-//        guard let currentLocation = currentLocation else { return }
-//        let long = currentLocation.coordinate.longitude
-//        let lat =  currentLocation.coordinate.latitude
-//
-////        return
-//        print("CoordinatesSSSS: \(long), \(lat)")
-//    }
 
 
