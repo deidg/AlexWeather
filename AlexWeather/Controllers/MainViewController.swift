@@ -8,7 +8,6 @@
 //TODO: отображение данных и замена камня
 
 
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -138,7 +137,7 @@ class MainViewController: UIViewController {
             print(currentWeather.conditionDescription)
         }
         
-        applyState(state)
+//        app blyState(state)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
     }
@@ -281,6 +280,15 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
     
+//    func makeStonePicture() {
+//        switch state {
+//        case
+//        case
+//        case
+//        case
+//        }
+//    }
+    
     func makeAttributedTemprature() -> UILabel {
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
         let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
@@ -336,41 +344,109 @@ class MainViewController: UIViewController {
         view.backgroundColor = .blue
     }
     
-    private func applyState(_ state: State) {
+    private func applyState(_ state: State) {//, conditionCode: Int) {
+        var conditionCode = CurrentWeather.init(currentWeatherData: self.conditionCode)
         switch state {
         case .normalState:
-            normalStoneImageView.isHidden = false
-            wetStoneImageView.isHidden = true
-            snowStoneImageView.isHidden = true
-            cracksStoneImageView.isHidden = true
+            if conditionCode  < 250 {
+                normalStoneImageView.isHidden = false
+                wetStoneImageView.isHidden = true
+                snowStoneImageView.isHidden = true
+                cracksStoneImageView.isHidden = true
+            } else {
+                print("Invalid weather ID for normal state")
+            }
         case .wetState:
-            normalStoneImageView.isHidden = true
-            wetStoneImageView.isHidden = false
-            snowStoneImageView.isHidden = true
-            cracksStoneImageView.isHidden = true
+            if conditionCode >= 251 && conditionCode <= 500 {
+                normalStoneImageView.isHidden = true
+                wetStoneImageView.isHidden = false
+                snowStoneImageView.isHidden = true
+                cracksStoneImageView.isHidden = true
+            } else {
+                print("Invalid weather ID for wet state")
+            }
         case .snowState:
-            normalStoneImageView.isHidden = true
-            wetStoneImageView.isHidden = true
-            snowStoneImageView.isHidden = false
-            cracksStoneImageView.isHidden = true
+            if conditionCode >= 501 && conditionCode <= 750 {
+                normalStoneImageView.isHidden = true
+                wetStoneImageView.isHidden = true
+                snowStoneImageView.isHidden = false
+                cracksStoneImageView.isHidden = true
+            } else {
+                print("Invalid weather ID for snow state")
+            }
         case .cracksState:
-            normalStoneImageView.isHidden = true
-            wetStoneImageView.isHidden = true
-            snowStoneImageView.isHidden = true
-            cracksStoneImageView.isHidden = false
+            if conditionCode >= 751 && conditionCode <= 1000 {
+                normalStoneImageView.isHidden = true
+                wetStoneImageView.isHidden = true
+                snowStoneImageView.isHidden = true
+                cracksStoneImageView.isHidden = false
+            } else {
+                print("Invalid weather ID for cracks state")
+            }
         }
+    
+    
+    
+    
+    
+    // моя версия кода
+//    private func applyState(_ state: State, weather: CurrentWeather) {
+//        switch state {
+//        case .normalState(var weatherID):
+//            var weatherID: Int = weather.conditionCode
+//            if weatherID >= 500 {
+//                print("500")
+//                normalStoneImageView.isHidden = false
+//                wetStoneImageView.isHidden = true
+//                snowStoneImageView.isHidden = true
+//                cracksStoneImageView.isHidden = true
+//            } else  {
+//                print("!!!!10000!!!!")
+//            }
+//
+//        case .wetState(var weatherID):
+//            normalStoneImageView.isHidden = true
+//            wetStoneImageView.isHidden = false
+//            snowStoneImageView.isHidden = true
+//            cracksStoneImageView.isHidden = true
+//        case .snowState(var weatherID):
+//            normalStoneImageView.isHidden = true
+//            wetStoneImageView.isHidden = true
+//            snowStoneImageView.isHidden = false
+//            cracksStoneImageView.isHidden = true
+//        case .cracksState(var weatherID):
+//            normalStoneImageView.isHidden = true
+//            wetStoneImageView.isHidden = true
+//            snowStoneImageView.isHidden = true
+//            cracksStoneImageView.isHidden = false
+//        }
     }
-    
-    
 }
 
 //MARK: extension
 extension MainViewController {
+    enum State {
+        case normalState(weatherId: Int)
+        case wetState(weatherId: Int)
+        case snowState(weatherId: Int)
+        case cracksState(weatherId: Int)
+        
+        init(weatherID: Int) {
+            switch weatherID {
+            case ..<250:
+                self = .normalState
+            case 251...500:
+                self = .wetState
+            case 501...750:
+                self = .snowState
+            case 751...1000:
+                self = .cracksState
+            default:
+                fatalError("Invalid weather ID")
+            }
+        }
+    }
     
-//    enum State {
-//        case isHiddenInfoView
-//        case isShownInfoView
-//    }
 }
 
 //MARK: LocationManagerDelegate
@@ -397,15 +473,7 @@ extension MainViewController: CLLocationManagerDelegate {
     
     
 }
-extension MainViewController {
-    enum State {
-        case normalState
-        case wetState
-        case snowState
-        case cracksState
-    }
-    
-}
+
 
 
 func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
