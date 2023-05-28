@@ -6,6 +6,8 @@
 //
 
 //TODO: отображение данных и замена камня
+//еще раз посомтреть работу энама и кейсов. кажется надо шкалу перенести в верхнюю функцию.
+//18 мин.
 
 
 import UIKit
@@ -18,12 +20,18 @@ class MainViewController: UIViewController {
     
     var currentWeather: CurrentWeather?
     
-    
-    var currentWeatherState: State = .normalState {
+    var currentState: State = .normal {
         didSet {
             updateWeatherState(conditionCode: currentWeather?.conditionCode ?? 0)
         }
     }
+
+
+//    var currentWeatherState: State = .normalState {
+//        didSet {
+//            updateWeatherState(conditionCode: currentWeather?.conditionCode ?? 0)
+//        }
+//    }
     
     //    var currentWeatherState: State = .normalState
     
@@ -147,9 +155,9 @@ class MainViewController: UIViewController {
             print(currentWeather.conditionDescription)
             
             self.updateWeatherState(conditionCode: currentWeather.conditionCode)
-            
+
         }
-        
+//        updateWeatherState()
         
         //        updateWeatherState(conditionCode: CurrentWeather.init(currentWeatherData: ))
         
@@ -362,11 +370,50 @@ class MainViewController: UIViewController {
     }
     
     
-    
-    
+    private func updateWeatherState(conditionCode: Int) {
+        
+        switch conditionCode {
+        case 0...250:
+            currentState = .normal
+        case 251...500:
+            currentState = .wet
+        case 501...750:
+            currentState = .snow
+        case 751...1000:
+            currentState = .cracks
+            print("heyyaa!")
+        default:
+            currentState = .normal
+        }
+        
+        
+//        switch currentState {
+//        if con
+//        case .normal:
+//            normalStoneImageView.isHidden = false
+//            wetStoneImageView.isHidden = true
+//            snowStoneImageView.isHidden = true
+//            cracksStoneImageView.isHidden = true
+//        case .wet:
+//            normalStoneImageView.isHidden = true
+//            wetStoneImageView.isHidden = false
+//            snowStoneImageView.isHidden = true
+//            cracksStoneImageView.isHidden = true
+//        case .snow:
+//            normalStoneImageView.isHidden = true
+//            wetStoneImageView.isHidden = true
+//            snowStoneImageView.isHidden = false
+//            cracksStoneImageView.isHidden = true
+//        case .cracks:
+//            normalStoneImageView.isHidden = true
+//            wetStoneImageView.isHidden = true
+//            snowStoneImageView.isHidden = true
+//            cracksStoneImageView.isHidden = false
+        }
     
     
 }
+//}
 
 
 
@@ -510,26 +557,51 @@ class MainViewController: UIViewController {
 
 //MARK: extension
 extension MainViewController {
+    
     enum State {
-        case normalState//(weatherId: Int)
-        case wetState//(weatherId: Int)
-        case snowState//(weatherId: Int)
-        case cracksState//(weatherId: Int)
+        case normal
+        case wet
+        case snow
+        case cracks
         
-        //        init(weatherID: Int) {
-        //            switch weatherID {
-        //            case ..<250:
-        //                self = .normalState
-        //            case 251...500:
-        //                self = .wetState
-        //            case 501...750:
-        //                self = .snowState
-        //            case 751...1000:
-        //                self = .cracksState
-        //            default:
-        //                fatalError("Invalid weather ID")
-        //            }
+//        init(conditionCode: Int) {
+//            switch conditionCode {
+//            case 0...250:
+//                self = .normal
+//            case 251...500:
+//                self = .wet
+//            case 501...750:
+//                self = .snow
+//            case 751...1000:
+//                self = .cracks
+//            default:
+//                self = .normal
+//            }
+//        }
     }
+
+    
+    
+//    enum State {
+//        case normalState//(weatherId: Int)
+//        case wetState//(weatherId: Int)
+//        case snowState//(weatherId: Int)
+//        case cracksState//(weatherId: Int)
+//
+//                init(weatherID: Int) {
+//                    switch weatherID {
+//                    case ..<250:
+//                        self = .normalState
+//                    case 251...500:
+//                        self = .wetState
+//                    case 501...750:
+//                        self = .snowState
+//                    case 751...1000:
+//                        self = .cracksState
+//                    default:
+//                        fatalError("Invalid weather ID")
+//                    }
+//    }
 }
 
 //}
