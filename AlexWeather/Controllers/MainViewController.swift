@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     
     var currentWeather: CurrentWeather?
     
-    var state: State = .normal(temperature: 20, conditionCode: "123", conditionDescription: "Sunny") {
+    var state: State = .normal {
         didSet {
             updateWeatherState(state)
         }
@@ -360,41 +360,6 @@ class MainViewController: UIViewController {
     }
 
     }
-
-//    private func updateWeatherState(_ state: State) {
-//        switch state {
-//        case .normal(temperature: currentWeather?.temperature, conditionCode: currentWeather?.conditionCode, conditionDescription: currentWeather?.conditionDescription)
-//        case .wet(temperature: currentWeather?.temperature, conditionCode: currentWeather?.conditionCode, conditionDescription: currentWeather?.conditionDescription)
-//        case .snow(temperature: currentWeather?.temperature, conditionCode: currentWeather?.conditionCode, conditionDescription: currentWeather?.conditionDescription)
-//        case .cracks(temperature: currentWeather?.temperature, conditionCode: currentWeather?.conditionCode, conditionDescription: currentWeather?.conditionDescription)
-//        case .normal(temperature: let temperature, conditionCode: let conditionCode, conditionDescription: let conditionDescription):
-//            print("normal situation")
-//        case .wet(temperature: let temperature, conditionCode: let conditionCode, conditionDescription: let conditionDescription):
-//            print("wet situation")
-//        case .snow(temperature: let temperature, conditionCode: let conditionCode, conditionDescription: let conditionDescription):
-//            print("snow situation")
-//        case .cracks(temperature: let temperature, conditionCode: let conditionCode, conditionDescription: let conditionDescription):
-//            print("crack situation")
-//        }
-        
-        
-//        switch conditionCode {
-//        case 0...250:
-//            currentState = .normal
-//        case 251...500:
-//            currentState = .wet
-//        case 501...750:
-//            currentState = .snow
-//        case 751...1000:
-//            currentState = .cracks
-//            print("heyyaa!")
-//        default:
-//            currentState = .normal
-//        }
-//    }
-//}
-
-
 
 
 //MARK: extension
