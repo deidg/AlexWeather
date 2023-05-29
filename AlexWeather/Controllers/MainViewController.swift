@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     
     var state: State = .normal {
         didSet {
-            updateWeatherState(state)
+            updateWeatherState(state, currentWeather: currentWeather ?? "")
         }
     }
     
@@ -345,38 +345,88 @@ class MainViewController: UIViewController {
         view.backgroundColor = .blue
     }
     
-    
-    private func updateWeatherState(_ state: State) {
+    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
+        let conditionCode = currentWeather.conditionCode
+
         switch state {
         case .normal:
-            print("Normal situation")
+            if conditionCode >= 100 && conditionCode <= 249 {
+                print("Normal")
+            }
         case .wet:
-            print("Wet situation")
+            if conditionCode >= 250 && conditionCode <= 499 {
+                print("Wet")
+            }
         case .snow:
-            print("Snow situation")
+            if conditionCode >= 500 && conditionCode <= 749 {
+                print("Snow")
+            }
         case .cracks:
-            print("Crack situation")
+            if conditionCode >= 750 && conditionCode <= 1000 {
+                print("Crack")
+            }
         }
     }
+
+    
+    
+//    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
+//        let conditionCode = currentWeather.conditionCode
 //
-//        private func updateWeatherState(_ state: State) {
-//            switch state {
-//            case .normal(let temperature, let conditionCode, let conditionDescription):
-//                // Handle normal state
+//        switch state {
+//        case .normal:
+//            if conditionCode >= 100 && conditionCode <= 249 {
 //                print("Normal situation")
-//            case .wet(let temperature, let conditionCode, let conditionDescription):
-//                // Handle wet state
+//            }
+//        case .wet:
+//            if conditionCode >= 250 && conditionCode <= 499 {
 //                print("Wet situation")
-//            case .snow(let temperature, let conditionCode, let conditionDescription):
-//                // Handle snow state
+//            }
+//        case .snow:
+//            if conditionCode >= 500 && conditionCode <= 749 {
 //                print("Snow situation")
-//            case .cracks(let temperature, let conditionCode, let conditionDescription):
-//                // Handle cracks state
+//            }
+//        case .cracks:
+//            if conditionCode >= 750 && conditionCode <= 1000 {
 //                print("Crack situation")
 //            }
 //        }
+    }
+
     
-}
+    
+    
+            //        switch state {
+            //        case .normal:
+            //            print("Normal situation")
+            //        case .wet:
+            //            print("Wet situation")
+            //        case .snow:
+            //            print("Snow situation")
+            //        case .cracks:
+            //            print("Crack situation")
+            //        }
+     
+        //
+        //        private func updateWeatherState(_ state: State) {
+        //            switch state {
+        //            case .normal(let temperature, let conditionCode, let conditionDescription):
+        //                // Handle normal state
+        //                print("Normal situation")
+        //            case .wet(let temperature, let conditionCode, let conditionDescription):
+        //                // Handle wet state
+        //                print("Wet situation")
+        //            case .snow(let temperature, let conditionCode, let conditionDescription):
+        //                // Handle snow state
+        //                print("Snow situation")
+        //            case .cracks(let temperature, let conditionCode, let conditionDescription):
+        //                // Handle cracks state
+        //                print("Crack situation")
+        //            }
+        //        }
+        
+//    }
+
 
 
 //MARK: extension
