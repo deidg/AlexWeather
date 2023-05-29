@@ -23,13 +23,13 @@ class MainViewController: UIViewController {
             updateWeatherState(state)
         }
     }
-
     
-//    var state: State = .normal {
-//        didSet {
-//            updateWeatherState(state)
-//        }
-//    }
+    
+    //    var state: State = .normal {
+    //        didSet {
+    //            updateWeatherState(state)
+    //        }
+    //    }
     
     let refreshControl = UIRefreshControl()
     
@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
         view.alwaysBounceVertical = true
         return view
     }()
-
+    
     private let contentView: UIView = {
         let view = UIView()
         return view
@@ -145,7 +145,7 @@ class MainViewController: UIViewController {
             print(currentWeather.conditionCode)
             print(currentWeather.conditionDescription)
             
-//            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
+            //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
         }
         
@@ -286,7 +286,7 @@ class MainViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
-
+    
     func makeAttributedTemprature() -> UILabel {
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
         let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
@@ -342,34 +342,38 @@ class MainViewController: UIViewController {
         view.backgroundColor = .blue
     }
     
-    private func updateWeatherState(_ state: State) {
-        switch state {
-        case .normal(let temperature, let conditionCode, let conditionDescription):
-            // Handle normal state
-            print("Normal situation")
-        case .wet(let temperature, let conditionCode, let conditionDescription):
-            // Handle wet state
-            print("Wet situation")
-        case .snow(let temperature, let conditionCode, let conditionDescription):
-            // Handle snow state
-            print("Snow situation")
-        case .cracks(let temperature, let conditionCode, let conditionDescription):
-            // Handle cracks state
-            print("Crack situation")
-        }
-    }
-
-    }
+//    private func updateWeatherState(_ state: State) {
+//        switch state {
+//        case .normal(let temperature, let conditionCode, let conditionDescription):
+//            // Handle normal state
+//            print("Normal situation")
+//        case .wet(let temperature, let conditionCode, let conditionDescription):
+//            // Handle wet state
+//            print("Wet situation")
+//        case .snow(let temperature, let conditionCode, let conditionDescription):
+//            // Handle snow state
+//            print("Snow situation")
+//        case .cracks(let temperature, let conditionCode, let conditionDescription):
+//            // Handle cracks state
+//            print("Crack situation")
+//        }
+//    }
+    
+}
 
 
 //MARK: extension
 extension MainViewController {
     
-    enum State {
-        case normal(temperature: Double, conditionCode: Int, conditionDescription: String)
-        case wet(temperature: Double, conditionCode: Int, conditionDescription: String)
-        case snow(temperature: Double, conditionCode: Int, conditionDescription: String)
-        case cracks(temperature: Double, conditionCode: Int, conditionDescription: String)
+    enum State: Equatable {
+        case normal
+        case wet
+        case snow
+        case cracks
+        
+        init(temperature: Int, conditionCode: Int, conditionDescription: String) {
+            
+        }
     }
 }
 
