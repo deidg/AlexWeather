@@ -15,6 +15,7 @@ struct CurrentWeather {
     }
     let conditionCode: Int
     let conditionDescription: String // condition code
+    let windSpeed: Double
     
     let cityName: String
     let countryName: String
@@ -23,6 +24,7 @@ struct CurrentWeather {
         temperature = currentWeatherData.main.temp
         conditionCode = currentWeatherData.weather.first!.id
         conditionDescription = currentWeatherData.weather.first!.description
+        windSpeed = currentWeatherData.wind.windSpeed
         
         cityName = currentWeatherData.name
         countryName = currentWeatherData.sys.country

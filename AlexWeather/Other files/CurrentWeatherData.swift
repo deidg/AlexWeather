@@ -9,6 +9,7 @@ import Foundation
 
 //температура - main - temp
 //описание - weather - id
+//windSpeed - скорость ветра
 //город - name
     //страна - country
 
@@ -16,6 +17,7 @@ struct CurrentWeatherData: Codable {
     
     let main: Main
     let weather: [Weather]
+    let wind: Wind
     
     let name: String
     let sys: Sys
@@ -32,4 +34,8 @@ struct Weather: Codable {
 
 struct Sys: Codable {
     let country: String
+}
+
+struct Wind: Codable {
+    let windSpeed: Double
 }

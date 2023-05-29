@@ -144,6 +144,7 @@ class MainViewController: UIViewController {
             print(currentWeather.temperature)
             print(currentWeather.conditionCode)
             print(currentWeather.conditionDescription)
+            print(currentWeather.windSpeed)
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
@@ -342,22 +343,35 @@ class MainViewController: UIViewController {
         view.backgroundColor = .blue
     }
     
-//    private func updateWeatherState(_ state: State) {
-//        switch state {
-//        case .normal(let temperature, let conditionCode, let conditionDescription):
-//            // Handle normal state
-//            print("Normal situation")
-//        case .wet(let temperature, let conditionCode, let conditionDescription):
-//            // Handle wet state
-//            print("Wet situation")
-//        case .snow(let temperature, let conditionCode, let conditionDescription):
-//            // Handle snow state
-//            print("Snow situation")
-//        case .cracks(let temperature, let conditionCode, let conditionDescription):
-//            // Handle cracks state
-//            print("Crack situation")
+    private func updateWeatherState(_ state: State) {
+        switch state {
+        case .normal:
+            print("Normal situation")
+        case .wet:
+            print("Wet situation")
+        case .snow:
+            print("Snow situation")
+        case .cracks:
+            print("Crack situation")
+        }
+    }
+//
+//        private func updateWeatherState(_ state: State) {
+//            switch state {
+//            case .normal(let temperature, let conditionCode, let conditionDescription):
+//                // Handle normal state
+//                print("Normal situation")
+//            case .wet(let temperature, let conditionCode, let conditionDescription):
+//                // Handle wet state
+//                print("Wet situation")
+//            case .snow(let temperature, let conditionCode, let conditionDescription):
+//                // Handle snow state
+//                print("Snow situation")
+//            case .cracks(let temperature, let conditionCode, let conditionDescription):
+//                // Handle cracks state
+//                print("Crack situation")
+//            }
 //        }
-//    }
     
 }
 
@@ -365,16 +379,28 @@ class MainViewController: UIViewController {
 //MARK: extension
 extension MainViewController {
     
+    
     enum State: Equatable {
         case normal
         case wet
         case snow
         case cracks
+        //        case windy
         
-        init(temperature: Int, conditionCode: Int, conditionDescription: String) {
-            
+        init(_ temperature: Int, _ conditionCode: Int, _ conditionDescription: String, _ windSpeed: Double) {
+            if conditionCode >= 100 && conditionCode <= 249 {
+                self = .normal
+            } else if conditionCode >= 250 && conditionCode <= 499 {
+                self = .wet
+            } else if conditionCode >= 500 && conditionCode <= 749 {
+                self = .snow
+            } else if conditionCode >= 750 && conditionCode <= 1000 {
+                self = .cracks
+            } else {
+                    self = .normal
+                }
+            }
         }
-    }
 }
 
 //MARK: LocationManagerDelegate
@@ -393,3 +419,12 @@ func locationManager(_ manager: CLLocationManager, didFailWithError error: Error
 }
 
 
+
+
+
+//130af965a13542537138a6ef5cc6216f
+// 39°39′15″ с. ш. 66°57′35″ в. д.
+
+//https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+
+//        https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f
