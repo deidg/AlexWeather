@@ -165,6 +165,8 @@ class MainViewController: UIViewController {
             
             //            self.conditionsLabel.attributedText = weather.description
             self.locationLabel.text = weather.cityName + ", " + weather.countryName
+            
+            
         }
     }
     func configureGradientLayer() {
@@ -343,6 +345,7 @@ class MainViewController: UIViewController {
         view.backgroundColor = .blue
     }
     
+    
     private func updateWeatherState(_ state: State) {
         switch state {
         case .normal:
@@ -378,7 +381,6 @@ class MainViewController: UIViewController {
 
 //MARK: extension
 extension MainViewController {
-    
     
     enum State: Equatable {
         case normal
