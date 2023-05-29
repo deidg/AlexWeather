@@ -24,7 +24,7 @@ struct CurrentWeather {
         temperature = currentWeatherData.main.temp
         conditionCode = currentWeatherData.weather.first!.id
         conditionDescription = currentWeatherData.weather.first!.description
-        windSpeed = currentWeatherData.wind.windSpeed
+        windSpeed = currentWeatherData.wind.speed
         
         cityName = currentWeatherData.name
         countryName = currentWeatherData.sys.country
