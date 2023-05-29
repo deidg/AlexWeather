@@ -20,9 +20,12 @@ class MainViewController: UIViewController {
     
     var state: State = .normal {
         didSet {
-            updateWeatherState(state, currentWeather: currentWeather ?? "")
+            updateWeatherState(state)
         }
     }
+    
+    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
+    
     
     
     //    var state: State = .normal {
@@ -346,12 +349,12 @@ class MainViewController: UIViewController {
     }
     
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-        let conditionCode = currentWeather.conditionCode
 
         switch state {
         case .normal:
-            if conditionCode >= 100 && conditionCode <= 249 {
-                print("Normal")
+//            picture  UI
+//            if conditionCode >= 100 && conditionCode <= 249 {
+//                print("Normal")
             }
         case .wet:
             if conditionCode >= 250 && conditionCode <= 499 {
@@ -433,14 +436,33 @@ class MainViewController: UIViewController {
 extension MainViewController {
     
     enum State: Equatable {
-        case normal
-        case wet
-        case snow
-        case cracks
-        //        case windy
+        case normal(windy: Bool)
+        case wet(windy: Bool)
+        case snow(windy: Bool)
+        case cracks(windy: Bool)
+        case fog(windy: Bool)
+        var isWindy: Bool {
+            switch self {
+                
+            case .normal(let windy):
+                return windy
+            case .wet(let windy):
+                <#code#>
+            case .snow(let windy):
+                <#code#>
+            case .cracks(let windy):
+                <#code#>
+            case .fog(let windy):
+                <#code#>
+            }
+        }
         
-        init(_ temperature: Int, _ conditionCode: Int, _ conditionDescription: String, _ windSpeed: Double) {
-            if conditionCode >= 100 && conditionCode <= 249 {
+        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
+            if temperature > 30 {
+                self = .cracks (windy: windSpeed > 5)
+            } else if conditionCode
+                
+                conditionCode >= 100 && conditionCode <= 249 {
                 self = .normal
             } else if conditionCode >= 250 && conditionCode <= 499 {
                 self = .wet
