@@ -39,3 +39,7 @@ struct Sys: Codable {
 struct Wind: Codable {
     let speed: Double
 }
+
+
+// weather conditons
+//https://openweathermap.org/weather-conditions

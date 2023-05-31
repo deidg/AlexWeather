@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
         }
     }
     
-//    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
+    //    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
     
     
     
@@ -349,30 +349,30 @@ class MainViewController: UIViewController {
     }
     
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-
+        
         switch state {
         case .normal:
-//           ТУТ ставятся только картинки picture  UI
-//            if conditionCode >= 100 && conditionCode <= 249 {
-//                print("Normal")
-            }
-        case .wet:
-            if conditionCode >= 250 && conditionCode <= 499 {
-                print("Wet")
-            }
-        case .snow:
-            if conditionCode >= 500 && conditionCode <= 749 {
-                print("Snow")
-            }
-        case .cracks:
-            if conditionCode >= 750 && conditionCode <= 1000 {
-                print("Crack")
-            }
+            //           ТУТ ставятся только картинки picture  UI
+            //            if conditionCode >= 100 && conditionCode <= 249 {
+            //                print("Normal")
+        }
+    case .wet:
+        if conditionCode >= 250 && conditionCode <= 499 {
+            print("Wet")
+        }
+    case .snow:
+        if conditionCode >= 500 && conditionCode <= 749 {
+            print("Snow")
+        }
+    case .cracks:
+        if conditionCode >= 750 && conditionCode <= 1000 {
+            print("Crack")
         }
     }
+}
 
-    
-    
+
+
 //    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
 //        let conditionCode = currentWeather.conditionCode
 //
@@ -396,38 +396,38 @@ class MainViewController: UIViewController {
 //        }
 //    }
 
-    
-    
-    
-            //        switch state {
-            //        case .normal:
-            //            print("Normal situation")
-            //        case .wet:
-            //            print("Wet situation")
-            //        case .snow:
-            //            print("Snow situation")
-            //        case .cracks:
-            //            print("Crack situation")
-            //        }
-     
-        //
-        //        private func updateWeatherState(_ state: State) {
-        //            switch state {
-        //            case .normal(let temperature, let conditionCode, let conditionDescription):
-        //                // Handle normal state
-        //                print("Normal situation")
-        //            case .wet(let temperature, let conditionCode, let conditionDescription):
-        //                // Handle wet state
-        //                print("Wet situation")
-        //            case .snow(let temperature, let conditionCode, let conditionDescription):
-        //                // Handle snow state
-        //                print("Snow situation")
-        //            case .cracks(let temperature, let conditionCode, let conditionDescription):
-        //                // Handle cracks state
-        //                print("Crack situation")
-        //            }
-        //        }
-        
+
+
+
+//        switch state {
+//        case .normal:
+//            print("Normal situation")
+//        case .wet:
+//            print("Wet situation")
+//        case .snow:
+//            print("Snow situation")
+//        case .cracks:
+//            print("Crack situation")
+//        }
+
+//
+//        private func updateWeatherState(_ state: State) {
+//            switch state {
+//            case .normal(let temperature, let conditionCode, let conditionDescription):
+//                // Handle normal state
+//                print("Normal situation")
+//            case .wet(let temperature, let conditionCode, let conditionDescription):
+//                // Handle wet state
+//                print("Wet situation")
+//            case .snow(let temperature, let conditionCode, let conditionDescription):
+//                // Handle snow state
+//                print("Snow situation")
+//            case .cracks(let temperature, let conditionCode, let conditionDescription):
+//                // Handle cracks state
+//                print("Crack situation")
+//            }
+//        }
+
 //    }
 
 
@@ -441,42 +441,47 @@ extension MainViewController {
         case snow(windy: Bool)
         case cracks(windy: Bool)
         case fog(windy: Bool)
-//        var isWindy: Bool {
-//            switch self {
-//
-//            case .normal(let windy):
-//                return windy
-//            case .wet(let windy):
-//                <#code#>
-//            case .snow(let windy):
-//                <#code#>
-//            case .cracks(let windy):
-//                <#code#>
-//            case .fog(let windy):
-//                <#code#>
-//            }
-        }
-        
-        // прописать в 1 варианте температуру, в других погоду по кодам. Также добавить вариант с туманом. Туман сделать через добавление в свойства альфы 1.
+        //            case .normal(let windy):
+         //                return windy
+         //            case .wet(let windy):
+         //                <#code#>
+         //            case .snow(let windy):
+         //                <#code#>
+         //            case .cracks(let windy):
+         //                <#code#>
+         //            case .fog(let windy):
+         //                <#code#>
+         //            }
+//     }
+     
+     
+     
+     // прописать в 1 варианте температуру, в других погоду по кодам. Также добавить вариант с туманом. Туман сделать через добавление в свойства альфы 1.
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-            if temperature > 30 {
-                self = .cracks (windy: windSpeed > 5)
-            } else if conditionCode
-                
-                conditionCode >= 100 && conditionCode <= 249 {
-                self = .normal
-            } else if conditionCode >= 250 && conditionCode <= 499 {
-                self = .wet
-            } else if conditionCode >= 500 && conditionCode <= 749 {
-                self = .snow
-            } else if conditionCode >= 750 && conditionCode <= 1000 {
-                self = .cracks
-            } else {
-                    self = .normal
-                }
-            }
-        }
-//}
+         //            var windy =  windSpeed > 5
+         
+         if temperature > 30 {
+             self = .cracks (windy: windSpeed > 5)
+         } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
+             self = .wet (windy: windSpeed > 5)
+         } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
+             self = .snow (windy: windSpeed > 5)
+         } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
+             self = .fog (windy: windSpeed > 5)
+         } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 804 {
+             self = .normal (windy: windSpeed > 5)
+         } else {
+             self = .normal (windy: windSpeed > 5)
+         }
+     }
+     
+ }
+    
+    //        var isWindy: Bool {
+        //            switch self {
+        //
+ 
+}
 
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
