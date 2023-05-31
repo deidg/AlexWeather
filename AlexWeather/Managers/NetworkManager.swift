@@ -31,7 +31,7 @@ class NetworkManager {
         let decoder = JSONDecoder()
         do {
             let currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-            
+
             guard let currentWeather = CurrentWeather(currentWeatherData: currentWeatherData)
             else {
                 return nil
@@ -43,6 +43,9 @@ class NetworkManager {
         return nil
     }
 }
+// вставить в функцию в конце комплишн, чтобы после получения данных выполнялся код. Пример есть в прошлом задании V3. т.е на главном меню вызывается экземпляр класса Network manager и у него используется комплишн (на основании данных которые получает сам NetworkManager
+
+
 
 //130af965a13542537138a6ef5cc6216f
 // 39°39′15″ с. ш. 66°57′35″ в. д.

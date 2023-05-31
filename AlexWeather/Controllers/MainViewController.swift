@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
+//    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
     
     
     
@@ -352,7 +352,7 @@ class MainViewController: UIViewController {
 
         switch state {
         case .normal:
-//            picture  UI
+//           ТУТ ставятся только картинки picture  UI
 //            if conditionCode >= 100 && conditionCode <= 249 {
 //                print("Normal")
             }
@@ -394,7 +394,7 @@ class MainViewController: UIViewController {
 //                print("Crack situation")
 //            }
 //        }
-    }
+//    }
 
     
     
@@ -441,22 +441,23 @@ extension MainViewController {
         case snow(windy: Bool)
         case cracks(windy: Bool)
         case fog(windy: Bool)
-        var isWindy: Bool {
-            switch self {
-                
-            case .normal(let windy):
-                return windy
-            case .wet(let windy):
-                <#code#>
-            case .snow(let windy):
-                <#code#>
-            case .cracks(let windy):
-                <#code#>
-            case .fog(let windy):
-                <#code#>
-            }
+//        var isWindy: Bool {
+//            switch self {
+//
+//            case .normal(let windy):
+//                return windy
+//            case .wet(let windy):
+//                <#code#>
+//            case .snow(let windy):
+//                <#code#>
+//            case .cracks(let windy):
+//                <#code#>
+//            case .fog(let windy):
+//                <#code#>
+//            }
         }
         
+        // прописать в 1 варианте температуру, в других погоду по кодам. Также добавить вариант с туманом. Туман сделать через добавление в свойства альфы 1.
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
             if temperature > 30 {
                 self = .cracks (windy: windSpeed > 5)
@@ -475,7 +476,7 @@ extension MainViewController {
                 }
             }
         }
-}
+//}
 
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
