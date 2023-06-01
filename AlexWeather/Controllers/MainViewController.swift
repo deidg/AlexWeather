@@ -18,15 +18,17 @@ class MainViewController: UIViewController {
     
     var currentWeather: CurrentWeather?
     
-    var windy: Bool = false
-    var windSpeed = currentWeather?.windSpeed
-    if windSpeed > 5.0 {
-        windy = true
-    } else {
-        windy = false
-    }
+//    var windy: Bool = false
+    var windSpeed: Double = 0
     
-    var state: State = .normal {
+    
+//    if windSpeed > 5.0 {
+//        windy = true
+//    } else {
+//        windy = false
+//    }
+    
+    var state: State = .normal(windy: windy) {
         didSet {
             updateWeatherState(state, currentWeather: currentWeather!)
             //!!! force unwrap
@@ -162,6 +164,8 @@ class MainViewController: UIViewController {
             
         }
         
+        checkWindSpeed()
+        
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
     }
     @objc func refreshAction(sender: AnyObject) {
@@ -177,6 +181,14 @@ class MainViewController: UIViewController {
 //    } else {
 //        windy = false
 //    }
+    
+    func checkWindSpeed() {
+            if windSpeed > 5.0 {
+                windy = true
+            } else {
+                windy = false
+            }
+        }
     
     
     
@@ -371,6 +383,8 @@ class MainViewController: UIViewController {
     
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
         let conditionCode = currentWeather.conditionCode
+        self.windSpeed = currentWeather.windSpeed
+//            self.windy = windSpeed > 5.0
 
         switch state {
         case .normal:
@@ -421,6 +435,7 @@ class MainViewController: UIViewController {
     
 }
 
+var windy: Bool = false
 
 
 
