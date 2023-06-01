@@ -18,9 +18,18 @@ class MainViewController: UIViewController {
     
     var currentWeather: CurrentWeather?
     
+    var windy: Bool = false
+    var windSpeed = currentWeather?.windSpeed
+    if windSpeed > 5.0 {
+        windy = true
+    } else {
+        windy = false
+    }
+    
     var state: State = .normal {
         didSet {
-            updateWeatherState(state)
+            updateWeatherState(state, currentWeather: currentWeather!)
+            //!!! force unwrap
         }
     }
     
@@ -159,6 +168,17 @@ class MainViewController: UIViewController {
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
+    
+    
+//    var windy: Bool = false
+//    var windSpeed = currentWeather?.windSpeed
+//    if windSpeed > 5.0 {
+//        windy = true
+//    } else {
+//        windy = false
+//    }
+    
+    
     
     // MARK: methods
     func updateInterfaceWith(weather: CurrentWeather) {
@@ -348,87 +368,62 @@ class MainViewController: UIViewController {
         view.backgroundColor = .blue
     }
     
+    
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-        
+        let conditionCode = currentWeather.conditionCode
+
         switch state {
         case .normal:
-            //           ТУТ ставятся только картинки picture  UI
-            //            if conditionCode >= 100 && conditionCode <= 249 {
-            //                print("Normal")
-        }
-    case .wet:
-        if conditionCode >= 250 && conditionCode <= 499 {
-            print("Wet")
-        }
-    case .snow:
-        if conditionCode >= 500 && conditionCode <= 749 {
-            print("Snow")
-        }
-    case .cracks:
-        if conditionCode >= 750 && conditionCode <= 1000 {
-            print("Crack")
+            if conditionCode >= 100 && conditionCode <= 249 {
+                print("Normal situation")
+            }
+        case .wet:
+            if conditionCode >= 250 && conditionCode <= 499 {
+                print("Wet situation")
+            }
+        case .snow:
+            if conditionCode >= 500 && conditionCode <= 749 {
+                print("Snow situation")
+            }
+        case .cracks:
+            if conditionCode >= 750 && conditionCode <= 1000 {
+                print("Crack situation")
+            }
+        default:
+            print("Unhandled state")
         }
     }
+
+
+    
+    
+//    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
+//
+//        switch state {
+//        case .normal:
+//            //           ТУТ ставятся только картинки picture  UI
+//            //            if conditionCode >= 100 && conditionCode <= 249 {
+//            //                print("Normal")
+//        }
+//    case .wet:
+//        if conditionCode >= 250 && conditionCode <= 499 {
+//            print("Wet")
+//        }
+//    case .snow:
+//        if conditionCode >= 500 && conditionCode <= 749 {
+//            print("Snow")
+//        }
+//    case .cracks:
+//        if conditionCode >= 750 && conditionCode <= 1000 {
+//            print("Crack")
+//        }
+//    }
+    
 }
 
 
 
-//    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-//        let conditionCode = currentWeather.conditionCode
-//
-//        switch state {
-//        case .normal:
-//            if conditionCode >= 100 && conditionCode <= 249 {
-//                print("Normal situation")
-//            }
-//        case .wet:
-//            if conditionCode >= 250 && conditionCode <= 499 {
-//                print("Wet situation")
-//            }
-//        case .snow:
-//            if conditionCode >= 500 && conditionCode <= 749 {
-//                print("Snow situation")
-//            }
-//        case .cracks:
-//            if conditionCode >= 750 && conditionCode <= 1000 {
-//                print("Crack situation")
-//            }
-//        }
-//    }
 
-
-
-
-//        switch state {
-//        case .normal:
-//            print("Normal situation")
-//        case .wet:
-//            print("Wet situation")
-//        case .snow:
-//            print("Snow situation")
-//        case .cracks:
-//            print("Crack situation")
-//        }
-
-//
-//        private func updateWeatherState(_ state: State) {
-//            switch state {
-//            case .normal(let temperature, let conditionCode, let conditionDescription):
-//                // Handle normal state
-//                print("Normal situation")
-//            case .wet(let temperature, let conditionCode, let conditionDescription):
-//                // Handle wet state
-//                print("Wet situation")
-//            case .snow(let temperature, let conditionCode, let conditionDescription):
-//                // Handle snow state
-//                print("Snow situation")
-//            case .cracks(let temperature, let conditionCode, let conditionDescription):
-//                // Handle cracks state
-//                print("Crack situation")
-//            }
-//        }
-
-//    }
 
 
 
@@ -453,13 +448,9 @@ extension MainViewController {
          //                <#code#>
          //            }
 //     }
-     
-     
-     
-     // прописать в 1 варианте температуру, в других погоду по кодам. Также добавить вариант с туманом. Туман сделать через добавление в свойства альфы 1.
+
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-         //            var windy =  windSpeed > 5
-         
+
          if temperature > 30 {
              self = .cracks (windy: windSpeed > 5)
          } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
