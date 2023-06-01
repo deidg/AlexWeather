@@ -18,15 +18,7 @@ class MainViewController: UIViewController {
     
     var currentWeather: CurrentWeather?
     
-//    var windy: Bool = false
     var windSpeed: Double = 0
-    
-    
-//    if windSpeed > 5.0 {
-//        windy = true
-//    } else {
-//        windy = false
-//    }
     
     var state: State = .normal(windy: windy) {
         didSet {
@@ -36,15 +28,7 @@ class MainViewController: UIViewController {
     }
     
     //    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
-    
-    
-    
-    //    var state: State = .normal {
-    //        didSet {
-    //            updateWeatherState(state)
-    //        }
-    //    }
-    
+
     let refreshControl = UIRefreshControl()
     
     private let scrollView: UIScrollView = {
@@ -407,31 +391,6 @@ class MainViewController: UIViewController {
             print("Unhandled state")
         }
     }
-
-
-    
-    
-//    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-//
-//        switch state {
-//        case .normal:
-//            //           ТУТ ставятся только картинки picture  UI
-//            //            if conditionCode >= 100 && conditionCode <= 249 {
-//            //                print("Normal")
-//        }
-//    case .wet:
-//        if conditionCode >= 250 && conditionCode <= 499 {
-//            print("Wet")
-//        }
-//    case .snow:
-//        if conditionCode >= 500 && conditionCode <= 749 {
-//            print("Snow")
-//        }
-//    case .cracks:
-//        if conditionCode >= 750 && conditionCode <= 1000 {
-//            print("Crack")
-//        }
-//    }
     
 }
 
@@ -482,11 +441,7 @@ extension MainViewController {
      }
      
  }
-    
-    //        var isWindy: Bool {
-        //            switch self {
-        //
- 
+
 }
 
 //MARK: LocationManagerDelegate
