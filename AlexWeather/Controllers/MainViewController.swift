@@ -20,15 +20,28 @@ class MainViewController: UIViewController {
     
     var windSpeed: Double = 0
     
-    var state: State = .normal(windy: windy) {
+    var state: State = .normal(windy: false) {
         didSet {
             updateWeatherState(state, currentWeather: currentWeather!)
             //!!! force unwrap
         }
     }
     
-    //    State.init(<#T##Int#>, <#T##Int#>, <#T##Double#>)  // JSON
-
+    //    enum data init(currentWeather: CurrentWeather? = nil, windSpeed: Double, state: State) {
+    //        self.currentWeather = currentWeather
+    //        self.windSpeed = windSpeed
+    //        self.state = state
+    //    }
+    //        state.init(, <#T##Int#>, <#T##Double#>)  // JSON
+    
+    //    func printEnum() {
+    init(currentWeather: CurrentWeather? = nil, windSpeed: Double, state: State) {
+        self.currentWeather = currentWeather
+        self.windSpeed = windSpeed
+        self.state = state
+    }
+    //    }
+    
     let refreshControl = UIRefreshControl()
     
     private let scrollView: UIScrollView = {
@@ -158,21 +171,21 @@ class MainViewController: UIViewController {
     }
     
     
-//    var windy: Bool = false
-//    var windSpeed = currentWeather?.windSpeed
-//    if windSpeed > 5.0 {
-//        windy = true
-//    } else {
-//        windy = false
-//    }
+    //    var windy: Bool = false
+    //    var windSpeed = currentWeather?.windSpeed
+    //    if windSpeed > 5.0 {
+    //        windy = true
+    //    } else {
+    //        windy = false
+    //    }
     
     func checkWindSpeed() {
-            if windSpeed > 5.0 {
-                windy = true
-            } else {
-                windy = false
-            }
+        if windSpeed > 5.0 {
+            windy = true
+        } else {
+            windy = false
         }
+    }
     
     
     
@@ -185,7 +198,8 @@ class MainViewController: UIViewController {
             //            self.conditionsLabel.attributedText = weather.description
             self.locationLabel.text = weather.cityName + ", " + weather.countryName
             
-            
+            let state: State = .normal(windy: self.windSpeed > 5.0)
+            self.updateWeatherState(state, currentWeather: weather)
         }
     }
     func configureGradientLayer() {
@@ -368,8 +382,8 @@ class MainViewController: UIViewController {
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
         let conditionCode = currentWeather.conditionCode
         self.windSpeed = currentWeather.windSpeed
-//            self.windy = windSpeed > 5.0
-
+        //            self.windy = windSpeed > 5.0
+        
         switch state {
         case .normal:
             if conditionCode >= 100 && conditionCode <= 249 {
@@ -392,10 +406,12 @@ class MainViewController: UIViewController {
         }
     }
     
+    
 }
 
 var windy: Bool = false
-
+//var state: State = .normal(windy: windy)
+//updateWeatherState(state, currentWeather: CurrentWeather)
 
 
 
@@ -411,37 +427,37 @@ extension MainViewController {
         case cracks(windy: Bool)
         case fog(windy: Bool)
         //            case .normal(let windy):
-         //                return windy
-         //            case .wet(let windy):
-         //                <#code#>
-         //            case .snow(let windy):
-         //                <#code#>
-         //            case .cracks(let windy):
-         //                <#code#>
-         //            case .fog(let windy):
-         //                <#code#>
-         //            }
-//     }
-
+        //                return windy
+        //            case .wet(let windy):
+        //                <#code#>
+        //            case .snow(let windy):
+        //                <#code#>
+        //            case .cracks(let windy):
+        //                <#code#>
+        //            case .fog(let windy):
+        //                <#code#>
+        //            }
+        //     }
+        
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-
-         if temperature > 30 {
-             self = .cracks (windy: windSpeed > 5)
-         } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-             self = .wet (windy: windSpeed > 5)
-         } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-             self = .snow (windy: windSpeed > 5)
-         } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-             self = .fog (windy: windSpeed > 5)
-         } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 804 {
-             self = .normal (windy: windSpeed > 5)
-         } else {
-             self = .normal (windy: windSpeed > 5)
-         }
-     }
-     
- }
-
+            
+            if temperature > 30 {
+                self = .cracks (windy: windSpeed > 5)
+            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
+                self = .wet (windy: windSpeed > 5)
+            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
+                self = .snow (windy: windSpeed > 5)
+            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
+                self = .fog (windy: windSpeed > 5)
+            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 804 {
+                self = .normal (windy: windSpeed > 5)
+            } else {
+                self = .normal (windy: windSpeed > 5)
+            }
+        }
+        
+    }
+    
 }
 
 //MARK: LocationManagerDelegate
