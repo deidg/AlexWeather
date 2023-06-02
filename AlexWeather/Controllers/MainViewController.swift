@@ -27,20 +27,8 @@ class MainViewController: UIViewController {
         }
     }
     
-    //    enum data init(currentWeather: CurrentWeather? = nil, windSpeed: Double, state: State) {
-    //        self.currentWeather = currentWeather
-    //        self.windSpeed = windSpeed
-    //        self.state = state
-    //    }
-    //        state.init(, <#T##Int#>, <#T##Double#>)  // JSON
+  
     
-    //    func printEnum() {
-//    init(currentWeather: CurrentWeather? = nil, windSpeed: Double, state: State) {
-//        self.currentWeather = currentWeather
-//        self.windSpeed = windSpeed
-//        self.state = state
-//    }
-    //    }
     
     let refreshControl = UIRefreshControl()
     
@@ -127,6 +115,7 @@ class MainViewController: UIViewController {
         return infoButton
     }()
     let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
+    
     let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
     
     let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
@@ -147,6 +136,12 @@ class MainViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        
+        normalStoneImageView.isHidden = true
+        wetStoneImageView.isHidden = true
+        snowStoneImageView.isHidden = true
+        cracksStoneImageView.isHidden = true
+        
         
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
@@ -400,6 +395,10 @@ class MainViewController: UIViewController {
         case .normal: //(var windSpeed) where windSpeed > 3://where windy == true:
             if (750...1000).contains(conditionCode) && windy == true  {
                     print("Crack situation")
+                
+//                cracksStoneImageView.isHidden = false
+                wetStoneImageView.isHidden = false
+
                 } else if (500...749).contains(conditionCode) {
                     print("Snow situation")
                 } else if (250...499).contains(conditionCode) {
@@ -426,7 +425,9 @@ class MainViewController: UIViewController {
             print("Unhandled state")
         }
     }
-    
+//    var temperature = currentWeather?.temperature
+//    var conditionCode = currentWeather?.conditionCode
+//    var windSpeed = currentWeather?.windSpeed
     
 }
 
@@ -434,16 +435,20 @@ var windy: Bool = false
 //var state: State = .normal(windy: windy)
 //updateWeatherState(state, currentWeather: CurrentWeather)
 
+var currentWeather: CurrentWeather?
+
+var temperature = currentWeather?.temperature
+var conditionCode = currentWeather?.conditionCode
+var windSpeed = currentWeather?.windSpeed
+
+//var forecast = State(temperature, conditionCode, windSpeed)
 
 
 
 
 //MARK: extension
 extension MainViewController {
-//    еще раз посмотерть инфу про ассоциативные значения и разобраться как они работают.
-    
-   
-    
+
     enum State: Equatable {
         case normal  //(windSpeed: Double) //(windy: Bool)
         case wet  //(windSpeed: Double) //(windy: Bool)
@@ -463,7 +468,7 @@ extension MainViewController {
         //            }
         //     }
         
-        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
+        init(_ temperature: Double, _ conditionCode: Int, _ windSpeed: Double) {
             if temperature > 30 {
                 self = .cracks //(windSpeed: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
