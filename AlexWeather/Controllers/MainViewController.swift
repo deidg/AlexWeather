@@ -35,11 +35,11 @@ class MainViewController: UIViewController {
     //        state.init(, <#T##Int#>, <#T##Double#>)  // JSON
     
     //    func printEnum() {
-    init(currentWeather: CurrentWeather? = nil, windSpeed: Double, state: State) {
-        self.currentWeather = currentWeather
-        self.windSpeed = windSpeed
-        self.state = state
-    }
+//    init(currentWeather: CurrentWeather? = nil, windSpeed: Double, state: State) {
+//        self.currentWeather = currentWeather
+//        self.windSpeed = windSpeed
+//        self.state = state
+//    }
     //    }
     
     let refreshControl = UIRefreshControl()
@@ -381,11 +381,11 @@ class MainViewController: UIViewController {
     
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
         let conditionCode = currentWeather.conditionCode
-        self.windSpeed = currentWeather.windSpeed
+         var windSpeed = currentWeather.windSpeed
         //            self.windy = windSpeed > 5.0
         
         switch state {
-        case .normal:
+        case .normal(var windSpeed) where windSpeed > 3://where windy == true:
             if conditionCode >= 100 && conditionCode <= 249 {
                 print("Normal situation")
             }
@@ -419,13 +419,16 @@ var windy: Bool = false
 
 //MARK: extension
 extension MainViewController {
+//    еще раз посмотерть инфу про ассоциативные значения и разобраться как они работают.
+    
+   
     
     enum State: Equatable {
-        case normal(windy: Bool)
-        case wet(windy: Bool)
-        case snow(windy: Bool)
-        case cracks(windy: Bool)
-        case fog(windy: Bool)
+        case normal//(windSpeed: Double) //(windy: Bool)
+        case wet//(windSpeed: Double) //(windy: Bool)
+        case snow//(windSpeed: Double) //(windy: Bool)
+        case cracks//(windSpeed: Double) //(windy: Bool)
+        case fog//(windSpeed: Double) //(windy: Bool)
         //            case .normal(let windy):
         //                return windy
         //            case .wet(let windy):
@@ -440,19 +443,18 @@ extension MainViewController {
         //     }
         
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-            
             if temperature > 30 {
-                self = .cracks (windy: windSpeed > 5)
+                self = .cracks //(windSpeed: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                self = .wet (windy: windSpeed > 5)
+                self = .wet //(windy: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow (windy: windSpeed > 5)
+                self = .snow //(windy: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog (windy: windSpeed > 5)
+                self = .fog //(windy: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 804 {
-                self = .normal (windy: windSpeed > 5)
+                self = .normal //(windy: windSpeed > 5)
             } else {
-                self = .normal (windy: windSpeed > 5)
+                self = .normal //(windy: windSpeed > 5)
             }
         }
         
