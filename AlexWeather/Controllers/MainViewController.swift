@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     
     var windSpeed: Double = 0
     
-    var state: State = .normal(windy: false) {
+    var state: State = .normal { //(windy: false) {
         didSet {
             updateWeatherState(state, currentWeather: currentWeather!)
             //!!! force unwrap
@@ -152,10 +152,10 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
             
-            print(currentWeather.temperature)
-            print(currentWeather.conditionCode)
-            print(currentWeather.conditionDescription)
-            print(currentWeather.windSpeed)
+//            print(currentWeather.temperature)
+//            print(currentWeather.conditionCode)
+//            print(currentWeather.conditionDescription)
+//            print(currentWeather.windSpeed)
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
@@ -198,7 +198,7 @@ class MainViewController: UIViewController {
             //            self.conditionsLabel.attributedText = weather.description
             self.locationLabel.text = weather.cityName + ", " + weather.countryName
             
-            let state: State = .normal(windy: self.windSpeed > 5.0)
+            let state: State = .normal //(windy: self.windSpeed > 5.0)
             self.updateWeatherState(state, currentWeather: weather)
         }
     }
@@ -380,25 +380,40 @@ class MainViewController: UIViewController {
     
     
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-        let conditionCode = currentWeather.conditionCode
-         var windSpeed = currentWeather.windSpeed
+        var temperature = currentWeather.temperature
+        let conditionCode = 804//currentWeather.conditionCode
+        var windSpeed = currentWeather.windSpeed
         //            self.windy = windSpeed > 5.0
         
+        print(temperature)
+        print(conditionCode)
+        //                    print(currentWeather.conditionDescription)
+        print(windSpeed)
+        
         switch state {
-        case .normal(var windSpeed) where windSpeed > 3://where windy == true:
-            if conditionCode >= 100 && conditionCode <= 249 {
-                print("Normal situation")
-            }
+        case .normal: //(var windSpeed) where windSpeed > 3://where windy == true:
+            if (750...1000).contains(conditionCode) {
+                    print("Crack situation")
+                } else if (500...749).contains(conditionCode) {
+                    print("Snow situation")
+                } else if (250...499).contains(conditionCode) {
+                    print("Wet situation")
+                } else if (100...249).contains(conditionCode) {
+                    print("Normal situation")
+                }
         case .wet:
-            if conditionCode >= 250 && conditionCode <= 499 {
+//            if conditionCode >= 250 && conditionCode <= 499 {
+            if(250...499).contains(conditionCode) {
                 print("Wet situation")
             }
         case .snow:
-            if conditionCode >= 500 && conditionCode <= 749 {
+//            if conditionCode >= 500 && conditionCode <= 749 {
+            if(500...749).contains(conditionCode) {
                 print("Snow situation")
             }
         case .cracks:
-            if conditionCode >= 750 && conditionCode <= 1000 {
+//            if conditionCode >= 750 && conditionCode <= 1000 {
+            if(750...1000).contains(conditionCode) {
                 print("Crack situation")
             }
         default:
@@ -424,11 +439,11 @@ extension MainViewController {
    
     
     enum State: Equatable {
-        case normal//(windSpeed: Double) //(windy: Bool)
-        case wet//(windSpeed: Double) //(windy: Bool)
-        case snow//(windSpeed: Double) //(windy: Bool)
-        case cracks//(windSpeed: Double) //(windy: Bool)
-        case fog//(windSpeed: Double) //(windy: Bool)
+        case normal  //(windSpeed: Double) //(windy: Bool)
+        case wet  //(windSpeed: Double) //(windy: Bool)
+        case snow  //(windSpeed: Double) //(windy: Bool)
+        case cracks  //(windSpeed: Double) //(windy: Bool)
+        case fog  //(windSpeed: Double) //(windy: Bool)
         //            case .normal(let windy):
         //                return windy
         //            case .wet(let windy):
