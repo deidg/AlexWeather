@@ -382,8 +382,14 @@ class MainViewController: UIViewController {
     private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
         var temperature = currentWeather.temperature
         let conditionCode = 804//currentWeather.conditionCode
-        var windSpeed = currentWeather.windSpeed
-        //            self.windy = windSpeed > 5.0
+        var windSpeed = 6.0 //currentWeather.windSpeed
+        var windy: Bool = false
+        if  windSpeed > 5.0 {
+            windy = true
+        } else {
+            windy = false
+        }
+        
         
         print(temperature)
         print(conditionCode)
@@ -392,7 +398,7 @@ class MainViewController: UIViewController {
         
         switch state {
         case .normal: //(var windSpeed) where windSpeed > 3://where windy == true:
-            if (750...1000).contains(conditionCode) {
+            if (750...1000).contains(conditionCode) && windy == true  {
                     print("Crack situation")
                 } else if (500...749).contains(conditionCode) {
                     print("Snow situation")
