@@ -22,7 +22,7 @@ class MainViewController: UIViewController {
     
     var state: State = .normal { //(windy: false) {
         didSet {
-            updateWeatherState(state, currentWeather: currentWeather!)
+            updateWeatherState(state)
             //!!! force unwrap
         }
     }
@@ -50,6 +50,12 @@ class MainViewController: UIViewController {
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
+    
+    let stoneImageView: UIImageView = {
+       let stoneImageView = UIImageView()
+        
+      return stoneImageView
+    }()
     
     let infoLargeView: UIView = {
         let infoLargeView = UIView()
@@ -114,12 +120,13 @@ class MainViewController: UIViewController {
         infoButton.layer.cornerRadius = 15
         return infoButton
     }()
-    let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
-    
-    let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
-    
-    let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
-    let cracksStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
+    //move to Constants
+//    let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
+//
+//    let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
+//
+//    let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
+//    let cracksStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
@@ -137,10 +144,10 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-        normalStoneImageView.isHidden = true
-        wetStoneImageView.isHidden = true
-        snowStoneImageView.isHidden = true
-        cracksStoneImageView.isHidden = true
+//        normalStoneImageView.isHidden = true
+//        wetStoneImageView.isHidden = true
+//        snowStoneImageView.isHidden = true
+//        cracksStoneImageView.isHidden = true
         
         
         networkManager.onComletion = { [weak self] currentWeather in
@@ -194,7 +201,7 @@ class MainViewController: UIViewController {
             self.locationLabel.text = weather.cityName + ", " + weather.countryName
             
             let state: State = .normal //(windy: self.windSpeed > 5.0)
-            self.updateWeatherState(state, currentWeather: weather)
+            self.updateWeatherState(state)
         }
     }
     func configureGradientLayer() {
@@ -216,29 +223,35 @@ class MainViewController: UIViewController {
             make.top.bottom.equalTo(scrollView).offset(-60)
         }
         
-        contentView.addSubview(normalStoneImageView)
-        normalStoneImageView.snp.makeConstraints { make in
+        contentView.addSubview(stoneImageView)
+        stoneImageView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
         }
         
-        contentView.addSubview(wetStoneImageView)
-        wetStoneImageView.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-            make.trailing.leading.equalTo(contentView)
-        }
-        
-        contentView.addSubview(snowStoneImageView)
-        snowStoneImageView.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-            make.trailing.leading.equalTo(contentView)
-        }
-        
-        contentView.addSubview(cracksStoneImageView)
-        cracksStoneImageView.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-            make.trailing.leading.equalTo(contentView)
-        }
+//        contentView.addSubview(normalStoneImageView)
+//        normalStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+//        contentView.addSubview(wetStoneImageView)
+//        wetStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+//        contentView.addSubview(snowStoneImageView)
+//        snowStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
+//
+//        contentView.addSubview(cracksStoneImageView)
+//        cracksStoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//        }
         
         
         view.addSubview(temperatureLabel)
@@ -350,7 +363,6 @@ class MainViewController: UIViewController {
     @objc private func buttonPressed(sender: UIButton) {
         print("INFO opened")
         infoLargeView.isHidden = false
-        normalStoneImageView.isHidden = true
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
         locationLabel.isHidden = true
@@ -361,7 +373,7 @@ class MainViewController: UIViewController {
     @objc private func hideButtonPressed(sender: UIButton) {
         print("closed!")
         infoLargeView.isHidden = true
-        normalStoneImageView.isHidden = false
+//        normalStoneImageView.isHidden = false
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
@@ -374,61 +386,39 @@ class MainViewController: UIViewController {
     }
     
     
-    private func updateWeatherState(_ state: State, currentWeather: CurrentWeather) {
-        var temperature = currentWeather.temperature
-        let conditionCode = 804//currentWeather.conditionCode
-        var windSpeed = 6.0 //currentWeather.windSpeed
-        var windy: Bool = false
-        if  windSpeed > 5.0 {
-            windy = true
-        } else {
-            windy = false
-        }
+    private func updateWeatherState(_ state: State) {
+        let stoneImage : UIImage?
+        let alphaLevel : CGFloat
         
-        
-        print(temperature)
-        print(conditionCode)
-        //                    print(currentWeather.conditionDescription)
-        print(windSpeed)
         
         switch state {
-        case .normal: //(var windSpeed) where windSpeed > 3://where windy == true:
-            if (750...1000).contains(conditionCode) && windy == true  {
-                    print("Crack situation")
-                
-//                cracksStoneImageView.isHidden = false
-                wetStoneImageView.isHidden = false
-
-                } else if (500...749).contains(conditionCode) {
-                    print("Snow situation")
-                } else if (250...499).contains(conditionCode) {
-                    print("Wet situation")
-                } else if (100...249).contains(conditionCode) {
-                    print("Normal situation")
-                }
+        case .normal:
+            stoneImage = UIImage(named: "image_stone_normal.png")
+            alphaLevel = 1
         case .wet:
-//            if conditionCode >= 250 && conditionCode <= 499 {
-            if(250...499).contains(conditionCode) {
-                print("Wet situation")
-            }
+            stoneImage = UIImage(named: "image_stone_wet.png")
+            alphaLevel = 1
         case .snow:
-//            if conditionCode >= 500 && conditionCode <= 749 {
-            if(500...749).contains(conditionCode) {
-                print("Snow situation")
-            }
+            stoneImage = UIImage(named: "image_stone_snow.png")
+            alphaLevel = 1
         case .cracks:
-//            if conditionCode >= 750 && conditionCode <= 1000 {
-            if(750...1000).contains(conditionCode) {
-                print("Crack situation")
-            }
-        default:
-            print("Unhandled state")
+            stoneImage = UIImage(named: "image_stone_cracks.png")
+            alphaLevel = 1
+        case .fog:
+            stoneImage = UIImage(named: "image_stone_normal.png")
+            alphaLevel = 0.3
+        }
+        
+        stoneImageView.alpha = alphaLevel
+        stoneImageView.image = stoneImage
+        if state.isWindy {
+            //do animation
         }
     }
-//    var temperature = currentWeather?.temperature
-//    var conditionCode = currentWeather?.conditionCode
-//    var windSpeed = currentWeather?.windSpeed
-    
+
+    func updateData() { //
+        state = .init(24, 680, 5)
+    }
 }
 
 var windy: Bool = false
@@ -490,8 +480,6 @@ extension MainViewController {
 
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let coordinate = manager.location?.coordinate
@@ -513,3 +501,23 @@ func locationManager(_ manager: CLLocationManager, didFailWithError error: Error
 //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
 //        https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f
+
+
+
+
+//    if (750...1000).contains(conditionCode) && windy == true  {
+//        self = .State.normal
+//        print("Crack situation")
+//    } else if (500...749).contains(conditionCode) {
+//        self = .State.wet
+//        print("wet situation")
+//    } else if (250...499).contains(conditionCode) {
+//        self = .State.snow
+//        print("snow situation")
+//    } else if (100...249).contains(conditionCode) {
+//        self = .State.cracks
+//        print("crack situation")
+//    } else {
+//    default:
+//                    print("Unhandled state")
+//                }
