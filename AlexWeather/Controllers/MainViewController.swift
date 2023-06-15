@@ -27,8 +27,6 @@ class MainViewController: UIViewController {
         }
     }
     
-  
-    
     
     let refreshControl = UIRefreshControl()
     
@@ -52,12 +50,12 @@ class MainViewController: UIViewController {
     var currentLocation: CLLocation?
     
     let stoneImageView: UIImageView = {
-       let stoneImageView = UIImageView()
+        let stoneImageView = UIImageView()
         
-      return stoneImageView
+        return stoneImageView
     }()
     
-    let infoLargeView: UIView = {
+    let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
         infoLargeView.isHidden = true
@@ -65,14 +63,14 @@ class MainViewController: UIViewController {
         infoLargeView.layer.cornerRadius = 25
         return infoLargeView
     }()
-    let infoLargeViewTitleLabel: UILabel = {
+    let infoLargeViewTitleLabel: UILabel = { //INFO view
         let label = UILabel()
         label.text = "INFO"
         label.font =  UIFont.boldSystemFont(ofSize: label.font.pointSize)
         label.textAlignment = .center
         return label
     }()
-    let infoLargeViewLabel: UILabel = {
+    let infoLargeViewLabel: UILabel = {   //INFO view
         let label = UILabel()
         label.numberOfLines = 7
         label.textAlignment = .left
@@ -84,7 +82,7 @@ class MainViewController: UIViewController {
         return label
     }()
     //TOD): make a shadow
-    @objc  let infoLargeViewHideButton: UIButton = {
+    @objc  let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
         infoLargeViewHideButton.setTitle("Hide", for: .normal)
@@ -94,8 +92,8 @@ class MainViewController: UIViewController {
         //    infoLargeViewHideButton.titleShadowColor(for: <#T##UIControl.State#>)
         return infoLargeViewHideButton
     }()
-    var topColor = UIColor.orange
-    var bottomColor = UIColor.yellow
+    var topColor = UIColor.orange  // gradient
+    var bottomColor = UIColor.yellow   // gradient
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
@@ -121,12 +119,12 @@ class MainViewController: UIViewController {
         return infoButton
     }()
     //move to Constants
-//    let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
-//
-//    let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
-//
-//    let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
-//    let cracksStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
+    //    let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
+    //
+    //    let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
+    //
+    //    let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
+    //    let cracksStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
@@ -144,20 +142,21 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-//        normalStoneImageView.isHidden = true
-//        wetStoneImageView.isHidden = true
-//        snowStoneImageView.isHidden = true
-//        cracksStoneImageView.isHidden = true
+        //        normalStoneImageView.isHidden = true
+        //        wetStoneImageView.isHidden = true
+        //        snowStoneImageView.isHidden = true
+        //        cracksStoneImageView.isHidden = true
         
+        //        updateData()
         
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
             
-//            print(currentWeather.temperature)
-//            print(currentWeather.conditionCode)
-//            print(currentWeather.conditionDescription)
-//            print(currentWeather.windSpeed)
+            //            print(currentWeather.temperature)
+            //            print(currentWeather.conditionCode)
+            //            print(currentWeather.conditionDescription)
+            //            print(currentWeather.windSpeed)
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
@@ -167,7 +166,9 @@ class MainViewController: UIViewController {
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
     }
-    @objc func refreshAction(sender: AnyObject) {
+    
+    @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
+        //        state = .init(24, 680, 5)
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
@@ -184,9 +185,12 @@ class MainViewController: UIViewController {
     func checkWindSpeed() {
         if windSpeed > 5.0 {
             windy = true
+            print("Its windy")
         } else {
             windy = false
+            print("Its NOT windy")
         }
+        
     }
     
     
@@ -229,29 +233,29 @@ class MainViewController: UIViewController {
             make.trailing.leading.equalTo(contentView)
         }
         
-//        contentView.addSubview(normalStoneImageView)
-//        normalStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
-//        contentView.addSubview(wetStoneImageView)
-//        wetStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
-//        contentView.addSubview(snowStoneImageView)
-//        snowStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
-//
-//        contentView.addSubview(cracksStoneImageView)
-//        cracksStoneImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//        }
+        //        contentView.addSubview(normalStoneImageView)
+        //        normalStoneImageView.snp.makeConstraints { make in
+        //            make.centerX.equalTo(contentView)
+        //            make.trailing.leading.equalTo(contentView)
+        //        }
+        //
+        //        contentView.addSubview(wetStoneImageView)
+        //        wetStoneImageView.snp.makeConstraints { make in
+        //            make.centerX.equalTo(contentView)
+        //            make.trailing.leading.equalTo(contentView)
+        //        }
+        //
+        //        contentView.addSubview(snowStoneImageView)
+        //        snowStoneImageView.snp.makeConstraints { make in
+        //            make.centerX.equalTo(contentView)
+        //            make.trailing.leading.equalTo(contentView)
+        //        }
+        //
+        //        contentView.addSubview(cracksStoneImageView)
+        //        cracksStoneImageView.snp.makeConstraints { make in
+        //            make.centerX.equalTo(contentView)
+        //            make.trailing.leading.equalTo(contentView)
+        //        }
         
         
         view.addSubview(temperatureLabel)
@@ -362,6 +366,7 @@ class MainViewController: UIViewController {
     
     @objc private func buttonPressed(sender: UIButton) {
         print("INFO opened")
+        stoneImageView.isHidden = true
         infoLargeView.isHidden = false
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
@@ -372,8 +377,8 @@ class MainViewController: UIViewController {
     }
     @objc private func hideButtonPressed(sender: UIButton) {
         print("closed!")
+        stoneImageView.isHidden = false
         infoLargeView.isHidden = true
-//        normalStoneImageView.isHidden = false
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
@@ -411,14 +416,15 @@ class MainViewController: UIViewController {
         
         stoneImageView.alpha = alphaLevel
         stoneImageView.image = stoneImage
-        if state.isWindy {
-            //do animation
-        }
+        //        if state.isWindy {
+        //            //do animation
+        //        }
     }
-
-    func updateData() { //
-        state = .init(24, 680, 5)
-    }
+    
+    //    func updateData(temperature: D) { //
+    ////        state = .init(24, 680, 5)
+    //        state = .init(<#T##temperature: Double##Double#>, <#T##conditionCode: Int##Int#>, <#T##windSpeed: Double##Double#>)
+    //    }
 }
 
 var windy: Bool = false
@@ -438,7 +444,7 @@ var windSpeed = currentWeather?.windSpeed
 
 //MARK: extension
 extension MainViewController {
-
+    
     enum State: Equatable {
         case normal  //(windSpeed: Double) //(windy: Bool)
         case wet  //(windSpeed: Double) //(windy: Bool)
