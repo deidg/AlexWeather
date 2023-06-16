@@ -175,6 +175,7 @@ class MainViewController: UIViewController {
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         //        state = .init(24, 680, 5)
         print("func refreshAction done")
+        updateData(weather: currentWeather)
         refreshControl.endRefreshing()
     }
     
@@ -218,7 +219,7 @@ class MainViewController: UIViewController {
         gradientLayer.locations = [0,1]
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
-    }
+    } // делает градиентную заливку
     func setupUI() {   // раставляет все элементы на экране
         
         view.addSubview(scrollView)
@@ -334,11 +335,11 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
         }
-    }
+    } // раставляет все элементы на экране
     @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
-    }
+    } // устанавливаем селекторы на кнопки и движения
     
     func makeAttributedTemprature() -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
@@ -354,7 +355,7 @@ class MainViewController: UIViewController {
         let label = UILabel()
         label.attributedText = attributedString
         return label
-    }
+    } // делает кастомный текст (атрибутивный) для температуры
     
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
@@ -367,7 +368,7 @@ class MainViewController: UIViewController {
         let label = UILabel()
         label.attributedText = attributedConditions
         return label
-    }
+    } // делает кастомный текст (атрибутивный) для condition code
     
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
@@ -379,7 +380,7 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = true
         searchIcon.isHidden = true
         infoButton.isHidden = true
-    }
+    }  // нажатие кнопки INFO
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
         stoneImageView.isHidden = false
@@ -390,7 +391,7 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = false
         searchIcon.isHidden = false
         infoButton.isHidden = false
-    }
+    }  // закрытие INFO
     // зачем то стоял метод, но видимо я хотел чтобы по жесту менялся бэкграунд
 //    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
 //        view.backgroundColor = .blue
