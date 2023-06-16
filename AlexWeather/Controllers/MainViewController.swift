@@ -158,10 +158,10 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
             
-                        print(currentWeather.temperature)
-                        print(currentWeather.conditionCode)
-                        print(currentWeather.conditionDescription)
-                        print(currentWeather.windSpeed)
+//                        print("NetworkManager data - \(currentWeather.temperature)")
+//                        print("NetworkManager data - \(currentWeather.conditionCode)")
+//                        print("NetworkManager data - \(currentWeather.conditionDescription)")
+//                        print("NetworkManager data - \(currentWeather.windSpeed)")
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
@@ -175,7 +175,7 @@ class MainViewController: UIViewController {
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         //        state = .init(24, 680, 5)
         print("func refreshAction done")
-        updateData(weather: currentWeather)
+//        updateData(weather: currentWeather)
         refreshControl.endRefreshing()
     }
     
@@ -467,7 +467,7 @@ extension MainViewController {
         //     }
         
         init(_ temperature: Double, _ conditionCode: Int, _ windSpeed: Double) {
-            if temperature > 30 {
+            if temperature > 20 {
                 self = .cracks //(windSpeed: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
                 self = .wet //(windy: windSpeed > 5)
