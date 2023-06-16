@@ -442,20 +442,6 @@ class MainViewController: UIViewController {
         }
 }
 
-//var windy: Bool = false
-//var state: State = .normal(windy: windy)
-//updateWeatherState(state, currentWeather: CurrentWeather)
-//
-//var currentWeather: CurrentWeather?
-////
-////не понимаю почему приходит 0 из менеджера.
-//var temperature = currentWeather?.temperature ?? 0.0
-//var conditionCode = currentWeather?.conditionCode ?? 0
-//var windSpeed = currentWeather?.windSpeed ?? 0.0
-
-//var forecast = State(temperature, conditionCode, windSpeed)
-
-
 
 
 //MARK: extension
