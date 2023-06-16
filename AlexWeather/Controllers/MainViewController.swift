@@ -17,6 +17,10 @@ class MainViewController: UIViewController {
     //MARK: elements
     
     var currentWeather: CurrentWeather?
+   
+    
+   
+
     
     var windSpeed: Double = 0
     
@@ -26,13 +30,11 @@ class MainViewController: UIViewController {
             //!!! force unwrap
         }
     }
-    
-    
+   
     let refreshControl = UIRefreshControl()
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
-        //        view.backgroundColor = .yellow
         view.isScrollEnabled =  true
         view.alwaysBounceVertical = true
         return view
@@ -51,7 +53,6 @@ class MainViewController: UIViewController {
     
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
-        
         return stoneImageView
     }()
     
@@ -97,7 +98,6 @@ class MainViewController: UIViewController {
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
-        //        temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
@@ -141,6 +141,12 @@ class MainViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        
+//        var temperature: Double = currentWeather?.temperature ?? 0.0
+//        var conditionCode: Int = currentWeather?.conditionCode ?? 0
+//        var windSpeed: Double = currentWeather?.windSpeed ?? 0.0
+        
+        updateData()
         
         //        normalStoneImageView.isHidden = true
         //        wetStoneImageView.isHidden = true
@@ -386,10 +392,11 @@ class MainViewController: UIViewController {
         searchIcon.isHidden = false
         infoButton.isHidden = false
     }
-    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
-        view.backgroundColor = .blue
-    }
-    
+    // зачем то стоял метод, но видимо я хотел чтобы по жесту менялся бэкграунд
+//    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
+//        view.backgroundColor = .blue
+//    }
+//
     
     private func updateWeatherState(_ state: State) {
         let stoneImage : UIImage?
@@ -421,10 +428,18 @@ class MainViewController: UIViewController {
         //        }
     }
     
-    //    func updateData(temperature: D) { //
-    ////        state = .init(24, 680, 5)
-    //        state = .init(<#T##temperature: Double##Double#>, <#T##conditionCode: Int##Int#>, <#T##windSpeed: Double##Double#>)
-    //    }
+    func updateData() { //
+    //        state = .init(24, 680, 5)
+        var temperature: Double = currentWeather?.temperature ?? 0.0
+        var conditionCode: Int = currentWeather?.conditionCode ?? 0
+        var windSpeed: Double = currentWeather?.windSpeed ?? 0.0
+        
+            state = .init(temperature, conditionCode, windSpeed)
+        print("UpdateData temprature - \(temperature)")
+        print("UpdateData conditionCode - \(conditionCode)")
+        print("UpdateData windSpeed - \(windSpeed)")
+
+        }
 }
 
 var windy: Bool = false
@@ -432,10 +447,11 @@ var windy: Bool = false
 //updateWeatherState(state, currentWeather: CurrentWeather)
 
 var currentWeather: CurrentWeather?
-
-var temperature = currentWeather?.temperature
-var conditionCode = currentWeather?.conditionCode
-var windSpeed = currentWeather?.windSpeed
+//
+//не понимаю почему приходит 0 из менеджера.
+var temperature = currentWeather?.temperature ?? 0.0
+var conditionCode = currentWeather?.conditionCode ?? 0
+var windSpeed = currentWeather?.windSpeed ?? 0.0
 
 //var forecast = State(temperature, conditionCode, windSpeed)
 
@@ -493,9 +509,10 @@ extension MainViewController: CLLocationManagerDelegate {
         networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
     }
 }
-func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    print(error)
-}
+    // метод который был в примере Аркада, но по факту работает и без него.
+//func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//    print(error)
+//}
 
 
 
