@@ -12,17 +12,16 @@ import UIKit
 import CoreLocation
 import SnapKit
 
+//почему передается значение температуры в текст, а мне не ередается. посмотреть как идет инфа в текст
 
 class MainViewController: UIViewController {
     //MARK: elements
     
     var currentWeather: CurrentWeather?
-   
-    
-   
-
     
     var windSpeed: Double = 0
+    var windy: Bool = false
+
     
     var state: State = .normal { //(windy: false) {
         didSet {
@@ -146,7 +145,7 @@ class MainViewController: UIViewController {
 //        var conditionCode: Int = currentWeather?.conditionCode ?? 0
 //        var windSpeed: Double = currentWeather?.windSpeed ?? 0.0
         
-        updateData()
+//        updateData(weather: currentWeather)
         
         //        normalStoneImageView.isHidden = true
         //        wetStoneImageView.isHidden = true
@@ -159,10 +158,10 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
             
-            //            print(currentWeather.temperature)
-            //            print(currentWeather.conditionCode)
-            //            print(currentWeather.conditionDescription)
-            //            print(currentWeather.windSpeed)
+                        print(currentWeather.temperature)
+                        print(currentWeather.conditionCode)
+                        print(currentWeather.conditionDescription)
+                        print(currentWeather.windSpeed)
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
@@ -188,7 +187,7 @@ class MainViewController: UIViewController {
     //        windy = false
     //    }
     
-    func checkWindSpeed() {
+    func checkWindSpeed() {  // проверяет ветренно сегодня или нет
         if windSpeed > 5.0 {
             windy = true
             print("Its windy")
@@ -202,7 +201,7 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-    func updateInterfaceWith(weather: CurrentWeather) {
+    func updateInterfaceWith(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
         DispatchQueue.main.async {
             self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
             self.conditionsLabel.text = weather.conditionDescription
@@ -214,13 +213,13 @@ class MainViewController: UIViewController {
             self.updateWeatherState(state)
         }
     }
-    func configureGradientLayer() {
+    func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
     }
-    func setupUI() {
+    func setupUI() {   // раставляет все элементы на экране
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
@@ -238,7 +237,7 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
         }
-        
+        // наверное этот код ниже не потребуется - т.к. разместили одну картинку камня и ее будем отобржать в разных кейсах
         //        contentView.addSubview(normalStoneImageView)
         //        normalStoneImageView.snp.makeConstraints { make in
         //            make.centerX.equalTo(contentView)
@@ -336,12 +335,12 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
         }
     }
-    @objc func defaultConfiguration() {
+    @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
     
-    func makeAttributedTemprature() -> UILabel {
+    func makeAttributedTemprature() -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
         let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
         
@@ -357,7 +356,7 @@ class MainViewController: UIViewController {
         return label
     }
     
-    func makeAttributedConditions() -> UILabel {
+    func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
         
         let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
@@ -370,7 +369,7 @@ class MainViewController: UIViewController {
         return label
     }
     
-    @objc private func buttonPressed(sender: UIButton) {
+    @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
@@ -381,7 +380,7 @@ class MainViewController: UIViewController {
         searchIcon.isHidden = true
         infoButton.isHidden = true
     }
-    @objc private func hideButtonPressed(sender: UIButton) {
+    @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
@@ -398,7 +397,7 @@ class MainViewController: UIViewController {
 //    }
 //
     
-    private func updateWeatherState(_ state: State) {
+    private func updateWeatherState(_ state: State) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
         
@@ -428,11 +427,11 @@ class MainViewController: UIViewController {
         //        }
     }
     
-    func updateData() { //
+    func updateData(weather: CurrentWeather) { // обновляет данные
     //        state = .init(24, 680, 5)
-        var temperature: Double = currentWeather?.temperature ?? 0.0
-        var conditionCode: Int = currentWeather?.conditionCode ?? 0
-        var windSpeed: Double = currentWeather?.windSpeed ?? 0.0
+        var temperature = weather.temperature
+        var conditionCode = weather.conditionCode
+        var windSpeed = weather.windSpeed
         
             state = .init(temperature, conditionCode, windSpeed)
         print("UpdateData temprature - \(temperature)")
@@ -442,16 +441,16 @@ class MainViewController: UIViewController {
         }
 }
 
-var windy: Bool = false
+//var windy: Bool = false
 //var state: State = .normal(windy: windy)
 //updateWeatherState(state, currentWeather: CurrentWeather)
-
-var currentWeather: CurrentWeather?
 //
-//не понимаю почему приходит 0 из менеджера.
-var temperature = currentWeather?.temperature ?? 0.0
-var conditionCode = currentWeather?.conditionCode ?? 0
-var windSpeed = currentWeather?.windSpeed ?? 0.0
+//var currentWeather: CurrentWeather?
+////
+////не понимаю почему приходит 0 из менеджера.
+//var temperature = currentWeather?.temperature ?? 0.0
+//var conditionCode = currentWeather?.conditionCode ?? 0
+//var windSpeed = currentWeather?.windSpeed ?? 0.0
 
 //var forecast = State(temperature, conditionCode, windSpeed)
 
