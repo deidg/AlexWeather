@@ -50,7 +50,11 @@ class MainViewController: UIViewController {
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
     
-    let stoneImageView: UIImageView = {
+//    let stoneImageView: UIImageView = {
+//        let stoneImageView = UIImageView()
+//        return stoneImageView
+//    }()
+    let stoneImage: UIImageView = {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
@@ -427,19 +431,20 @@ class MainViewController: UIViewController {
         //            //do animation
         //        }
     }
-    
-    func updateData(weather: CurrentWeather) { // обновляет данные
-    //        state = .init(24, 680, 5)
-        var temperature = weather.temperature
-        var conditionCode = weather.conditionCode
-        var windSpeed = weather.windSpeed
-        
-            state = .init(temperature, conditionCode, windSpeed)
-        print("UpdateData temprature - \(temperature)")
-        print("UpdateData conditionCode - \(conditionCode)")
-        print("UpdateData windSpeed - \(windSpeed)")
-
-        }
+    // 42  мин рассказывает зачем надо updateData - для CLLocationManager
+//    func updateData(weather: CurrentWeather) { // обновляет данные
+//    //        state = .init(24, 680, 5)
+//        var temperature = weather.temperature
+//        var conditionCode = weather.conditionCode
+//        var windSpeed = weather.windSpeed
+//
+//        state = .init(<#T##temperature: Double##Double#>, <#T##conditionCode: Int##Int#>, <#T##windSpeed: Double##Double#>)
+////            state = .init(temperature, conditionCode, windSpeed)
+////        print("UpdateData temprature - \(temperature)")
+////        print("UpdateData conditionCode - \(conditionCode)")
+////        print("UpdateData windSpeed - \(windSpeed)")
+//
+//        }
 }
 
 
