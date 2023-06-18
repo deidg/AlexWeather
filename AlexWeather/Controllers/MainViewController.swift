@@ -12,16 +12,16 @@ import UIKit
 import CoreLocation
 import SnapKit
 
-//почему передается значение температуры в текст, а мне не ередается. посмотреть как идет инфа в текст
 
 class MainViewController: UIViewController {
     //MARK: elements
     
     var currentWeather: CurrentWeather?
     
+    
     var windSpeed: Double = 0
     var windy: Bool = false
-
+    
     
     var state: State = .normal { //(windy: false) {
         didSet {
@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
             //!!! force unwrap
         }
     }
-   
+    
     let refreshControl = UIRefreshControl()
     
     private let scrollView: UIScrollView = {
@@ -50,14 +50,14 @@ class MainViewController: UIViewController {
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
     
-//    let stoneImageView: UIImageView = {
-//        let stoneImageView = UIImageView()
-//        return stoneImageView
-//    }()
-    let stoneImage: UIImageView = {
+    let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
+    //    let stoneImage: UIImageView = {
+    //        let stoneImageView = UIImageView()
+    //        return stoneImageView
+    //    }()
     
     let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
@@ -145,27 +145,18 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-//        var temperature: Double = currentWeather?.temperature ?? 0.0
-//        var conditionCode: Int = currentWeather?.conditionCode ?? 0
-//        var windSpeed: Double = currentWeather?.windSpeed ?? 0.0
+//        updateData(temperature: currentWeather?.temperature ?? 0.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 0.0)
         
-//        updateData(weather: currentWeather)
-        
-        //        normalStoneImageView.isHidden = true
-        //        wetStoneImageView.isHidden = true
-        //        snowStoneImageView.isHidden = true
-        //        cracksStoneImageView.isHidden = true
-        
-        //        updateData()
+        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
         
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
             
-//                        print("NetworkManager data - \(currentWeather.temperature)")
-//                        print("NetworkManager data - \(currentWeather.conditionCode)")
-//                        print("NetworkManager data - \(currentWeather.conditionDescription)")
-//                        print("NetworkManager data - \(currentWeather.windSpeed)")
+//                                    print("NetworkManager data - \(currentWeather.temperature)")
+            print("NetworkManager data - \(currentWeather.conditionCode)")
+//                                    print("NetworkManager data - \(currentWeather.conditionDescription)")
+//                                    print("NetworkManager data - \(currentWeather.windSpeed)")
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
             
@@ -179,7 +170,7 @@ class MainViewController: UIViewController {
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         //        state = .init(24, 680, 5)
         print("func refreshAction done")
-//        updateData(weather: currentWeather)
+        //        updateData(weather: currentWeather)
         refreshControl.endRefreshing()
     }
     
@@ -242,6 +233,7 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
         }
+        
         // наверное этот код ниже не потребуется - т.к. разместили одну картинку камня и ее будем отобржать в разных кейсах
         //        contentView.addSubview(normalStoneImageView)
         //        normalStoneImageView.snp.makeConstraints { make in
@@ -397,10 +389,10 @@ class MainViewController: UIViewController {
         infoButton.isHidden = false
     }  // закрытие INFO
     // зачем то стоял метод, но видимо я хотел чтобы по жесту менялся бэкграунд
-//    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
-//        view.backgroundColor = .blue
-//    }
-//
+    //    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
+    //        view.backgroundColor = .blue
+    //    }
+    //
     
     private func updateWeatherState(_ state: State) {  // регулирует состояния
         let stoneImage : UIImage?
@@ -427,24 +419,27 @@ class MainViewController: UIViewController {
         
         stoneImageView.alpha = alphaLevel
         stoneImageView.image = stoneImage
+        
         //        if state.isWindy {
         //            //do animation
         //        }
+        
+        // обновляет данные
+        //        state = .init(24, 680, 5)
+        
     }
-    // 42  мин рассказывает зачем надо updateData - для CLLocationManager
-//    func updateData(weather: CurrentWeather) { // обновляет данные
-//    //        state = .init(24, 680, 5)
-//        var temperature = weather.temperature
-//        var conditionCode = weather.conditionCode
-//        var windSpeed = weather.windSpeed
-//
-//        state = .init(<#T##temperature: Double##Double#>, <#T##conditionCode: Int##Int#>, <#T##windSpeed: Double##Double#>)
-////            state = .init(temperature, conditionCode, windSpeed)
-////        print("UpdateData temprature - \(temperature)")
-////        print("UpdateData conditionCode - \(conditionCode)")
-////        print("UpdateData windSpeed - \(windSpeed)")
-//
-//        }
+    
+    func updateData (temperature: Double, conditionCode: Int, windSpeed: Double) { //(weather: currentWeather) {
+ //(temperature: Double, conditionCode: Int, windSpeed: Double) {
+//        var temperature = temperature
+//        var conditionCode = conditionCode
+//        var windSpeed = windSpeed
+        
+        state = .init(temperature, conditionCode, windSpeed)
+//        temperature, conditionCode, windSpeed)
+        print(state)
+        
+    }
 }
 
 
@@ -480,10 +475,13 @@ extension MainViewController {
                 self = .snow //(windy: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
                 self = .fog //(windy: windSpeed > 5)
-            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 804 {
+            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
                 self = .normal //(windy: windSpeed > 5)
             } else {
                 self = .normal //(windy: windSpeed > 5)
+                print("you§re here and conditionCode - \(conditionCode)")
+                
+
             }
         }
         
@@ -500,7 +498,7 @@ extension MainViewController: CLLocationManagerDelegate {
         networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
     }
 }
-    // метод который был в примере Аркада, но по факту работает и без него.
+// метод который был в примере Аркада, но по факту работает и без него.
 //func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
 //    print(error)
 //}
