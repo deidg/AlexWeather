@@ -28,7 +28,7 @@ struct Main: Codable {
 }
 
 struct Weather: Codable {
-    let conditionCode: Int
+    let id: Int //conditionCode: Int
     let description: String
 }
 

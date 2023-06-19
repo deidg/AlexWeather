@@ -22,8 +22,8 @@ struct CurrentWeather {
     
     init?(currentWeatherData: CurrentWeatherData) {
         temperature = currentWeatherData.main.temp
-        conditionCode = currentWeatherData.weather.first?.conditionCode ?? 0
-        conditionDescription = currentWeatherData.weather.first?.description ?? ""
+        conditionCode = currentWeatherData.weather.first!.id//conditionCode //?? 0
+        conditionDescription = currentWeatherData.weather.first!.description // ?? ""
         windSpeed = currentWeatherData.wind.speed
         
         cityName = currentWeatherData.name
