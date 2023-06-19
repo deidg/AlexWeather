@@ -500,7 +500,7 @@ extension MainViewController: CLLocationManagerDelegate {
         let coordinate = manager.location?.coordinate
         print("Lat - \(coordinate?.latitude ?? 0), long - \(coordinate?.longitude ?? 0)")
         networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
-        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
+        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 1.0)
         
     }
 }
