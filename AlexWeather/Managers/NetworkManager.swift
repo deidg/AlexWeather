@@ -55,3 +55,11 @@ class NetworkManager {
 //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 
 //        https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f
+
+
+//LONDON
+//https://api.openweathermap.org/data/2.5/weather?lat=51.50998&lon=-0.1337&appid=130af965a13542537138a6ef5cc6216f
+
+
+//TOKYO
+//https://api.openweathermap.org/data/2.5/weather?lat=35.7020691&lon=139.7753269&appid=130af965a13542537138a6ef5cc6216f

@@ -147,7 +147,7 @@ class MainViewController: UIViewController {
         
 //        updateData(temperature: currentWeather?.temperature ?? 0.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 0.0)
         
-        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
+//        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
         
         networkManager.onComletion = { [weak self] currentWeather in
             guard let self = self else { return }
@@ -471,12 +471,16 @@ extension MainViewController {
                 self = .cracks //(windSpeed: windSpeed > 5)
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
                 self = .wet //(windy: windSpeed > 5)
+                print("its wet case")
             } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
                 self = .snow //(windy: windSpeed > 5)
+                print("its snow case")
             } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
                 self = .fog //(windy: windSpeed > 5)
+                print("its fog case")
             } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
                 self = .normal //(windy: windSpeed > 5)
+                print("its normal case")
             } else {
                 self = .normal //(windy: windSpeed > 5)
                 print("you§re here and conditionCode - \(conditionCode)")
@@ -496,6 +500,8 @@ extension MainViewController: CLLocationManagerDelegate {
         let coordinate = manager.location?.coordinate
         print("Lat - \(coordinate?.latitude ?? 0), long - \(coordinate?.longitude ?? 0)")
         networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
+        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
+        
     }
 }
 // метод который был в примере Аркада, но по факту работает и без него.

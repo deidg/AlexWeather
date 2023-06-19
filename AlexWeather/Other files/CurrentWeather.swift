@@ -14,7 +14,7 @@ struct CurrentWeather {
         return String(format: "%.0f", temperature)
     }
     let conditionCode: Int
-    let conditionDescription: String // condition code
+    let conditionDescription: String
     let windSpeed: Double
     
     let cityName: String
@@ -22,8 +22,8 @@ struct CurrentWeather {
     
     init?(currentWeatherData: CurrentWeatherData) {
         temperature = currentWeatherData.main.temp
-        conditionCode = currentWeatherData.weather.first!.id
-        conditionDescription = currentWeatherData.weather.first!.description
+        conditionCode = currentWeatherData.weather.first?.conditionCode ?? 0
+        conditionDescription = currentWeatherData.weather.first?.description ?? ""
         windSpeed = currentWeatherData.wind.speed
         
         cityName = currentWeatherData.name
