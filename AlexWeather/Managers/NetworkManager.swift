@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import CoreLocation
 
+
+//TODO:  сократить parseJSON и оптимизировать apiRequest по видео от яндекса. https://www.youtube.com/watch?v=Ba3SeP6E3j8&list=TLPQMjAwNjIwMjPY0vqMHIFdCA&index=2
+
+
 class NetworkManager {
     
     var onComletion: ((CurrentWeather) -> Void)?
@@ -63,3 +67,7 @@ class NetworkManager {
 
 //TOKYO
 //https://api.openweathermap.org/data/2.5/weather?lat=35.7020691&lon=139.7753269&appid=130af965a13542537138a6ef5cc6216f
+
+
+//Mumbai
+//https://api.openweathermap.org/data/2.5/weather?lat=19.0176147&lon=72.8561644&appid=130af965a13542537138a6ef5cc6216f

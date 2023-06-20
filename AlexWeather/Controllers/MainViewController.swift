@@ -145,6 +145,7 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
+        
 //        updateData(temperature: currentWeather?.temperature ?? 0.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 0.0)
         
 //        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
@@ -425,22 +426,20 @@ class MainViewController: UIViewController {
         //        }
         
         // обновляет данные
-        //        state = .init(24, 680, 5)
+//           state = .init(24, 680, 5)
         
     }
     
-    func updateData (temperature: Double, conditionCode: Int, windSpeed: Double) { //(weather: currentWeather) {
- //(temperature: Double, conditionCode: Int, windSpeed: Double) {
-//        var temperature = temperature
-//        var conditionCode = conditionCode
-//        var windSpeed = windSpeed
+    func updateData(temperature: Double, conditionCode: Int, windSpeed: Double) {
         
         state = .init(temperature, conditionCode, windSpeed)
-//        temperature, conditionCode, windSpeed)
-        print(state)
+
+        print("печатаю переменную state (стр 440) -  \(state)")
         
     }
 }
+
+
 
 
 
@@ -467,25 +466,24 @@ extension MainViewController {
         //     }
         
         init(_ temperature: Double, _ conditionCode: Int, _ windSpeed: Double) {
-            if temperature > 20 {
-                self = .cracks //(windSpeed: windSpeed > 5)
+            if temperature > 30 {
+                self = .cracks
+                print("its cracks case")
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                self = .wet //(windy: windSpeed > 5)
+                self = .wet
                 print("its wet case")
             } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow //(windy: windSpeed > 5)
+                self = .snow
                 print("its snow case")
             } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog //(windy: windSpeed > 5)
+                self = .fog
                 print("its fog case")
             } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
-                self = .normal //(windy: windSpeed > 5)
+                self = .normal
                 print("its normal case")
             } else {
-                self = .normal //(windy: windSpeed > 5)
+                self = .normal
                 print("you§re here and conditionCode - \(conditionCode)")
-                
-
             }
         }
         
@@ -500,10 +498,18 @@ extension MainViewController: CLLocationManagerDelegate {
         let coordinate = manager.location?.coordinate
         print("Lat - \(coordinate?.latitude ?? 0), long - \(coordinate?.longitude ?? 0)")
         networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
-        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 1.0)
+
+        updateData(temperature: currentWeather?.temperature ?? 1.0,
+                   conditionCode: currentWeather?.conditionCode ?? 1,
+                   windSpeed: currentWeather?.windSpeed ?? 1.0)
         
     }
 }
+
+
+
+
+
 // метод который был в примере Аркада, но по факту работает и без него.
 //func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
 //    print(error)

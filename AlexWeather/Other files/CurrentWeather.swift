@@ -22,7 +22,7 @@ struct CurrentWeather {
     
     init?(currentWeatherData: CurrentWeatherData) {
         temperature = currentWeatherData.main.temp
-        conditionCode = currentWeatherData.weather.first!.id//conditionCode //?? 0
+        conditionCode = currentWeatherData.weather.first?.id ?? 0 //раньше был ! //conditionCode //?? 0
         conditionDescription = currentWeatherData.weather.first!.description // ?? ""
         windSpeed = currentWeatherData.wind.speed
         
