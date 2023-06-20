@@ -154,9 +154,9 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             self.updateInterfaceWith(weather: currentWeather)
             
-//                                    print("NetworkManager data - \(currentWeather.temperature)")
-            print("NetworkManager data - \(currentWeather.conditionCode)")
-//                                    print("NetworkManager data - \(currentWeather.conditionDescription)")
+                                    print("NetworkManager data - \(currentWeather.temperature)")
+            print("NetworkManager data - \(currentWeather.id)")
+                                    print("NetworkManager data - \(currentWeather.conditionDescription)")
 //                                    print("NetworkManager data - \(currentWeather.windSpeed)")
             
             //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
@@ -435,7 +435,6 @@ class MainViewController: UIViewController {
         state = .init(temperature, conditionCode, windSpeed)
 
         print("печатаю переменную state (стр 440) -  \(state)")
-        
     }
 }
 
@@ -498,11 +497,7 @@ extension MainViewController: CLLocationManagerDelegate {
         let coordinate = manager.location?.coordinate
         print("Lat - \(coordinate?.latitude ?? 0), long - \(coordinate?.longitude ?? 0)")
         networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
-
-        updateData(temperature: currentWeather?.temperature ?? 1.0,
-                   conditionCode: currentWeather?.conditionCode ?? 1,
-                   windSpeed: currentWeather?.windSpeed ?? 1.0)
-        
+                     
     }
 }
 
@@ -545,3 +540,4 @@ extension MainViewController: CLLocationManagerDelegate {
 //    default:
 //                    print("Unhandled state")
 //                }
+
