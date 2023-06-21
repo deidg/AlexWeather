@@ -430,9 +430,9 @@ class MainViewController: UIViewController {
         
     }
     
-    func updateData(temperature: Double, conditionCode: Int, windSpeed: Double) {
+    func updateData(_ data: CompletionData) {
         
-        state = .init(temperature, conditionCode, windSpeed)
+        state = .init( data.temp, data.id, data.windSpeed)
 
         print("печатаю переменную state (стр 440) -  \(state)")
     }
@@ -464,7 +464,7 @@ extension MainViewController {
         //            }
         //     }
         
-        init(_ temperature: Double, _ conditionCode: Int, _ windSpeed: Double) {
+        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
             if temperature > 30 {
                 self = .cracks
                 print("its cracks case")
@@ -494,10 +494,13 @@ extension MainViewController {
 extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let coordinate = manager.location?.coordinate
-        print("Lat - \(coordinate?.latitude ?? 0), long - \(coordinate?.longitude ?? 0)")
-        networkManager.apiRequest(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)
-                     
+        guard let lastLocation = locations.last else { return }
+        networkManager.getWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
+        {[weak self] completionData in
+            guard let self else { return }
+            self.updateData(completionData)
+            print(completionData.cityName)
+        }
     }
 }
 
