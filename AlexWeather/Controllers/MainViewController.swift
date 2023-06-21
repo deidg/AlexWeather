@@ -45,7 +45,7 @@ class MainViewController: UIViewController {
     }()
     
     let gradientLayer = CAGradientLayer()
-    var networkManager = NetworkManager()
+    let networkManager = NetworkManager()
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?

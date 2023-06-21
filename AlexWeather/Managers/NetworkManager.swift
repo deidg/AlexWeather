@@ -6,47 +6,48 @@
 //
 
 import Foundation
-import UIKit
-import CoreLocation
+//import UIKit
+
 
 
 //TODO:  сократить parseJSON и оптимизировать apiRequest по видео от яндекса. https://www.youtube.com/watch?v=Ba3SeP6E3j8&list=TLPQMjAwNjIwMjPY0vqMHIFdCA&index=2
 
 
-class NetworkManager {
+ final class NetworkManager {
     
-    var onComletion: ((CurrentWeather) -> Void)?
+    private let queue =  DispatchQueue(label: "NetworkManager_working_queue", qos: .userInitiated)
     
-    func apiRequest(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=metric"
-        guard let url = URL(string: urlString) else { return }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { data, response, error in
-            if let data = data {
-                if let currentWeather = self.parseJSON(withData: data) {
-                    self.onComletion?(currentWeather)
+    func getWeatherInfo(latitude: Double,
+                        longitude: Double,
+                        completion: ((CompletionData) -> Void)?) {
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=130af965a13542537138a6ef5cc6216f&units=metric") else { return }
+        queue.async {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, let weather = try? JSONDecoder().decode(CurrentWeatherData.self, from: data) {
+                    DispatchQueue.main.async {
+                        let complitionData = CompletionData(temp: Int(weather.main.temp),
+                                                            id: weather.weather.first?.id ?? 0,
+                                                            weather: weather.weather.first?.description ?? "",
+                                                            windSpeed: weather.wind.speed,
+                                                            cityName: weather.name)
+                        completion?(complitionData)
+                    }
                 }
             }
+            task.resume()
         }
-        task.resume()
-    }
-    
-    func parseJSON(withData data: Data) -> CurrentWeather? {
-        let decoder = JSONDecoder()
-        do {
-            let currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-
-            guard let currentWeather = CurrentWeather(currentWeatherData: currentWeatherData)
-            else {
-                return nil
-            }
-            return currentWeather
-        } catch let error as NSError {
-            print(error)
-        }
-        return nil
     }
 }
+
+struct CompletionData {
+    let temp: Int
+    let id: Int
+    let weather: String
+    let windSpeed: Double
+    let cityName: String
+}
+
+
 // вставить в функцию в конце комплишн, чтобы после получения данных выполнялся код. Пример есть в прошлом задании V3. т.е на главном меню вызывается экземпляр класса Network manager и у него используется комплишн (на основании данных которые получает сам NetworkManager
 
 
