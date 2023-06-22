@@ -145,19 +145,30 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
+        
         //        updateInterfaceWith(temperature: currentWeather?.temperature,
         //                            conditionDescription: currentWeather?.conditionDescription,
         //                            cityName: currentWeather?.cityName,
         //                            countryName: currentWeather?.countryName)
         
-        updateInterfaceWith(temperature: currentWeather?.temperature ?? 0,
-                            conditionDescription: currentWeather?.conditionDescription ?? "",
-                            cityName: currentWeather?.cityName ?? "",
-                            countryName: currentWeather?.countryName ?? "")
-        
+//        updateInterfaceWith(temperature: currentWeather?.temperature ?? 0,
+//                            conditionDescription: currentWeather?.conditionDescription ?? "",
+//                            cityName: currentWeather?.cityName ?? "",
+//                            countryName: currentWeather?.countryName ?? "")
+   
+
         
 //        networkManager.onComletion = { [weak self] currentWeather in
         
+//        networkManager.getWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
+//        {[weak self] completionData in
+//            guard let self else { return }
+//            self.updateData(completionData)
+//            print(completionData.cityName)
+//        }
+//        networkManager.getWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
+//               {[weak self] completionData in
+//                   guard let self else { return }
         
 //        networkManager.getWeatherInfo(latitude: <#T##Double#>, longitude: <#T##Double#>, completion: <#T##((CompletionData) -> Void)?##((CompletionData) -> Void)?##(CompletionData) -> Void#>) = { [weak self] currentWeather in
 //            guard let self = self else { return }
@@ -207,14 +218,14 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-//    func updateInterfaceWith(weather: CurrentWeather) {
-    func updateInterfaceWith(temperature: Int, conditionDescription: String, cityName: String, countryName: String) { //отображает текст на лейблах (температура, conditionCode)
+    func updateInterfaceWith(weather: CurrentWeather) {
+//    func updateInterfaceWith(temperature: Int, conditionDescription: String, cityName: String, countryName: String) { //отображает текст на лейблах (температура, conditionCode)
         DispatchQueue.main.async {
-            self.temperatureLabel.text = String(format: "%.0f", temperature)
-            self.conditionsLabel.text = conditionDescription
+            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
+            self.conditionsLabel.text = weather.conditionDescription
             
             //            self.conditionsLabel.attributedText = weather.description
-            self.locationLabel.text = cityName + ", " + countryName
+            self.locationLabel.text = weather.cityName + ", " + weather.countryName
             
             let state: State = .normal //(windy: self.windSpeed > 5.0)
             self.updateWeatherState(state)
@@ -509,6 +520,8 @@ extension MainViewController: CLLocationManagerDelegate {
         {[weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
+//            print(completionData.temp)
+            
             print(completionData.cityName)
         }
     }
@@ -553,4 +566,6 @@ extension MainViewController: CLLocationManagerDelegate {
 //    default:
 //                    print("Unhandled state")
 //                }
+
+
 
