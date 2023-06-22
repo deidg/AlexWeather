@@ -9,7 +9,7 @@ import Foundation
 
 struct CurrentWeather {
     
-    let temperature: Double
+    let temperature: Int // раньше Double
     var temperatureString: String {
         return String(format: "%.0f", temperature)
     }

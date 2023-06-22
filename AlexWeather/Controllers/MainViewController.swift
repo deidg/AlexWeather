@@ -145,10 +145,16 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-        updateInterfaceWith(temperature: currentWeather?.temperature,
-                            conditionDescription: currentWeather?.conditionDescription,
-                            cityName: currentWeather?.cityName,
-                            countryName: currentWeather?.countryName)
+        //        updateInterfaceWith(temperature: currentWeather?.temperature,
+        //                            conditionDescription: currentWeather?.conditionDescription,
+        //                            cityName: currentWeather?.cityName,
+        //                            countryName: currentWeather?.countryName)
+        
+        updateInterfaceWith(temperature: currentWeather?.temperature ?? 0,
+                            conditionDescription: currentWeather?.conditionDescription ?? "",
+                            cityName: currentWeather?.cityName ?? "",
+                            countryName: currentWeather?.countryName ?? "")
+        
         
 //        networkManager.onComletion = { [weak self] currentWeather in
         
