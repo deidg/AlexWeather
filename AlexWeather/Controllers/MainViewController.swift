@@ -145,23 +145,26 @@ class MainViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
+        updateInterfaceWith(temperature: currentWeather?.temperature,
+                            conditionDescription: currentWeather?.conditionDescription,
+                            cityName: currentWeather?.cityName,
+                            countryName: currentWeather?.countryName)
         
-//        updateData(temperature: currentWeather?.temperature ?? 0.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 0.0)
+//        networkManager.onComletion = { [weak self] currentWeather in
         
-//        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
         
-        networkManager.onComletion = { [weak self] currentWeather in
-            guard let self = self else { return }
-            self.updateInterfaceWith(weather: currentWeather)
-            
-                                    print("NetworkManager data - \(currentWeather.temperature)")
-            print("NetworkManager data - \(currentWeather.id)")
-                                    print("NetworkManager data - \(currentWeather.conditionDescription)")
-//                                    print("NetworkManager data - \(currentWeather.windSpeed)")
-            
-            //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
-            
-        }
+//        networkManager.getWeatherInfo(latitude: <#T##Double#>, longitude: <#T##Double#>, completion: <#T##((CompletionData) -> Void)?##((CompletionData) -> Void)?##(CompletionData) -> Void#>) = { [weak self] currentWeather in
+//            guard let self = self else { return }
+//            self.updateInterfaceWith(weather: currentWeather)
+//
+//                                    print("NetworkManager data - \(currentWeather.temperature)")
+//            print("NetworkManager data - \(currentWeather.id)")
+//                                    print("NetworkManager data - \(currentWeather.conditionDescription)")
+////                                    print("NetworkManager data - \(currentWeather.windSpeed)")
+//
+//            //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
+//
+//        }
         
         checkWindSpeed()
         
@@ -198,13 +201,14 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-    func updateInterfaceWith(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
+//    func updateInterfaceWith(weather: CurrentWeather) {
+    func updateInterfaceWith(temperature: Int, conditionDescription: String, cityName: String, countryName: String) { //отображает текст на лейблах (температура, conditionCode)
         DispatchQueue.main.async {
-            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
-            self.conditionsLabel.text = weather.conditionDescription
+            self.temperatureLabel.text = String(format: "%.0f", temperature)
+            self.conditionsLabel.text = conditionDescription
             
             //            self.conditionsLabel.attributedText = weather.description
-            self.locationLabel.text = weather.cityName + ", " + weather.countryName
+            self.locationLabel.text = cityName + ", " + countryName
             
             let state: State = .normal //(windy: self.windSpeed > 5.0)
             self.updateWeatherState(state)
