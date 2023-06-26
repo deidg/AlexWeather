@@ -53,6 +53,7 @@ class MainViewController: UIViewController {
     
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
+        stoneImageView.backgroundColor = .blue
         return stoneImageView
     }()
     //    let stoneImage: UIImageView = {
@@ -192,7 +193,8 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-//    func updateInterfaceWith(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
+//    func updateInterfaceWith() { //(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
+//
 //        DispatchQueue.main.async {
 //            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
 //            self.conditionsLabel.text = weather.conditionDescription
@@ -203,6 +205,10 @@ class MainViewController: UIViewController {
 //            let state: State = .normal //(windy: self.windSpeed > 5.0)
 //            self.updateWeatherState(state)
 //        }
+//
+//
+//
+//
 //    }
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
@@ -456,7 +462,19 @@ extension MainViewController: CLLocationManagerDelegate {
         guard let lastLocation = locations.last else { return }
         print("462")
         weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
-            print("464")
+
+            
+            DispatchQueue.main.async {
+                self.temperatureLabel.text = String(format: "%.0f", complitionData.temperature)
+                self.conditionsLabel.text = complitionData.weather
+
+                //            self.conditionsLabel.attributedText = weather.description
+//                self.locationLabel.text = complitionData.city //+ ", " + weather.countryName
+
+                let state: State = .normal //(windy: self.windSpeed > 5.0)
+                self.updateWeatherState(state)
+            }
+
         }
     }
     
