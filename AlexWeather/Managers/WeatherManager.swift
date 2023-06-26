@@ -1,48 +1,87 @@
-//
-//  WeatherManager.swift
-//  AlexWeather
-//
-//  Created by Vladyslav Nhuien on 20.06.2023.
-//
-
-
-
-
 import Foundation
 
 final class WeatherManager {
     private let queue = DispatchQueue(label: "WeatherManager_working_queue", qos: .userInitiated)
     
-    func getWeatherInfo(latitude: Double,
-                        longitude: Double,
-                        completion: ((CompletionData) -> Void)?) {
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=130af965a13542537138a6ef5cc6216f&units=metric") else { return }
+    func updateWeatherInfo(latitude: Double,
+                           longtitude: Double,
+                           completion: ((CompletionData) -> Void)?) {
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longtitude)&appid=b341573f7a5bb123a98e2addf28cba47&units=metric") else { return }
+        print("10")
         
-        queue.async {
-            
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data,
-                    let weather = try? JSONDecoder().decode(CurrentWeatherData.self, from: data) {
-                    DispatchQueue.main.async {
-                        let complitionData = CompletionData(temp: Int(weather.main.temp),
-                                                            id: weather.weather.first?.id ?? 0,
-                                                            weather: weather.weather.first?.description ?? "",
-                                                            windSpeed: weather.wind.speed,
-                                                            cityName: weather.name)
+        let task = URLSession.shared.dataTask(with: url) { data, responce, error in
+            if let data = data, let weather = try? JSONDecoder().decode(WeatherData.self, from: data) {
                 
-                        completion?(complitionData)
-                    }
-                }
+                print("15")
+                let completionData = CompletionData(
+                    city: weather.name,
+                    temperature: Int(weather.main.temp),
+                    weather: weather.weather.first?.main ?? "",
+                    id: weather.weather.first?.id ?? 0,
+                    windSpeed: weather.wind.speed)
+                completion?(completionData)
+                
+                
             }
-            task.resume()
         }
+        task.resume()
+        
     }
 }
 
 struct CompletionData {
-    let temp: Int
-    let id: Int
+    let city: String
+    let temperature: Int
     let weather: String
+    let id: Int
     let windSpeed: Double
-    let cityName: String
 }
+
+
+
+
+
+
+
+
+////
+////  WeatherManager.swift
+////  AlexWeather
+////
+////  Created by Vladyslav Nhuien on 20.06.2023.
+////
+//
+//
+//
+//
+//import Foundation
+//
+//final class WeatherManager {
+//    private let queue = DispatchQueue(label: "WeatherManager_working_queue", qos: .userInitiated)
+//
+//    func getWeatherInfo(latitude: Double,
+//                        longitude: Double,
+//                        completion: ((CompletionData) -> Void)?) {
+//        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=130af965a13542537138a6ef5cc6216f&units=metric") else { return }
+//
+//        queue.async {
+//
+//            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data,
+//                    let weather = try? JSONDecoder().decode(CurrentWeatherData.self, from: data) {
+//                    DispatchQueue.main.async {
+//                        let complitionData = CompletionData(temp: Int(weather.main.temp),
+//                                                            id: weather.weather.first?.id ?? 0,
+//                                                            weather: weather.weather.first?.description ?? "",
+//                                                            windSpeed: weather.wind.speed,
+//                                                            cityName: weather.name)
+//
+//                        completion?(complitionData)
+//                    }
+//                }
+//            }
+//            task.resume()
+//        }
+//    }
+//}
+//

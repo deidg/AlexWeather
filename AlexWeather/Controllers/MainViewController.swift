@@ -19,7 +19,6 @@ import SnapKit
 class MainViewController: UIViewController {
     //MARK: elements
     let weatherManager = WeatherManager()
-    var currentWeather: CurrentWeather?
     
     
     var windSpeed: Double = 0
@@ -48,7 +47,6 @@ class MainViewController: UIViewController {
     }()
     
     let gradientLayer = CAGradientLayer()
-    var networkManager = NetworkManager()
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
@@ -144,33 +142,30 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         scrollView.refreshControl = refreshControl
-        locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
+
         
         
-        
-//        updateData(temperature: currentWeather?.temperature ?? 0.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 0.0)
-        
-//        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
-        
-        networkManager.onComletion = { [weak self] currentWeather in
-            guard let self = self else { return }
-            self.updateInterfaceWith(weather: currentWeather)
-            
-                                    print("NetworkManager data - \(currentWeather.temperature)")
-//            print("NetworkManager data - \(currentWeather.id)")
-                                    print("NetworkManager data - \(currentWeather.conditionDescription)")
-//                                    print("NetworkManager data - \(currentWeather.windSpeed)")
-            
-            //            self.updateWeatherState(conditionCode: currentWeather.conditionCode)
-            
-        }
         
         checkWindSpeed()
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
+        
+        startLocationManager()
+        
     }
+    
+    private func startLocationManager() {
+            locationManager.requestWhenInUseAuthorization()
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+                locationManager.pausesLocationUpdatesAutomatically = false
+                locationManager.startUpdatingLocation()
+            }
+        }
+    
+    
+    
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         //        state = .init(24, 680, 5)
@@ -178,15 +173,6 @@ class MainViewController: UIViewController {
         //        updateData(weather: currentWeather)
         refreshControl.endRefreshing()
     }
-    
-    
-    //    var windy: Bool = false
-    //    var windSpeed = currentWeather?.windSpeed
-    //    if windSpeed > 5.0 {
-    //        windy = true
-    //    } else {
-    //        windy = false
-    //    }
     
     func checkWindSpeed() {  // проверяет ветренно сегодня или нет
         if windSpeed > 5.0 {
@@ -202,18 +188,18 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-    func updateInterfaceWith(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
-            self.conditionsLabel.text = weather.conditionDescription
-            
-            //            self.conditionsLabel.attributedText = weather.description
-            self.locationLabel.text = weather.cityName + ", " + weather.countryName
-            
-            let state: State = .normal //(windy: self.windSpeed > 5.0)
-            self.updateWeatherState(state)
-        }
-    }
+//    func updateInterfaceWith(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
+//        DispatchQueue.main.async {
+//            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
+//            self.conditionsLabel.text = weather.conditionDescription
+//
+//            //            self.conditionsLabel.attributedText = weather.description
+//            self.locationLabel.text = weather.cityName + ", " + weather.countryName
+//
+//            let state: State = .normal //(windy: self.windSpeed > 5.0)
+//            self.updateWeatherState(state)
+//        }
+//    }
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -238,31 +224,6 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
         }
-        
-        // наверное этот код ниже не потребуется - т.к. разместили одну картинку камня и ее будем отобржать в разных кейсах
-        //        contentView.addSubview(normalStoneImageView)
-        //        normalStoneImageView.snp.makeConstraints { make in
-        //            make.centerX.equalTo(contentView)
-        //            make.trailing.leading.equalTo(contentView)
-        //        }
-        //
-        //        contentView.addSubview(wetStoneImageView)
-        //        wetStoneImageView.snp.makeConstraints { make in
-        //            make.centerX.equalTo(contentView)
-        //            make.trailing.leading.equalTo(contentView)
-        //        }
-        //
-        //        contentView.addSubview(snowStoneImageView)
-        //        snowStoneImageView.snp.makeConstraints { make in
-        //            make.centerX.equalTo(contentView)
-        //            make.trailing.leading.equalTo(contentView)
-        //        }
-        //
-        //        contentView.addSubview(cracksStoneImageView)
-        //        cracksStoneImageView.snp.makeConstraints { make in
-        //            make.centerX.equalTo(contentView)
-        //            make.trailing.leading.equalTo(contentView)
-        //        }
         
         
         view.addSubview(temperatureLabel)
@@ -393,11 +354,7 @@ class MainViewController: UIViewController {
         searchIcon.isHidden = false
         infoButton.isHidden = false
     }  // закрытие INFO
-    // зачем то стоял метод, но видимо я хотел чтобы по жесту менялся бэкграунд
-    //    @objc private func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
-    //        view.backgroundColor = .blue
-    //    }
-    //
+    
     
     private func updateWeatherState(_ state: State) {  // регулирует состояния
         let stoneImage : UIImage?
@@ -425,23 +382,14 @@ class MainViewController: UIViewController {
         stoneImageView.alpha = alphaLevel
         stoneImageView.image = stoneImage
         
-        //        if state.isWindy {
-        //            //do animation
-        //        }
-        
-        // обновляет данные
-//           state = .init(24, 680, 5)
-        
     }
     
     func updateData(_ data: CompletionData) {
-        let temp = data.temp
-        let conditionCode = data.id
-        let windSpeed = data.windSpeed
-        state = .init(temp, conditionCode, windSpeed)
-
-        print("печатаю переменную state (стр 440) -  \(state)")
+        
+        state = .init(data.temperature, data.id, data.windSpeed)
     }
+    
+    
 }
 
 
@@ -500,59 +448,17 @@ extension MainViewController {
 extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+
         guard let lastLocation = locations.last else { return }
-        
-        weatherManager.getWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) {[weak self] completionData in
-            guard let self else { return }
-            self.updateData(completionData)
-            
-            print(completionData.cityName)
-            
-            
-        
+        print("462")
+        weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
+            print("464")
         }
     }
+    
 }
 
 
 
-
-
-// метод который был в примере Аркада, но по факту работает и без него.
-//func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//    print(error)
-//}
-
-
-
-
-
-//130af965a13542537138a6ef5cc6216f
-// 39°39′15″ с. ш. 66°57′35″ в. д.
-
-//https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-
-//        https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f
-
-
-
-
-//    if (750...1000).contains(conditionCode) && windy == true  {
-//        self = .State.normal
-//        print("Crack situation")
-//    } else if (500...749).contains(conditionCode) {
-//        self = .State.wet
-//        print("wet situation")
-//    } else if (250...499).contains(conditionCode) {
-//        self = .State.snow
-//        print("snow situation")
-//    } else if (100...249).contains(conditionCode) {
-//        self = .State.cracks
-//        print("crack situation")
-//    } else {
-//    default:
-//                    print("Unhandled state")
-//                }
 
 
