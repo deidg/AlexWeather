@@ -17,10 +17,12 @@ final class WeatherManager {
                         longitude: Double,
                         completion: ((CompletionData) -> Void)?) {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=130af965a13542537138a6ef5cc6216f&units=metric") else { return }
+        
         queue.async {
             
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data, let weather = try? JSONDecoder().decode(CurrentWeatherData.self, from: data) {
+                if let data = data,
+                    let weather = try? JSONDecoder().decode(CurrentWeatherData.self, from: data) {
                     DispatchQueue.main.async {
                         let complitionData = CompletionData(temp: Int(weather.main.temp),
                                                             id: weather.weather.first?.id ?? 0,

@@ -7,6 +7,9 @@
 
 //TODO: отображение данных и замена камня
 
+//https://youtu.be/zYnKdHxE7No?t=5135
+
+
 
 import UIKit
 import CoreLocation
@@ -144,7 +147,9 @@ class MainViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-                
+        
+        
+        
 //        updateData(temperature: currentWeather?.temperature ?? 0.0, conditionCode: currentWeather?.conditionCode ?? 0, windSpeed: currentWeather?.windSpeed ?? 0.0)
         
 //        updateData(temperature: currentWeather?.temperature ?? 1.0, conditionCode: currentWeather?.conditionCode ?? 300, windSpeed: currentWeather?.windSpeed ?? 1.0)
@@ -495,12 +500,17 @@ extension MainViewController {
 extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         guard let lastLocation = locations.last else { return }
+        
         weatherManager.getWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) {[weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
+            
             print(completionData.cityName)
             
+            
+        
         }
     }
 }
