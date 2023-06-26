@@ -5,7 +5,8 @@
 //  Created by Alex on 16.05.2023.
 //
 
-//TODO: отображение данных и замена камня
+//TODO:  и замена камня,  - аттрибутивное отображение текста в лейблах (цифры, текст).
+//
 
 //https://youtu.be/zYnKdHxE7No?t=5135
 
@@ -460,19 +461,27 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         guard let lastLocation = locations.last else { return }
-        print("462")
         weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
 
+            let weatherConditions = complitionData.weather
+            let temprature = String(complitionData.temperature)
+            let city = complitionData.city
             
             DispatchQueue.main.async {
-                self.temperatureLabel.text = String(format: "%.0f", complitionData.temperature)
-                self.conditionsLabel.text = complitionData.weather
+
+            print(weatherConditions)
+            print(temprature)
+            print(city)
+      
+//            DispatchQueue.main.async {
+                self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
+                self.conditionsLabel.text = weatherConditions
 
                 //            self.conditionsLabel.attributedText = weather.description
-//                self.locationLabel.text = complitionData.city //+ ", " + weather.countryName
+                self.locationLabel.text = city //+ ", " + weather.countryName
 
-                let state: State = .normal //(windy: self.windSpeed > 5.0)
-                self.updateWeatherState(state)
+//                let state: State = .normal //(windy: self.windSpeed > 5.0)
+//                self.updateWeatherState(state)
             }
 
         }
