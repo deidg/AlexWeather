@@ -155,14 +155,18 @@ class MainViewController: UIViewController {
     }
     
     private func startLocationManager() {
-            locationManager.requestWhenInUseAuthorization()
+        
+        locationManager.requestWhenInUseAuthorization()
+        
+        DispatchQueue.global(qos: .userInitiated).async {
             if CLLocationManager.locationServicesEnabled() {
-                locationManager.delegate = self
-                locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-                locationManager.pausesLocationUpdatesAutomatically = false
-                locationManager.startUpdatingLocation()
+                self.locationManager.delegate = self
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+                self.locationManager.pausesLocationUpdatesAutomatically = false
+                self.locationManager.startUpdatingLocation()
             }
         }
+    }
     
     
     
