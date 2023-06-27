@@ -21,10 +21,8 @@ class MainViewController: UIViewController {
     //MARK: elements
     let weatherManager = WeatherManager()
     
-    
     var windSpeed: Double = 0
     var windy: Bool = false
-    
     
     var state: State = .normal { //(windy: false) {
         didSet {
@@ -54,7 +52,7 @@ class MainViewController: UIViewController {
     
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
-        stoneImageView.backgroundColor = .blue
+//        stoneImageView.backgroundColor = .blue
         return stoneImageView
     }()
     //    let stoneImage: UIImageView = {
@@ -145,7 +143,7 @@ class MainViewController: UIViewController {
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         scrollView.refreshControl = refreshControl
 
-        
+//        updateData(weatherManager.)
         
         
         checkWindSpeed()
@@ -176,7 +174,7 @@ class MainViewController: UIViewController {
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         //        state = .init(24, 680, 5)
         print("func refreshAction done")
-        //        updateData(weather: currentWeather)
+//                updateData(weather: weatherManager)
         refreshControl.endRefreshing()
     }
     
@@ -217,6 +215,7 @@ class MainViewController: UIViewController {
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
     } // делает градиентную заливку
+    
     func setupUI() {   // раставляет все элементы на экране
         
         view.addSubview(scrollView)
@@ -398,6 +397,8 @@ class MainViewController: UIViewController {
     func updateData(_ data: CompletionData) {
         
         state = .init(data.temperature, data.id, data.windSpeed)
+        print("from uppdateData")
+        print(state)
     }
     
     
@@ -470,18 +471,16 @@ extension MainViewController: CLLocationManagerDelegate {
             
             DispatchQueue.main.async {
 
-            print(weatherConditions)
-            print(temprature)
-            print(city)
-                print(country)
-      
+            print("locationManager - done")
+
                 self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
                 self.conditionsLabel.text = weatherConditions
 
                 self.locationLabel.text = city + ", " + country
 
 //                let state: State = .normal //(windy: self.windSpeed > 5.0)
-//                self.updateWeatherState(state)
+//                updateWeatherState(state)
+                self.updateData(complitionData)
             }
 
         }
