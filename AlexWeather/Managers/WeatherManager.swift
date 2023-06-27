@@ -13,6 +13,7 @@ final class WeatherManager {
                 
                 let completionData = CompletionData(
                     city: weather.name,
+                    country: weather.sys.country,
                     temperature: Int(weather.main.temp),
                     weather: weather.weather.first?.main ?? "",
                     id: weather.weather.first?.id ?? 0,
@@ -26,6 +27,7 @@ final class WeatherManager {
 
 struct CompletionData {
     let city: String
+    let country: String
     let temperature: Int
     let weather: String
     let id: Int

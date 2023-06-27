@@ -466,19 +466,19 @@ extension MainViewController: CLLocationManagerDelegate {
             let weatherConditions = complitionData.weather
             let temprature = String(complitionData.temperature)
             let city = complitionData.city
+            let country = complitionData.country
             
             DispatchQueue.main.async {
 
             print(weatherConditions)
             print(temprature)
             print(city)
+                print(country)
       
-//            DispatchQueue.main.async {
                 self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
                 self.conditionsLabel.text = weatherConditions
 
-                //            self.conditionsLabel.attributedText = weather.description
-                self.locationLabel.text = city //+ ", " + weather.countryName
+                self.locationLabel.text = city + ", " + country
 
 //                let state: State = .normal //(windy: self.windSpeed > 5.0)
 //                self.updateWeatherState(state)
