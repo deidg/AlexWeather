@@ -172,7 +172,25 @@ class MainViewController: UIViewController {
     
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-        //        state = .init(24, 680, 5)
+//                state = .init(24, 680, 5)
+//        DispatchQueue.main.async {
+            
+//        DispatchQueue.global().async {
+        
+            self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
+                longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
+                let temprature = completionData.temperature
+                let conditionCode = completionData.id
+                let windSpeed = completionData.windSpeed
+
+                self.state = .init(temprature, conditionCode, windSpeed)
+            }
+        
+        
+//        }
+        
+        
+        
         print("func refreshAction done")
 //                updateData(weather: weatherManager)
         refreshControl.endRefreshing()
