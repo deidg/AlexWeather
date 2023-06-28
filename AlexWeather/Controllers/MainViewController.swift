@@ -145,13 +145,25 @@ class MainViewController: UIViewController {
 
 //        updateData(weatherManager.)
         
-        
         checkWindSpeed()
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
         startLocationManager()
+     
+        windAnimation()
+    }
+    
+    func windAnimation() {
+        let animation = CAKeyframeAnimation()
+        animation.keyPath = "position.x"
+        animation.values = [0,10,0,-10,0,10,0,-10,0,10,0]
+        animation.keyTimes = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
+        animation.duration = 6.0
         
+        animation.isAdditive = true
+        stoneImageView.layer.add(animation, forKey: "shake")
+        print("wind animation in progress")
     }
     
     private func startLocationManager() {
@@ -251,6 +263,7 @@ class MainViewController: UIViewController {
         stoneImageView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
+            make.top.equalTo(contentView).offset(-160)
         }
         
         
@@ -419,6 +432,9 @@ class MainViewController: UIViewController {
         print(state)
     }
     
+//    закончил на выборе Option
+
+    
     
 }
 
@@ -505,8 +521,6 @@ extension MainViewController: CLLocationManagerDelegate {
     }
     
 }
-
-
 
 
 
