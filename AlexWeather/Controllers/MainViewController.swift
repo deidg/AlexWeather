@@ -159,21 +159,19 @@ class MainViewController: UIViewController {
     
     func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = 3
-        animation.fillMode = .forwards
+        animation.duration = 6
+        animation.fillMode = .both
         animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/5, 0, -(Double.pi/5), 0 ]
+        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
 
         //Percentage of each key frame
-        animation.keyTimes = [NSNumber(value: 0.0), NSNumber(value: 0.1),
-                              NSNumber(value: 0.3), NSNumber(value: 0.8), NSNumber(value: 1.0)]
-        
-//        animation.values = [0, -(Double.pi/5)]
-//
-//        animation.keyTimes = [NSNumber(value: 0.0), NSNumber(value: 0.1),
-//                              NSNumber(value: 0.3), NSNumber(value: 0.8), NSNumber(value: 1.0)]
-        
-        
+        animation.keyTimes = [NSNumber(value: 0.0),
+//                              NSNumber(value: 0.1),  //0.1
+                              NSNumber(value: 0.5), //0.3
+//                              NSNumber(value: 0.8),  //0.8
+                              NSNumber(value: 1.0)    //1.0
+        ]
+ 
         stoneImageView.layer.add(animation, forKey: "rotate")
         
     }
