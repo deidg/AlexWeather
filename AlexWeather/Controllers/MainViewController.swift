@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
     
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
-//        stoneImageView.backgroundColor = .blue
+        //        stoneImageView.backgroundColor = .blue
         return stoneImageView
     }()
     //    let stoneImage: UIImageView = {
@@ -142,29 +142,53 @@ class MainViewController: UIViewController {
         temperatureLabel.attributedText = makeAttributedTemprature().attributedText
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         scrollView.refreshControl = refreshControl
-
-//        updateData(weatherManager.)
+        
+        //        updateData(weatherManager.)
         
         checkWindSpeed()
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
         startLocationManager()
-     
-        windAnimation()
+        
+        
+        windAnimationRotate()
+        
+        //        windAnimationShaking()
     }
     
-    func windAnimation() {
-        let animation = CAKeyframeAnimation()
-        animation.keyPath = "position.x"
-        animation.values = [0,10,0,-10,0,10,0,-10,0,10,0]
-        animation.keyTimes = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
-        animation.duration = 6.0
+    func windAnimationRotate() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        animation.duration = 3
+        animation.fillMode = .forwards
+        animation.repeatCount = .infinity
+        animation.values = [0, Double.pi/5, 0, -(Double.pi/5), 0 ]
+
+        //Percentage of each key frame
+        animation.keyTimes = [NSNumber(value: 0.0), NSNumber(value: 0.1),
+                              NSNumber(value: 0.3), NSNumber(value: 0.8), NSNumber(value: 1.0)]
         
-        animation.isAdditive = true
-        stoneImageView.layer.add(animation, forKey: "shake")
-        print("wind animation in progress")
+//        animation.values = [0, -(Double.pi/5)]
+//
+//        animation.keyTimes = [NSNumber(value: 0.0), NSNumber(value: 0.1),
+//                              NSNumber(value: 0.3), NSNumber(value: 0.8), NSNumber(value: 1.0)]
+        
+        
+        stoneImageView.layer.add(animation, forKey: "rotate")
+        
     }
+    
+    //    func windAnimationShaking() {
+    //        let animation = CAKeyframeAnimation()
+    //        animation.keyPath = "position.x"
+    //        animation.values = [0,5,0,-5,0,5,0,-5,0,3,0] //[0,10,0,-10,0,10,0,-10,0,10,0]
+    //        animation.keyTimes = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
+    //        animation.duration = 5.0
+    //
+    //        animation.isAdditive = true
+    //        stoneImageView.layer.add(animation, forKey: "shake")
+    //        print("wind animation in progress")
+    //    }
     
     private func startLocationManager() {
         
@@ -184,27 +208,27 @@ class MainViewController: UIViewController {
     
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-//                state = .init(24, 680, 5)
-//        DispatchQueue.main.async {
+        //                state = .init(24, 680, 5)
+        //        DispatchQueue.main.async {
+        
+        //        DispatchQueue.global().async {
+        
+        self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
+                                              longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
+            let temprature = completionData.temperature
+            let conditionCode = completionData.id
+            let windSpeed = completionData.windSpeed
             
-//        DispatchQueue.global().async {
-        
-            self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
-                longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
-                let temprature = completionData.temperature
-                let conditionCode = completionData.id
-                let windSpeed = completionData.windSpeed
-
-                self.state = .init(temprature, conditionCode, windSpeed)
-            }
+            self.state = .init(temprature, conditionCode, windSpeed)
+        }
         
         
-//        }
+        //        }
         
         
         
         print("func refreshAction done")
-//                updateData(weather: weatherManager)
+        //                updateData(weather: weatherManager)
         refreshControl.endRefreshing()
     }
     
@@ -222,23 +246,23 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-//    func updateInterfaceWith() { //(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
-//
-//        DispatchQueue.main.async {
-//            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
-//            self.conditionsLabel.text = weather.conditionDescription
-//
-//            //            self.conditionsLabel.attributedText = weather.description
-//            self.locationLabel.text = weather.cityName + ", " + weather.countryName
-//
-//            let state: State = .normal //(windy: self.windSpeed > 5.0)
-//            self.updateWeatherState(state)
-//        }
-//
-//
-//
-//
-//    }
+    //    func updateInterfaceWith() { //(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
+    //
+    //        DispatchQueue.main.async {
+    //            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
+    //            self.conditionsLabel.text = weather.conditionDescription
+    //
+    //            //            self.conditionsLabel.attributedText = weather.description
+    //            self.locationLabel.text = weather.cityName + ", " + weather.countryName
+    //
+    //            let state: State = .normal //(windy: self.windSpeed > 5.0)
+    //            self.updateWeatherState(state)
+    //        }
+    //
+    //
+    //
+    //
+    //    }
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -432,8 +456,8 @@ class MainViewController: UIViewController {
         print(state)
     }
     
-//    закончил на выборе Option
-
+    //    закончил на выборе Option
+    
     
     
 }
@@ -494,29 +518,29 @@ extension MainViewController {
 extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
+        
         guard let lastLocation = locations.last else { return }
         weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
-
+            
             let weatherConditions = complitionData.weather
             let temprature = String(complitionData.temperature)
             let city = complitionData.city
             let country = complitionData.country
             
             DispatchQueue.main.async {
-
-            print("locationManager - done")
-
+                
+                print("locationManager - done")
+                
                 self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
                 self.conditionsLabel.text = weatherConditions
-
+                
                 self.locationLabel.text = city + ", " + country
-
-//                let state: State = .normal //(windy: self.windSpeed > 5.0)
-//                updateWeatherState(state)
+                
+                //                let state: State = .normal //(windy: self.windSpeed > 5.0)
+                //                updateWeatherState(state)
                 self.updateData(complitionData)
             }
-
+            
         }
     }
     
