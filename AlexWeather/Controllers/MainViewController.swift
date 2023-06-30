@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
     
     var state: State = .normal { //(windy: false) {
         didSet {
-            updateWeatherState(state)
+            updateWeatherState(state, windy)
         }
     }
     
@@ -142,16 +142,16 @@ class MainViewController: UIViewController {
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         scrollView.refreshControl = refreshControl
         
-        //        updateData(weatherManager.)
+//                updateData(weatherManager.)
         
-        //        checkWindSpeed(windSpeed: windSpeed)
+                checkWindSpeed(windSpeed: windSpeed)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
         startLocationManager()
         
         
-        windAnimationRotate()
+        //        windAnimationRotate()
         
     }
     
@@ -203,10 +203,10 @@ class MainViewController: UIViewController {
     func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
         if windSpeed > 5.0 {
             windy = true
-            print("Its windy 206")
+            print("Its windy 206. Answer: \(windy)")
         } else {
             windy = false
-            print("Its NOT windy 209")
+            print("Its NOT windy 209 Answer: \(windy)")
         }
         
     }
@@ -389,57 +389,91 @@ class MainViewController: UIViewController {
     }  // закрытие INFO
     
     
-    private func updateWeatherState(_ state: State) {  // регулирует состояния
+    private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
         
+        //        checkWindSpeed(windSpeed: wind)
+        //        print("397")
         
-        switch state {
-        case .normal:
-            stoneImage = UIImage(named: "image_stone_normal.png")
-            alphaLevel = 1
-        case .wet:
-            stoneImage = UIImage(named: "image_stone_wet.png")
-            alphaLevel = 1
-        case .snow:
-            stoneImage = UIImage(named: "image_stone_snow.png")
-            alphaLevel = 1
-        case .cracks:
-            stoneImage = UIImage(named: "image_stone_cracks.png")
-            alphaLevel = 1
-        case .fog:
-            stoneImage = UIImage(named: "image_stone_normal.png")
-            alphaLevel = 0.3
+        if windy == true {
+            switch state {
+            case .normal:
+                stoneImage = UIImage(named: "image_stone_normal.png")
+                windAnimationRotate()
+                alphaLevel = 1
+            case .wet:
+                stoneImage = UIImage(named: "image_stone_wet.png")
+                windAnimationRotate()
+                alphaLevel = 1
+            case .snow:
+                stoneImage = UIImage(named: "image_stone_snow.png")
+                windAnimationRotate()
+                alphaLevel = 1
+            case .cracks:
+                stoneImage = UIImage(named: "image_stone_cracks.png")
+                windAnimationRotate()
+                alphaLevel = 1
+            case .fog:
+                stoneImage = UIImage(named: "image_stone_normal.png")
+                windAnimationRotate()
+                alphaLevel = 0.3
+            }
+            
+            stoneImageView.alpha = alphaLevel
+            stoneImageView.image = stoneImage
+        } else {
+                    switch state {
+                    case .normal:
+                        stoneImage = UIImage(named: "image_stone_normal.png")
+                        alphaLevel = 1
+                    case .wet:
+                        stoneImage = UIImage(named: "image_stone_wet.png")
+                        alphaLevel = 1
+                    case .snow:
+                        stoneImage = UIImage(named: "image_stone_snow.png")
+                        alphaLevel = 1
+                    case .cracks:
+                        stoneImage = UIImage(named: "image_stone_cracks.png")
+                        alphaLevel = 1
+                    case .fog:
+                        stoneImage = UIImage(named: "image_stone_normal.png")
+                        alphaLevel = 0.3
+                    }
+        
+                    stoneImageView.alpha = alphaLevel
+                    stoneImageView.image = stoneImage
+        
+                }
+            }
+        
+        
+        
+        
+        
+        func updateData(_ data: CompletionData) {
+            
+            state = .init(data.temperature, data.id, data.windSpeed)
+            print("from uppdateData")
+            print(state)
         }
         
-        stoneImageView.alpha = alphaLevel
-        stoneImageView.image = stoneImage
+        func windAnimationRotate() {
+            let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+            animation.duration = 6
+            animation.fillMode = .both
+            animation.repeatCount = .infinity
+            animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
+            
+            animation.keyTimes = [NSNumber(value: 0.0),
+                                  NSNumber(value: 0.5), //0.3
+                                  NSNumber(value: 1.0)    //1.0
+            ]
+            stoneImageView.layer.add(animation, forKey: "rotate")
+        }
         
     }
-    
-    func updateData(_ data: CompletionData) {
-        
-        state = .init(data.temperature, data.id, data.windSpeed)
-        print("from uppdateData")
-        print(state)
-    }
-    
-    func windAnimationRotate() {
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = 6
-        animation.fillMode = .both
-        animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
-        
-        animation.keyTimes = [NSNumber(value: 0.0),
-                              NSNumber(value: 0.5), //0.3
-                              NSNumber(value: 1.0)    //1.0
-        ]
-        stoneImageView.layer.add(animation, forKey: "rotate")
-    }
-    
-    
-}
+//}
 
 
 
@@ -449,11 +483,12 @@ class MainViewController: UIViewController {
 extension MainViewController {
     
     enum State: Equatable {
+        case cracks //(windSpeed: Double) //(windy: Bool)
+        case wet //(windSpeed: Double) //(windy: Bool)
+        case snow //(windSpeed: Double) //(windy: Bool)
+        case fog //(windSpeed: Double) //(windy: Bool)
         case normal  //(windSpeed: Double) //(windy: Bool)
-        case wet  //(windSpeed: Double) //(windy: Bool)
-        case snow  //(windSpeed: Double) //(windy: Bool)
-        case cracks  //(windSpeed: Double) //(windy: Bool)
-        case fog  //(windSpeed: Double) //(windy: Bool)
+          
         //            case .normal(let windy):
         //                return windy
         //            case .wet(let windy):
@@ -468,29 +503,52 @@ extension MainViewController {
         //     }
         
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-            if temperature > 30 {
-                self = .cracks
-                print("its cracks case")
-            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                self = .wet
-                print("its wet case")
-            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow
-                print("its snow case")
-            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog
-                print("its fog case")
-            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
-                self = .normal
-                print("its normal case")
-            } else {
-                self = .normal
-                print("you§re here and conditionCode - \(conditionCode)")
-            }
+            
+//            if windSpeed > 5.0 {
+                if temperature > 30 {
+                    self = .cracks
+                    print("its cracks case!")
+                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
+                    self = .wet
+                    print("its wet case!")
+                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
+                    self = .snow
+                    print("its snow case!")
+                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
+                    self = .fog
+                    print("its fog case!")
+                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
+                    self = .normal
+                    print("its normal case!")
+                } else {
+                    self = .normal
+                    print("you§re here and conditionCode! - \(conditionCode)")
+                }
+                
+//            }  else {
+//
+//                if temperature > 30 {
+//               self = .cracks
+//               print("its cracks case")
+//           } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
+//               self = .wet
+//               print("its wet case")
+//           } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
+//               self = .snow
+//               print("its snow case")
+//           } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
+//               self = .fog
+//               print("its fog case")
+//           } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
+//               self = .normal
+//               print("its normal case")
+//           } else {
+//               self = .normal
+//               print("you§re here and conditionCode - \(conditionCode)")
+//           }
+//            }
         }
-        
     }
-    
 }
 
 //MARK: LocationManagerDelegate
@@ -520,7 +578,7 @@ extension MainViewController: CLLocationManagerDelegate {
                 
                 self.updateData(complitionData)
                 
-                //                self.windSpeed = windSpeedData
+                                self.windSpeed = windSpeedData
                 print("windspeedKm  526 - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
             }
