@@ -27,7 +27,6 @@ class MainViewController: UIViewController {
     var state: State = .normal { //(windy: false) {
         didSet {
             updateWeatherState(state)
-            //!!! force unwrap
         }
     }
     
@@ -145,7 +144,7 @@ class MainViewController: UIViewController {
         
         //        updateData(weatherManager.)
         
-        checkWindSpeed()
+        //        checkWindSpeed(windSpeed: windSpeed)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
@@ -154,39 +153,10 @@ class MainViewController: UIViewController {
         
         windAnimationRotate()
         
-        //        windAnimationShaking()
     }
     
-    func windAnimationRotate() {
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = 6
-        animation.fillMode = .both
-        animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
-
-        //Percentage of each key frame
-        animation.keyTimes = [NSNumber(value: 0.0),
-//                              NSNumber(value: 0.1),  //0.1
-                              NSNumber(value: 0.5), //0.3
-//                              NSNumber(value: 0.8),  //0.8
-                              NSNumber(value: 1.0)    //1.0
-        ]
- 
-        stoneImageView.layer.add(animation, forKey: "rotate")
-        
-    }
     
-    //    func windAnimationShaking() {
-    //        let animation = CAKeyframeAnimation()
-    //        animation.keyPath = "position.x"
-    //        animation.values = [0,5,0,-5,0,5,0,-5,0,3,0] //[0,10,0,-10,0,10,0,-10,0,10,0]
-    //        animation.keyTimes = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
-    //        animation.duration = 5.0
-    //
-    //        animation.isAdditive = true
-    //        stoneImageView.layer.add(animation, forKey: "shake")
-    //        print("wind animation in progress")
-    //    }
+    
     
     private func startLocationManager() {
         
@@ -230,13 +200,13 @@ class MainViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
-    func checkWindSpeed() {  // проверяет ветренно сегодня или нет
+    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
         if windSpeed > 5.0 {
             windy = true
-            print("Its windy")
+            print("Its windy 206")
         } else {
             windy = false
-            print("Its NOT windy")
+            print("Its NOT windy 209")
         }
         
     }
@@ -454,8 +424,19 @@ class MainViewController: UIViewController {
         print(state)
     }
     
-    //    закончил на выборе Option
-    
+    func windAnimationRotate() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        animation.duration = 6
+        animation.fillMode = .both
+        animation.repeatCount = .infinity
+        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
+        
+        animation.keyTimes = [NSNumber(value: 0.0),
+                              NSNumber(value: 0.5), //0.3
+                              NSNumber(value: 1.0)    //1.0
+        ]
+        stoneImageView.layer.add(animation, forKey: "rotate")
+    }
     
     
 }
@@ -524,19 +505,24 @@ extension MainViewController: CLLocationManagerDelegate {
             let temprature = String(complitionData.temperature)
             let city = complitionData.city
             let country = complitionData.country
+            let windSpeedData = complitionData.windSpeed
             
-            DispatchQueue.main.async {
+            
+            
+            DispatchQueue.main.async { [self] in
                 
-                print("locationManager - done")
                 
                 self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
                 self.conditionsLabel.text = weatherConditions
                 
                 self.locationLabel.text = city + ", " + country
                 
-                //                let state: State = .normal //(windy: self.windSpeed > 5.0)
-                //                updateWeatherState(state)
+                
                 self.updateData(complitionData)
+                
+                //                self.windSpeed = windSpeedData
+                print("windspeedKm  526 - \(windSpeedData)")
+                checkWindSpeed(windSpeed: windSpeedData)
             }
             
         }
