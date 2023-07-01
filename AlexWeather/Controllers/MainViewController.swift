@@ -151,7 +151,7 @@ class MainViewController: UIViewController {
         startLocationManager()
         
         
-        //        windAnimationRotate()
+                windAnimationRotate()
         
     }
     
