@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
     var windSpeed: Double = 0
     var windy: Bool = false
     
-    var state: State = .normal { //(windy: false) {
+    var state: State = .normal {
         didSet {
             updateWeatherState(state, windy)
         }
@@ -51,13 +51,8 @@ class MainViewController: UIViewController {
     
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
-        //        stoneImageView.backgroundColor = .blue
         return stoneImageView
     }()
-    //    let stoneImage: UIImageView = {
-    //        let stoneImageView = UIImageView()
-    //        return stoneImageView
-    //    }()
     
     let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
@@ -93,7 +88,6 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
         infoLargeViewHideButton.layer.borderWidth = 1.5
         infoLargeViewHideButton.layer.cornerRadius = 15
-        //    infoLargeViewHideButton.titleShadowColor(for: <#T##UIControl.State#>)
         return infoLargeViewHideButton
     }()
     var topColor = UIColor.orange  // gradient
@@ -121,13 +115,6 @@ class MainViewController: UIViewController {
         infoButton.layer.cornerRadius = 15
         return infoButton
     }()
-    //move to Constants
-    //    let normalStoneImageView = UIImageView(image: UIImage(named: "image_stone_normal.png"))
-    //
-    //    let wetStoneImageView = UIImageView(image: UIImage(named: "image_stone_wet.png"))
-    //
-    //    let snowStoneImageView = UIImageView(image: UIImage(named: "image_stone_snow.png"))
-    //    let cracksStoneImageView = UIImageView(image: UIImage(named: "image_stone_cracks.png"))
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
@@ -142,21 +129,12 @@ class MainViewController: UIViewController {
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         scrollView.refreshControl = refreshControl
         
-//                updateData(weatherManager.)
-        
-                checkWindSpeed(windSpeed: windSpeed)
+        checkWindSpeed(windSpeed: windSpeed)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
         startLocationManager()
-        
-        
-//                windAnimationRotate()
-        
     }
-    
-    
-    
     
     private func startLocationManager() {
         
@@ -172,14 +150,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    
-    
-    
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-        //                state = .init(24, 680, 5)
-        //        DispatchQueue.main.async {
-        
-        //        DispatchQueue.global().async {
         
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
                                               longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
@@ -190,13 +161,7 @@ class MainViewController: UIViewController {
             self.state = .init(temprature, conditionCode, windSpeed)
         }
         
-        
-        //        }
-        
-        
-        
         print("func refreshAction done")
-        //                updateData(weather: weatherManager)
         refreshControl.endRefreshing()
     }
     
@@ -211,26 +176,8 @@ class MainViewController: UIViewController {
         
     }
     
-    
-    
     // MARK: methods
-    //    func updateInterfaceWith() { //(weather: CurrentWeather) { //отображает текст на лейблах (температура, conditionCode)
-    //
-    //        DispatchQueue.main.async {
-    //            self.temperatureLabel.text = String(format: "%.0f", weather.temperature)
-    //            self.conditionsLabel.text = weather.conditionDescription
-    //
-    //            //            self.conditionsLabel.attributedText = weather.description
-    //            self.locationLabel.text = weather.cityName + ", " + weather.countryName
-    //
-    //            let state: State = .normal //(windy: self.windSpeed > 5.0)
-    //            self.updateWeatherState(state)
-    //        }
-    //
-    //
-    //
-    //
-    //    }
+    
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -258,21 +205,16 @@ class MainViewController: UIViewController {
             make.top.equalTo(contentView).offset(-160)
         }
         
-        
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
-            //            make.top.equalTo(theStoneImageView.snp.bottom).inset(10)
             make.bottom.equalTo(view.snp.bottom).inset(300)
-            
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(270)
             make.height.equalTo(100)
         }
         view.addSubview(conditionsLabel)
         conditionsLabel.snp.makeConstraints{ make in
-            //            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
             make.bottom.equalTo(view.snp.bottom).inset(250)
-            
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
@@ -281,7 +223,6 @@ class MainViewController: UIViewController {
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            //            make.bottom.equalTo(infoButton.snp.top).inset(50)
             make.bottom.equalTo(view.snp.bottom).inset(70)
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
@@ -339,10 +280,8 @@ class MainViewController: UIViewController {
     func makeAttributedTemprature() -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
         let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
         let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
-        
         let temprature = NSAttributedString(string: "10", attributes: tempratureDigits)
         let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
-        
         let attributedString = NSMutableAttributedString()
         attributedString.append(temprature)
         attributedString.append(degree)
@@ -388,13 +327,9 @@ class MainViewController: UIViewController {
         infoButton.isHidden = false
     }  // закрытие INFO
     
-    
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
-        
-        //        checkWindSpeed(windSpeed: wind)
-        //        print("397")
         
         if windy == true {
             switch state {
@@ -423,130 +358,82 @@ class MainViewController: UIViewController {
             stoneImageView.alpha = alphaLevel
             stoneImageView.image = stoneImage
         } else {
-                    switch state {
-                    case .normal:
-                        stoneImage = UIImage(named: "image_stone_normal.png")
-                        alphaLevel = 1
-                    case .wet:
-                        stoneImage = UIImage(named: "image_stone_wet.png")
-                        alphaLevel = 1
-                    case .snow:
-                        stoneImage = UIImage(named: "image_stone_snow.png")
-                        alphaLevel = 1
-                    case .cracks:
-                        stoneImage = UIImage(named: "image_stone_cracks.png")
-                        alphaLevel = 1
-                    case .fog:
-                        stoneImage = UIImage(named: "image_stone_normal.png")
-                        alphaLevel = 0.3
-                    }
-        
-                    stoneImageView.alpha = alphaLevel
-                    stoneImageView.image = stoneImage
-        
-                }
+            switch state {
+            case .normal:
+                stoneImage = UIImage(named: "image_stone_normal.png")
+                alphaLevel = 1
+            case .wet:
+                stoneImage = UIImage(named: "image_stone_wet.png")
+                alphaLevel = 1
+            case .snow:
+                stoneImage = UIImage(named: "image_stone_snow.png")
+                alphaLevel = 1
+            case .cracks:
+                stoneImage = UIImage(named: "image_stone_cracks.png")
+                alphaLevel = 1
+            case .fog:
+                stoneImage = UIImage(named: "image_stone_normal.png")
+                alphaLevel = 0.3
             }
-        
-        
-        
-        
-        
-        func updateData(_ data: CompletionData) {
             
-            state = .init(data.temperature, data.id, data.windSpeed)
-            print("from uppdateData")
-            print(state)
+            stoneImageView.alpha = alphaLevel
+            stoneImageView.image = stoneImage
         }
-        
-        func windAnimationRotate() {
-            let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-            animation.duration = 6
-            animation.fillMode = .both
-            animation.repeatCount = .infinity
-            animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
-            
-            animation.keyTimes = [NSNumber(value: 0.0),
-                                  NSNumber(value: 0.5), //0.3
-                                  NSNumber(value: 1.0)    //1.0
-            ]
-            stoneImageView.layer.add(animation, forKey: "rotate")
-        }
-        
     }
-//}
-
-
-
-
+    
+    func updateData(_ data: CompletionData) {
+        
+        state = .init(data.temperature, data.id, data.windSpeed)
+        print("from uppdateData")
+        print(state)
+    }
+    
+    func windAnimationRotate() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        animation.duration = 6
+        animation.fillMode = .both
+        animation.repeatCount = .infinity
+        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
+        animation.keyTimes = [NSNumber(value: 0.0),
+                              NSNumber(value: 0.5), //0.3
+                              NSNumber(value: 1.0)    //1.0
+        ]
+        stoneImageView.layer.add(animation, forKey: "rotate")
+    }
+    
+}
 
 //MARK: extension
 extension MainViewController {
     
     enum State: Equatable {
-        case cracks //(windSpeed: Double) //(windy: Bool)
-        case wet //(windSpeed: Double) //(windy: Bool)
-        case snow //(windSpeed: Double) //(windy: Bool)
-        case fog //(windSpeed: Double) //(windy: Bool)
-        case normal  //(windSpeed: Double) //(windy: Bool)
-          
-        //            case .normal(let windy):
-        //                return windy
-        //            case .wet(let windy):
-        //                <#code#>
-        //            case .snow(let windy):
-        //                <#code#>
-        //            case .cracks(let windy):
-        //                <#code#>
-        //            case .fog(let windy):
-        //                <#code#>
-        //            }
-        //     }
+        case cracks
+        case wet
+        case snow
+        case fog
+        case normal
         
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
             
-//            if windSpeed > 5.0 {
-                if temperature > 30 {
-                    self = .cracks
-                    print("its cracks case!")
-                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                    self = .wet
-                    print("its wet case!")
-                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                    self = .snow
-                    print("its snow case!")
-                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                    self = .fog
-                    print("its fog case!")
-                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
-                    self = .normal
-                    print("its normal case!")
-                } else {
-                    self = .normal
-                    print("you§re here and conditionCode! - \(conditionCode)")
-                }
-                
-//            }  else {
-//
-//                if temperature > 30 {
-//               self = .cracks
-//               print("its cracks case")
-//           } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-//               self = .wet
-//               print("its wet case")
-//           } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-//               self = .snow
-//               print("its snow case")
-//           } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-//               self = .fog
-//               print("its fog case")
-//           } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
-//               self = .normal
-//               print("its normal case")
-//           } else {
-//               self = .normal
-//               print("you§re here and conditionCode - \(conditionCode)")
-//           }
-//            }
+            if temperature > 30 {
+                self = .cracks
+                print("its cracks case!")
+            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
+                self = .wet
+                print("its wet case!")
+            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
+                self = .snow
+                print("its snow case!")
+            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
+                self = .fog
+                print("its fog case!")
+            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
+                self = .normal
+                print("its normal case!")
+            } else {
+                self = .normal
+                print("you§re here and conditionCode! - \(conditionCode)")
+            }
         }
     }
 }
@@ -565,27 +452,21 @@ extension MainViewController: CLLocationManagerDelegate {
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
             
-            
-            
             DispatchQueue.main.async { [self] in
-                
                 
                 self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
                 self.conditionsLabel.text = weatherConditions
                 
                 self.locationLabel.text = city + ", " + country
                 
-                
                 self.updateData(complitionData)
                 
-                                self.windSpeed = windSpeedData
+                self.windSpeed = windSpeedData
                 print("windspeedKm  526 - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
             }
-            
         }
     }
-    
 }
 
 
