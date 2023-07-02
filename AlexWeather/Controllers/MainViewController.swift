@@ -38,9 +38,9 @@ class MainViewController: UIViewController {
     
     var state: State = .normal {
         didSet {
-//            updateWeatherState(state, windy) - рабочий вариант
+            //            updateWeatherState(state, windy) - рабочий вариант
             updateWeatherState(state, windy)
-
+            
         }
     }
     
@@ -109,7 +109,7 @@ class MainViewController: UIViewController {
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
-     
+        
         
         return temperatureLabel
     }()
@@ -141,17 +141,19 @@ class MainViewController: UIViewController {
         configureGradientLayer()
         setupUI()
         defaultConfiguration()
-        temperatureLabel.attributedText = makeAttributedTemprature().attributedText
-        conditionsLabel.attributedText = makeAttributedConditions().attributedText
-        scrollView.refreshControl = refreshControl
         
-//        checkWindSpeed(windSpeed: windSpeed)
+        
+        //        temperatureLabel.attributedText = makeAttributedTemprature().attributedText
+        //        conditionsLabel.attributedText = makeAttributedConditions().attributedText
+        //        scrollView.refreshControl = refreshControl
+        
+        //        checkWindSpeed(windSpeed: windSpeed)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
         startLocationManager()
     }
-
+    
     private func startLocationManager() {
         
         locationManager.requestWhenInUseAuthorization()
@@ -167,7 +169,7 @@ class MainViewController: UIViewController {
     }
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-
+        
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
                                               longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
             let temprature = completionData.temperature
@@ -176,24 +178,24 @@ class MainViewController: UIViewController {
             
             self.state = .init(temprature, conditionCode, windSpeed)
         }
-  
+        
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
     
-//    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
-//        if windSpeed > 5.0 {
-//            windy = true
-//            print("Its windy 173. Answer: \(windy)")
-//        } else {
-//            windy = false
-//            print("Its NOT windy 176 Answer: \(windy)")
-//        }
-//
-//    }
-
+    //    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
+    //        if windSpeed > 5.0 {
+    //            windy = true
+    //            print("Its windy 173. Answer: \(windy)")
+    //        } else {
+    //            windy = false
+    //            print("Its NOT windy 176 Answer: \(windy)")
+    //        }
+    //
+    //    }
+    
     // MARK: methods
-
+    
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -293,19 +295,42 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     } // устанавливаем селекторы на кнопки и движения
     
-    func makeAttributedTemprature() -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
-        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
-        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
-        let temprature = NSAttributedString(string: "10", attributes: tempratureDigits)
-        let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
-        let attributedString = NSMutableAttributedString()
-        attributedString.append(temprature)
-        attributedString.append(degree)
-        
-        let label = UILabel()
-        label.attributedText = attributedString
-        return label
-    } // делает кастомный текст (атрибутивный) для температуры
+    //    func makeAttributedTemprature() -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
+    //        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title3)]
+    //        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
+    //        let temprature = NSAttributedString(string: "10", attributes: tempratureDigits)
+    //        let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
+    //        let attributedString = NSMutableAttributedString()
+    //        attributedString.append(temprature)
+    //        attributedString.append(degree)
+    //
+    //        let label = UILabel()
+    //        label.attributedText = attributedString
+    //        return label
+    //    } // делает кастом
+    
+    
+    
+    
+    //    func makeAttributedTemprature(temp: String) -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
+    //        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title3)]
+    //        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
+    //        let temprature = NSAttributedString(string: temp, attributes: tempratureDigits)
+    //        let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
+    ////        let attributedString = NSMutableAttributedString()
+    ////        attributedString.append(temprature)
+    ////        attributedString.append(degree)
+    ////
+    ////        let label = UILabel()
+    ////        label.attributedText = attributedString
+    //        return label
+    //
+    //    } // делает кастомный текст (атрибутивный) для температуры
+    
+    
+    
+    
+    
     
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
@@ -346,9 +371,9 @@ class MainViewController: UIViewController {
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
-   
+        
         if wind == true {    //         if windy == true { рабочий вариант
-
+            
             switch state {
             case .normal:
                 stoneImage = UIImage(named: "image_stone_normal.png")
@@ -397,7 +422,7 @@ class MainViewController: UIViewController {
             stoneImageView.image = stoneImage
         }
     }
-  
+    
     func updateData(_ data: CompletionData) {
         
         state = .init(data.temperature, data.id, data.windSpeed)
@@ -411,14 +436,30 @@ class MainViewController: UIViewController {
         animation.fillMode = .both
         animation.repeatCount = .infinity
         animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ] //- рабочий вариант. не удалять!
-//        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
-
+        //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
+        
         animation.keyTimes = [NSNumber(value: 0.0),
                               NSNumber(value: 0.5), //0.3
                               NSNumber(value: 1.0)    //1.0
         ]
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
+    
+    func formatingString(temperature: String) -> NSAttributedString {
+        let degreeSign: String = "º" //"\u{0xC2 0xB0}"
+        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
+        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 12]
+        let temprature = NSAttributedString(string: temperature, attributes: tempratureDigits)
+//        let degree = NSAttributedString(string: degreeSign, attributes: tempratureDegree)
+        
+        let attributedString = NSMutableAttributedString(string: temperature, attributes: tempratureDigits)
+        let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegree)
+        
+        attributedString.append(attributedDegree)
+        
+        return attributedString
+    }
+    
     
 }
 
@@ -466,14 +507,18 @@ extension MainViewController: CLLocationManagerDelegate {
         weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
             
             let weatherConditions = complitionData.weather
-            let temprature = String(complitionData.temperature)
+            let temperature = String(complitionData.temperature)
             let city = complitionData.city
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
-     
+            
+            let attributedTemperature = self.formatingString(temperature: temperature)
+            
             DispatchQueue.main.async { [self] in
                 
-                self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
+                
+                
+                self.temperatureLabel.attributedText = attributedTemperature //temperature //String(format: "%.0f", temprature)
                 
                 self.conditionsLabel.text = weatherConditions
                 
@@ -484,6 +529,20 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.windSpeed = windSpeedData
                 print("windspeedKm  468 - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
+                
+                //                makeAttributedTemprature()
+                //                makeAttributedConditions()
+                
+                
+                //                temperatureLabel.attributedText = makeAttributedTemprature().attributedText
+                //                   conditionsLabel.attributedText = makeAttributedConditions().attributedText
+                
+                
+                scrollView.refreshControl = refreshControl
+                
+                
+                
+                
             }
             
         }
