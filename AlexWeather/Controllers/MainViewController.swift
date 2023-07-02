@@ -447,10 +447,13 @@ class MainViewController: UIViewController {
     
     func formatingString(temperature: String) -> NSAttributedString {
         let degreeSign: String = "º" //"\u{0xC2 0xB0}"
-        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .largeTitle)]
-        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 12]
+
+        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
+        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
+
+
+
         let temprature = NSAttributedString(string: temperature, attributes: tempratureDigits)
-//        let degree = NSAttributedString(string: degreeSign, attributes: tempratureDegree)
         
         let attributedString = NSMutableAttributedString(string: temperature, attributes: tempratureDigits)
         let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegree)
