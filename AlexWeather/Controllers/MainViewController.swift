@@ -24,9 +24,23 @@ class MainViewController: UIViewController {
     var windSpeed: Double = 0
     var windy: Bool = false
     
+    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
+        if windSpeed > 5.0 {
+            windy = true
+            print("Its windy 173. Answer: \(windy)")
+        } else {
+            windy = false
+            print("Its NOT windy 176 Answer: \(windy)")
+        }
+        
+    }
+    
+    
     var state: State = .normal {
         didSet {
+//            updateWeatherState(state, windy) - рабочий вариант
             updateWeatherState(state, windy)
+
         }
     }
     
@@ -95,6 +109,8 @@ class MainViewController: UIViewController {
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
+     
+        
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
@@ -129,13 +145,13 @@ class MainViewController: UIViewController {
         conditionsLabel.attributedText = makeAttributedConditions().attributedText
         scrollView.refreshControl = refreshControl
         
-        checkWindSpeed(windSpeed: windSpeed)
+//        checkWindSpeed(windSpeed: windSpeed)
         
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         
         startLocationManager()
     }
-    
+
     private func startLocationManager() {
         
         locationManager.requestWhenInUseAuthorization()
@@ -151,7 +167,7 @@ class MainViewController: UIViewController {
     }
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-        
+
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
                                               longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
             let temprature = completionData.temperature
@@ -160,24 +176,24 @@ class MainViewController: UIViewController {
             
             self.state = .init(temprature, conditionCode, windSpeed)
         }
-        
+  
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
     
-    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
-        if windSpeed > 5.0 {
-            windy = true
-            print("Its windy 206. Answer: \(windy)")
-        } else {
-            windy = false
-            print("Its NOT windy 209 Answer: \(windy)")
-        }
-        
-    }
-    
+//    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
+//        if windSpeed > 5.0 {
+//            windy = true
+//            print("Its windy 173. Answer: \(windy)")
+//        } else {
+//            windy = false
+//            print("Its NOT windy 176 Answer: \(windy)")
+//        }
+//
+//    }
+
     // MARK: methods
-    
+
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
@@ -330,8 +346,9 @@ class MainViewController: UIViewController {
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
-        
-        if windy == true {
+   
+        if wind == true {    //         if windy == true { рабочий вариант
+
             switch state {
             case .normal:
                 stoneImage = UIImage(named: "image_stone_normal.png")
@@ -380,7 +397,7 @@ class MainViewController: UIViewController {
             stoneImageView.image = stoneImage
         }
     }
-    
+  
     func updateData(_ data: CompletionData) {
         
         state = .init(data.temperature, data.id, data.windSpeed)
@@ -390,10 +407,12 @@ class MainViewController: UIViewController {
     
     func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = 6
+        animation.duration = 2
         animation.fillMode = .both
         animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ]
+        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ] //- рабочий вариант. не удалять!
+//        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
+
         animation.keyTimes = [NSNumber(value: 0.0),
                               NSNumber(value: 0.5), //0.3
                               NSNumber(value: 1.0)    //1.0
@@ -451,10 +470,11 @@ extension MainViewController: CLLocationManagerDelegate {
             let city = complitionData.city
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
-            
+     
             DispatchQueue.main.async { [self] in
                 
                 self.temperatureLabel.text = temprature //String(format: "%.0f", temprature)
+                
                 self.conditionsLabel.text = weatherConditions
                 
                 self.locationLabel.text = city + ", " + country
@@ -462,11 +482,13 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.updateData(complitionData)
                 
                 self.windSpeed = windSpeedData
-                print("windspeedKm  526 - \(windSpeedData)")
+                print("windspeedKm  468 - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
             }
+            
         }
     }
+    
 }
 
 
