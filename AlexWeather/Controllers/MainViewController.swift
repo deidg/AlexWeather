@@ -5,17 +5,9 @@
 //  Created by Alex on 16.05.2023.
 //
 
-//TODO:  и замена камня,  - аттрибутивное отображение текста в лейблах (цифры, текст).
-//
-
-//https://youtu.be/zYnKdHxE7No?t=5135
-
-
-
 import UIKit
 import CoreLocation
 import SnapKit
-
 
 class MainViewController: UIViewController {
     //MARK: elements
@@ -24,23 +16,20 @@ class MainViewController: UIViewController {
     var windSpeed: Double = 0
     var windy: Bool = false
     
+    //TODO: переместить
     func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
         if windSpeed > 5.0 {
             windy = true
-            print("Its windy 173. Answer: \(windy)")
+            print("Its windy. Answer: \(windy)")
         } else {
             windy = false
-            print("Its NOT windy 176 Answer: \(windy)")
+            print("Its NOT windy. Answer: \(windy)")
         }
-        
     }
-    
     
     var state: State = .normal {
         didSet {
-            //            updateWeatherState(state, windy) - рабочий вариант
             updateWeatherState(state, windy)
-            
         }
     }
     
@@ -76,14 +65,14 @@ class MainViewController: UIViewController {
         infoLargeView.layer.cornerRadius = 25
         return infoLargeView
     }()
-    let infoLargeViewTitleLabel: UILabel = { //INFO view
+    let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
         let label = UILabel()
         label.text = "INFO"
         label.font =  UIFont.boldSystemFont(ofSize: label.font.pointSize)
         label.textAlignment = .center
         return label
     }()
-    let infoLargeViewLabel: UILabel = {   //INFO view
+    let infoLargeViewLabel: UILabel = {   //INFO view (label text)
         let label = UILabel()
         label.numberOfLines = 7
         label.textAlignment = .left
@@ -94,7 +83,7 @@ class MainViewController: UIViewController {
         label.attributedText = attributedString
         return label
     }()
-    //TOD): make a shadow
+    //TODO: make a shadow
     @objc  let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
@@ -105,13 +94,11 @@ class MainViewController: UIViewController {
         return infoLargeViewHideButton
     }()
     var topColor = UIColor.orange  // gradient
-    var bottomColor = UIColor.yellow   // gradient
+    var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
         temperatureLabel.textAlignment = .left
-        temperatureLabel.numberOfLines = 2
-        
         return temperatureLabel
     }()
     let conditionsLabel: UILabel = {
@@ -142,23 +129,12 @@ class MainViewController: UIViewController {
         configureGradientLayer()
         setupUI()
         defaultConfiguration()
-        
-        
-        //        temperatureLabel.attributedText = makeAttributedTemprature().attributedText
-        //        conditionsLabel.attributedText = makeAttributedConditions().attributedText
-        //        scrollView.refreshControl = refreshControl
-        
-        //        checkWindSpeed(windSpeed: windSpeed)
-        
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
-        
         startLocationManager()
     }
     
     private func startLocationManager() {
-        
         locationManager.requestWhenInUseAuthorization()
-        
         DispatchQueue.global(qos: .userInitiated).async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager.delegate = self
@@ -170,30 +146,16 @@ class MainViewController: UIViewController {
     }
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-        
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
                                               longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
             let temprature = completionData.temperature
             let conditionCode = completionData.id
             let windSpeed = completionData.windSpeed
-            
             self.state = .init(temprature, conditionCode, windSpeed)
         }
-        
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
-    
-    //    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
-    //        if windSpeed > 5.0 {
-    //            windy = true
-    //            print("Its windy 173. Answer: \(windy)")
-    //        } else {
-    //            windy = false
-    //            print("Its NOT windy 176 Answer: \(windy)")
-    //        }
-    //
-    //    }
     
     // MARK: methods
     
@@ -202,28 +164,24 @@ class MainViewController: UIViewController {
         gradientLayer.locations = [0,1]
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
-    } // делает градиентную заливку
+    }
     
     func setupUI() {   // раставляет все элементы на экране
-        
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
         scrollView.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.centerX.equalTo(scrollView)
             make.top.bottom.equalTo(scrollView).offset(-60)
         }
-        
         contentView.addSubview(stoneImageView)
         stoneImageView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
             make.top.equalTo(contentView).offset(-160)
         }
-        
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(300)
@@ -238,7 +196,6 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
-        
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -249,7 +206,7 @@ class MainViewController: UIViewController {
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom).offset(15) //усаживает кнопку на глубину
+            make.bottom.equalTo(view.snp.bottom).offset(15)
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(80)
         }
@@ -265,7 +222,6 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
-        
         view.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -294,45 +250,8 @@ class MainViewController: UIViewController {
     @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
-    } // устанавливаем селекторы на кнопки и движения
-    
-    //    func makeAttributedTemprature() -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
-    //        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title3)]
-    //        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
-    //        let temprature = NSAttributedString(string: "10", attributes: tempratureDigits)
-    //        let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
-    //        let attributedString = NSMutableAttributedString()
-    //        attributedString.append(temprature)
-    //        attributedString.append(degree)
-    //
-    //        let label = UILabel()
-    //        label.attributedText = attributedString
-    //        return label
-    //    } // делает кастом
-    
-    
-    
-    
-    //    func makeAttributedTemprature(temp: String) -> UILabel {  // делает кастомный текст (атрибутивный) для температуры
-    //        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title3)]
-    //        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 28]
-    //        let temprature = NSAttributedString(string: temp, attributes: tempratureDigits)
-    //        let degree = NSAttributedString(string: "°", attributes: tempratureDegree)
-    ////        let attributedString = NSMutableAttributedString()
-    ////        attributedString.append(temprature)
-    ////        attributedString.append(degree)
-    ////
-    ////        let label = UILabel()
-    ////        label.attributedText = attributedString
-    //        return label
-    //
-    //    } // делает кастомный текст (атрибутивный) для температуры
-    
-    
-    
-    
-    
-    
+    }
+ 
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
         
@@ -344,7 +263,7 @@ class MainViewController: UIViewController {
         let label = UILabel()
         label.attributedText = attributedConditions
         return label
-    } // делает кастомный текст (атрибутивный) для condition code
+    }
     
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
@@ -356,7 +275,7 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = true
         searchIcon.isHidden = true
         infoButton.isHidden = true
-    }  // нажатие кнопки INFO
+    }
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
         stoneImageView.isHidden = false
@@ -367,14 +286,13 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = false
         searchIcon.isHidden = false
         infoButton.isHidden = false
-    }  // закрытие INFO
+    }
     
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
         
-        if wind == true {    //         if windy == true { рабочий вариант
-            
+        if wind == true {
             switch state {
             case .normal:
                 stoneImage = UIImage(named: "image_stone_normal.png")
@@ -397,7 +315,6 @@ class MainViewController: UIViewController {
                 windAnimationRotate()
                 alphaLevel = 0.3
             }
-            
             stoneImageView.alpha = alphaLevel
             stoneImageView.image = stoneImage
         } else {
@@ -418,19 +335,16 @@ class MainViewController: UIViewController {
                 stoneImage = UIImage(named: "image_stone_normal.png")
                 alphaLevel = 0.3
             }
-            
             stoneImageView.alpha = alphaLevel
             stoneImageView.image = stoneImage
         }
     }
     
     func updateData(_ data: CompletionData) {
-        
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
         print(state)
     }
-    
     func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.duration = 2
@@ -438,7 +352,6 @@ class MainViewController: UIViewController {
         animation.repeatCount = .infinity
         animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ] //- рабочий вариант. не удалять!
         //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
-        
         animation.keyTimes = [NSNumber(value: 0.0),
                               NSNumber(value: 0.5), //0.3
                               NSNumber(value: 1.0)    //1.0
@@ -452,21 +365,20 @@ class MainViewController: UIViewController {
         let tempratureDigitsAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
         let tempratureDegreeAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize:64)]
-                        
+        
         let attributedString = NSMutableAttributedString(string: temperatureData, attributes: tempratureDigitsAttributes)
         let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegreeAttributes)
-                
+        
         attributedString.append(attributedDegree)
         
         return attributedString
     }
     
     func formattingText(discription: String) -> NSAttributedString {
-
         let weatherDiscriptionAttribute: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 32)  ]
-  
+        
         let attributedWeatherDiscription = NSMutableAttributedString(string: discription, attributes: weatherDiscriptionAttribute)
-   
+        
         return attributedWeatherDiscription
     }
     
@@ -484,7 +396,6 @@ extension MainViewController {
         case normal
         
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-            
             if temperature > 30 {
                 self = .cracks
                 print("its cracks case!")
@@ -513,40 +424,28 @@ extension MainViewController {
 
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
         guard let lastLocation = locations.last else { return }
         weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
-            
             let weatherConditions = complitionData.weather
             let temperature = String(complitionData.temperature)
             let city = complitionData.city
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
-            
             let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
-            
             DispatchQueue.main.async { [self] in
-          
-                self.temperatureLabel.attributedText = attributedTemperature //temperature //String(format: "%.0f", temprature)
-                
+                self.temperatureLabel.attributedText = attributedTemperature
                 self.conditionsLabel.attributedText = attributedWeatherConditions
-                
                 self.locationLabel.text = city + ", " + country
-                
                 self.updateData(complitionData)
-                
                 self.windSpeed = windSpeedData
                 print("windspeedKm  468 - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
-
                 scrollView.refreshControl = refreshControl
             }
         }
     }
-    
 }
 
 

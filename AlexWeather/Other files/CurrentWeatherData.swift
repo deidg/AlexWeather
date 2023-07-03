@@ -3,7 +3,7 @@ import Foundation
 
 struct WeatherData: Codable {
     var name: String
-    var sys: Sys  // посмотреть старые версии и посмотреть как я там вытащил страну из тех данны. Через Sys?
+    var sys: Sys 
     var weather: [Weather]
     var main: Main
     var wind: Wind
@@ -25,6 +25,22 @@ struct Wind: Codable {
 struct Main: Codable {
     var temp: Double
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
