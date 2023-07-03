@@ -110,7 +110,7 @@ class MainViewController: UIViewController {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
         temperatureLabel.textAlignment = .left
-        
+        temperatureLabel.numberOfLines = 2
         
         return temperatureLabel
     }()
@@ -446,47 +446,28 @@ class MainViewController: UIViewController {
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
     
-    func formattingText(temperatureData: String) -> NSAttributedString { //, discription: String)
+    func formattingNumbers(temperatureData: String) -> NSAttributedString {
+        let degreeSign: String = "º"
         
-        let degreeSign: String = "º" //"\u{0xC2 0xB0}"
-        
-        let tempratureDigits: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
-        let tempratureDegree: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
-        
-        
-        
-//        let temprature = NSAttributedString(string: temperatureData, attributes: tempratureDigits)
-        
-        let attributedString = NSMutableAttributedString(string: temperatureData, attributes: tempratureDigits)
-        let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegree)
-        
+        let tempratureDigitsAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
+        let tempratureDegreeAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize:64)]
+                        
+        let attributedString = NSMutableAttributedString(string: temperatureData, attributes: tempratureDigitsAttributes)
+        let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegreeAttributes)
+                
         attributedString.append(attributedDegree)
         
         return attributedString
-        
-        
-        
-        
-        
-        
-        //        let degreeSign: String = "º" //"\u{0xC2 0xB0}"
-        //
-        //        let temperatureDigitsAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 84)]
-        //        let temperatureDegreeAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 84)]
-        //
-        ////        let weatherDiscriptionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 44)] //(ofSize: 44)]
-        //
-        //
-        //        let temperature = NSMutableAttributedString(string: temperatureData, attributes: temperatureDigitsAttributes)
-        //
-        //        let attributedDegree = NSAttributedString(string: degreeSign, attributes: temperatureDegreeAttributes)
-        //
-        ////        let weatherDiscription = NSAttributedString(string: discription)//, attributes: weatherDiscriptionAttributes)
-        //
-        //
-        //        temperature.append(attributedDegree)
-        //
-        //        return temperature
+    }
+    
+    func formattingText(discription: String) -> NSAttributedString {
+
+        let weatherDiscriptionAttribute: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 32)  ]
+  
+        let attributedWeatherDiscription = NSMutableAttributedString(string: discription, attributes: weatherDiscriptionAttribute)
+   
+        return attributedWeatherDiscription
     }
     
     
@@ -541,7 +522,8 @@ extension MainViewController: CLLocationManagerDelegate {
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
             
-            let attributedTemperature = self.formattingText(temperatureData: temperature)//, discription: weatherConditions)
+            let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
+            let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
             
             DispatchQueue.main.async { [self] in
                 
@@ -549,7 +531,7 @@ extension MainViewController: CLLocationManagerDelegate {
                 
                 self.temperatureLabel.attributedText = attributedTemperature //temperature //String(format: "%.0f", temprature)
                 
-                self.conditionsLabel.text = weatherConditions
+                self.conditionsLabel.attributedText = attributedWeatherConditions
                 
                 self.locationLabel.text = city + ", " + country
                 
