@@ -508,6 +508,9 @@ extension MainViewController {
     }
 }
 
+
+//найти место где при отсутсвии интернета вставить исчезновение камня
+
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     
@@ -526,9 +529,7 @@ extension MainViewController: CLLocationManagerDelegate {
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
             
             DispatchQueue.main.async { [self] in
-                
-                
-                
+          
                 self.temperatureLabel.attributedText = attributedTemperature //temperature //String(format: "%.0f", temprature)
                 
                 self.conditionsLabel.attributedText = attributedWeatherConditions
@@ -540,22 +541,9 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.windSpeed = windSpeedData
                 print("windspeedKm  468 - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
-                
-                //                makeAttributedTemprature()
-                //                makeAttributedConditions()
-                
-                
-                //                temperatureLabel.attributedText = makeAttributedTemprature().attributedText
-                //                   conditionsLabel.attributedText = makeAttributedConditions().attributedText
-                
-                
+
                 scrollView.refreshControl = refreshControl
-                
-                
-                
-                
             }
-            
         }
     }
     
