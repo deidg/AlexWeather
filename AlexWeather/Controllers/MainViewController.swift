@@ -17,15 +17,7 @@ class MainViewController: UIViewController {
     var windy: Bool = false
     
     //TODO: переместить
-    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
-        if windSpeed > 5.0 {
-            windy = true
-            print("Its windy. Answer: \(windy)")
-        } else {
-            windy = false
-            print("Its NOT windy. Answer: \(windy)")
-        }
-    }
+    
     
     var state: State = .normal {
         didSet {
@@ -340,6 +332,16 @@ class MainViewController: UIViewController {
         }
     }
     
+    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
+        if windSpeed > 5.0 {
+            windy = true
+            print("Its windy. Answer: \(windy)")
+        } else {
+            windy = false
+            print("Its NOT windy. Answer: \(windy)")
+        }
+    }
+    
     func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
@@ -432,15 +434,17 @@ extension MainViewController: CLLocationManagerDelegate {
             let city = complitionData.city
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
+            
             let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
             DispatchQueue.main.async { [self] in
+                checkWindSpeed(windSpeed: windSpeedData)
                 self.temperatureLabel.attributedText = attributedTemperature
                 self.conditionsLabel.attributedText = attributedWeatherConditions
                 self.locationLabel.text = city + ", " + country
                 self.updateData(complitionData)
                 self.windSpeed = windSpeedData
-                print("windspeedKm  468 - \(windSpeedData)")
+                print("windspeed m/sec - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
                 scrollView.refreshControl = refreshControl
             }
