@@ -13,7 +13,6 @@ struct WeatherData: Codable {
 struct Weather: Codable {
     var id: Int
     var main: String
-//    var cod: Int
 }
 
 struct Sys: Codable {

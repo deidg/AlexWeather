@@ -12,10 +12,33 @@ import CoreLocation
 import SnapKit
 import Network
 
+
 class MainViewController: UIViewController {
     //MARK: elements
     
-    let monitor = NWPathMonitor()
+    
+    
+    func makingNetworkMonitor() {
+        
+        let monitor = NWPathMonitor()
+
+
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                print("Internet connection - OK 24")
+            } else {
+                print("There is NO internet connection 26")
+                self.hideStone()
+            }
+        }
+        
+        let queue = DispatchQueue.main
+        monitor.start(queue: queue)
+    }
+    
+    func hideStone() {
+        stoneImageView.isHidden = true
+    }
     
     let weatherManager = WeatherManager()
     
@@ -132,7 +155,11 @@ class MainViewController: UIViewController {
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         startLocationManager()
         
-  
+        checkingInternet()
+        
+        makingNetworkMonitor()
+        
+        
     }
     
     private func startLocationManager() {
@@ -156,6 +183,8 @@ class MainViewController: UIViewController {
             self.state = .init(temprature, conditionCode, windSpeed)
         }
         checkingInternet()
+        makingNetworkMonitor()
+
 
         print("func refreshAction done")
         refreshControl.endRefreshing()
@@ -398,21 +427,37 @@ class MainViewController: UIViewController {
         return attributedWeatherDiscription
     }
     
+        
+    
+    
+    
     func checkingInternet() {
         
-        let configuration = URLSessionConfiguration.default
-        configuration.waitsForConnectivity = true
-        configuration.timeoutIntervalForRequest = 10 // 1 minute
-        configuration.timeoutIntervalForResource = 60 * 60 // 1 hour
-
-        if configuration.waitsForConnectivity == true {
-            print("Internet connection - OK)")
-            return
-            
-        } else {
-            print("Internet connection - NOT WORKING)")
-            stoneImageView.isHidden = true
-        }
+      
+        
+//        print(
+//            " 404 Longitude -\(String(describing: locationManager.location?.coordinate.longitude))"
+//        )
+//        print(
+//            " 407 Longitude -\(String(describing: locationManager.location?.coordinate.latitude))"
+//        )
+        
+//        let configuration = URLSessionConfiguration.default
+//        configuration.waitsForConnectivity = true
+////        configuration.timeoutIntervalForRequest = 10 // 1 minute
+////        configuration.timeoutIntervalForResource = 60 * 60 // 1 hour
+//        let request =
+//
+//        URLSession(configuration: configuration).dataTask(with: <#T##URLRequest#>, completionHandler: <#T##(Data?, URLResponse?, Error?) -> Void#>)
+//
+//        if configuration.waitsForConnectivity == true {
+//            print("Internet connection - OK)")
+//            return
+//
+//        } else {
+//            print("Internet connection - NOT WORKING)")
+//            stoneImageView.isHidden = true
+//        }
     }
   
     
@@ -484,10 +529,11 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.updateData(complitionData)
                 self.windSpeed = windSpeedData
                 
+                
                 print("windspeed m/sec - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
                 scrollView.refreshControl = refreshControl
-//                print("response status code - \(responseStatusCode)")
+                print("response status code - \(responseStatusCode)")
                 
                 
 
