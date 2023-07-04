@@ -16,36 +16,14 @@ import Network
 class MainViewController: UIViewController {
     //MARK: elements
     
-    
-    
-    func makingNetworkMonitor() {
-        
-        let monitor = NWPathMonitor()
-
-
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                print("Internet connection - OK 24")
-            } else {
-                print("There is NO internet connection 26")
-                self.hideStone()
-            }
-        }
-        
-        let queue = DispatchQueue.main
-        monitor.start(queue: queue)
-    }
-    
-    func hideStone() {
-        stoneImageView.isHidden = true
-    }
-    
     let weatherManager = WeatherManager()
     
     var windSpeed: Double = 0
     var windy: Bool = false
     
-    //TODO: переместить
+
+  
+
     
     
     var state: State = .normal {
@@ -144,7 +122,7 @@ class MainViewController: UIViewController {
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
-
+    
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -153,11 +131,18 @@ class MainViewController: UIViewController {
         setupUI()
         defaultConfiguration()
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
+        let timer = Timer.scheduledTimer(timeInterval: 2,
+                                             target: self,
+                                             selector: #selector(makingNetworkMonitor),
+                                             userInfo: nil,
+                                             repeats: true)
+        
         startLocationManager()
-        
-        checkingInternet()
-        
         makingNetworkMonitor()
+        
+        
+        
+        
         
         
     }
@@ -182,9 +167,7 @@ class MainViewController: UIViewController {
             let windSpeed = completionData.windSpeed
             self.state = .init(temprature, conditionCode, windSpeed)
         }
-        checkingInternet()
         makingNetworkMonitor()
-
 
         print("func refreshAction done")
         refreshControl.endRefreshing()
@@ -284,7 +267,7 @@ class MainViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
- 
+    
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
         
@@ -382,9 +365,7 @@ class MainViewController: UIViewController {
             print("Its NOT windy. Answer: \(windy)")
         }
     }
-    
-  
-    
+   
     func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
@@ -427,42 +408,30 @@ class MainViewController: UIViewController {
         return attributedWeatherDiscription
     }
     
+   @objc func makingNetworkMonitor() {
+
+        let monitor = NWPathMonitor()
+
         
-    
-    
-    
-    func checkingInternet() {
-        
-      
-        
-//        print(
-//            " 404 Longitude -\(String(describing: locationManager.location?.coordinate.longitude))"
-//        )
-//        print(
-//            " 407 Longitude -\(String(describing: locationManager.location?.coordinate.latitude))"
-//        )
-        
-//        let configuration = URLSessionConfiguration.default
-//        configuration.waitsForConnectivity = true
-////        configuration.timeoutIntervalForRequest = 10 // 1 minute
-////        configuration.timeoutIntervalForResource = 60 * 60 // 1 hour
-//        let request =
-//
-//        URLSession(configuration: configuration).dataTask(with: <#T##URLRequest#>, completionHandler: <#T##(Data?, URLResponse?, Error?) -> Void#>)
-//
-//        if configuration.waitsForConnectivity == true {
-//            print("Internet connection - OK)")
-//            return
-//
-//        } else {
-//            print("Internet connection - NOT WORKING)")
-//            stoneImageView.isHidden = true
-//        }
+
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                print("Internet connection - OK 24")
+                self.stoneImageView.isHidden = false
+            } else {
+                print("There is NO internet connection 26")
+                self.stoneImageView.isHidden = true
+            }
+        }
+
+        let queue = DispatchQueue.main
+        monitor.start(queue: queue)
     }
-  
     
     
-    
+//    let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+//        makingNetworkMonitor()
+//    }
     
 }
 
@@ -517,10 +486,7 @@ extension MainViewController: CLLocationManagerDelegate {
             
             let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
-        
-            
-            
-            
+          
             DispatchQueue.main.async { [self] in
                 checkWindSpeed(windSpeed: windSpeedData)
                 self.temperatureLabel.attributedText = attributedTemperature
@@ -534,15 +500,13 @@ extension MainViewController: CLLocationManagerDelegate {
                 checkWindSpeed(windSpeed: windSpeedData)
                 scrollView.refreshControl = refreshControl
                 print("response status code - \(responseStatusCode)")
-                
-                
-
-                
-                
-                
+          
             }
         }
     }
+    
+   
+    
 }
 
 
