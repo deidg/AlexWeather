@@ -131,20 +131,12 @@ class MainViewController: UIViewController {
         setupUI()
         defaultConfiguration()
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
-        let timer = Timer.scheduledTimer(timeInterval: 2,
-                                             target: self,
-                                             selector: #selector(makingNetworkMonitor),
-                                             userInfo: nil,
-                                             repeats: true)
+        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
+                                             userInfo: nil, repeats: true)
         
         startLocationManager()
         makingNetworkMonitor()
-        
-        
-        
-        
-        
-        
+       
     }
     
     private func startLocationManager() {
