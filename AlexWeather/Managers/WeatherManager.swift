@@ -16,7 +16,9 @@ final class WeatherManager {
                         temperature: Int(weather.main.temp),
                         weather: weather.weather.first?.main ?? "",
                         id: weather.weather.first?.id ?? 0,
-                        windSpeed: weather.wind.speed)
+                        windSpeed: weather.wind.speed, //,
+                        cod: weather.cod
+                    )
                     DispatchQueue.main.async {
                         completion?(completionData)
                     }
@@ -33,6 +35,7 @@ struct CompletionData {
     let weather: String
     let id: Int
     let windSpeed: Double
+    let cod: Int
 }
 
 
@@ -85,3 +88,4 @@ struct CompletionData {
 //    }
 //}
 //
+//        https://api.openweathermap.org/data/2.5/weather?lat=39.39&lon=66.57&appid=130af965a13542537138a6ef5cc6216f

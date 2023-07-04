@@ -5,12 +5,18 @@
 //  Created by Alex on 16.05.2023.
 //
 
+
+
 import UIKit
 import CoreLocation
 import SnapKit
+import Network
 
 class MainViewController: UIViewController {
     //MARK: elements
+    
+    let monitor = NWPathMonitor()
+    
     let weatherManager = WeatherManager()
     
     var windSpeed: Double = 0
@@ -115,6 +121,8 @@ class MainViewController: UIViewController {
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
+
+    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,6 +131,8 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         startLocationManager()
+        
+  
     }
     
     private func startLocationManager() {
@@ -145,6 +155,8 @@ class MainViewController: UIViewController {
             let windSpeed = completionData.windSpeed
             self.state = .init(temprature, conditionCode, windSpeed)
         }
+        checkingInternet()
+
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
@@ -333,7 +345,7 @@ class MainViewController: UIViewController {
     }
     
     func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
-        if windSpeed > 5.0 {
+        if windSpeed > 3.0 {
             windy = true
             print("Its windy. Answer: \(windy)")
         } else {
@@ -341,6 +353,8 @@ class MainViewController: UIViewController {
             print("Its NOT windy. Answer: \(windy)")
         }
     }
+    
+  
     
     func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
@@ -383,6 +397,26 @@ class MainViewController: UIViewController {
         
         return attributedWeatherDiscription
     }
+    
+    func checkingInternet() {
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        configuration.timeoutIntervalForRequest = 10 // 1 minute
+        configuration.timeoutIntervalForResource = 60 * 60 // 1 hour
+
+        if configuration.waitsForConnectivity == true {
+            print("Internet connection - OK)")
+            return
+            
+        } else {
+            print("Internet connection - NOT WORKING)")
+            stoneImageView.isHidden = true
+        }
+    }
+  
+    
+    
     
     
 }
@@ -434,9 +468,14 @@ extension MainViewController: CLLocationManagerDelegate {
             let city = complitionData.city
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
+            let responseStatusCode = complitionData.weather
             
             let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
+        
+            
+            
+            
             DispatchQueue.main.async { [self] in
                 checkWindSpeed(windSpeed: windSpeedData)
                 self.temperatureLabel.attributedText = attributedTemperature
@@ -444,9 +483,17 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.locationLabel.text = city + ", " + country
                 self.updateData(complitionData)
                 self.windSpeed = windSpeedData
+                
                 print("windspeed m/sec - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
                 scrollView.refreshControl = refreshControl
+//                print("response status code - \(responseStatusCode)")
+                
+                
+
+                
+                
+                
             }
         }
     }
