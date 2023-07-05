@@ -6,8 +6,9 @@
 //
 
 // TODO: разобраться почему при появлении виджета ИНФО не пропадает камень
-// TODO: надписиь на кнопке инфо сделать другим размером шрифта и цвет текста черный.
+// TODO: надпись на кнопке инфо сделать другим размером шрифта и цвет текста черный.
 // TODO: добавить кнопке ИНФО тень справа
+// TODO: увелчить поле отображения температуры - иногда не влезает и появляются точки
 
 import UIKit
 import CoreLocation
@@ -75,11 +76,22 @@ class MainViewController: UIViewController {
         paragraphStyle.lineSpacing = 20
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         label.attributedText = attributedString
-   
-    
-        
         return label
     }()
+    
+    var infoLargeLabelShadowView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .yellow
+        view.isHidden = true
+        view.layer.cornerRadius = 25
+        view.layer.masksToBounds = true
+
+        return view
+    }()
+//
+//    func makeShadowView() {
+//
+//    }
     
 //    let viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
 //    viewShadow.center = self.view.center
@@ -244,12 +256,23 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
-        view.addSubview(infoLargeView)
+        
+        view.addSubview(infoLargeLabelShadowView)
+        infoLargeLabelShadowView.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.view)
+            make.top.bottom.equalTo(view).inset(200)
+            make.leading.trailing.equalTo(view).inset(60)
+        }
+        
+       
+        infoLargeLabelShadowView.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
             make.leading.trailing.equalTo(view).inset(60)
         }
+        
+       
         infoLargeView.addSubview(infoLargeViewTitleLabel)
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
@@ -291,6 +314,7 @@ class MainViewController: UIViewController {
         print("INFO opened")
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
+        infoLargeLabelShadowView.isHidden = false
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
         locationLabel.isHidden = true
@@ -302,6 +326,7 @@ class MainViewController: UIViewController {
         print("closed!")
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
+        infoLargeLabelShadowView.isHidden = true
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
