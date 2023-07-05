@@ -57,8 +57,15 @@ class MainViewController: UIViewController {
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
         infoLargeView.isHidden = true
-        infoLargeView.layer.masksToBounds = true
+//        infoLargeView.layer.masksToBounds = true
         infoLargeView.layer.cornerRadius = 25
+        
+        infoLargeView.layer.shadowColor = UIColor.black.cgColor
+        infoLargeView.layer.shadowOpacity =  0.5
+        infoLargeView.layer.shadowOffset = CGSize(width: 10, height: 5)
+        infoLargeView.layer.shadowRadius = 10
+        
+        
         return infoLargeView
     }()
     let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
@@ -80,24 +87,31 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    var infoLargeLabelShadowView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = .yellow
-        view.isHidden = true
-        view.layer.cornerRadius = 25
-        view.layer.masksToBounds = true
-//        view.layer.clipsToBounds = true - варинат для View
-        return view
-    }()
+//    var infoLargeLabelShadowView: UIImageView = {
+//        let view = UIImageView()
+//        view.backgroundColor = .yellow
+//        view.isHidden = true
+//        view.layer.cornerRadius = 25
+//        view.layer.masksToBounds = true
+////        view.layer.clipsToBounds = true - варинат для View
 //
-    func setupShadow() {
-        infoLargeLabelShadowView.layer.shadowColor = UIColor.black.cgColor
-        infoLargeLabelShadowView.layer.shadowRadius = 25
-        infoLargeLabelShadowView.layer.shadowOpacity = 0.7
-        infoLargeLabelShadowView.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
-        
-        let cgPath = UIBezierPath(roundedRect: infoLargeLabelShadowView.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: 25, height: 25))
-    }
+////        view.layer.shadowColor = UIColor.black.cgColor
+////        view.layer.shadowOpacity =  0.5
+////        view.layer.shadowOffset = CGSize(width: 10, height: 5)
+////        view.layer.shadowRadius = 10
+////
+//
+//        return view
+//    }()
+//
+//    func setupShadow() {
+//        infoLargeLabelShadowView.layer.shadowColor = UIColor.black.cgColor
+//        infoLargeLabelShadowView.layer.shadowRadius = 25
+//        infoLargeLabelShadowView.layer.shadowOpacity = 0.7
+//        infoLargeLabelShadowView.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
+//
+//        let cgPath = UIBezierPath(roundedRect: infoLargeLabelShadowView.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: 25, height: 25))
+//    }
     
 //    let viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
 //    viewShadow.center = self.view.center
@@ -168,7 +182,7 @@ class MainViewController: UIViewController {
         startLocationManager()
         makingNetworkMonitor()
         
-        setupShadow()
+//        setupShadow()
     }
     
     private func startLocationManager() {
@@ -263,15 +277,15 @@ class MainViewController: UIViewController {
             make.height.equalTo(20)
         }
         
-        view.addSubview(infoLargeLabelShadowView)
-        infoLargeLabelShadowView.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            make.top.bottom.equalTo(view).inset(200)
-            make.leading.trailing.equalTo(view).inset(60)
-        }
+//        view.addSubview(infoLargeLabelShadowView)
+//        infoLargeLabelShadowView.snp.makeConstraints{ make in
+//            make.centerX.equalTo(self.view)
+//            make.top.bottom.equalTo(view).inset(200)
+//            make.leading.trailing.equalTo(view).inset(60)
+//        }
         
        
-        infoLargeLabelShadowView.addSubview(infoLargeView)
+        view.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
@@ -320,7 +334,7 @@ class MainViewController: UIViewController {
         print("INFO opened")
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
-        infoLargeLabelShadowView.isHidden = false
+//        infoLargeLabelShadowView.isHidden = false
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
         locationLabel.isHidden = true
@@ -332,7 +346,7 @@ class MainViewController: UIViewController {
         print("closed!")
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
-        infoLargeLabelShadowView.isHidden = true
+//        infoLargeLabelShadowView.isHidden = true
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
