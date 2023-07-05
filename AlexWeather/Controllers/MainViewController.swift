@@ -5,12 +5,15 @@
 //  Created by Alex on 16.05.2023.
 //
 
-
+// TODO: разобраться почему при появлении виджета ИНФО не пропадает камень
+// TODO: надписиь на кнопке инфо сделать другим размером шрифта и цвет текста черный.
+// TODO: добавить кнопке ИНФО тень справа
 
 import UIKit
 import CoreLocation
 import SnapKit
 import Network
+
 
 
 class MainViewController: UIViewController {
@@ -21,10 +24,10 @@ class MainViewController: UIViewController {
     var windSpeed: Double = 0
     var windy: Bool = false
     
-
-  
-
+    let gradientLayer = CAGradientLayer()
     
+    let locationManager =  CLLocationManager()
+    var currentLocation: CLLocation?
     
     var state: State = .normal {
         didSet {
@@ -40,22 +43,14 @@ class MainViewController: UIViewController {
         view.alwaysBounceVertical = true
         return view
     }()
-    
     private let contentView: UIView = {
         let view = UIView()
         return view
     }()
-    
-    let gradientLayer = CAGradientLayer()
-    
-    let locationManager =  CLLocationManager()
-    var currentLocation: CLLocation?
-    
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
-    
     let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
@@ -80,8 +75,26 @@ class MainViewController: UIViewController {
         paragraphStyle.lineSpacing = 20
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         label.attributedText = attributedString
+   
+    
+        
         return label
     }()
+    
+//    let viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+//    viewShadow.center = self.view.center
+//    viewShadow.backgroundColor = UIColor.yellow
+//    viewShadow.layer.shadowColor = UIColor.red.cgColor
+//    viewShadow.layer.shadowOpacity = 1
+//    viewShadow.layer.shadowOffset = CGSize.zero
+//    viewShadow.layer.shadowRadius = 5
+//    self.view.addSubview(viewShadow)
+//
+    
+    
+    
+    
+    
     //TODO: make a shadow
     @objc  let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
@@ -92,6 +105,7 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.layer.cornerRadius = 15
         return infoLargeViewHideButton
     }()
+    
     var topColor = UIColor.orange  // gradient
     var bottomColor = UIColor.yellow
     var temperatureLabel: UILabel = {
@@ -115,14 +129,13 @@ class MainViewController: UIViewController {
         let infoButton = UIButton()
         infoButton.backgroundColor = .gray
         infoButton.setTitle("Info", for: .normal)
+//        infoButton.
         infoButton.layer.cornerRadius = 15
         return infoButton
     }()
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
-    
-    
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -132,11 +145,12 @@ class MainViewController: UIViewController {
         defaultConfiguration()
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
-                                             userInfo: nil, repeats: true)
+                             userInfo: nil, repeats: true)
         
         startLocationManager()
         makingNetworkMonitor()
-       
+        
+        
     }
     
     private func startLocationManager() {
@@ -160,7 +174,7 @@ class MainViewController: UIViewController {
             self.state = .init(temprature, conditionCode, windSpeed)
         }
         makingNetworkMonitor()
-
+        
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
@@ -357,7 +371,7 @@ class MainViewController: UIViewController {
             print("Its NOT windy. Answer: \(windy)")
         }
     }
-   
+    
     func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
@@ -400,12 +414,12 @@ class MainViewController: UIViewController {
         return attributedWeatherDiscription
     }
     
-   @objc func makingNetworkMonitor() {
-
-        let monitor = NWPathMonitor()
-
+    @objc func makingNetworkMonitor() {
         
-
+        let monitor = NWPathMonitor()
+        
+        
+        
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
                 print("Internet connection - OK 24")
@@ -415,15 +429,15 @@ class MainViewController: UIViewController {
                 self.stoneImageView.isHidden = true
             }
         }
-
+        
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
     
     
-//    let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-//        makingNetworkMonitor()
-//    }
+    
+    
+    
     
 }
 
@@ -478,7 +492,7 @@ extension MainViewController: CLLocationManagerDelegate {
             
             let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
-          
+            
             DispatchQueue.main.async { [self] in
                 checkWindSpeed(windSpeed: windSpeedData)
                 self.temperatureLabel.attributedText = attributedTemperature
@@ -492,14 +506,8 @@ extension MainViewController: CLLocationManagerDelegate {
                 checkWindSpeed(windSpeed: windSpeedData)
                 scrollView.refreshControl = refreshControl
                 print("response status code - \(responseStatusCode)")
-          
             }
         }
     }
-    
-   
-    
 }
-
-
 
