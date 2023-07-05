@@ -9,6 +9,7 @@
 // TODO: надпись на кнопке инфо сделать другим размером шрифта и цвет текста черный.
 // TODO: добавить кнопке ИНФО тень справа
 // TODO: увелчить поле отображения температуры - иногда не влезает и появляются точки
+//TODO: сделать константу для corner radius - 25
 
 import UIKit
 import CoreLocation
@@ -85,13 +86,18 @@ class MainViewController: UIViewController {
         view.isHidden = true
         view.layer.cornerRadius = 25
         view.layer.masksToBounds = true
-
+//        view.layer.clipsToBounds = true - варинат для View
         return view
     }()
 //
-//    func makeShadowView() {
-//
-//    }
+    func setupShadow() {
+        infoLargeLabelShadowView.layer.shadowColor = UIColor.black.cgColor
+        infoLargeLabelShadowView.layer.shadowRadius = 25
+        infoLargeLabelShadowView.layer.shadowOpacity = 0.7
+        infoLargeLabelShadowView.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
+        
+        let cgPath = UIBezierPath(roundedRect: infoLargeLabelShadowView.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: 25, height: 25))
+    }
     
 //    let viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
 //    viewShadow.center = self.view.center
@@ -162,7 +168,7 @@ class MainViewController: UIViewController {
         startLocationManager()
         makingNetworkMonitor()
         
-        
+        setupShadow()
     }
     
     private func startLocationManager() {
