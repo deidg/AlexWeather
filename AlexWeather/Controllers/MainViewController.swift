@@ -39,6 +39,8 @@ class MainViewController: UIViewController {
     
     let refreshControl = UIRefreshControl()
     
+    var infoButtonPressed: Bool = false
+    
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
         view.isScrollEnabled =  true
@@ -51,6 +53,8 @@ class MainViewController: UIViewController {
     }()
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
+//        stoneImageView.isHidden = false
+
         return stoneImageView
     }()
     let infoLargeView: UIView = { // INFO view
@@ -73,7 +77,7 @@ class MainViewController: UIViewController {
         infoLargeViewDepth.layer.cornerRadius = 25
         infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
         infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
-        infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10) 
+        infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
         infoLargeViewDepth  .layer.shadowRadius = 10
         
         
@@ -195,7 +199,7 @@ class MainViewController: UIViewController {
                              userInfo: nil, repeats: true)
         
         startLocationManager()
-        makingNetworkMonitor()
+//        makingNetworkMonitor()
         
 //        setupShadow()
     }
@@ -345,6 +349,13 @@ class MainViewController: UIViewController {
     
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
+        
+        
+        infoButtonPressed = true
+        
+        makingNetworkMonitor()
+
+        
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
         infoLargeViewDepth.isHidden = false
@@ -359,10 +370,15 @@ class MainViewController: UIViewController {
     }
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
+        infoButtonPressed = false
+
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
         infoLargeViewDepth.isHidden = true
 
+        makingNetworkMonitor()
+
+        
 //        infoLargeLabelShadowView.isHidden = true
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
@@ -479,18 +495,30 @@ class MainViewController: UIViewController {
     @objc func makingNetworkMonitor() {
         
         let monitor = NWPathMonitor()
-        
-        
+ 
+//        monitor.pathUpdateHandler = { path in
+//            if path.status != .satisfied && self.infoButtonPressed == false {
+//                print("Internet connection - OK 24")
+//                self.stoneImageView.isHidden = false
+//            } else {
+//                print("There is NO internet connection 26")
+//                self.stoneImageView.isHidden = true
+//            }
+//        }
+//
         
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                print("Internet connection - OK 24")
-                self.stoneImageView.isHidden = false
-            } else {
+            if path.status == .satisfied && self.infoButtonPressed == true {
                 print("There is NO internet connection 26")
                 self.stoneImageView.isHidden = true
+            } else if path.status == .satisfied && self.infoButtonPressed == false  {
+
+
+                print("Internet connection - OK 24")
+                self.stoneImageView.isHidden = false
             }
         }
+        
         
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
