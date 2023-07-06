@@ -5,11 +5,13 @@
 //  Created by Alex on 16.05.2023.
 //
 
-// TODO: разобраться почему при появлении виджета ИНФО не пропадает камень
-// TODO: надпись на кнопке инфо сделать другим размером шрифта и цвет текста черный.
 // TODO: добавить кнопке ИНФО тень справа
-// TODO: увелчить поле отображения температуры - иногда не влезает и появляются точки
+// TODO: добавить градиент кнопке ИНФО
+
+
 //TODO: сделать константу для corner radius - 25
+// TODO: надпись на кнопке инфо сделать другим размером шрифта
+//TODO: поднять надпись ИНФО на кнопке выше (через сделать констрейнт ближе к потолку)
 
 import UIKit
 import CoreLocation
@@ -27,6 +29,8 @@ class MainViewController: UIViewController {
     var windy: Bool = false
     
     let gradientLayer = CAGradientLayer()
+    let infoButtonGradientLayer = CAGradientLayer()
+
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
@@ -178,10 +182,21 @@ class MainViewController: UIViewController {
     }()
     @objc let infoButton: UIButton = {
         let infoButton = UIButton()
-        infoButton.backgroundColor = .gray
-        infoButton.setTitle("Info", for: .normal)
-//        infoButton.
+//        infoButton.frame = CGRect(x: 150, y: 300, width: 349, height: 60)
+        infoButton.backgroundColor = .red
+        infoButton.setTitle("INFO", for: .normal)
+        infoButton.setTitleColor(.black, for: .normal)
         infoButton.layer.cornerRadius = 15
+        
+//        infoButton.layer.shadowColor = UIColor.red.cgColor
+        infoButton.layer.shadowOpacity = 0.5 //0.5
+        infoButton.layer.shadowOffset = CGSize(width: 0, height: 10)
+        infoButton.layer.shadowRadius = 10
+        infoButton.layer.masksToBounds = false
+        
+        infoButton.contentVerticalAlignment = .top
+
+        
         return infoButton
     }()
     
@@ -192,6 +207,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGradientLayer()
+//        configureInfoButtonGradientLayer()
+
         setupUI()
         defaultConfiguration()
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
@@ -199,9 +216,8 @@ class MainViewController: UIViewController {
                              userInfo: nil, repeats: true)
         
         startLocationManager()
-//        makingNetworkMonitor()
-        
-//        setupShadow()
+
+
     }
     
     private func startLocationManager() {
@@ -234,10 +250,13 @@ class MainViewController: UIViewController {
     
     func configureGradientLayer() { // делает градиентную заливку
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-        gradientLayer.locations = [0,1]
-        view.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = view.bounds
+                gradientLayer.locations = [0,1]
+                view.layer.addSublayer(gradientLayer)
+                gradientLayer.frame = view.bounds
     }
+    
+    
+
     
     func setupUI() {   // раставляет все элементы на экране
         view.addSubview(scrollView)
@@ -259,7 +278,7 @@ class MainViewController: UIViewController {
         temperatureLabel.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(300)
             make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(270)
+            make.trailing.equalToSuperview().inset(200)
             make.height.equalTo(100)
         }
         view.addSubview(conditionsLabel)
@@ -276,6 +295,8 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
+        
+        
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -283,6 +304,9 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(80)
         }
+        
+        
+        
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(80)
@@ -349,18 +373,11 @@ class MainViewController: UIViewController {
     
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
-        
-        
         infoButtonPressed = true
-        
         makingNetworkMonitor()
-
-        
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
         infoLargeViewDepth.isHidden = false
-
-//        infoLargeLabelShadowView.isHidden = false
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
         locationLabel.isHidden = true
@@ -371,15 +388,10 @@ class MainViewController: UIViewController {
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
         infoButtonPressed = false
-
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
         infoLargeViewDepth.isHidden = true
-
         makingNetworkMonitor()
-
-        
-//        infoLargeLabelShadowView.isHidden = true
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
@@ -524,7 +536,12 @@ class MainViewController: UIViewController {
         monitor.start(queue: queue)
     }
     
-    
+//    func configureInfoButtonGradientLayer() {
+//        infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
+//        infoButtonGradientLayer.locations = [0,1]
+//        infoButton.layer.addSublayer(infoButtonGradientLayer)
+//        infoButtonGradientLayer.frame = infoButton.bounds
+//    }
     
     
     
