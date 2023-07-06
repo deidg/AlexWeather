@@ -57,12 +57,11 @@ class MainViewController: UIViewController {
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
         infoLargeView.isHidden = true
-//        infoLargeView.layer.masksToBounds = true
         infoLargeView.layer.cornerRadius = 25
         
         infoLargeView.layer.shadowColor = UIColor.black.cgColor
-        infoLargeView.layer.shadowOpacity = 0.3 //0.5
-        infoLargeView.layer.shadowOffset = CGSize(width: 10, height: 5)
+        infoLargeView.layer.shadowOpacity = 0.2 //0.5
+        infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
         infoLargeView.layer.shadowRadius = 10
         return infoLargeView
     }()
@@ -72,6 +71,13 @@ class MainViewController: UIViewController {
         infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
         infoLargeViewDepth.isHidden = true
         infoLargeViewDepth.layer.cornerRadius = 25
+        infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
+        infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
+        infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10) 
+        infoLargeViewDepth  .layer.shadowRadius = 10
+        
+        
+        
         
         return infoLargeViewDepth
     }()
