@@ -61,7 +61,7 @@ class MainViewController: UIViewController {
         infoLargeView.layer.cornerRadius = 25
         
         infoLargeView.layer.shadowColor = UIColor.black.cgColor
-        infoLargeView.layer.shadowOpacity = 1 //0.5
+        infoLargeView.layer.shadowOpacity = 0.3 //0.5
         infoLargeView.layer.shadowOffset = CGSize(width: 10, height: 5)
         infoLargeView.layer.shadowRadius = 10
         return infoLargeView
@@ -285,16 +285,14 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
- 
         view.addSubview(infoLargeViewDepth)
         infoLargeViewDepth.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
+//            make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
             make.leading.equalTo(view).inset(80)
             make.trailing.equalTo(view).inset(40)
         }
         
-       
         infoLargeViewDepth.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -302,7 +300,6 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(view).inset(60)
         }
         
-       
         infoLargeView.addSubview(infoLargeViewTitleLabel)
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
