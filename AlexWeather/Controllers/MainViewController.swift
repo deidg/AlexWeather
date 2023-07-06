@@ -61,13 +61,22 @@ class MainViewController: UIViewController {
         infoLargeView.layer.cornerRadius = 25
         
         infoLargeView.layer.shadowColor = UIColor.black.cgColor
-        infoLargeView.layer.shadowOpacity =  0.5
+        infoLargeView.layer.shadowOpacity = 1 //0.5
         infoLargeView.layer.shadowOffset = CGSize(width: 10, height: 5)
         infoLargeView.layer.shadowRadius = 10
-        
-        
         return infoLargeView
     }()
+    
+    let infoLargeViewDepth: UIView = {
+        let infoLargeViewDepth = UIView()
+        infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
+        infoLargeViewDepth.isHidden = true
+        infoLargeViewDepth.layer.cornerRadius = 25
+        
+        return infoLargeViewDepth
+    }()
+    
+    
     let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
         let label = UILabel()
         label.text = "INFO"
@@ -276,16 +285,17 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
-        
-//        view.addSubview(infoLargeLabelShadowView)
-//        infoLargeLabelShadowView.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.view)
-//            make.top.bottom.equalTo(view).inset(200)
-//            make.leading.trailing.equalTo(view).inset(60)
-//        }
+ 
+        view.addSubview(infoLargeViewDepth)
+        infoLargeViewDepth.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.view)
+            make.top.bottom.equalTo(view).inset(200)
+            make.leading.equalTo(view).inset(80)
+            make.trailing.equalTo(view).inset(40)
+        }
         
        
-        view.addSubview(infoLargeView)
+        infoLargeViewDepth.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
@@ -334,6 +344,8 @@ class MainViewController: UIViewController {
         print("INFO opened")
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
+        infoLargeViewDepth.isHidden = false
+
 //        infoLargeLabelShadowView.isHidden = false
         temperatureLabel.isHidden = true
         conditionsLabel.isHidden = true
@@ -346,6 +358,8 @@ class MainViewController: UIViewController {
         print("closed!")
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
+        infoLargeViewDepth.isHidden = true
+
 //        infoLargeLabelShadowView.isHidden = true
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
