@@ -8,10 +8,12 @@
 // TODO: добавить кнопке ИНФО тень справа
 // TODO: добавить градиент кнопке ИНФО
 
+//TODO: поменять картинку камня.
 
-//TODO: сделать константу для corner radius - 25
-// TODO: надпись на кнопке инфо сделать другим размером шрифта
-//TODO: поднять надпись ИНФО на кнопке выше (через сделать констрейнт ближе к потолку)
+
+//TODO: сделать константу для corner radius - 25 ?? где  ??
+// TODO: надпись на кнопке инфо сделать другим размером шрифта ??
+
 
 import UIKit
 import CoreLocation
@@ -19,9 +21,33 @@ import SnapKit
 import Network
 
 
+class button: UIButton {
+    
+    override init(frame: CGRect) {
+        super.init(frame: CGRect(x: 0, y: 0, width: 350, height: 300))
+         
+//        backgroundColor = .red
+//        layer.cornerRadius = 15
+//        layer.shadowOpacity = 0.5 //0.5
+//        layer.shadowOffset = CGSize(width: 0, height: 10)
+//        layer.shadowRadius = 10
+//        layer.masksToBounds = false
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 
 class MainViewController: UIViewController {
     //MARK: elements
+    
+    
+    var buttonI = button()
+    
+    
     
     let weatherManager = WeatherManager()
     
@@ -83,9 +109,6 @@ class MainViewController: UIViewController {
         infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
         infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
         infoLargeViewDepth  .layer.shadowRadius = 10
-        
-        
-        
         
         return infoLargeViewDepth
     }()
@@ -163,6 +186,12 @@ class MainViewController: UIViewController {
     
     var topColor = UIColor.orange  // gradient
     var bottomColor = UIColor.yellow
+    
+    var topColorForButton = UIColor.black  // gradient
+    var bottomColorForButton = UIColor.white
+    
+    
+    
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
@@ -180,25 +209,24 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-    @objc let infoButton: UIButton = {
-        let infoButton = UIButton()
+//    @objc
+//    let infoButton: UIButton = {
+//        let infoButton = UIButton()
 //        infoButton.frame = CGRect(x: 150, y: 300, width: 349, height: 60)
-        infoButton.backgroundColor = .red
-        infoButton.setTitle("INFO", for: .normal)
-        infoButton.setTitleColor(.black, for: .normal)
-        infoButton.layer.cornerRadius = 15
-        
-//        infoButton.layer.shadowColor = UIColor.red.cgColor
-        infoButton.layer.shadowOpacity = 0.5 //0.5
-        infoButton.layer.shadowOffset = CGSize(width: 0, height: 10)
-        infoButton.layer.shadowRadius = 10
-        infoButton.layer.masksToBounds = false
-        
-        infoButton.contentVerticalAlignment = .top
-
-        
-        return infoButton
-    }()
+//        infoButton.backgroundColor = .red
+//        infoButton.setTitle("INFO", for: .normal)
+//        infoButton.contentVerticalAlignment = .top
+//        infoButton.setTitleColor(.black, for: .normal)
+//        infoButton.layer.cornerRadius = 15
+//
+////        infoButton.layer.shadowColor = UIColor.red.cgColor
+//        infoButton.layer.shadowOpacity = 0.5 //0.5
+//        infoButton.layer.shadowOffset = CGSize(width: 0, height: 10)
+//        infoButton.layer.shadowRadius = 10
+//        infoButton.layer.masksToBounds = false
+//
+//        return infoButton
+//    }()
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
@@ -207,7 +235,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGradientLayer()
-//        configureInfoButtonGradientLayer()
+        configureInfoButtonGradientLayer()
 
         setupUI()
         defaultConfiguration()
@@ -297,13 +325,23 @@ class MainViewController: UIViewController {
         }
         
         
-        view.addSubview(infoButton)
-        infoButton.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom).offset(15)
-            make.leading.trailing.equalToSuperview().inset(100)
-            make.height.equalTo(80)
-        }
+//        view.addSubview(infoButton)
+//        infoButton.snp.makeConstraints{ make in
+//            make.centerX.equalTo(self.view)
+//            make.bottom.equalTo(view.snp.bottom).offset(15)
+//            make.leading.trailing.equalToSuperview().inset(100)
+//            make.height.equalTo(80)
+//        }
+//
+        
+        view.addSubview(buttonI)
+        buttonI.snp.makeConstraints{ make in
+                make.centerX.equalTo(self.view)
+//                make.bottom.equalTo(view.snp.bottom).offset(15)
+//                make.leading.trailing.equalToSuperview().inset(100)
+//                make.height.equalTo(80)
+            }
+        
         
         
         
@@ -354,7 +392,7 @@ class MainViewController: UIViewController {
         }
     } // раставляет все элементы на экране
     @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
-        infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+//        infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
     
@@ -383,7 +421,7 @@ class MainViewController: UIViewController {
         locationLabel.isHidden = true
         locationPinIcon.isHidden = true
         searchIcon.isHidden = true
-        infoButton.isHidden = true
+//        infoButton.isHidden = true
     }
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
@@ -397,7 +435,7 @@ class MainViewController: UIViewController {
         locationLabel.isHidden = false
         locationPinIcon.isHidden = false
         searchIcon.isHidden = false
-        infoButton.isHidden = false
+//        infoButton.isHidden = false
     }
     
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
@@ -536,12 +574,12 @@ class MainViewController: UIViewController {
         monitor.start(queue: queue)
     }
     
-//    func configureInfoButtonGradientLayer() {
-//        infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-//        infoButtonGradientLayer.locations = [0,1]
-//        infoButton.layer.addSublayer(infoButtonGradientLayer)
-//        infoButtonGradientLayer.frame = infoButton.bounds
-//    }
+    func configureInfoButtonGradientLayer() {
+        infoButtonGradientLayer.colors = [topColorForButton.cgColor, bottomColorForButton.cgColor]
+        infoButtonGradientLayer.locations = [0,1]
+        buttonI.layer.addSublayer(infoButtonGradientLayer)
+        infoButtonGradientLayer.frame = buttonI.bounds
+    }
     
     
     
@@ -617,4 +655,6 @@ extension MainViewController: CLLocationManagerDelegate {
         }
     }
 }
+
+
 
