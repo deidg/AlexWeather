@@ -11,6 +11,7 @@
 //TODO: поменять картинку камня.
 
 
+
 //TODO: сделать константу для corner radius - 25 ?? где  ??
 // TODO: надпись на кнопке инфо сделать другим размером шрифта ??
 
@@ -201,6 +202,8 @@ class MainViewController: UIViewController {
         
         startLocationManager()
 
+        
+//        makingNetworkMonitor()
 
     }
     
@@ -485,28 +488,26 @@ class MainViewController: UIViewController {
         
         let monitor = NWPathMonitor()
  
-//        monitor.pathUpdateHandler = { path in
-//            if path.status != .satisfied && self.infoButtonPressed == false {
-//                print("Internet connection - OK 24")
-//                self.stoneImageView.isHidden = false
-//            } else {
-//                print("There is NO internet connection 26")
-//                self.stoneImageView.isHidden = true
-//            }
-//        }
-//
-        
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied && self.infoButtonPressed == true {
-                print("There is NO internet connection 26")
-                self.stoneImageView.isHidden = true
-            } else if path.status == .satisfied && self.infoButtonPressed == false  {
-
-
+            if path.status == .satisfied && self.infoButtonPressed == false {
                 print("Internet connection - OK 24")
                 self.stoneImageView.isHidden = false
+            } else {
+                print("There is NO internet connection 26")
+                self.stoneImageView.isHidden = true
             }
         }
+//
+        //ниже тоже вроде рабочий вариант, но пока не надо стирать.
+//        monitor.pathUpdateHandler = { path in
+//            if path.status == .satisfied && self.infoButtonPressed == true {
+//                print("There is NO internet connection 26")
+//                self.stoneImageView.isHidden = true
+//            } else if path.status == .satisfied && self.infoButtonPressed == false  {
+//                print("Internet connection - OK 24")
+//                self.stoneImageView.isHidden = false
+//            }
+//        }
         
         
         let queue = DispatchQueue.main
