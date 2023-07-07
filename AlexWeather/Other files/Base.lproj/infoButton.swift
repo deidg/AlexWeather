@@ -7,16 +7,14 @@
 
 import UIKit
 
-class infoButton: UIButton {
-
-//    class button: UIButton {
-        
-        override init(frame: CGRect) {
-            super.init(frame: CGRect(x: 0, y: 0, width: 350, height: 300))
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+class InfoButton: UIButton {
+    
+    override init(frame: CGRect) {
+        super.init(frame: CGRect(x: 0, y: 0, width: 350, height: 300))
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 

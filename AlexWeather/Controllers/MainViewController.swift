@@ -26,11 +26,7 @@ import Network
 class MainViewController: UIViewController {
     //MARK: elements
     
-    
-    var buttonI = infoButton()
-    
-    
-    
+    var infoButton = InfoButton()
     let weatherManager = WeatherManager()
     
     var windSpeed: Double = 0
@@ -38,7 +34,6 @@ class MainViewController: UIViewController {
     
     let gradientLayer = CAGradientLayer()
     let infoButtonGradientLayer = CAGradientLayer()
-
     
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
@@ -316,8 +311,8 @@ class MainViewController: UIViewController {
 //        }
 //
         
-        view.addSubview(buttonI)
-        buttonI.snp.makeConstraints{ make in
+        view.addSubview(infoButton)
+        infoButton.snp.makeConstraints{ make in
                 make.centerX.equalTo(self.view)
 //                make.bottom.equalTo(view.snp.bottom).offset(15)
 //                make.leading.trailing.equalToSuperview().inset(100)
@@ -559,8 +554,8 @@ class MainViewController: UIViewController {
     func configureInfoButtonGradientLayer() {
         infoButtonGradientLayer.colors = [topColorForButton.cgColor, bottomColorForButton.cgColor]
         infoButtonGradientLayer.locations = [0,1]
-        buttonI.layer.addSublayer(infoButtonGradientLayer)
-        infoButtonGradientLayer.frame = buttonI.bounds
+        infoButton.layer.addSublayer(infoButtonGradientLayer)
+        infoButtonGradientLayer.frame = infoButton.bounds
     }
     
     
