@@ -21,31 +21,13 @@ import SnapKit
 import Network
 
 
-class button: UIButton {
-    
-    override init(frame: CGRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 350, height: 300))
-         
-//        backgroundColor = .red
-//        layer.cornerRadius = 15
-//        layer.shadowOpacity = 0.5 //0.5
-//        layer.shadowOffset = CGSize(width: 0, height: 10)
-//        layer.shadowRadius = 10
-//        layer.masksToBounds = false
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 
 class MainViewController: UIViewController {
     //MARK: elements
     
     
-    var buttonI = button()
+    var buttonI = infoButton()
     
     
     
