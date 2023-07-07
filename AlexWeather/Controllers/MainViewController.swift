@@ -5,48 +5,35 @@
 //  Created by Alex on 16.05.2023.
 //
 
-
-//TODO: поменять картинку камня.
-
-
-
-//TODO: сделать константу для corner radius - 25 ?? где  ??
-// TODO: надпись на кнопке инфо сделать другим размером шрифта ??
-
-
 import UIKit
 import CoreLocation
 import SnapKit
 import Network
-
-
-
 
 class MainViewController: UIViewController {
     //MARK: elements
     
     var infoButton = InfoButton()
     let weatherManager = WeatherManager()
-    
-    var windSpeed: Double = 0
-    var windy: Bool = false
-    
-    let gradientLayer = CAGradientLayer()
-    let infoButtonGradientLayer = CAGradientLayer()
-    
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
+    let refreshControl = UIRefreshControl()
+
+    var windSpeed: Double = 0
+    var windy: Bool = false
+    var infoButtonPressed: Bool = false
+
+    let gradientLayer = CAGradientLayer()
+    let infoButtonGradientLayer = CAGradientLayer()
+    var topColor = UIColor.orange  // gradient
+    var bottomColor = UIColor.yellow
     
     var state: State = .normal {
         didSet {
             updateWeatherState(state, windy)
         }
     }
-    
-    let refreshControl = UIRefreshControl()
-    
-    var infoButtonPressed: Bool = false
-    
+  
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
         view.isScrollEnabled =  true
@@ -59,8 +46,6 @@ class MainViewController: UIViewController {
     }()
     let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
-//        stoneImageView.isHidden = false
-
         return stoneImageView
     }()
     let infoLargeView: UIView = { // INFO view
@@ -75,7 +60,6 @@ class MainViewController: UIViewController {
         infoLargeView.layer.shadowRadius = 10
         return infoLargeView
     }()
-    
     let infoLargeViewDepth: UIView = {
         let infoLargeViewDepth = UIView()
         infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
@@ -85,11 +69,8 @@ class MainViewController: UIViewController {
         infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
         infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
         infoLargeViewDepth  .layer.shadowRadius = 10
-        
         return infoLargeViewDepth
     }()
-    
-    
     let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
         let label = UILabel()
         label.text = "INFO"
@@ -108,54 +89,16 @@ class MainViewController: UIViewController {
         label.attributedText = attributedString
         return label
     }()
-    
-//    var infoLargeLabelShadowView: UIImageView = {
-//        let view = UIImageView()
-//        view.backgroundColor = .yellow
-//        view.isHidden = true
-//        view.layer.cornerRadius = 25
-//        view.layer.masksToBounds = true
-////        view.layer.clipsToBounds = true - варинат для View
-//
-////        view.layer.shadowColor = UIColor.black.cgColor
-////        view.layer.shadowOpacity =  0.5
-////        view.layer.shadowOffset = CGSize(width: 10, height: 5)
-////        view.layer.shadowRadius = 10
-////
-//
-//        return view
-//    }()
-//
-//    func setupShadow() {
-//        infoLargeLabelShadowView.layer.shadowColor = UIColor.black.cgColor
-//        infoLargeLabelShadowView.layer.shadowRadius = 25
-//        infoLargeLabelShadowView.layer.shadowOpacity = 0.7
-//        infoLargeLabelShadowView.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
-//
-//        let cgPath = UIBezierPath(roundedRect: infoLargeLabelShadowView.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: 25, height: 25))
-//    }
-    
     let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
-        //    viewShadow.center = self.view.center
         infoButtonShadow.backgroundColor = UIColor.yellow
         infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
         infoButtonShadow.layer.shadowOpacity = 0.2
-//        infoButtonShadow.layer.shadowOffset = CGSize.zero
-        infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5) //CGSize.zero
-
+        infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5)
         infoButtonShadow.layer.shadowRadius = 5
-        
         infoButtonShadow.layer.cornerRadius = 15
-        
         return infoButtonShadow
     }()
-//
-    
-    
-    
-    
-    
      let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
@@ -165,12 +108,6 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.layer.cornerRadius = 15
         return infoLargeViewHideButton
     }()
-    
-    var topColor = UIColor.orange  // gradient
-    var bottomColor = UIColor.yellow
-    
-    
-    
     var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
