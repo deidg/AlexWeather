@@ -331,7 +331,7 @@ class MainViewController: UIViewController {
         }
     } // раставляет все элементы на экране
     @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
-//        infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
     
@@ -360,7 +360,7 @@ class MainViewController: UIViewController {
         locationLabel.isHidden = true
         locationPinIcon.isHidden = true
         searchIcon.isHidden = true
-//        infoButton.isHidden = true
+        infoButton.isHidden = true
     }
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
@@ -374,7 +374,7 @@ class MainViewController: UIViewController {
         locationLabel.isHidden = false
         locationPinIcon.isHidden = false
         searchIcon.isHidden = false
-//        infoButton.isHidden = false
+        infoButton.isHidden = false
     }
     
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
