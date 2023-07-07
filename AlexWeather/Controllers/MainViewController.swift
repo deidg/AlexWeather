@@ -5,7 +5,6 @@
 //  Created by Alex on 16.05.2023.
 //
 
-// TODO: добавить кнопке ИНФО тень справа
 
 //TODO: поменять картинку камня.
 
@@ -264,7 +263,7 @@ class MainViewController: UIViewController {
         stoneImageView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
-            make.top.equalTo(contentView).offset(-160)
+            make.top.equalTo(contentView).offset(-570)
         }
         view.addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints{ make in
@@ -379,6 +378,7 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = true
         searchIcon.isHidden = true
         infoButton.isHidden = true
+        infoButtonShadowView.isHidden = true
     }
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
@@ -393,6 +393,7 @@ class MainViewController: UIViewController {
         locationPinIcon.isHidden = false
         searchIcon.isHidden = false
         infoButton.isHidden = false
+        infoButtonShadowView.isHidden = false
     }
     
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
