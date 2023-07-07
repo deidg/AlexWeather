@@ -164,9 +164,6 @@ class MainViewController: UIViewController {
     var topColor = UIColor.orange  // gradient
     var bottomColor = UIColor.yellow
     
-    var topColorForButton = UIColor.black  // gradient
-    var bottomColorForButton = UIColor.white
-    
     
     
     var temperatureLabel: UILabel = {
@@ -186,24 +183,6 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-//    @objc
-//    let infoButton: UIButton = {
-//        let infoButton = UIButton()
-//        infoButton.frame = CGRect(x: 150, y: 300, width: 349, height: 60)
-//        infoButton.backgroundColor = .red
-//        infoButton.setTitle("INFO", for: .normal)
-//        infoButton.contentVerticalAlignment = .top
-//        infoButton.setTitleColor(.black, for: .normal)
-//        infoButton.layer.cornerRadius = 15
-//
-////        infoButton.layer.shadowColor = UIColor.red.cgColor
-//        infoButton.layer.shadowOpacity = 0.5 //0.5
-//        infoButton.layer.shadowOffset = CGSize(width: 0, height: 10)
-//        infoButton.layer.shadowRadius = 10
-//        infoButton.layer.masksToBounds = false
-//
-//        return infoButton
-//    }()
     
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
@@ -301,26 +280,9 @@ class MainViewController: UIViewController {
             make.height.equalTo(50)
         }
         
-        
-//        view.addSubview(infoButton)
-//        infoButton.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.view)
-//            make.bottom.equalTo(view.snp.bottom).offset(15)
-//            make.leading.trailing.equalToSuperview().inset(100)
-//            make.height.equalTo(80)
-//        }
-//
-        
+     
         view.addSubview(infoButton)
-        infoButton.snp.makeConstraints{ make in
-                make.centerX.equalTo(self.view)
-//                make.bottom.equalTo(view.snp.bottom).offset(15)
-//                make.leading.trailing.equalToSuperview().inset(100)
-//                make.height.equalTo(80)
-            }
-        
-        
-        
+
         
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
@@ -552,7 +514,7 @@ class MainViewController: UIViewController {
     }
     
     func configureInfoButtonGradientLayer() {
-        infoButtonGradientLayer.colors = [topColorForButton.cgColor, bottomColorForButton.cgColor]
+        infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
         infoButton.layer.addSublayer(infoButtonGradientLayer)
         infoButtonGradientLayer.frame = infoButton.bounds

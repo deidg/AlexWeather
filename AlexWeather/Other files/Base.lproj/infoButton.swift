@@ -10,9 +10,15 @@ import UIKit
 class InfoButton: UIButton {
     
     override init(frame: CGRect) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 350, height: 300))
+        super.init(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
+        
+        setTitle("INFO", for: .normal)
+        setTitleColor(.black, for: .normal)
+        contentVerticalAlignment = .top
+        clipsToBounds = true
+        layer.cornerRadius = 15.0
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
