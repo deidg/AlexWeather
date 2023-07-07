@@ -6,7 +6,6 @@
 //
 
 // TODO: добавить кнопке ИНФО тень справа
-// TODO: добавить градиент кнопке ИНФО
 
 //TODO: поменять картинку камня.
 
@@ -137,22 +136,28 @@ class MainViewController: UIViewController {
 //        let cgPath = UIBezierPath(roundedRect: infoLargeLabelShadowView.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: 25, height: 25))
 //    }
     
-//    let viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-//    viewShadow.center = self.view.center
-//    viewShadow.backgroundColor = UIColor.yellow
-//    viewShadow.layer.shadowColor = UIColor.red.cgColor
-//    viewShadow.layer.shadowOpacity = 1
-//    viewShadow.layer.shadowOffset = CGSize.zero
-//    viewShadow.layer.shadowRadius = 5
-//    self.view.addSubview(viewShadow)
+    let infoButtonShadowView: UIView = {
+        let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
+        //    viewShadow.center = self.view.center
+        infoButtonShadow.backgroundColor = UIColor.yellow
+        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
+        infoButtonShadow.layer.shadowOpacity = 0.2
+//        infoButtonShadow.layer.shadowOffset = CGSize.zero
+        infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5) //CGSize.zero
+
+        infoButtonShadow.layer.shadowRadius = 5
+        
+        infoButtonShadow.layer.cornerRadius = 15
+        
+        return infoButtonShadow
+    }()
 //
     
     
     
     
     
-    //TODO: make a shadow
-    @objc  let infoLargeViewHideButton: UIButton = {  //INFO view
+     let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
         infoLargeViewHideButton.setTitle("Hide", for: .normal)
@@ -284,8 +289,18 @@ class MainViewController: UIViewController {
         }
         
      
-        view.addSubview(infoButton)
+        //        self.view.addSubview(viewShadow)
 
+        view.addSubview(infoButtonShadowView)
+        
+        
+        
+        view.addSubview(infoButton)
+        
+        
+        
+        
+        
         
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in

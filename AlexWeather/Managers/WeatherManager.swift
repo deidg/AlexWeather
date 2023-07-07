@@ -7,7 +7,10 @@ final class WeatherManager {
                            longtitude: Double,
                            completion: ((CompletionData) -> Void)?) {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longtitude)&appid=b341573f7a5bb123a98e2addf28cba47&units=metric") else { return }
+//        let request = HTTPURLResponse.self
         let request = HTTPURLResponse.self
+        
+        
         
         queue.async {
             let task = URLSession.shared.dataTask(with: url) { data, responce, error in
