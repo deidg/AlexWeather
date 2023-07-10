@@ -6,8 +6,7 @@ final class WeatherManager {
                            longtitude: Double,
                            completion: ((CompletionData) -> Void)?) {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longtitude)&appid=b341573f7a5bb123a98e2addf28cba47&units=metric") else { return }
-        let request = HTTPURLResponse.self
-     queue.async {
+        queue.async {
             let task = URLSession.shared.dataTask(with: url) { data, responce, error in
                 if let data = data, let weather = try? JSONDecoder().decode(WeatherData.self, from: data) {
                     let completionData = CompletionData(
@@ -16,15 +15,15 @@ final class WeatherManager {
                         temperature: Int(weather.main.temp),
                         weather: weather.weather.first?.main ?? "",
                         id: weather.weather.first?.id ?? 0,
-                        windSpeed: weather.wind.speed, //,
+                        windSpeed: weather.wind.speed,
                         cod: weather.cod
                     )
                     DispatchQueue.main.async {
                         completion?(completionData)
                     }
                 }
-         }
-            task.resume()    
+            }
+            task.resume()
         }
     }
 }

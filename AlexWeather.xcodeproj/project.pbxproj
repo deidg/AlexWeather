@@ -157,6 +157,7 @@
 		FAA73D682A1A42DF0043D4D6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
 				FAA28DC42A4472A2008472FE /* WeatherManager.swift */,
 			);
 			path = Managers;
@@ -173,7 +174,6 @@
 		FAA73D6A2A1A43050043D4D6 /* Other files */ = {
 			isa = PBXGroup;
 			children = (
-				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
 				FAD466592A18A3FC0028760C /* Constants.swift */,
 				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
 				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,

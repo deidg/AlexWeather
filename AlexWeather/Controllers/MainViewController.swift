@@ -12,20 +12,17 @@ import Network
 
 class MainViewController: UIViewController {
     //MARK: elements
-    
-    var infoButton = InfoButton()
+    let infoButton = InfoButton()
     let weatherManager = WeatherManager()
-    let locationManager =  CLLocationManager()
-    var currentLocation: CLLocation?
+    let locationManager = CLLocationManager()
     let refreshControl = UIRefreshControl()
     
-    var windSpeed: Double = 0
     var windy: Bool = false
-    var infoButtonPressed: Bool = false
+//    var infoButtonPressed: Bool = false
     
     let gradientLayer = CAGradientLayer()
     let infoButtonGradientLayer = CAGradientLayer()
-    var topColor = UIColor.orange  // gradient
+    var topColor = UIColor.orange
     var bottomColor = UIColor.yellow
     
     var state: State = .normal {
@@ -39,7 +36,7 @@ class MainViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
-        view.isScrollEnabled =  true
+        view.isScrollEnabled = true
         view.alwaysBounceVertical = true
         return view
     }()
@@ -70,13 +67,13 @@ class MainViewController: UIViewController {
         infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
         infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
         infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
-        infoLargeViewDepth  .layer.shadowRadius = 10
+        infoLargeViewDepth.layer.shadowRadius = 10
         return infoLargeViewDepth
     }()
     let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
         let label = UILabel()
         label.text = "INFO"
-        label.font =  UIFont.boldSystemFont(ofSize: label.font.pointSize)
+        label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
         label.textAlignment = .center
         return label
     }()
@@ -134,10 +131,7 @@ class MainViewController: UIViewController {
         configureGradientLayer()
         configureInfoButtonGradientLayer()
         setupUI()
-        defaultConfiguration()
-        self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
-        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
-                             userInfo: nil, repeats: true)
+        addTargets()
         startLocationManager()
     }
     
@@ -154,13 +148,14 @@ class MainViewController: UIViewController {
     }
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
-                                              longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
+                                              longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
+        { completionData in
             let temprature = completionData.temperature
             let conditionCode = completionData.id
             let windSpeed = completionData.windSpeed
             self.state = .init(temprature, conditionCode, windSpeed)
         }
-        makingNetworkMonitor()
+//        makingNetworkMonitor()
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
@@ -254,9 +249,12 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
         }
     }
-    @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
+    func addTargets() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
+        refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
+        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
+                             userInfo: nil, repeats: true)
     }
     
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
@@ -273,8 +271,8 @@ class MainViewController: UIViewController {
     
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
-        infoButtonPressed = true
-        makingNetworkMonitor()
+//        infoButtonPressed = true
+//        makingNetworkMonitor()
         stoneImageView.isHidden = true
         infoLargeView.isHidden = false
         infoLargeViewDepth.isHidden = false
@@ -288,11 +286,11 @@ class MainViewController: UIViewController {
     }
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
-        infoButtonPressed = false
+//        infoButtonPressed = false
         stoneImageView.isHidden = false
         infoLargeView.isHidden = true
         infoLargeViewDepth.isHidden = true
-        makingNetworkMonitor()
+//        makingNetworkMonitor()
         temperatureLabel.isHidden = false
         conditionsLabel.isHidden = false
         locationLabel.isHidden = false
@@ -352,7 +350,7 @@ class MainViewController: UIViewController {
             stoneImageView.image = stoneImage
         }
     }
-    func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
+    func checkWindSpeed(_ windSpeed: Double) {  // проверяет ветренно сегодня или нет
         if windSpeed > 3.0 {
             windy = true
             print("Its windy. Answer: \(windy)")
@@ -410,7 +408,7 @@ class MainViewController: UIViewController {
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied && self.infoButtonPressed == false {
+            if path.status == .satisfied { //&& self.infoButtonPressed == false {
                 print("Internet connection - OK 24")
                 self.stoneImageView.isHidden = false
             } else {
@@ -437,6 +435,7 @@ extension MainViewController {
         case snow
         case fog
         case normal
+        case noInternet
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
             if temperature > 30 {
                 self = .cracks
@@ -476,15 +475,14 @@ extension MainViewController: CLLocationManagerDelegate {
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
             
             DispatchQueue.main.async { [self] in
-                checkWindSpeed(windSpeed: windSpeedData)
+                checkWindSpeed(windSpeedData)
                 self.temperatureLabel.attributedText = attributedTemperature
                 self.conditionsLabel.attributedText = attributedWeatherConditions
                 self.locationLabel.text = city + ", " + country
                 self.updateData(complitionData)
-                self.windSpeed = windSpeedData
+//                self.windSpeed = windSpeedData
                 
                 print("windspeed m/sec - \(windSpeedData)")
-                checkWindSpeed(windSpeed: windSpeedData)
                 scrollView.refreshControl = refreshControl
                 print("response status code - \(responseStatusCode)")
             }
