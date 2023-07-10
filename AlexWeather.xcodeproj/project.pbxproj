@@ -175,11 +175,11 @@
 			children = (
 				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
 				FAD466592A18A3FC0028760C /* Constants.swift */,
+				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
 				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
 				FA9FCF0C2A13550100D13D2A /* LaunchScreen.storyboard */,
 				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
 				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
-				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
 			);
 			path = "Other files";
 			sourceTree = "<group>";

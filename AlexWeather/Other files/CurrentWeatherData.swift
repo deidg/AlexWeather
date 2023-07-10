@@ -14,19 +14,15 @@ struct Weather: Codable {
     var id: Int
     var main: String
 }
-
 struct Sys: Codable {
     var country: String
 }
-
 struct Wind: Codable {
     var speed: Double
 }
-
 struct Main: Codable {
     var temp: Double
 }
-
 struct Cod: Codable {
     var cod: Int
 }

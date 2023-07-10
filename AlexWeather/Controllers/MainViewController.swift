@@ -18,11 +18,11 @@ class MainViewController: UIViewController {
     let locationManager =  CLLocationManager()
     var currentLocation: CLLocation?
     let refreshControl = UIRefreshControl()
-
+    
     var windSpeed: Double = 0
     var windy: Bool = false
     var infoButtonPressed: Bool = false
-
+    
     let gradientLayer = CAGradientLayer()
     let infoButtonGradientLayer = CAGradientLayer()
     var topColor = UIColor.orange  // gradient
@@ -33,7 +33,11 @@ class MainViewController: UIViewController {
             updateWeatherState(state, windy)
         }
     }
-  
+    
+    let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
+    let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
+    
+    
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
         view.isScrollEnabled =  true
@@ -99,7 +103,7 @@ class MainViewController: UIViewController {
         infoButtonShadow.layer.cornerRadius = 15
         return infoButtonShadow
     }()
-     let infoLargeViewHideButton: UIButton = {  //INFO view
+    let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
         infoLargeViewHideButton.setTitle("Hide", for: .normal)
@@ -126,26 +130,18 @@ class MainViewController: UIViewController {
         return locationLabel
     }()
     
-    let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
-    let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGradientLayer()
         configureInfoButtonGradientLayer()
-
         setupUI()
         defaultConfiguration()
         self.refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
                              userInfo: nil, repeats: true)
-        
         startLocationManager()
-
-        
-//        makingNetworkMonitor()
-
     }
     
     private func startLocationManager() {
@@ -159,7 +155,6 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
                                               longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0) { completionData in
@@ -169,24 +164,18 @@ class MainViewController: UIViewController {
             self.state = .init(temprature, conditionCode, windSpeed)
         }
         makingNetworkMonitor()
-        
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
     
     // MARK: methods
-    
-    func configureGradientLayer() { // делает градиентную заливку
+    func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-                gradientLayer.locations = [0,1]
-                view.layer.addSublayer(gradientLayer)
-                gradientLayer.frame = view.bounds
+        gradientLayer.locations = [0,1]
+        view.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = view.bounds
     }
-    
-    
-
-    
-    func setupUI() {   // раставляет все элементы на экране
+    func setupUI() {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -223,21 +212,8 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
-        
-     
-        //        self.view.addSubview(viewShadow)
-
         view.addSubview(infoButtonShadowView)
-        
-        
-        
         view.addSubview(infoButton)
-        
-        
-        
-        
-        
-        
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(80)
@@ -252,19 +228,16 @@ class MainViewController: UIViewController {
         }
         view.addSubview(infoLargeViewDepth)
         infoLargeViewDepth.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
             make.leading.equalTo(view).inset(80)
             make.trailing.equalTo(view).inset(40)
         }
-        
         infoLargeViewDepth.addSubview(infoLargeView)
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
             make.top.bottom.equalTo(view).inset(200)
             make.leading.trailing.equalTo(view).inset(60)
         }
-        
         infoLargeView.addSubview(infoLargeViewTitleLabel)
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
@@ -283,7 +256,7 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
         }
-    } // раставляет все элементы на экране
+    }
     @objc func defaultConfiguration() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
@@ -291,7 +264,6 @@ class MainViewController: UIViewController {
     
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
-        
         let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
         
         let attributedConditions = NSMutableAttributedString()
@@ -336,7 +308,6 @@ class MainViewController: UIViewController {
     private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
-        
         if wind == true {
             switch state {
             case .normal:
@@ -384,7 +355,6 @@ class MainViewController: UIViewController {
             stoneImageView.image = stoneImage
         }
     }
-    
     func checkWindSpeed(windSpeed: Double) {  // проверяет ветренно сегодня или нет
         if windSpeed > 3.0 {
             windy = true
@@ -394,7 +364,6 @@ class MainViewController: UIViewController {
             print("Its NOT windy. Answer: \(windy)")
         }
     }
-    
     func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
@@ -425,10 +394,8 @@ class MainViewController: UIViewController {
         let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegreeAttributes)
         
         attributedString.append(attributedDegree)
-        
         return attributedString
     }
-    
     func formattingText(discription: String) -> NSAttributedString {
         let weatherDiscriptionAttribute: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 32)  ]
         
@@ -436,11 +403,8 @@ class MainViewController: UIViewController {
         
         return attributedWeatherDiscription
     }
-    
     @objc func makingNetworkMonitor() {
-        
         let monitor = NWPathMonitor()
- 
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied && self.infoButtonPressed == false {
                 print("Internet connection - OK 24")
@@ -450,45 +414,25 @@ class MainViewController: UIViewController {
                 self.stoneImageView.isHidden = true
             }
         }
-//
-        //ниже тоже вроде рабочий вариант, но пока не надо стирать.
-//        monitor.pathUpdateHandler = { path in
-//            if path.status == .satisfied && self.infoButtonPressed == true {
-//                print("There is NO internet connection 26")
-//                self.stoneImageView.isHidden = true
-//            } else if path.status == .satisfied && self.infoButtonPressed == false  {
-//                print("Internet connection - OK 24")
-//                self.stoneImageView.isHidden = false
-//            }
-//        }
-        
-        
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
-    
     func configureInfoButtonGradientLayer() {
         infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
         infoButton.layer.addSublayer(infoButtonGradientLayer)
         infoButtonGradientLayer.frame = infoButton.bounds
     }
-    
-    
-    
-    
 }
 
 //MARK: extension
 extension MainViewController {
-    
     enum State: Equatable {
         case cracks
         case wet
         case snow
         case fog
         case normal
-        
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
             if temperature > 30 {
                 self = .cracks
@@ -512,10 +456,6 @@ extension MainViewController {
         }
     }
 }
-
-
-//найти место где при отсутсвии интернета вставить исчезновение камня
-
 //MARK: LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -538,7 +478,6 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.locationLabel.text = city + ", " + country
                 self.updateData(complitionData)
                 self.windSpeed = windSpeedData
-                
                 
                 print("windspeed m/sec - \(windSpeedData)")
                 checkWindSpeed(windSpeed: windSpeedData)
