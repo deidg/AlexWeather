@@ -37,7 +37,6 @@ class MainViewController: UIViewController {
     let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
-    
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
         view.isScrollEnabled =  true
@@ -57,7 +56,6 @@ class MainViewController: UIViewController {
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
         infoLargeView.isHidden = true
         infoLargeView.layer.cornerRadius = 25
-        
         infoLargeView.layer.shadowColor = UIColor.black.cgColor
         infoLargeView.layer.shadowOpacity = 0.2 //0.5
         infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
@@ -129,7 +127,6 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-    
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -263,7 +260,7 @@ class MainViewController: UIViewController {
     }
     
     func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
-        let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]//, .baselineOffset: 28]
+        let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]
         let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
         
         let attributedConditions = NSMutableAttributedString()
@@ -371,14 +368,21 @@ class MainViewController: UIViewController {
     }
     func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = 2
+        animation.duration = 4
         animation.fillMode = .both
         animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/30, 0, -(Double.pi/30), 0 ] //- рабочий вариант. не удалять!
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ] //- рабочий вариант. не удалять!
         //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
+//        animation.keyTimes = [NSNumber(value: 0.0),
+//                              NSNumber(value: 0.5), //0.3
+//                              NSNumber(value: 1.0)    //1.0
+        
         animation.keyTimes = [NSNumber(value: 0.0),
-                              NSNumber(value: 0.5), //0.3
+                              NSNumber(value: 0.3),
+                              NSNumber(value: 0.5),
+                              NSNumber(value: 0.8), //0.3
                               NSNumber(value: 1.0)    //1.0
+        
         ]
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
