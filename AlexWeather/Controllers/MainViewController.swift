@@ -435,7 +435,7 @@ extension MainViewController {
         case snow
         case fog
         case normal
-        case noInternet
+//        case noInternet
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
             if temperature > 30 {
                 self = .cracks
