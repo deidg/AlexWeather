@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let refreshControl = UIRefreshControl()
     
-    private var windy: Bool = false
+//    private var windy: Bool = false
 //    var infoButtonPressed: Bool = false
     
     private let gradientLayer = CAGradientLayer()
@@ -27,7 +27,7 @@ class MainViewController: UIViewController {
     
     private var state: State = .normal {
         didSet {
-            updateWeatherState(state, windy)
+            updateWeatherState(state) //, windy)
         }
     }
     
@@ -300,65 +300,65 @@ class MainViewController: UIViewController {
         infoButtonShadowView.isHidden = false
     }
     
-    private func updateWeatherState(_ state: State, _ wind: Bool) {  // регулирует состояния
+    private func updateWeatherState(_ state: State) { //, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
-        if wind == true {
+//        if wind == true {
+//            switch state {
+//            case .normal:
+//                stoneImage = UIImage(named: "image_stone_normal.png")
+//                windAnimationRotate()
+//                alphaLevel = 1
+//            case .wet:
+//                stoneImage = UIImage(named: "image_stone_wet.png")
+//                windAnimationRotate()
+//                alphaLevel = 1
+//            case .snow:
+//                stoneImage = UIImage(named: "image_stone_snow.png")
+//                windAnimationRotate()
+//                alphaLevel = 1
+//            case .cracks:
+//                stoneImage = UIImage(named: "image_stone_cracks.png")
+//                windAnimationRotate()
+//                alphaLevel = 1
+//            case .fog:
+//                stoneImage = UIImage(named: "image_stone_normal.png")
+//                windAnimationRotate()
+//                alphaLevel = 0.3
+//            }
+//            stoneImageView.alpha = alphaLevel
+//            stoneImageView.image = stoneImage
+//        } else {
             switch state {
             case .normal:
                 stoneImage = UIImage(named: "image_stone_normal.png")
-                windAnimationRotate()
                 alphaLevel = 1
             case .wet:
                 stoneImage = UIImage(named: "image_stone_wet.png")
-                windAnimationRotate()
                 alphaLevel = 1
             case .snow:
                 stoneImage = UIImage(named: "image_stone_snow.png")
-                windAnimationRotate()
                 alphaLevel = 1
             case .cracks:
                 stoneImage = UIImage(named: "image_stone_cracks.png")
-                windAnimationRotate()
                 alphaLevel = 1
             case .fog:
                 stoneImage = UIImage(named: "image_stone_normal.png")
-                windAnimationRotate()
                 alphaLevel = 0.3
             }
             stoneImageView.alpha = alphaLevel
             stoneImageView.image = stoneImage
-        } else {
-            switch state {
-            case .normal:
-                stoneImage = UIImage(named: "image_stone_normal.png")
-                alphaLevel = 1
-            case .wet:
-                stoneImage = UIImage(named: "image_stone_wet.png")
-                alphaLevel = 1
-            case .snow:
-                stoneImage = UIImage(named: "image_stone_snow.png")
-                alphaLevel = 1
-            case .cracks:
-                stoneImage = UIImage(named: "image_stone_cracks.png")
-                alphaLevel = 1
-            case .fog:
-                stoneImage = UIImage(named: "image_stone_normal.png")
-                alphaLevel = 0.3
-            }
-            stoneImageView.alpha = alphaLevel
-            stoneImageView.image = stoneImage
-        }
+//        }
     }
-    func checkWindSpeed(_ windSpeed: Double) {  // проверяет ветренно сегодня или нет
-        if windSpeed > 3.0 {
-            windy = true
-            print("Its windy. Answer: \(windy)")
-        } else {
-            windy = false
-            print("Its NOT windy. Answer: \(windy)")
-        }
-    }
+//    func checkWindSpeed(_ windSpeed: Double) {  // проверяет ветренно сегодня или нет
+//        if windSpeed > 3.0 {
+//            windy = true
+//            print("Its windy. Answer: \(windy)")
+//        } else {
+//            windy = false
+//            print("Its NOT windy. Answer: \(windy)")
+//        }
+//    }
     private func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
@@ -475,7 +475,7 @@ extension MainViewController: CLLocationManagerDelegate {
             let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
             
             DispatchQueue.main.async { [self] in
-                checkWindSpeed(windSpeedData)
+//                checkWindSpeed(windSpeedData)
                 self.temperatureLabel.attributedText = attributedTemperature
                 self.conditionsLabel.attributedText = attributedWeatherConditions
                 self.locationLabel.text = city + ", " + country
