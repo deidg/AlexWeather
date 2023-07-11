@@ -5,6 +5,9 @@
 //  Created by Alex on 16.05.2023.
 //
 
+
+
+
 import UIKit
 import CoreLocation
 import SnapKit
@@ -48,65 +51,11 @@ class MainViewController: UIViewController {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
-    private let infoLargeView: UIView = { // INFO view
-        let infoLargeView = UIView()
-        infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
-        infoLargeView.isHidden = true
-        infoLargeView.layer.cornerRadius = 25
-        infoLargeView.layer.shadowColor = UIColor.black.cgColor
-        infoLargeView.layer.shadowOpacity = 0.2 //0.5
-        infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
-        infoLargeView.layer.shadowRadius = 10
-        return infoLargeView
-    }()
-    private let infoLargeViewDepth: UIView = {
-        let infoLargeViewDepth = UIView()
-        infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
-        infoLargeViewDepth.isHidden = true
-        infoLargeViewDepth.layer.cornerRadius = 25
-        infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
-        infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
-        infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
-        infoLargeViewDepth.layer.shadowRadius = 10
-        return infoLargeViewDepth
-    }()
-    private let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
-        let label = UILabel()
-        label.text = "INFO"
-        label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
-        label.textAlignment = .center
-        return label
-    }()
-    private let infoLargeViewLabel: UILabel = {   //INFO view (label text)
-        let label = UILabel()
-        label.numberOfLines = 7
-        label.textAlignment = .left
-        let attributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 20
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        label.attributedText = attributedString
-        return label
-    }()
-    private let infoButtonShadowView: UIView = {
-        let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
-        infoButtonShadow.backgroundColor = UIColor.yellow
-        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
-        infoButtonShadow.layer.shadowOpacity = 0.2
-        infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5)
-        infoButtonShadow.layer.shadowRadius = 5
-        infoButtonShadow.layer.cornerRadius = 15
-        return infoButtonShadow
-    }()
-    private let infoLargeViewHideButton: UIButton = {  //INFO view
-        let infoLargeViewHideButton = UIButton()
-        infoLargeViewHideButton.isEnabled = true
-        infoLargeViewHideButton.setTitle("Hide", for: .normal)
-        infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
-        infoLargeViewHideButton.layer.borderWidth = 1.5
-        infoLargeViewHideButton.layer.cornerRadius = 15
-        return infoLargeViewHideButton
-    }()
+   
+    
+    
+    
+    
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
@@ -125,6 +74,54 @@ class MainViewController: UIViewController {
         return locationLabel
     }()
     
+    
+    let infoLargeView: UIView = { // INFO view
+        let infoLargeView = UIView()
+        return infoLargeView
+    }()
+    let infoLargeViewDepth: UIView = {
+        let infoLargeViewDepth = UIView()
+        return infoLargeViewDepth
+    }()
+    let infoLargeViewTitleLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    let infoLargeViewLabel: UILabel = {   //INFO view (label text)
+        let label = UILabel()
+        return label
+    }()
+    let infoButtonShadowView: UIView = {
+        let infoButtonShadow = UIView()
+        return infoButtonShadow
+    }()
+    let infoLargeViewHideButton: UIButton = {  //INFO view
+        let infoLargeViewHideButton = UIButton()
+        return infoLargeViewHideButton
+    }()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    let infoLargeView: UIView = {
+//        let infoLargeView = UIView()
+//        return infoLargeView
+//    }()
+//    let infoLargeViewDepth: UIView
+//    let infoButtonShadowView: UIView
+//    
+//    let infoLargeViewTitleLabel: UILabel
+//    let infoLargeViewLabel: UILabel
+//    let infoLargeViewHideButton: UIButton
+    
+    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,7 +129,9 @@ class MainViewController: UIViewController {
         configureInfoButtonGradientLayer()
         setupUI()
         addTargets()
+        makeInfoLargeView()
         startLocationManager()
+        makeInfoLargeView()
     }
     
     private func startLocationManager() {
@@ -204,7 +203,7 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
-        view.addSubview(infoButtonShadowView)
+//        view.addSubview(infoButtonShadowView)
         view.addSubview(infoButton)
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
@@ -251,7 +250,7 @@ class MainViewController: UIViewController {
     }
     private func addTargets() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
+//        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
                              userInfo: nil, repeats: true)
@@ -268,6 +267,107 @@ class MainViewController: UIViewController {
         label.attributedText = attributedConditions
         return label
     }
+    
+    private func makeInfoLargeView() {
+        let infoLargeView: UIView = { // INFO view
+            let infoLargeView = UIView()
+            infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
+            infoLargeView.isHidden = true
+            infoLargeView.layer.cornerRadius = 25
+            infoLargeView.layer.shadowColor = UIColor.black.cgColor
+            infoLargeView.layer.shadowOpacity = 0.2 //0.5
+            infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
+            infoLargeView.layer.shadowRadius = 10
+            return infoLargeView
+        }()
+        let infoLargeViewDepth: UIView = {
+            let infoLargeViewDepth = UIView()
+            infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
+            infoLargeViewDepth.isHidden = true
+            infoLargeViewDepth.layer.cornerRadius = 25
+            infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
+            infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
+            infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
+            infoLargeViewDepth.layer.shadowRadius = 10
+            return infoLargeViewDepth
+        }()
+        let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
+            let label = UILabel()
+            label.text = "INFO"
+            label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
+            label.textAlignment = .center
+            return label
+        }()
+        
+        let infoLargeViewLabel: UILabel = {   //INFO view (label text)
+            let label = UILabel()
+            label.numberOfLines = 7
+            label.textAlignment = .left
+            let attributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 20
+            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            label.attributedText = attributedString
+            return label
+        }()
+        let infoButtonShadowView: UIView = {
+            let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
+            infoButtonShadow.backgroundColor = UIColor.yellow
+            infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
+            infoButtonShadow.layer.shadowOpacity = 0.2
+            infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5)
+            infoButtonShadow.layer.shadowRadius = 5
+            infoButtonShadow.layer.cornerRadius = 15
+            return infoButtonShadow
+        }()
+        let infoLargeViewHideButton: UIButton = {  //INFO view
+            let infoLargeViewHideButton = UIButton()
+            infoLargeViewHideButton.isEnabled = true
+            infoLargeViewHideButton.setTitle("Hide", for: .normal)
+            infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
+            infoLargeViewHideButton.layer.borderWidth = 1.5
+            infoLargeViewHideButton.layer.cornerRadius = 15
+            return infoLargeViewHideButton
+        }()
+     
+        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
+        
+//        view.addSubview(infoLargeViewDepth)
+//        infoLargeViewDepth.snp.makeConstraints{ make in
+//            make.top.bottom.equalTo(view).inset(200)
+//            make.leading.equalTo(view).inset(80)
+//            make.trailing.equalTo(view).inset(40)
+//        }
+//        infoLargeViewDepth.addSubview(infoLargeView)
+//        infoLargeView.snp.makeConstraints{ make in
+//            make.centerX.equalTo(self.view)
+//            make.top.bottom.equalTo(view).inset(200)
+//            make.leading.trailing.equalTo(view).inset(60)
+//        }
+//        infoLargeView.addSubview(infoLargeViewTitleLabel)
+//        infoLargeViewTitleLabel.snp.makeConstraints{ make in
+//            make.centerX.equalTo(infoLargeView)
+//            make.leading.trailing.equalTo(infoLargeView).inset(30)
+//            make.top.equalTo(infoLargeView.snp.top).inset(30)
+//        }
+//        infoLargeView.addSubview(infoLargeViewLabel)
+//        infoLargeViewLabel.snp.makeConstraints{ make in
+//            make.centerX.equalTo(infoLargeView)
+//            make.leading.trailing.equalTo(infoLargeView).inset(30)
+//            make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
+//        }
+//        infoLargeView.addSubview(infoLargeViewHideButton)
+//        infoLargeViewHideButton.snp.makeConstraints{ make in
+//            make.centerX.equalTo(infoLargeView)
+//            make.leading.trailing.equalTo(infoLargeView).inset(30)
+//            make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
+//        }
+        
+        
+    }
+    
+    
+    
     
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
