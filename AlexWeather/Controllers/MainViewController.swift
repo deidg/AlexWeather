@@ -12,27 +12,27 @@ import Network
 
 class MainViewController: UIViewController {
     //MARK: elements
-    let infoButton = InfoButton()
-    let weatherManager = WeatherManager()
-    let locationManager = CLLocationManager()
-    let refreshControl = UIRefreshControl()
+    private let infoButton = InfoButton()
+    private let weatherManager = WeatherManager()
+    private let locationManager = CLLocationManager()
+    private let refreshControl = UIRefreshControl()
     
-    var windy: Bool = false
+    private var windy: Bool = false
 //    var infoButtonPressed: Bool = false
     
-    let gradientLayer = CAGradientLayer()
-    let infoButtonGradientLayer = CAGradientLayer()
-    var topColor = UIColor.orange
-    var bottomColor = UIColor.yellow
+    private let gradientLayer = CAGradientLayer()
+    private let infoButtonGradientLayer = CAGradientLayer()
+    private var topColor = UIColor.orange
+    private var bottomColor = UIColor.yellow
     
-    var state: State = .normal {
+    private var state: State = .normal {
         didSet {
             updateWeatherState(state, windy)
         }
     }
     
-    let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
-    let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
+    private let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
+    private let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
@@ -44,11 +44,11 @@ class MainViewController: UIViewController {
         let view = UIView()
         return view
     }()
-    let stoneImageView: UIImageView = {
+    private let stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
-    let infoLargeView: UIView = { // INFO view
+    private let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
         infoLargeView.isHidden = true
@@ -59,7 +59,7 @@ class MainViewController: UIViewController {
         infoLargeView.layer.shadowRadius = 10
         return infoLargeView
     }()
-    let infoLargeViewDepth: UIView = {
+    private let infoLargeViewDepth: UIView = {
         let infoLargeViewDepth = UIView()
         infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
         infoLargeViewDepth.isHidden = true
@@ -70,14 +70,14 @@ class MainViewController: UIViewController {
         infoLargeViewDepth.layer.shadowRadius = 10
         return infoLargeViewDepth
     }()
-    let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
+    private let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
         let label = UILabel()
         label.text = "INFO"
         label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
         label.textAlignment = .center
         return label
     }()
-    let infoLargeViewLabel: UILabel = {   //INFO view (label text)
+    private let infoLargeViewLabel: UILabel = {   //INFO view (label text)
         let label = UILabel()
         label.numberOfLines = 7
         label.textAlignment = .left
@@ -88,7 +88,7 @@ class MainViewController: UIViewController {
         label.attributedText = attributedString
         return label
     }()
-    let infoButtonShadowView: UIView = {
+    private let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
         infoButtonShadow.backgroundColor = UIColor.yellow
         infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
@@ -98,7 +98,7 @@ class MainViewController: UIViewController {
         infoButtonShadow.layer.cornerRadius = 15
         return infoButtonShadow
     }()
-    let infoLargeViewHideButton: UIButton = {  //INFO view
+    private let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         infoLargeViewHideButton.isEnabled = true
         infoLargeViewHideButton.setTitle("Hide", for: .normal)
@@ -107,18 +107,18 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.layer.cornerRadius = 15
         return infoLargeViewHideButton
     }()
-    var temperatureLabel: UILabel = {
+    private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .black
         temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
-    let conditionsLabel: UILabel = {
+    private let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
         conditionsLabel.textColor = .black
         return conditionsLabel
     }()
-    let locationLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.text = "anywhere"
         locationLabel.textAlignment = .center
@@ -161,13 +161,13 @@ class MainViewController: UIViewController {
     }
     
     // MARK: methods
-    func configureGradientLayer() {
+    private func configureGradientLayer() {
         gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.locations = [0,1]
         view.layer.addSublayer(gradientLayer)
         gradientLayer.frame = view.bounds
     }
-    func setupUI() {
+    private func setupUI() {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -249,7 +249,7 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
         }
     }
-    func addTargets() {  // устанавливаем селекторы на кнопки и движения
+    private func addTargets() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
@@ -257,7 +257,7 @@ class MainViewController: UIViewController {
                              userInfo: nil, repeats: true)
     }
     
-    func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
+    private func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
         let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]
         let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
         
@@ -359,12 +359,12 @@ class MainViewController: UIViewController {
             print("Its NOT windy. Answer: \(windy)")
         }
     }
-    func updateData(_ data: CompletionData) {
+    private func updateData(_ data: CompletionData) {
         state = .init(data.temperature, data.id, data.windSpeed)
         print("from uppdateData")
         print(state)
     }
-    func windAnimationRotate() {
+    private func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.duration = 4
         animation.fillMode = .both
@@ -385,7 +385,7 @@ class MainViewController: UIViewController {
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
     
-    func formattingNumbers(temperatureData: String) -> NSAttributedString {
+    private func formattingNumbers(temperatureData: String) -> NSAttributedString {
         let degreeSign: String = "º"
         
         let tempratureDigitsAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
@@ -398,7 +398,7 @@ class MainViewController: UIViewController {
         attributedString.append(attributedDegree)
         return attributedString
     }
-    func formattingText(discription: String) -> NSAttributedString {
+    private func formattingText(discription: String) -> NSAttributedString {
         let weatherDiscriptionAttribute: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 32)  ]
         
         let attributedWeatherDiscription = NSMutableAttributedString(string: discription, attributes: weatherDiscriptionAttribute)
@@ -419,7 +419,7 @@ class MainViewController: UIViewController {
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
-    func configureInfoButtonGradientLayer() {
+    private func configureInfoButtonGradientLayer() {
         infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
         infoButton.layer.addSublayer(infoButtonGradientLayer)

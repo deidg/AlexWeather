@@ -28,7 +28,15 @@ struct Cod: Codable {
 }
 
 
-
+struct CompletionData {
+    let city: String
+    let country: String
+    let temperature: Int
+    let weather: String
+    let id: Int
+    let windSpeed: Double
+    let cod: Int
+}
 
 
 
