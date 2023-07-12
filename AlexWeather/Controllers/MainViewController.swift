@@ -6,6 +6,7 @@
 //
 
 
+//TODO: не болтается камень
 
 
 import UIKit
@@ -58,6 +59,7 @@ class MainViewController: UIViewController {
     
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
+        temperatureLabel.font = UIFont(name: "SFProDisplay-Bold", size: 83)
         temperatureLabel.textColor = .black
         temperatureLabel.textAlignment = .left
         return temperatureLabel
@@ -65,6 +67,7 @@ class MainViewController: UIViewController {
     private let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
         conditionsLabel.textColor = .black
+        conditionsLabel.font = UIFont(name: "Ubuntu-Regular", size: 36)
         return conditionsLabel
     }()
     private let locationLabel: UILabel = {
@@ -73,8 +76,6 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-    
-    
     let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         return infoLargeView
@@ -87,7 +88,6 @@ class MainViewController: UIViewController {
         let label = UILabel()
         return label
     }()
-    
     let infoLargeViewLabel: UILabel = {   //INFO view (label text)
         let label = UILabel()
         return label
@@ -101,27 +101,7 @@ class MainViewController: UIViewController {
         return infoLargeViewHideButton
     }()
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    let infoLargeView: UIView = {
-//        let infoLargeView = UIView()
-//        return infoLargeView
-//    }()
-//    let infoLargeViewDepth: UIView
-//    let infoButtonShadowView: UIView
-//    
-//    let infoLargeViewTitleLabel: UILabel
-//    let infoLargeViewLabel: UILabel
-//    let infoLargeViewHideButton: UIButton
-    
-    
+
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,9 +109,9 @@ class MainViewController: UIViewController {
         configureInfoButtonGradientLayer()
         setupUI()
         addTargets()
-        makeInfoLargeView()
+        setupInfoLargeView()
         startLocationManager()
-        makeInfoLargeView()
+      
     }
     
     private func startLocationManager() {
@@ -250,27 +230,27 @@ class MainViewController: UIViewController {
     }
     private func addTargets() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-//        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
+        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
                              userInfo: nil, repeats: true)
     }
     
-    private func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
-        let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]
-        let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
-        
-        let attributedConditions = NSMutableAttributedString()
-        attributedConditions.append(conditions)
-        
-        let label = UILabel()
-        label.attributedText = attributedConditions
-        return label
-    }
+//    private func makeAttributedConditions() -> UILabel { // делает кастомный текст (атрибутивный) для condition code
+//        let conditionAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title2)]
+//        let conditions = NSAttributedString(string: "SunnyBynny", attributes: conditionAttributes)
+//
+//        let attributedConditions = NSMutableAttributedString()
+//        attributedConditions.append(conditions)
+//
+//        let label = UILabel()
+//        label.attributedText = attributedConditions
+//        return label
+//    }
     
-    private func makeInfoLargeView() {
-        let infoLargeView: UIView = { // INFO view
-            let infoLargeView = UIView()
+    private func setupInfoLargeView() {
+//        let infoLargeView: UIView = { // INFO view
+//            let infoLargeView = UIView()
             infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
             infoLargeView.isHidden = true
             infoLargeView.layer.cornerRadius = 25
@@ -278,10 +258,10 @@ class MainViewController: UIViewController {
             infoLargeView.layer.shadowOpacity = 0.2 //0.5
             infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
             infoLargeView.layer.shadowRadius = 10
-            return infoLargeView
-        }()
-        let infoLargeViewDepth: UIView = {
-            let infoLargeViewDepth = UIView()
+//            return infoLargeView
+//        }()
+//        let infoLargeViewDepth: UIView = {
+//            let infoLargeViewDepth = UIView()
             infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
             infoLargeViewDepth.isHidden = true
             infoLargeViewDepth.layer.cornerRadius = 25
@@ -289,28 +269,28 @@ class MainViewController: UIViewController {
             infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
             infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
             infoLargeViewDepth.layer.shadowRadius = 10
-            return infoLargeViewDepth
-        }()
-        let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
-            let label = UILabel()
-            label.text = "INFO"
-            label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
-            label.textAlignment = .center
-            return label
-        }()
+//            return infoLargeViewDepth
+//        }()
+//        let infoLargeViewTitleLabel: UILabel = { //INFO view (title)
+//            let label = UILabel()
+        infoLargeViewTitleLabel.text = "INFO"
+        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
+        infoLargeViewTitleLabel.textAlignment = .center
+//            return label
+//        }()
         
-        let infoLargeViewLabel: UILabel = {   //INFO view (label text)
-            let label = UILabel()
-            label.numberOfLines = 7
-            label.textAlignment = .left
+//        let infoLargeViewLabel: UILabel = {   //INFO view (label text)
+//            let label = UILabel()
+        infoLargeViewLabel.numberOfLines = 7
+        infoLargeViewLabel.textAlignment = .left
             let attributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 20
             attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-            label.attributedText = attributedString
-            return label
-        }()
-        let infoButtonShadowView: UIView = {
+        infoLargeViewLabel.attributedText = attributedString
+//            return label
+//        }()
+//        let infoButtonShadowView: UIView = {
             let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
             infoButtonShadow.backgroundColor = UIColor.yellow
             infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
@@ -318,19 +298,18 @@ class MainViewController: UIViewController {
             infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5)
             infoButtonShadow.layer.shadowRadius = 5
             infoButtonShadow.layer.cornerRadius = 15
-            return infoButtonShadow
-        }()
-        let infoLargeViewHideButton: UIButton = {  //INFO view
-            let infoLargeViewHideButton = UIButton()
+//            return infoButtonShadow
+//        }()
+//        let infoLargeViewHideButton: UIButton = {  //INFO view
+//            let infoLargeViewHideButton = UIButton()
             infoLargeViewHideButton.isEnabled = true
             infoLargeViewHideButton.setTitle("Hide", for: .normal)
             infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
             infoLargeViewHideButton.layer.borderWidth = 1.5
             infoLargeViewHideButton.layer.cornerRadius = 15
-            return infoLargeViewHideButton
-        }()
+//            return infoLargeViewHideButton
+//        }()
      
-        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
         
 //        view.addSubview(infoLargeViewDepth)
 //        infoLargeViewDepth.snp.makeConstraints{ make in
@@ -485,26 +464,26 @@ class MainViewController: UIViewController {
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
     
-    private func formattingNumbers(temperatureData: String) -> NSAttributedString {
-        let degreeSign: String = "º"
-        
-        let tempratureDigitsAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
-        let tempratureDegreeAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.boldSystemFont(ofSize:64)]
-        
-        let attributedString = NSMutableAttributedString(string: temperatureData, attributes: tempratureDigitsAttributes)
-        let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegreeAttributes)
-        
-        attributedString.append(attributedDegree)
-        return attributedString
-    }
-    private func formattingText(discription: String) -> NSAttributedString {
-        let weatherDiscriptionAttribute: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 32)  ]
-        
-        let attributedWeatherDiscription = NSMutableAttributedString(string: discription, attributes: weatherDiscriptionAttribute)
-        
-        return attributedWeatherDiscription
-    }
+//    private func formattingNumbers(temperatureData: String) -> NSAttributedString {
+//        let degreeSign: String = "º"
+//
+//        let tempratureDigitsAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: 64)]
+//        let tempratureDegreeAttributes: [NSAttributedString.Key: Any] = [
+//            .font: UIFont.boldSystemFont(ofSize:64)]
+//
+//        let attributedString = NSMutableAttributedString(string: temperatureData, attributes: tempratureDigitsAttributes)
+//        let attributedDegree = NSAttributedString(string: degreeSign, attributes: tempratureDegreeAttributes)
+//
+//        attributedString.append(attributedDegree)
+//        return attributedString
+//    }
+//    private func formattingText(discription: String) -> NSAttributedString {
+//        let weatherDiscriptionAttribute: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 32)  ]
+//
+//        let attributedWeatherDiscription = NSMutableAttributedString(string: discription, attributes: weatherDiscriptionAttribute)
+//
+//        return attributedWeatherDiscription
+//    }
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
@@ -571,13 +550,13 @@ extension MainViewController: CLLocationManagerDelegate {
             let windSpeedData = complitionData.windSpeed
             let responseStatusCode = complitionData.weather
             
-            let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
-            let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
+//            let attributedTemperature = self.formattingNumbers(temperatureData: temperature)
+//            let attributedWeatherConditions = self.formattingText(discription: weatherConditions)
             
             DispatchQueue.main.async { [self] in
 //                checkWindSpeed(windSpeedData)
-                self.temperatureLabel.attributedText = attributedTemperature
-                self.conditionsLabel.attributedText = attributedWeatherConditions
+                self.temperatureLabel.text = temperature + "°"
+                self.conditionsLabel.text = weatherConditions
                 self.locationLabel.text = city + ", " + country
                 self.updateData(complitionData)
 //                self.windSpeed = windSpeedData
