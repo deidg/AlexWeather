@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
     
     private var state: State = .normal {
         didSet {
-            updateWeatherState(state) //, windy)
+            updateWeatherState(state) <#T##windSpeed: Double##Double#>) //, windy)
         }
     }
     
@@ -379,7 +379,7 @@ class MainViewController: UIViewController {
         infoButtonShadowView.isHidden = false
     }
     
-    private func updateWeatherState(_ state: State) { //, _ wind: Bool) {  // регулирует состояния
+    private func updateWeatherState(_ state: State, _ windSpeed: Double) { //, _ wind: Bool) {  // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
 //        if wind == true {
@@ -427,6 +427,11 @@ class MainViewController: UIViewController {
             }
             stoneImageView.alpha = alphaLevel
             stoneImageView.image = stoneImage
+        
+        if windSpeed > 3.0 {
+            windAnimationRotate()
+        }
+        
 //        }
     }
 //    func checkWindSpeed(_ windSpeed: Double) {  // проверяет ветренно сегодня или нет
@@ -509,30 +514,45 @@ class MainViewController: UIViewController {
 //MARK: extension
 extension MainViewController {
     enum State: Equatable {
-        case cracks
-        case wet
-        case snow
-        case fog
-        case normal
+        case cracks(windspeed: Double)
+        case wet(windspeed: Double)
+        case snow(windspeed: Double)
+        case fog(windspeed: Double)
+        case normal(windspeed: Double)
 //        case noInternet
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-            if temperature > 30 {
-                self = .cracks
+            if temperature > 30 && windSpeed < 3.0 {
+                self = .cracks(windspeed: windSpeed)
                 print("its cracks case!")
-            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                self = .wet
+            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 && windSpeed < 3.0 {
+                self = .wet(windspeed: windSpeed)
                 print("its wet case!")
-            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow
+            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 && windSpeed < 3.0 {
+                self = .snow(windspeed: windSpeed)
                 print("its snow case!")
-            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog
+            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 && windSpeed < 3.0 {
+                self = .fog(windspeed: windSpeed)
                 print("its fog case!")
-            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 {
-                self = .normal
+            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 && windSpeed < 3.0 {
+                self = .normal(windspeed: windSpeed)
+                print("its normal case! And Windy")
+            } else if temperature > 30 && windSpeed >= 3.0 {
+                self = .cracks(windspeed: windSpeed)
+                print("its cracks case! And Windy")
+            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 && windSpeed >= 3.0 {
+                self = .wet(windspeed: windSpeed)
+                print("its wet case! And Windy")
+            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 && windSpeed >= 3.0 {
+                self = .snow(windspeed: windSpeed)
+                print("its snow case! And Windy")
+            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 && windSpeed >= 3.0 {
+                self = .fog(windspeed: windSpeed)
+                print("its fog case! And Windy!")
+            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 && windSpeed >= 3.0 {
+                self = .normal(windspeed: windSpeed)
                 print("its normal case!")
             } else {
-                self = .normal
+                self = .normal(windspeed: windSpeed)
                 print("you§re here and conditionCode! - \(conditionCode)")
             }
         }
