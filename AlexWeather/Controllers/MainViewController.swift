@@ -30,7 +30,7 @@ class MainViewController: UIViewController {
     
     private var state: State = .normal(windSpeed: 0.0) {
         didSet {
-            updateWeatherState(state, windSpeed)
+            updateWeatherState(state, windSpeed, isConnected)
         }
     }
     
@@ -47,7 +47,7 @@ class MainViewController: UIViewController {
         let view = UIView()
         return view
     }()
-    private let stoneImageView: UIImageView = {
+    private var stoneImageView: UIImageView = {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
@@ -296,21 +296,23 @@ class MainViewController: UIViewController {
         infoButtonShadowView.isHidden = false
     }
     
-    private func updateWeatherState(_ state: State, _ windSpeed: Double) { // регулирует состояния
+    private func updateWeatherState(_ state: State, _ windSpeed: Double, _ internetConnection: Bool) { // регулирует состояния
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
         switch state {
         case .noInternet:
             stoneImageView.isHidden = true
         case .normal(windSpeed: let windSpeed) where windSpeed > 3.0:
-            stoneImage = UIImage(named: "image_stone_normal.png")
+//            stoneImage = UIImage(named: "image_stone_normal.png")
+            stoneImageView.image = UIImage(named: "image_stone_normal.png")
             alphaLevel = 1
             windAnimationRotate()
 //        case .normal(windSpeed: let windSpeed) where windSpeed <= 3.0:
 //            stoneImage = UIImage(named: "image_stone_normal.png")
 //            alphaLevel = 1
         case .wet(windSpeed: let windSpeed) where windSpeed > 3.0:
-            stoneImage = UIImage(named: "image_stone_wet.png")
+//            stoneImage = UIImage(named: "image_stone_wet.png")
+            stoneImageView.image = UIImage(named: "image_stone_wet.png")
             alphaLevel = 1
             windAnimationRotate()
 //        case .wet(windSpeed: let windSpeed) where windSpeed <= 3.0:
@@ -318,7 +320,8 @@ class MainViewController: UIViewController {
 //            alphaLevel = 1
             
         case .snow(windSpeed: let windSpeed) where windSpeed > 3.0:
-            stoneImage = UIImage(named: "image_stone_snow.png")
+//            stoneImage = UIImage(named: "image_stone_snow.png")
+            stoneImageView.image = UIImage(named: "image_stone_snow.png")
             alphaLevel = 1
             windAnimationRotate()
 //        case .snow(windSpeed: let windSpeed) where windSpeed <= 3.0:
@@ -326,7 +329,8 @@ class MainViewController: UIViewController {
 //            alphaLevel = 1
             
         case .cracks(windSpeed: let windSpeed) where windSpeed > 3.0:
-            stoneImage = UIImage(named: "image_stone_cracks.png")
+//            stoneImage = UIImage(named: "image_stone_cracks.png")
+            stoneImageView.image = UIImage(named: "image_stone_cracks.png")
             alphaLevel = 1
             windAnimationRotate()
 //        case .cracks(windSpeed: let windSpeed) where windSpeed <= 3.0:
@@ -334,31 +338,37 @@ class MainViewController: UIViewController {
 //            alphaLevel = 1
             
         case .fog(windSpeed: let windSpeed) where windSpeed > 3.0:
-            stoneImage = UIImage(named: "image_stone_normal.png")
+//            stoneImage = UIImage(named: "image_stone_normal.png")
+            stoneImageView.image =  UIImage(named: "image_stone_normal.png")
             alphaLevel = 0.3
             windAnimationRotate()
 //        case .fog(windSpeed: let windSpeed) where windSpeed <= 3.0:
 //            stoneImage = UIImage(named: "image_stone_normal.png")
 //            alphaLevel = 0.3
         case .cracks(windSpeed: let windSpeed):
-            stoneImage = UIImage(named: "image_stone_cracks.png")
+//            stoneImage = UIImage(named: "image_stone_cracks.png")
+            stoneImageView.image = UIImage(named: "image_stone_cracks.png")
                        alphaLevel = 1
         case .wet(windSpeed: let windSpeed):
-            stoneImage = UIImage(named: "image_stone_wet.png")
+//            stoneImage = UIImage(named: "image_stone_wet.png")
+            stoneImageView.image = UIImage(named: "image_stone_wet.png")
             alphaLevel = 1
         case .snow(windSpeed: let windSpeed):
-            stoneImage = UIImage(named: "image_stone_snow.png")
+//            stoneImage = UIImage(named: "image_stone_snow.png")
+            stoneImageView.image = UIImage(named: "image_stone_snow.png")
                         alphaLevel = 1
         case .fog(windSpeed: let windSpeed):
-            stoneImage = UIImage(named: "image_stone_normal.png")
+//            stoneImage = UIImage(named: "image_stone_normal.png")
+            stoneImageView.image = UIImage(named: "image_stone_normal.png")
                         alphaLevel = 0.3
         case .normal(windSpeed: let windSpeed):
-            stoneImage = UIImage(named: "image_stone_normal.png")
+//            stoneImage = UIImage(named: "image_stone_normal.png")
+            stoneImageView.image = UIImage(named: "image_stone_normal.png")
                         alphaLevel = 1
 //        }
          
             
-            stoneImageView.image = stoneImage
+//            stoneImageView.image = stoneImage
             stoneImageView.alpha = alphaLevel
             
             //        if windSpeed > 3.0 {
