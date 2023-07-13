@@ -100,7 +100,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGradientLayer()
-        configureInfoButtonGradientLayer()
+//        configureInfoButtonGradientLayer()
         setupUI()
         addTargets()
         setupInfoLargeView()
@@ -424,12 +424,12 @@ class MainViewController: UIViewController {
     
     
     
-        private func configureInfoButtonGradientLayer() {
-            infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-            infoButtonGradientLayer.locations = [0,1]
-            infoButton.layer.addSublayer(infoButtonGradientLayer)
-            infoButtonGradientLayer.frame = infoButton.bounds
-        }
+//        private func configureInfoButtonGradientLayer() {
+//            infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
+//            infoButtonGradientLayer.locations = [0,1]
+//            infoButton.layer.addSublayer(infoButtonGradientLayer)
+//            infoButtonGradientLayer.frame = infoButton.bounds
+//        }
     }
 
     
