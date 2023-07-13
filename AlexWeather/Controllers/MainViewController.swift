@@ -27,7 +27,7 @@ class MainViewController: UIViewController {
     
     private var state: State = .normal {
         didSet {
-            updateWeatherState(state) <#T##windSpeed: Double##Double#> //, windy)
+            updateWeatherState(state)   //, windy)
         }
     }
     
@@ -329,150 +329,150 @@ class MainViewController: UIViewController {
         case .fog(windspeed: let windSpeed) where windSpeed <= 3.0:
             stoneImage = UIImage(named: "image_stone_normal.png")
             alphaLevel = 0.3
-//        case .cracks(windspeed: let windspeed):
-//            <#code#>
-//        case .wet(windspeed: let windspeed):
-//            <#code#>
-//        case .snow(windspeed: let windspeed):
-//            <#code#>
-//        case .fog(windspeed: let windspeed):
-//            <#code#>
-//        case .normal(windspeed: let windspeed):
-//            <#code#>
-//        }
-    
-    
-    
-    stoneImageView.alpha = alphaLevel
-    stoneImageView.image = stoneImage
-    
-    //        if windSpeed > 3.0 {
-    //            windAnimationRotate()
-    //        }
-}
-
-private func updateData(_ data: CompletionData) {
-    state = .init(data.temperature, data.id, data.windSpeed)
-    print("from uppdateData")
-    print(state)
-}
-private func windAnimationRotate() {
-    let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-    animation.duration = 4
-    animation.fillMode = .both
-    animation.repeatCount = .infinity
-    animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ] //- рабочий вариант. не удалять!
-    //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
-    //        animation.keyTimes = [NSNumber(value: 0.0),
-    //                              NSNumber(value: 0.5), //0.3
-    //                              NSNumber(value: 1.0)    //1.0
-    
-    animation.keyTimes = [NSNumber(value: 0.0),
-                          NSNumber(value: 0.3),
-                          NSNumber(value: 0.5),
-                          NSNumber(value: 0.8), //0.3
-                          NSNumber(value: 1.0)    //1.0
-                          
-    ]
-    stoneImageView.layer.add(animation, forKey: "rotate")
-}
-
-@objc func makingNetworkMonitor() {
-    let monitor = NWPathMonitor()
-    monitor.pathUpdateHandler = { path in
-        if path.status == .satisfied { //&& self.infoButtonPressed == false {
-            print("Internet connection - OK 24")
-            self.stoneImageView.isHidden = false
-        } else {
-            print("There is NO internet connection 26")
-            self.stoneImageView.isHidden = true
         }
-    }
-    let queue = DispatchQueue.main
-    monitor.start(queue: queue)
-}
-private func configureInfoButtonGradientLayer() {
-    infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-    infoButtonGradientLayer.locations = [0,1]
-    infoButton.layer.addSublayer(infoButtonGradientLayer)
-    infoButtonGradientLayer.frame = infoButton.bounds
-}
-}
-
-//MARK: extension
-extension MainViewController {
-    enum State: Equatable {
-        case cracks(windSpeed: Double)
-        case wet(windSpeed: Double)
-        case snow(windSpeed: Double)
-        case fog(windSpeed: Double)
-        case normal(windSpeed: Double)
-        //        case noInternet
-        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
-            if temperature > 30 && windSpeed < 3.0 {
-                self = .cracks(windSpeed: windSpeed)
-                print("its cracks case!")
-            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 && windSpeed < 3.0 {
-                self = .wet(windSpeed: windSpeed)
-                print("its wet case!")
-            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 && windSpeed < 3.0 {
-                self = .snow(windSpeed: windSpeed)
-                print("its snow case!")
-            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 && windSpeed < 3.0 {
-                self = .fog(windSpeed: windSpeed)
-                print("its fog case!")
-            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 && windSpeed < 3.0 {
-                self = .normal(windSpeed: windSpeed)
-                print("its normal case! And Windy")
-            } else if temperature > 30 && windSpeed >= 3.0 {
-                self = .cracks(windSpeed: windSpeed)
-                print("its cracks case! And Windy")
-            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 && windSpeed >= 3.0 {
-                self = .wet(windSpeed: windSpeed)
-                print("its wet case! And Windy")
-            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 && windSpeed >= 3.0 {
-                self = .snow(windSpeed: windSpeed)
-                print("its snow case! And Windy")
-            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 && windSpeed >= 3.0 {
-                self = .fog(windSpeed: windSpeed)
-                print("its fog case! And Windy!")
-            } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 && windSpeed >= 3.0 {
-                self = .normal(windSpeed: windSpeed)
-                print("its normal case!")
-            } else {
-                self = .normal(windSpeed: windSpeed)
-                print("you§re here and conditionCode! - \(conditionCode)")
-            }
-        }
-    }
-}
-//MARK: LocationManagerDelegate
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let lastLocation = locations.last else { return }
-        weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
-            let weatherConditions = complitionData.weather
-            let temperature = String(complitionData.temperature)
-            let city = complitionData.city
-            let country = complitionData.country
-            let windSpeedData = complitionData.windSpeed
-            let responseStatusCode = complitionData.weather
+            //        case .cracks(windspeed: let windspeed):
+            //            <#code#>
+            //        case .wet(windspeed: let windspeed):
+            //            <#code#>
+            //        case .snow(windspeed: let windspeed):
+            //            <#code#>
+            //        case .fog(windspeed: let windspeed):
+            //            <#code#>
+            //        case .normal(windspeed: let windspeed):
+            //            <#code#>
+            //        }
             
-            DispatchQueue.main.async { [self] in
-                //                checkWindSpeed(windSpeedData)
-                self.temperatureLabel.text = temperature + "°"
-                self.conditionsLabel.text = weatherConditions
-                self.locationLabel.text = city + ", " + country
-                self.updateData(complitionData)
-                //                self.windSpeed = windSpeedData
-                
-                print("windspeed m/sec - \(windSpeedData)")
-                scrollView.refreshControl = refreshControl
-                print("response status code - \(responseStatusCode)")
+            
+            
+            stoneImageView.alpha = alphaLevel
+            stoneImageView.image = stoneImage
+            
+            //        if windSpeed > 3.0 {
+            //            windAnimationRotate()
+            //        }
+        }
+        
+        private func updateData(_ data: CompletionData) {
+            state = .init(data.temperature, data.id, data.windSpeed)
+            print("from uppdateData")
+            print(state)
+        }
+        private func windAnimationRotate() {
+            let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+            animation.duration = 4
+            animation.fillMode = .both
+            animation.repeatCount = .infinity
+            animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ] //- рабочий вариант. не удалять!
+            //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
+            //        animation.keyTimes = [NSNumber(value: 0.0),
+            //                              NSNumber(value: 0.5), //0.3
+            //                              NSNumber(value: 1.0)    //1.0
+            
+            animation.keyTimes = [NSNumber(value: 0.0),
+                                  NSNumber(value: 0.3),
+                                  NSNumber(value: 0.5),
+                                  NSNumber(value: 0.8), //0.3
+                                  NSNumber(value: 1.0)    //1.0
+                                  
+            ]
+            stoneImageView.layer.add(animation, forKey: "rotate")
+        }
+        
+        @objc func makingNetworkMonitor() {
+            let monitor = NWPathMonitor()
+            monitor.pathUpdateHandler = { path in
+                if path.status == .satisfied { //&& self.infoButtonPressed == false {
+                    print("Internet connection - OK 24")
+                    self.stoneImageView.isHidden = false
+                } else {
+                    print("There is NO internet connection 26")
+                    self.stoneImageView.isHidden = true
+                }
             }
+            let queue = DispatchQueue.main
+            monitor.start(queue: queue)
+        }
+        private func configureInfoButtonGradientLayer() {
+            infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
+            infoButtonGradientLayer.locations = [0,1]
+            infoButton.layer.addSublayer(infoButtonGradientLayer)
+            infoButtonGradientLayer.frame = infoButton.bounds
         }
     }
-}
 
-
+    
+    //MARK: extension
+    extension MainViewController {
+        enum State: Equatable {
+            case cracks(windSpeed: Double)
+            case wet(windSpeed: Double)
+            case snow(windSpeed: Double)
+            case fog(windSpeed: Double)
+            case normal(windSpeed: Double)
+            //        case noInternet
+            init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
+                if temperature > 30 { // && windSpeed < 3.0 {
+                    self = .cracks(windSpeed: windSpeed)
+                    print("its cracks case!")
+                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 { // && windSpeed < 3.0 {
+                    self = .wet(windSpeed: windSpeed)
+                    print("its wet case!")
+                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 { // && windSpeed < 3.0 {
+                    self = .snow(windSpeed: windSpeed)
+                    print("its snow case!")
+                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 { // && windSpeed < 3.0 {
+                    self = .fog(windSpeed: windSpeed)
+                    print("its fog case!")
+                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed < 3.0 {
+                    self = .normal(windSpeed: windSpeed)
+                    print("its normal case! And Windy")
+                } else if temperature > 30 { // && windSpeed >= 3.0 {
+                    self = .cracks(windSpeed: windSpeed)
+                    print("its cracks case! And Windy")
+                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 { // && windSpeed >= 3.0 {
+                    self = .wet(windSpeed: windSpeed)
+                    print("its wet case! And Windy")
+                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 { // && windSpeed >= 3.0 {
+                    self = .snow(windSpeed: windSpeed)
+                    print("its snow case! And Windy")
+                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 { // && windSpeed >= 3.0 {
+                    self = .fog(windSpeed: windSpeed)
+                    print("its fog case! And Windy!")
+                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed >= 3.0 {
+                    self = .normal(windSpeed: windSpeed)
+                    print("its normal case!")
+                } else {
+                    self = .normal(windSpeed: windSpeed)
+                    print("you§re here and conditionCode! - \(conditionCode)")
+                }
+            }
+        }
+        }
+        //MARK: LocationManagerDelegate
+        extension MainViewController: CLLocationManagerDelegate {
+            func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+                guard let lastLocation = locations.last else { return }
+                weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
+                    let weatherConditions = complitionData.weather
+                    let temperature = String(complitionData.temperature)
+                    let city = complitionData.city
+                    let country = complitionData.country
+                    let windSpeedData = complitionData.windSpeed
+                    let responseStatusCode = complitionData.weather
+                    
+                    DispatchQueue.main.async { [self] in
+                        //                checkWindSpeed(windSpeedData)
+                        self.temperatureLabel.text = temperature + "°"
+                        self.conditionsLabel.text = weatherConditions
+                        self.locationLabel.text = city + ", " + country
+                        self.updateData(complitionData)
+                        //                self.windSpeed = windSpeedData
+                        
+                        print("windspeed m/sec - \(windSpeedData)")
+                        scrollView.refreshControl = refreshControl
+                        print("response status code - \(responseStatusCode)")
+                    }
+                }
+            }
+        }
 
