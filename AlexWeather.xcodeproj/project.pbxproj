@@ -123,6 +123,49 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		FA9772512A605DC900547DAE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA9772552A605F7400547DAE /* Models */,
+				FAA73D682A1A42DF0043D4D6 /* Managers */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FA9772522A605E7E00547DAE /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
+				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		FA9772532A605EB600547DAE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FAD466592A18A3FC0028760C /* Constants.swift */,
+				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FA9772542A605ED400547DAE /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		FA9772552A605F7400547DAE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FA9FCEF52A13550000D13D2A = {
 			isa = PBXGroup;
 			children = (
@@ -148,7 +191,8 @@
 		FA9FCF002A13550000D13D2A /* AlexWeather */ = {
 			isa = PBXGroup;
 			children = (
-				FAA73D682A1A42DF0043D4D6 /* Managers */,
+				FA9772512A605DC900547DAE /* Models */,
+				FA9772532A605EB600547DAE /* Views */,
 				FAA73D692A1A42F30043D4D6 /* Controllers */,
 				FAA73D6A2A1A43050043D4D6 /* Other files */,
 				FA9FCF0F2A13550100D13D2A /* Info.plist */,
@@ -176,7 +220,6 @@
 		FAA73D682A1A42DF0043D4D6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
 				FAA28DC42A4472A2008472FE /* WeatherManager.swift */,
 			);
 			path = Managers;
@@ -194,12 +237,9 @@
 			isa = PBXGroup;
 			children = (
 				FA10B4E42A5E7DB100642445 /* fonts */,
-				FAD466592A18A3FC0028760C /* Constants.swift */,
-				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
-				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
+				FA9772542A605ED400547DAE /* Assets */,
 				FA9FCF0C2A13550100D13D2A /* LaunchScreen.storyboard */,
-				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
-				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
+				FA9772522A605E7E00547DAE /* Delegates */,
 			);
 			path = "Other files";
 			sourceTree = "<group>";

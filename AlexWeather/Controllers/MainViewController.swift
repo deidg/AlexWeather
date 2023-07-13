@@ -459,22 +459,24 @@ extension MainViewController {
                 } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed < 3.0 {
                     self = .normal(windSpeed: windSpeed)
                     print("its normal case! And Windy")
-                } else if temperature > 30 { // && windSpeed >= 3.0 {
-                    self = .cracks(windSpeed: windSpeed)
-                    print("its cracks case! And Windy")
-                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 { // && windSpeed >= 3.0 {
-                    self = .wet(windSpeed: windSpeed)
-                    print("its wet case! And Windy")
-                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 { // && windSpeed >= 3.0 {
-                    self = .snow(windSpeed: windSpeed)
-                    print("its snow case! And Windy")
-                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 { // && windSpeed >= 3.0 {
-                    self = .fog(windSpeed: windSpeed)
-                    print("its fog case! And Windy!")
-                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed >= 3.0 {
-                    self = .normal(windSpeed: windSpeed)
-                    print("its normal case!")
-                } else {
+                }
+//                    else if temperature > 30 { // && windSpeed >= 3.0 {
+//                    self = .cracks(windSpeed: windSpeed)
+//                    print("its cracks case! And Windy")
+//                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 { // && windSpeed >= 3.0 {
+//                    self = .wet(windSpeed: windSpeed)
+//                    print("its wet case! And Windy")
+//                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 { // && windSpeed >= 3.0 {
+//                    self = .snow(windSpeed: windSpeed)
+//                    print("its snow case! And Windy")
+//                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 { // && windSpeed >= 3.0 {
+//                    self = .fog(windSpeed: windSpeed)
+//                    print("its fog case! And Windy!")
+//                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed >= 3.0 {
+//                    self = .normal(windSpeed: windSpeed)
+//                    print("its normal case!")
+//                }
+                else {
                     self = .normal(windSpeed: windSpeed)
                     print("you§re here and conditionCode! - \(conditionCode)")
                 }
