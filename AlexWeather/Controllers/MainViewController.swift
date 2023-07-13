@@ -20,6 +20,8 @@ class MainViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
+    private var isConnected: Bool = true
+
     
     private let gradientLayer = CAGradientLayer()
     private let infoButtonGradientLayer = CAGradientLayer()
@@ -123,7 +125,8 @@ class MainViewController: UIViewController {
             let temprature = completionData.temperature
             let conditionCode = completionData.id
             let windSpeed = completionData.windSpeed
-            self.state = .init(temprature, conditionCode, windSpeed)
+            let isConnected = self.isConnected
+            self.state = .init(temprature, conditionCode, windSpeed, isConnected)
         }
         //        makingNetworkMonitor()
         print("func refreshAction done")
@@ -297,6 +300,8 @@ class MainViewController: UIViewController {
         let stoneImage : UIImage?
         let alphaLevel : CGFloat
         switch state {
+        case .noInternet:
+            stoneImageView.isHidden = true
         case .normal(windSpeed: let windSpeed) where windSpeed > 3.0:
             stoneImage = UIImage(named: "image_stone_normal.png")
             alphaLevel = 1
@@ -350,20 +355,19 @@ class MainViewController: UIViewController {
         case .normal(windSpeed: let windSpeed):
             stoneImage = UIImage(named: "image_stone_normal.png")
                         alphaLevel = 1
-        }
+//        }
          
             
-            
-            stoneImageView.alpha = alphaLevel
             stoneImageView.image = stoneImage
+            stoneImageView.alpha = alphaLevel
             
             //        if windSpeed > 3.0 {
             //            windAnimationRotate()
-            //        }
+                    }
         }
         
-        private func updateData(_ data: CompletionData) {
-            state = .init(data.temperature, data.id, data.windSpeed)
+    private func updateData(_ data: CompletionData, isConnected: Bool) {
+            state = .init(data.temperature, data.id, data.windSpeed, isConnected)
             print("from uppdateData")
             print(state)
         }
@@ -389,19 +393,27 @@ class MainViewController: UIViewController {
         }
         
         @objc func makingNetworkMonitor() {
+//           func makingNetworkMonitor() -> Bool?  {
+
             let monitor = NWPathMonitor()
             monitor.pathUpdateHandler = { path in
                 if path.status == .satisfied { //&& self.infoButtonPressed == false {
                     print("Internet connection - OK 24")
                     self.stoneImageView.isHidden = false
+                    self.isConnected = true
                 } else {
                     print("There is NO internet connection 26")
                     self.stoneImageView.isHidden = true
+                    self.isConnected = false
                 }
             }
             let queue = DispatchQueue.main
             monitor.start(queue: queue)
         }
+    
+    
+    
+    
         private func configureInfoButtonGradientLayer() {
             infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
             infoButtonGradientLayer.locations = [0,1]
@@ -412,15 +424,16 @@ class MainViewController: UIViewController {
 
     
     //MARK: extension
-    extension MainViewController {
-        enum State: Equatable {
-            case cracks(windSpeed: Double)
-            case wet(windSpeed: Double)
-            case snow(windSpeed: Double)
-            case fog(windSpeed: Double)
-            case normal(windSpeed: Double)
-            //        case noInternet
-            init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double) {
+extension MainViewController {
+    enum State: Equatable {
+        case cracks(windSpeed: Double)
+        case wet(windSpeed: Double)
+        case snow(windSpeed: Double)
+        case fog(windSpeed: Double)
+        case normal(windSpeed: Double)
+        case noInternet
+        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double, _ internetConnection: Bool) {
+            if internetConnection == true {
                 if temperature > 30 { // && windSpeed < 3.0 {
                     self = .cracks(windSpeed: windSpeed)
                     print("its cracks case!")
@@ -455,9 +468,15 @@ class MainViewController: UIViewController {
                     self = .normal(windSpeed: windSpeed)
                     print("you§re here and conditionCode! - \(conditionCode)")
                 }
+            } else {
+                self = .noInternet
+                //                    stoneImageView.isHidden = true
             }
         }
-        }
+    }
+}
+        
+        
         //MARK: LocationManagerDelegate
         extension MainViewController: CLLocationManagerDelegate {
             func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -470,12 +489,13 @@ class MainViewController: UIViewController {
                     let windSpeedData = complitionData.windSpeed
                     let responseStatusCode = complitionData.weather
                     
+                    
                     DispatchQueue.main.async { [self] in
                         //                checkWindSpeed(windSpeedData)
                         self.temperatureLabel.text = temperature + "°"
                         self.conditionsLabel.text = weatherConditions
                         self.locationLabel.text = city + ", " + country
-                        self.updateData(complitionData)
+                        self.updateData(complitionData, isConnected: isConnected)
                                         self.windSpeed = windSpeedData
                         
                         print("windspeed m/sec - \(windSpeedData)")
