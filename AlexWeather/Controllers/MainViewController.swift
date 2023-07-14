@@ -227,14 +227,14 @@ class MainViewController: UIViewController {
     }
     
     private func setupInfoLargeView() {
-        infoLargeView.backgroundColor = UIColor(red: 255/255, green: 128/255, blue: 0/255, alpha: 1)
+        infoLargeView.backgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
         infoLargeView.isHidden = true
         infoLargeView.layer.cornerRadius = 25
         infoLargeView.layer.shadowColor = UIColor.black.cgColor
         infoLargeView.layer.shadowOpacity = 0.2 //0.5
         infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
         infoLargeView.layer.shadowRadius = 10
-        infoLargeViewDepth.backgroundColor = UIColor(red: 250/255, green: 90/255, blue: 15/255, alpha: 1)
+        infoLargeViewDepth.backgroundColor = UIColor(red: 251/255, green: 95/255, blue: 41/255, alpha: 1)
         infoLargeViewDepth.isHidden = true
         infoLargeViewDepth.layer.cornerRadius = 25
         infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
@@ -260,7 +260,8 @@ class MainViewController: UIViewController {
         infoButtonShadow.layer.cornerRadius = 15
         infoLargeViewHideButton.isEnabled = true
         infoLargeViewHideButton.setTitle("Hide", for: .normal)
-        infoLargeViewHideButton.layer.borderColor = UIColor.gray.cgColor
+        infoLargeViewHideButton.setTitleColor(UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1), for:  .normal)
+        infoLargeViewHideButton.layer.borderColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1).cgColor
         infoLargeViewHideButton.layer.borderWidth = 1.5
         infoLargeViewHideButton.layer.cornerRadius = 15
     }
