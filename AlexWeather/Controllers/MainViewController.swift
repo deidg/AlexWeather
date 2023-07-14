@@ -20,12 +20,9 @@ class MainViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
-    private var isConnected: Bool = true
     
-    private let gradientLayer = CAGradientLayer()
-    private let infoButtonGradientLayer = CAGradientLayer()
-//    private var topColor = UIColor(red: 255, green: 153, blue: 96, alpha: 1)
-//    private var bottomColor = UIColor(red: 255, green: 80, blue: 27, alpha: 1)
+    private var isConnected: Bool = true
+    private var infoButtonPressed: Bool = false
     
     private var state: State = .normal(windSpeed: 0.0) {
         didSet {
@@ -33,16 +30,13 @@ class MainViewController: UIViewController {
         }
     }
     
-   
     private let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     private let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
-    
     private let backgroundView: UIImageView = {
         let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
         backgroundView.contentMode = .scaleAspectFill
         return backgroundView
     }()
-    
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
         view.isScrollEnabled = true
@@ -57,7 +51,6 @@ class MainViewController: UIViewController {
         let stoneImageView = UIImageView()
         return stoneImageView
     }()
-    
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: "SFProDisplay-Bold", size: 83)
@@ -77,27 +70,27 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-    let infoLargeView: UIView = { // INFO view
+    private let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         return infoLargeView
     }()
-    let infoLargeViewDepth: UIView = {
+    private let infoLargeViewDepth: UIView = {
         let infoLargeViewDepth = UIView()
         return infoLargeViewDepth
     }()
-    let infoLargeViewTitleLabel: UILabel = {
+    private let infoLargeViewTitleLabel: UILabel = {
         let label = UILabel()
         return label
     }()
-    let infoLargeViewLabel: UILabel = {   //INFO view (label text)
+    private let infoLargeViewLabel: UILabel = {   //INFO view (label text)
         let label = UILabel()
         return label
     }()
-    let infoButtonShadowView: UIView = {
+    private let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView()
         return infoButtonShadow
     }()
-    let infoLargeViewHideButton: UIButton = {  //INFO view
+    private let infoLargeViewHideButton: UIButton = {  //INFO view
         let infoLargeViewHideButton = UIButton()
         return infoLargeViewHideButton
     }()
@@ -105,33 +98,12 @@ class MainViewController: UIViewController {
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-//        configureGradientLayer()
         setupUI()
         addTargets()
         setupInfoLargeView()
         startLocationManager()
     }
-    
-    private func startLocationManager() {
-        locationManager.requestWhenInUseAuthorization()
-        DispatchQueue.global(qos: .userInitiated).async {
-            if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.delegate = self
-                self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-                self.locationManager.pausesLocationUpdatesAutomatically = false
-                self.locationManager.startUpdatingLocation()
-            }
-        }
-    }
-    
-    
     // MARK: methods
-//    private func configureGradientLayer() {
-////        gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-////        gradientLayer.locations = [0,1]
-//        view.layer.addSublayer(gradientLayer)
-//        gradientLayer.frame = view.bounds
-//    }
     private func setupUI() {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
@@ -173,7 +145,7 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
-        //        view.addSubview(infoButtonShadowView)
+        view.addSubview(infoButtonShadowView)
         view.addSubview(infoButton)
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
@@ -225,7 +197,6 @@ class MainViewController: UIViewController {
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
                              userInfo: nil, repeats: true)
     }
-    
     private func setupInfoLargeView() {
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
         infoLargeView.isHidden = true
@@ -265,37 +236,19 @@ class MainViewController: UIViewController {
         infoLargeViewHideButton.layer.borderWidth = 1.5
         infoLargeViewHideButton.layer.cornerRadius = 15
     }
-    
-    @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
-        print("INFO opened")
-        stoneImageView.isHidden = true
-        infoLargeView.isHidden = false
-        infoLargeViewDepth.isHidden = false
-        temperatureLabel.isHidden = true
-        conditionsLabel.isHidden = true
-        locationLabel.isHidden = true
-        locationPinIcon.isHidden = true
-        searchIcon.isHidden = true
-        infoButton.isHidden = true
-        infoButtonShadowView.isHidden = true
-    }
-    @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
-        print("closed!")
-        stoneImageView.isHidden = false
-        infoLargeView.isHidden = true
-        infoLargeViewDepth.isHidden = true
-        temperatureLabel.isHidden = false
-        conditionsLabel.isHidden = false
-        locationLabel.isHidden = false
-        locationPinIcon.isHidden = false
-        searchIcon.isHidden = false
-        infoButton.isHidden = false
-        infoButtonShadowView.isHidden = false
+    private func startLocationManager() {
+        locationManager.requestWhenInUseAuthorization()
+        DispatchQueue.global(qos: .userInitiated).async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.locationManager.delegate = self
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+                self.locationManager.pausesLocationUpdatesAutomatically = false
+                self.locationManager.startUpdatingLocation()
+            }
+        }
     }
     
     private func updateWeatherState(_ state: State, _ windSpeed: Double, _ internetConnection: Bool) { // регулирует состояния
-//        let stoneImage : UIImage?
-//        var alphaLevel : CGFloat = 1.0
         switch state {
         case .noInternet:
             stoneImageView.isHidden = true
@@ -334,65 +287,78 @@ class MainViewController: UIViewController {
         case .normal: //(windSpeed: let windSpeed):
             stoneImageView.image = UIImage(named: "image_stone_normal.png")
             stoneImageView.alpha = 1
-//        }
-         
-            
-//            stoneImageView.image = stoneImage
-//            stoneImageView.alpha = alphaLevel    //  НЕ СТИРАТЬ!!! проверить туман !!!
-            
-            //        if windSpeed > 3.0 {
-            //            windAnimationRotate()
-                    }
         }
-        
-    private func updateData(_ data: CompletionData, isConnected: Bool) {
-            state = .init(data.temperature, data.id, data.windSpeed, isConnected)
-            print("from uppdateData")
-            print(state)
-        }
-        private func windAnimationRotate() {
-            let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-            animation.duration = 4
-            animation.fillMode = .both
-            animation.repeatCount = .infinity
-            animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ] //- рабочий вариант. не удалять!
-            //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
-            //        animation.keyTimes = [NSNumber(value: 0.0),
-            //                              NSNumber(value: 0.5), //0.3
-            //                              NSNumber(value: 1.0)    //1.0
-            
-            animation.keyTimes = [NSNumber(value: 0.0),
-                                  NSNumber(value: 0.3),
-                                  NSNumber(value: 0.5),
-                                  NSNumber(value: 0.8), //0.3
-                                  NSNumber(value: 1.0)    //1.0
-                                  
-            ]
-            stoneImageView.layer.add(animation, forKey: "rotate")
-        }
-        
-        @objc func makingNetworkMonitor() {
-//           func makingNetworkMonitor() -> Bool?  {
-
-            let monitor = NWPathMonitor()
-            monitor.pathUpdateHandler = { path in
-                if path.status == .satisfied { //&& self.infoButtonPressed == false {
-                    print("Internet connection - OK 24")
-                    self.stoneImageView.isHidden = false
-                    self.isConnected = true
-                } else {
-                    print("There is NO internet connection 26")
-                    self.stoneImageView.isHidden = true
-                    self.isConnected = false
-                }
-            }
-            let queue = DispatchQueue.main
-            monitor.start(queue: queue)
-        }
+    }
     
+    private func updateData(_ data: CompletionData, isConnected: Bool) {
+        state = .init(data.temperature, data.id, data.windSpeed, isConnected)
+        print("from uppdateData")
+        print(state)
+    }
+    private func windAnimationRotate() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        animation.duration = 4
+        animation.fillMode = .both
+        animation.repeatCount = .infinity
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ] //- рабочий вариант. не удалять!
+        //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
+        //        animation.keyTimes = [NSNumber(value: 0.0),
+        //                              NSNumber(value: 0.5), //0.3
+        //                              NSNumber(value: 1.0)    //1.0
+        
+        animation.keyTimes = [NSNumber(value: 0.0),
+                              NSNumber(value: 0.3),
+                              NSNumber(value: 0.5),
+                              NSNumber(value: 0.8), //0.3
+                              NSNumber(value: 1.0)    //1.0
+        ]
+        stoneImageView.layer.add(animation, forKey: "rotate")
+    }
+    //MARK: OBJC methods
+    @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
+        print("INFO opened")
+        infoButtonPressed = true
+        stoneImageView.isHidden = true
+        infoLargeView.isHidden = false
+        infoLargeViewDepth.isHidden = false
+        temperatureLabel.isHidden = true
+        conditionsLabel.isHidden = true
+        locationLabel.isHidden = true
+        locationPinIcon.isHidden = true
+        searchIcon.isHidden = true
+        infoButton.isHidden = true
+        infoButtonShadowView.isHidden = true
+    }
+    @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
+        print("closed!")
+        infoButtonPressed = false
+        stoneImageView.isHidden = false
+        infoLargeView.isHidden = true
+        infoLargeViewDepth.isHidden = true
+        temperatureLabel.isHidden = false
+        conditionsLabel.isHidden = false
+        locationLabel.isHidden = false
+        locationPinIcon.isHidden = false
+        searchIcon.isHidden = false
+        infoButton.isHidden = false
+        infoButtonShadowView.isHidden = false
+    }
+    @objc func makingNetworkMonitor() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied && self.infoButtonPressed == false {
+                print("Internet connection - OK 24")
+                self.stoneImageView.isHidden = false
+            } else {
+                print("There is NO internet connection 26")
+                self.stoneImageView.isHidden = true
+            }
+        }
+        let queue = DispatchQueue.main
+        monitor.start(queue: queue)
+    }
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-        self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
-                                              longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
+        self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0, longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
         { completionData in
             let temprature = completionData.temperature
             let conditionCode = completionData.id
@@ -400,14 +366,12 @@ class MainViewController: UIViewController {
             let isConnected = self.isConnected
             self.state = .init(temprature, conditionCode, windSpeed, isConnected)
         }
-        //        makingNetworkMonitor()
         print("func refreshAction done")
         refreshControl.endRefreshing()
     }
-    }
+}
 
-    
-    //MARK: extension
+//MARK: extension
 extension MainViewController {
     enum State: Equatable {
         case cracks(windSpeed: Double)
@@ -433,61 +397,40 @@ extension MainViewController {
                 } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed < 3.0 {
                     self = .normal(windSpeed: windSpeed)
                     print("its normal case! And Windy")
-                }
-//                    else if temperature > 30 { // && windSpeed >= 3.0 {
-//                    self = .cracks(windSpeed: windSpeed)
-//                    print("its cracks case! And Windy")
-//                } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 { // && windSpeed >= 3.0 {
-//                    self = .wet(windSpeed: windSpeed)
-//                    print("its wet case! And Windy")
-//                } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 { // && windSpeed >= 3.0 {
-//                    self = .snow(windSpeed: windSpeed)
-//                    print("its snow case! And Windy")
-//                } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 { // && windSpeed >= 3.0 {
-//                    self = .fog(windSpeed: windSpeed)
-//                    print("its fog case! And Windy!")
-//                } else if temperature < 30 && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed >= 3.0 {
-//                    self = .normal(windSpeed: windSpeed)
-//                    print("its normal case!")
-//                }
-                else {
+                } else {
                     self = .normal(windSpeed: windSpeed)
                     print("you§re here and conditionCode! - \(conditionCode)")
                 }
             } else {
                 self = .noInternet
-                //                    stoneImageView.isHidden = true
             }
         }
     }
 }
-        
-        
-        //MARK: LocationManagerDelegate
-        extension MainViewController: CLLocationManagerDelegate {
-            func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-                guard let lastLocation = locations.last else { return }
-                weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
-                    let weatherConditions = complitionData.weather
-                    let temperature = String(complitionData.temperature)
-                    let city = complitionData.city
-                    let country = complitionData.country
-                    let windSpeedData = complitionData.windSpeed
-                    let responseStatusCode = complitionData.weather
-                    
-                    
-                    DispatchQueue.main.async { [self] in
-                        self.temperatureLabel.text = temperature + "°"
-                        self.conditionsLabel.text = weatherConditions
-                        self.locationLabel.text = city + ", " + country
-                        self.updateData(complitionData, isConnected: isConnected)
-                                        self.windSpeed = windSpeedData
-                        
-                        print("windspeed m/sec - \(windSpeedData)")
-                        scrollView.refreshControl = refreshControl
-                        print("response status code - \(responseStatusCode)")
-                    }
-                }
+
+//MARK: LocationManagerDelegate
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let lastLocation = locations.last else { return }
+        weatherManager.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { complitionData in
+            let weatherConditions = complitionData.weather
+            let temperature = String(complitionData.temperature)
+            let city = complitionData.city
+            let country = complitionData.country
+            let windSpeedData = complitionData.windSpeed
+            let responseStatusCode = complitionData.weather
+            DispatchQueue.main.async { [self] in
+                self.temperatureLabel.text = temperature + "°"
+                self.conditionsLabel.text = weatherConditions
+                self.locationLabel.text = city + ", " + country
+                self.updateData(complitionData, isConnected: isConnected)
+                self.windSpeed = windSpeedData
+                
+                print("windspeed m/sec - \(windSpeedData)")
+                scrollView.refreshControl = refreshControl
+                print("response status code - \(responseStatusCode)")
             }
         }
+    }
+}
 

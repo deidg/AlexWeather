@@ -27,7 +27,6 @@ struct Cod: Codable {
     var cod: Int
 }
 
-
 struct CompletionData {
     let city: String
     let country: String
