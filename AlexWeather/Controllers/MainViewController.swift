@@ -6,8 +6,6 @@
 //
 
 
-//TODO: не болтается камень
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -21,7 +19,6 @@ class MainViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     private var isConnected: Bool = true
-
     
     private let gradientLayer = CAGradientLayer()
     private let infoButtonGradientLayer = CAGradientLayer()
@@ -100,7 +97,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGradientLayer()
-//        configureInfoButtonGradientLayer()
         setupUI()
         addTargets()
         setupInfoLargeView()
@@ -118,20 +114,7 @@ class MainViewController: UIViewController {
             }
         }
     }
-    @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
-        self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
-                                              longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
-        { completionData in
-            let temprature = completionData.temperature
-            let conditionCode = completionData.id
-            let windSpeed = completionData.windSpeed
-            let isConnected = self.isConnected
-            self.state = .init(temprature, conditionCode, windSpeed, isConnected)
-        }
-        //        makingNetworkMonitor()
-        print("func refreshAction done")
-        refreshControl.endRefreshing()
-    }
+    
     
     // MARK: methods
     private func configureGradientLayer() {
@@ -297,8 +280,8 @@ class MainViewController: UIViewController {
     }
     
     private func updateWeatherState(_ state: State, _ windSpeed: Double, _ internetConnection: Bool) { // регулирует состояния
-        let stoneImage : UIImage?
-        var alphaLevel : CGFloat = 1.0
+//        let stoneImage : UIImage?
+//        var alphaLevel : CGFloat = 1.0
         switch state {
         case .noInternet:
             stoneImageView.isHidden = true
@@ -341,7 +324,7 @@ class MainViewController: UIViewController {
          
             
 //            stoneImageView.image = stoneImage
-            stoneImageView.alpha = alphaLevel
+//            stoneImageView.alpha = alphaLevel    //  НЕ СТИРАТЬ!!! проверить туман !!!
             
             //        if windSpeed > 3.0 {
             //            windAnimationRotate()
@@ -393,15 +376,20 @@ class MainViewController: UIViewController {
             monitor.start(queue: queue)
         }
     
-    
-    
-    
-//        private func configureInfoButtonGradientLayer() {
-//            infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-//            infoButtonGradientLayer.locations = [0,1]
-//            infoButton.layer.addSublayer(infoButtonGradientLayer)
-//            infoButtonGradientLayer.frame = infoButton.bounds
-//        }
+    @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
+        self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0,
+                                              longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
+        { completionData in
+            let temprature = completionData.temperature
+            let conditionCode = completionData.id
+            let windSpeed = completionData.windSpeed
+            let isConnected = self.isConnected
+            self.state = .init(temprature, conditionCode, windSpeed, isConnected)
+        }
+        //        makingNetworkMonitor()
+        print("func refreshAction done")
+        refreshControl.endRefreshing()
+    }
     }
 
     
@@ -475,7 +463,6 @@ extension MainViewController {
                     
                     
                     DispatchQueue.main.async { [self] in
-                        //                checkWindSpeed(windSpeedData)
                         self.temperatureLabel.text = temperature + "°"
                         self.conditionsLabel.text = weatherConditions
                         self.locationLabel.text = city + ", " + country
