@@ -22,8 +22,8 @@ class MainViewController: UIViewController {
     
     private let gradientLayer = CAGradientLayer()
     private let infoButtonGradientLayer = CAGradientLayer()
-    private var topColor = UIColor.orange
-    private var bottomColor = UIColor.yellow
+//    private var topColor = UIColor.orange
+//    private var bottomColor = UIColor.yellow
     
     private var state: State = .normal(windSpeed: 0.0) {
         didSet {
@@ -31,8 +31,16 @@ class MainViewController: UIViewController {
         }
     }
     
+   
     private let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
     private let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
+    
+    private let backgroundView: UIImageView = {
+        let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+        backgroundView.contentMode = .scaleAspectFill
+//        backgroundView.translatesAutoresizingMaskIntoConstraints =  false
+        return backgroundView
+    }()
     
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
@@ -64,7 +72,7 @@ class MainViewController: UIViewController {
     }()
     private let locationLabel: UILabel = {
         let locationLabel = UILabel()
-        locationLabel.text = "anywhere"
+        locationLabel.text = "anywhere"  //     удалить в конце!!!
         locationLabel.textAlignment = .center
         return locationLabel
     }()
@@ -96,7 +104,7 @@ class MainViewController: UIViewController {
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureGradientLayer()
+//        configureGradientLayer()
         setupUI()
         addTargets()
         setupInfoLargeView()
@@ -117,13 +125,17 @@ class MainViewController: UIViewController {
     
     
     // MARK: methods
-    private func configureGradientLayer() {
-        gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-        gradientLayer.locations = [0,1]
-        view.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = view.bounds
-    }
+//    private func configureGradientLayer() {
+////        gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
+////        gradientLayer.locations = [0,1]
+//        view.layer.addSublayer(gradientLayer)
+//        gradientLayer.frame = view.bounds
+//    }
     private func setupUI() {
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
