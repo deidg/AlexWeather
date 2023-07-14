@@ -10,6 +10,21 @@ import UIKit
 
 class InfoViewController: UIViewController {
     
+    private let backgroundView: UIImageView = {
+        let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+        backgroundView.contentMode = .scaleAspectFill
+        return backgroundView
+    }()
+    private let scrollView: UIScrollView = {
+        var view = UIScrollView()
+        view.isScrollEnabled = true
+        view.alwaysBounceVertical = true
+        return view
+    }()
+    private let contentView: UIView = {
+        let view = UIView()
+        return view
+    }()
     private let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         return infoLargeView
@@ -35,9 +50,32 @@ class InfoViewController: UIViewController {
         return infoLargeViewHideButton
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        addTargets()
+        setupInfoLargeView()
+    }
+    
+    
     func setupUI() {
-        view.addSubview(infoButtonShadowView)
-        view.addSubview(infoLargeViewDepth)
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { make in
+            make.centerX.equalTo(scrollView)
+            make.top.bottom.equalTo(scrollView).offset(-60)
+        }
+        
+        scrollView.addSubview(infoButtonShadowView)
+        
+        scrollView.addSubview(infoLargeViewDepth)
         infoLargeViewDepth.snp.makeConstraints{ make in
             make.top.bottom.equalTo(view).inset(200)
             make.leading.equalTo(view).inset(80)
@@ -49,23 +87,23 @@ class InfoViewController: UIViewController {
             make.top.bottom.equalTo(view).inset(200)
             make.leading.trailing.equalTo(view).inset(60)
         }
-        infoLargeView.addSubview(infoLargeViewTitleLabel)
+        view.addSubview(infoLargeViewTitleLabel)
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.top.equalTo(infoLargeView.snp.top).inset(30)
         }
-        infoLargeView.addSubview(infoLargeViewLabel)
+        view.addSubview(infoLargeViewLabel)
         infoLargeViewLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
             make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
         }
-        infoLargeView.addSubview(infoLargeViewHideButton)
+        view.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
-            make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
+            make.top.equalTo(infoLargeView.snp.bottom).inset(20)
         }
     }
     

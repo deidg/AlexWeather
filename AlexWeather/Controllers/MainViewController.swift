@@ -6,7 +6,8 @@
 //
 
 
-// TODO: проверить наличие тени у кнопки INFO 
+// TODO: проверить наличие тени у кнопки INFO
+// TODO: вынести все цифры в константы
 
 import UIKit
 import CoreLocation
