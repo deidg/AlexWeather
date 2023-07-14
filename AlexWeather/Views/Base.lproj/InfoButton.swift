@@ -8,11 +8,10 @@
 import UIKit
 
 class InfoButton: UIButton {
-    private var topColor = UIColor.orange
-    private var bottomColor = UIColor.yellow
+    private var topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
+    private var bottomColor = UIColor(red: 249/255, green: 80/255, blue: 27/255, alpha: 1)
     private let infoButtonGradientLayer = CAGradientLayer()
-
-    
+ 
     override init(frame: CGRect) {
         super.init(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
         setTitle("INFO", for: .normal)
@@ -24,12 +23,11 @@ class InfoButton: UIButton {
         layer.shadowOpacity = 1
         layer.shadowOffset = CGSize(width: 10, height: 5)
         layer.shadowRadius = 5
-        
+  
         infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
         self.layer.addSublayer(infoButtonGradientLayer)
         infoButtonGradientLayer.frame = self.bounds
-        
     }
     required init?(coder: NSCoder) {
         return nil

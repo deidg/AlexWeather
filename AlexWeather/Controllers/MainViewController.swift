@@ -6,6 +6,8 @@
 //
 
 
+// TODO: проверить наличие тени у кнопки INFO 
+
 import UIKit
 import CoreLocation
 import SnapKit
@@ -22,8 +24,8 @@ class MainViewController: UIViewController {
     
     private let gradientLayer = CAGradientLayer()
     private let infoButtonGradientLayer = CAGradientLayer()
-//    private var topColor = UIColor.orange
-//    private var bottomColor = UIColor.yellow
+//    private var topColor = UIColor(red: 255, green: 153, blue: 96, alpha: 1)
+//    private var bottomColor = UIColor(red: 255, green: 80, blue: 27, alpha: 1)
     
     private var state: State = .normal(windSpeed: 0.0) {
         didSet {
@@ -38,7 +40,6 @@ class MainViewController: UIViewController {
     private let backgroundView: UIImageView = {
         let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
         backgroundView.contentMode = .scaleAspectFill
-//        backgroundView.translatesAutoresizingMaskIntoConstraints =  false
         return backgroundView
     }()
     
