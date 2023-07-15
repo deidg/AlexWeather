@@ -105,7 +105,7 @@ class InfoViewController: UIViewController {
         infoLargeViewHideButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(30)
-            make.top.equalTo(infoLargeView.snp.bottom).inset(20)
+            make.top.equalTo(infoLargeViewLabel.snp.bottom).offset(20)
         }
     }
     

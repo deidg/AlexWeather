@@ -72,37 +72,12 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-//    private let infoLargeView: UIView = { // INFO view
-//        let infoLargeView = UIView()
-//        return infoLargeView
-//    }()
-//    private let infoLargeViewDepth: UIView = {
-//        let infoLargeViewDepth = UIView()
-//        return infoLargeViewDepth
-//    }()
-//    private let infoLargeViewTitleLabel: UILabel = {
-//        let label = UILabel()
-//        return label
-//    }()
-//    private let infoLargeViewLabel: UILabel = {   //INFO view (label text)
-//        let label = UILabel()
-//        return label
-//    }()
-//    private let infoButtonShadowView: UIView = {
-//        let infoButtonShadow = UIView()
-//        return infoButtonShadow
-//    }()
-//    private let infoLargeViewHideButton: UIButton = {  //INFO view
-//        let infoLargeViewHideButton = UIButton()
-//        return infoLargeViewHideButton
-//    }()
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         addTargets()
-//        setupInfoLargeView()
         startLocationManager()
     }
     // MARK: methods
@@ -149,6 +124,13 @@ class MainViewController: UIViewController {
         }
 //        view.addSubview(infoButtonShadowView)
         view.addSubview(infoButton)
+        infoButton.snp.makeConstraints{ make in
+                    make.centerX.equalTo(self.view)
+            make.bottom.equalTo(view.snp.bottom).inset(-20)
+                    make.leading.trailing.equalToSuperview().inset(100)
+                    make.height.equalTo(70)
+                }
+        
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(80)
@@ -161,83 +143,13 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(30)
             make.height.equalTo(20)
         }
-//        view.addSubview(infoLargeViewDepth)
-//        infoLargeViewDepth.snp.makeConstraints{ make in
-//            make.top.bottom.equalTo(view).inset(200)
-//            make.leading.equalTo(view).inset(80)
-//            make.trailing.equalTo(view).inset(40)
-//        }
-//        infoLargeViewDepth.addSubview(infoLargeView)
-//        infoLargeView.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.view)
-//            make.top.bottom.equalTo(view).inset(200)
-//            make.leading.trailing.equalTo(view).inset(60)
-//        }
-//        infoLargeView.addSubview(infoLargeViewTitleLabel)
-//        infoLargeViewTitleLabel.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.infoLargeView)
-//            make.leading.trailing.equalTo(infoLargeView).inset(30)
-//            make.top.equalTo(infoLargeView.snp.top).inset(30)
-//        }
-//        infoLargeView.addSubview(infoLargeViewLabel)
-//        infoLargeViewLabel.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.infoLargeView)
-//            make.leading.trailing.equalTo(infoLargeView).inset(30)
-//            make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(50)
-//        }
-//        infoLargeView.addSubview(infoLargeViewHideButton)
-//        infoLargeViewHideButton.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.infoLargeView)
-//            make.leading.trailing.equalTo(infoLargeView).inset(30)
-//            make.bottom.equalTo(infoLargeView.snp.bottom).inset(20)
-//        }
     }
     private func addTargets() {  // устанавливаем селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-//        infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
                              userInfo: nil, repeats: true)
     }
-//    private func setupInfoLargeView() {
-//        infoLargeView.backgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
-//        infoLargeView.isHidden = true
-//        infoLargeView.layer.cornerRadius = 25
-//        infoLargeView.layer.shadowColor = UIColor.black.cgColor
-//        infoLargeView.layer.shadowOpacity = 0.2 //0.5
-//        infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
-//        infoLargeView.layer.shadowRadius = 10
-//        infoLargeViewDepth.backgroundColor = UIColor(red: 251/255, green: 95/255, blue: 41/255, alpha: 1)
-//        infoLargeViewDepth.isHidden = true
-//        infoLargeViewDepth.layer.cornerRadius = 25
-//        infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
-//        infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
-//        infoLargeViewDepth.layer.shadowOffset = CGSize(width: 0, height: 10)
-//        infoLargeViewDepth.layer.shadowRadius = 10
-//        infoLargeViewTitleLabel.text = "INFO"
-//        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
-//        infoLargeViewTitleLabel.textAlignment = .center
-//        infoLargeViewLabel.numberOfLines = 7
-//        infoLargeViewLabel.textAlignment = .left
-//        let attributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
-//        let paragraphStyle = NSMutableParagraphStyle()
-//        paragraphStyle.lineSpacing = 20
-//        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-//        infoLargeViewLabel.attributedText = attributedString
-//        let infoButtonShadow = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
-//        infoButtonShadow.backgroundColor = UIColor.yellow
-//        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
-//        infoButtonShadow.layer.shadowOpacity = 0.2
-//        infoButtonShadow.layer.shadowOffset = CGSize(width: 10, height: 5)
-//        infoButtonShadow.layer.shadowRadius = 5
-//        infoButtonShadow.layer.cornerRadius = 15
-//        infoLargeViewHideButton.isEnabled = true
-//        infoLargeViewHideButton.setTitle("Hide", for: .normal)
-//        infoLargeViewHideButton.setTitleColor(UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1), for:  .normal)
-//        infoLargeViewHideButton.layer.borderColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1).cgColor
-//        infoLargeViewHideButton.layer.borderWidth = 1.5
-//        infoLargeViewHideButton.layer.cornerRadius = 15
-//    }
     private func startLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -322,20 +234,6 @@ class MainViewController: UIViewController {
         infoViewController.modalPresentationStyle = .fullScreen
             present(infoViewController, animated: false)
     }
-//    @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
-//        print("closed!")
-//        infoButtonPressed = false
-//        stoneImageView.isHidden = false
-////        infoLargeView.isHidden = true
-////        infoLargeViewDepth.isHidden = true
-//        temperatureLabel.isHidden = false
-//        conditionsLabel.isHidden = false
-//        locationLabel.isHidden = false
-//        locationPinIcon.isHidden = false
-//        searchIcon.isHidden = false
-//        infoButton.isHidden = false
-////        infoButtonShadowView.isHidden = false
-//    }
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
