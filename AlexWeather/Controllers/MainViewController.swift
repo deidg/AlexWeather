@@ -8,6 +8,7 @@
 
 // TODO: проверить наличие тени у кнопки INFO
 // TODO: вынести все цифры в константы
+//  при дергании камня (рефреше) - сделать мерцание цифр? погасить на 0.5 - 1 сек
 
 import UIKit
 import CoreLocation
@@ -122,14 +123,22 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
+        
 //        view.addSubview(infoButtonShadowView)
+//        infoButtonShadowView.snp.makeConstraints{ make in
+//            make.centerX.equalTo(self.view)
+//            make.bottom.equalTo(view.snp.bottom).inset(-20)
+//            make.leading.trailing.equalToSuperview().inset(100)
+//            make.height.equalTo(70)
+//        }
+        
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
-                    make.centerX.equalTo(self.view)
+            make.centerX.equalTo(self.view)
             make.bottom.equalTo(view.snp.bottom).inset(-20)
-                    make.leading.trailing.equalToSuperview().inset(100)
-                    make.height.equalTo(70)
-                }
+            make.leading.trailing.equalToSuperview().inset(100)
+            make.height.equalTo(70)
+        }
         
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
@@ -237,7 +246,7 @@ class MainViewController: UIViewController {
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied && self.infoButtonPressed == false {
+            if path.status == .satisfied { //&& self.infoButtonPressed == false {
                 print("Internet connection - OK 24")
                 self.stoneImageView.isHidden = false
             } else {
