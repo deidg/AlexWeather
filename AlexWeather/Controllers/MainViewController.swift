@@ -5,8 +5,7 @@
 //  Created by Alex on 16.05.2023.
 //
 
-
-// TODO: проверить наличие тени у кнопки INFO
+ 10 мин
 // TODO: вынести все цифры в константы
 //  при дергании камня (рефреше) - сделать мерцание цифр? погасить на 0.5 - 1 сек
 
@@ -283,7 +282,7 @@ class MainViewController: UIViewController {
     }
 }
 
-//MARK: extension
+//MARK: extension MainViewController
 extension MainViewController {
     enum State: Equatable {
         case cracks(windSpeed: Double)
@@ -346,3 +345,20 @@ extension MainViewController: CLLocationManagerDelegate {
     }
 }
 
+//MARK: Constants
+extension MainViewController {
+    enum Constants {
+        
+        enum Text {
+            static let labelTextColor = UIColor(red: 102/255, green: 178/255, blue: 255/255, alpha: 1)
+        }
+        enum Borders {
+            static let frameBorderColor = UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1).cgColor
+            //            static let cgSizeHeight = 105
+        }
+        enum Colors {
+            static let mainBackgroundColor = UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1)
+            static let firstCellBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
+        }
+    }
+}
