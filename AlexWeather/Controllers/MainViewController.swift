@@ -74,6 +74,17 @@ class MainViewController: UIViewController {
         return locationLabel
     }()
     
+    let infoButtonShadowView: UIView = {
+            let infoButtonShadow = UIView()
+            infoButtonShadow.backgroundColor = UIColor.yellow
+            infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
+        infoButtonShadow.layer.shadowOpacity = 1// 0.25
+            infoButtonShadow.layer.shadowOffset = CGSize(width: 2, height: 2)
+            infoButtonShadow.layer.shadowRadius = 5
+            infoButtonShadow.layer.cornerRadius = 15
+            return infoButtonShadow
+        }()
+    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,14 +134,14 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(100)
             make.height.equalTo(50)
         }
-        
-//        view.addSubview(infoButtonShadowView)
-//        infoButtonShadowView.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.view)
-//            make.bottom.equalTo(view.snp.bottom).inset(-20)
-//            make.leading.trailing.equalToSuperview().inset(100)
-//            make.height.equalTo(70)
-//        }
+ 
+        view.addSubview(infoButtonShadowView)
+        infoButtonShadowView.snp.makeConstraints{ make in
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(view.snp.bottom).inset(-20)
+            make.leading.trailing.equalToSuperview().inset(100)
+            make.height.equalTo(70)
+        }
         
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
@@ -237,6 +248,7 @@ class MainViewController: UIViewController {
         ]
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
+ 
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")

@@ -16,16 +16,11 @@ class InfoButton: UIButton {
         super.init(frame: .zero)
         setTitle("INFO", for: .normal)
         setTitleColor(.black, for: .normal)
-        
         contentVerticalAlignment = .top
-        clipsToBounds = true  //false
-        layer.cornerRadius = 15.0
-        layer.shadowColor = UIColor.red.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: 10, height: 5)
-        layer.shadowRadius = 5
         
-  
+        clipsToBounds = true
+        layer.cornerRadius = 15
+
         infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
         self.layer.addSublayer(infoButtonGradientLayer)
