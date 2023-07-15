@@ -10,21 +10,23 @@ import UIKit
 
 class InfoViewController: UIViewController {
     
+//    let mainViewController = MainViewController()
+    
     private let backgroundView: UIImageView = {
         let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
         backgroundView.contentMode = .scaleAspectFill
         return backgroundView
     }()
-    private let scrollView: UIScrollView = {
-        var view = UIScrollView()
-        view.isScrollEnabled = true
-        view.alwaysBounceVertical = true
-        return view
-    }()
-    private let contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    //    private let scrollView: UIScrollView = {
+    //        var view = UIScrollView()
+    //        view.isScrollEnabled = true
+    //        view.alwaysBounceVertical = true
+    //        return view
+    //    }()
+    //    private let contentView: UIView = {
+    //        let view = UIView()
+    //        return view
+    //    }()
     private let infoLargeView: UIView = { // INFO view
         let infoLargeView = UIView()
         return infoLargeView
@@ -63,19 +65,19 @@ class InfoViewController: UIViewController {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints { make in
-            make.centerX.equalTo(scrollView)
-            make.top.bottom.equalTo(scrollView).offset(-60)
-        }
+        //        view.addSubview(scrollView)
+        //        scrollView.snp.makeConstraints { make in
+        //            make.edges.equalToSuperview()
+        //        }
+        //        scrollView.addSubview(contentView)
+        //        contentView.snp.makeConstraints { make in
+        //            make.centerX.equalTo(scrollView)
+        //            make.top.bottom.equalTo(scrollView).offset(-60)
+        //        }
         
-        scrollView.addSubview(infoButtonShadowView)
+        view.addSubview(infoButtonShadowView)
         
-        scrollView.addSubview(infoLargeViewDepth)
+        view.addSubview(infoLargeViewDepth)
         infoLargeViewDepth.snp.makeConstraints{ make in
             make.top.bottom.equalTo(view).inset(200)
             make.leading.equalTo(view).inset(80)
@@ -116,14 +118,12 @@ class InfoViewController: UIViewController {
     
     private func setupInfoLargeView() {
         infoLargeView.backgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
-        infoLargeView.isHidden = true
         infoLargeView.layer.cornerRadius = 25
         infoLargeView.layer.shadowColor = UIColor.black.cgColor
         infoLargeView.layer.shadowOpacity = 0.2 //0.5
         infoLargeView.layer.shadowOffset = CGSize(width: 0, height: 10)
         infoLargeView.layer.shadowRadius = 10
         infoLargeViewDepth.backgroundColor = UIColor(red: 251/255, green: 95/255, blue: 41/255, alpha: 1)
-        infoLargeViewDepth.isHidden = true
         infoLargeViewDepth.layer.cornerRadius = 25
         infoLargeViewDepth.layer.shadowColor = UIColor.black.cgColor
         infoLargeViewDepth.layer.shadowOpacity = 0.2 //0.5
@@ -156,17 +156,6 @@ class InfoViewController: UIViewController {
     
     @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
         print("closed!")
-//        infoButtonPressed = false
-//        stoneImageView.isHidden = false
-////        infoLargeView.isHidden = true
-////        infoLargeViewDepth.isHidden = true
-//        temperatureLabel.isHidden = false
-//        conditionsLabel.isHidden = false
-//        locationLabel.isHidden = false
-//        locationPinIcon.isHidden = false
-//        searchIcon.isHidden = false
-//        infoButton.isHidden = false
-////        infoButtonShadowView.isHidden = false
+        dismiss(animated: false)
     }
-    
 }

@@ -319,20 +319,8 @@ class MainViewController: UIViewController {
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
-        
-        self.present(infoViewController, animated: true) //(infoViewController, sender: self)
-        
-//        infoButtonPressed = true
-//        stoneImageView.isHidden = true
-////        infoLargeView.isHidden = false
-////        infoLargeViewDepth.isHidden = false
-//        temperatureLabel.isHidden = true
-//        conditionsLabel.isHidden = true
-//        locationLabel.isHidden = true
-//        locationPinIcon.isHidden = true
-//        searchIcon.isHidden = true
-//        infoButton.isHidden = true
-////        infoButtonShadowView.isHidden = true
+        infoViewController.modalPresentationStyle = .fullScreen
+            present(infoViewController, animated: false)
     }
 //    @objc private func hideButtonPressed(sender: UIButton) {    // закрытие INFO
 //        print("closed!")
