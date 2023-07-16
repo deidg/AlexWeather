@@ -5,7 +5,6 @@
 //  Created by Alex on 16.05.2023.
 //
 
-// TODO: вынести все цифры в константы
 //  при дергании камня (рефреше) - сделать мерцание цифр? погасить на 0.5 - 1 сек
 
 import UIKit
@@ -72,15 +71,15 @@ class MainViewController: UIViewController {
     }()
     
     let infoButtonShadowView: UIView = {
-            let infoButtonShadow = UIView()
-            infoButtonShadow.backgroundColor = UIColor.yellow
-            infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
+        let infoButtonShadow = UIView()
+        infoButtonShadow.backgroundColor = UIColor.yellow
+        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
         infoButtonShadow.layer.shadowOpacity = Constants.Shadows.infoButtonShadowOpacity // 0.25
-            infoButtonShadow.layer.shadowOffset = CGSize(width: Constants.Shadows.infoButtonShadowOffsetWidth, height: Constants.Shadows.infoButtonShadowOffsetHeight)
-            infoButtonShadow.layer.shadowRadius = Constants.Shadows.infoButtonShadowShadowRadius
-            infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
-            return infoButtonShadow
-        }()
+        infoButtonShadow.layer.shadowOffset = CGSize(width: Constants.Shadows.infoButtonShadowOffsetWidth, height: Constants.Shadows.infoButtonShadowOffsetHeight)
+        infoButtonShadow.layer.shadowRadius = Constants.Shadows.infoButtonShadowShadowRadius
+        infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
+        return infoButtonShadow
+    }()
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -131,7 +130,7 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Constants.Constraints.locationLabelLeadingTrailing)
             make.height.equalTo(Constants.Constraints.locationLabelHeight)
         }
- 
+        
         view.addSubview(infoButtonShadowView)
         infoButtonShadowView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -245,12 +244,24 @@ class MainViewController: UIViewController {
         ]
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
- 
+    
+    func flash() {
+        let flash = CABasicAnimation(keyPath: "opacity")
+        flash.duration = 0.2
+        flash.fromValue = 1
+        flash.toValue = 0.0
+        flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        flash.autoreverses = true
+        temperatureLabel.layer.add(flash, forKey: nil)
+        conditionsLabel.layer.add(flash, forKey: nil)
+    }
+    
+    
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         print("INFO opened")
         infoViewController.modalPresentationStyle = .fullScreen
-            present(infoViewController, animated: false)
+        present(infoViewController, animated: false)
     }
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
@@ -267,6 +278,7 @@ class MainViewController: UIViewController {
         monitor.start(queue: queue)
     }
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
+        flash()
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0, longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
         { completionData in
             let temprature = completionData.temperature
@@ -276,7 +288,16 @@ class MainViewController: UIViewController {
             self.state = .init(temprature, conditionCode, windSpeed, isConnected)
         }
         print("func refreshAction done")
+        
+        temperatureLabel.isHidden = false
+        conditionsLabel.isHidden = false
+        
         refreshControl.endRefreshing()
+    }
+    
+    @objc func alarmAlertActivate(){
+        temperatureLabel.isHidden = !temperatureLabel.isHidden
+        conditionsLabel.isHidden = !conditionsLabel.isHidden
     }
 }
 
@@ -402,7 +423,7 @@ extension MainViewController {
             
             static let temprature = 30
         }
-    
+        
         enum Stones {
             static let normalStoneImage = "image_stone_normal.png"
             static let wetStoneImage = "image_stone_wet.png"
