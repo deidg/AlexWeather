@@ -8,8 +8,8 @@
 import UIKit
 
 class InfoButton: UIButton {
-    private var topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
-    private var bottomColor = UIColor(red: 249/255, green: 80/255, blue: 27/255, alpha: 1)
+    private var topColor = Constants.topColor
+    private var bottomColor = Constants.bottomColor
     private let infoButtonGradientLayer = CAGradientLayer()
  
     override init(frame: CGRect) {
@@ -19,7 +19,7 @@ class InfoButton: UIButton {
         contentVerticalAlignment = .top
         
         clipsToBounds = true
-        layer.cornerRadius = 15
+        layer.cornerRadius = Constants.cornerRadius
 
         infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
@@ -34,6 +34,16 @@ class InfoButton: UIButton {
     
     required init?(coder: NSCoder) {
         return nil
+    }
+}
+
+extension InfoButton {
+    enum Constants {
+        static let topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
+        static let bottomColor = UIColor(red: 249/255, green: 80/255, blue: 27/255, alpha: 1)
+        
+        static let cornerRadius: CGFloat = 15.0
+        
     }
 }
 
