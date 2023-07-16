@@ -20,7 +20,6 @@ class MainViewController: UIViewController {
     private var windSpeed: Double = 0.0
     
     private var isConnected: Bool = true
-    private var infoButtonPressed: Bool = false
     
     private var state: State = .normal(windSpeed: 0.0) {
         didSet {
@@ -41,14 +40,8 @@ class MainViewController: UIViewController {
         view.alwaysBounceVertical = true
         return view
     }()
-    private let contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    private var stoneImageView: UIImageView = {
-        let stoneImageView = UIImageView()
-        return stoneImageView
-    }()
+    private let contentView = UIView()
+    private var stoneImageView = UIImageView()
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -155,12 +148,14 @@ class MainViewController: UIViewController {
             make.height.equalTo(Constants.Constraints.searchIconHeight)
         }
     }
+    
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
                              userInfo: nil, repeats: true)
     }
+    
     private func startLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -172,6 +167,7 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
     private func updateWeatherState(_ state: State, _ windSpeed: Double, _ internetConnection: Bool) { // регулирует состояния
         switch state {
         case .noInternet:
@@ -219,6 +215,7 @@ class MainViewController: UIViewController {
         print("from uppdateData")
         print(state)
     }
+    
     private func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.duration = 4
@@ -233,6 +230,7 @@ class MainViewController: UIViewController {
         ]
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
+    
     private func flash() {
         let flash = CABasicAnimation(keyPath: "opacity")
         flash.duration = 0.2
@@ -248,6 +246,7 @@ class MainViewController: UIViewController {
         infoViewController.modalPresentationStyle = .fullScreen
         present(infoViewController, animated: false)
     }
+    
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
@@ -260,6 +259,7 @@ class MainViewController: UIViewController {
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
+    
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         flash()
         self.weatherManager.updateWeatherInfo(latitude: self.locationManager.location?.coordinate.latitude ?? 0.0, longtitude: self.locationManager.location?.coordinate.longitude ?? 0.0)
@@ -271,10 +271,6 @@ class MainViewController: UIViewController {
             self.state = .init(temprature, conditionCode, windSpeed, isConnected)
         }
         refreshControl.endRefreshing()
-    }
-    @objc func alarmAlertActivate(){
-        temperatureLabel.isHidden = !temperatureLabel.isHidden
-        conditionsLabel.isHidden = !conditionsLabel.isHidden
     }
 }
 
