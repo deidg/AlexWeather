@@ -8,26 +8,14 @@
 import Foundation
 import UIKit
 
-class InfoViewController: UIViewController {
-    
-//    let mainViewController = MainViewController()
-    
+class InfoViewController: UIViewController { // INFO view
+    //MARK: elements
     private let backgroundView: UIImageView = {
-        let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+        let backgroundView = Constants.setupInfoLargeView.backgroundView
         backgroundView.contentMode = .scaleAspectFill
         return backgroundView
     }()
-    //    private let scrollView: UIScrollView = {
-    //        var view = UIScrollView()
-    //        view.isScrollEnabled = true
-    //        view.alwaysBounceVertical = true
-    //        return view
-    //    }()
-    //    private let contentView: UIView = {
-    //        let view = UIView()
-    //        return view
-    //    }()
-    private let infoLargeView: UIView = { // INFO view
+    private let infoLargeView: UIView = {
         let infoLargeView = UIView()
         return infoLargeView
     }()
@@ -39,7 +27,7 @@ class InfoViewController: UIViewController {
         let label = UILabel()
         return label
     }()
-    private let infoLargeViewLabel: UILabel = {   //INFO view (label text)
+    private let infoLargeViewLabel: UILabel = {
         let label = UILabel()
         return label
     }()
@@ -47,36 +35,24 @@ class InfoViewController: UIViewController {
         let infoButtonShadow = UIView()
         return infoButtonShadow
     }()
-    private let infoLargeViewHideButton: UIButton = {  //INFO view
+    private let infoLargeViewHideButton: UIButton = {
         let infoLargeViewHideButton = UIButton()
         return infoLargeViewHideButton
     }()
-    
+    //MARK: VIewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         addTargets()
         setupInfoLargeView()
     }
-    
-    
+    //MARK: Methods
     func setupUI() {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        //        view.addSubview(scrollView)
-        //        scrollView.snp.makeConstraints { make in
-        //            make.edges.equalToSuperview()
-        //        }
-        //        scrollView.addSubview(contentView)
-        //        contentView.snp.makeConstraints { make in
-        //            make.centerX.equalTo(scrollView)
-        //            make.top.bottom.equalTo(scrollView).offset(-60)
-        //        }
-        
         view.addSubview(infoButtonShadowView)
-        
         view.addSubview(infoLargeViewDepth)
         infoLargeViewDepth.snp.makeConstraints{ make in
             make.top.bottom.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
@@ -108,23 +84,21 @@ class InfoViewController: UIViewController {
             make.top.equalTo(infoLargeViewLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
     }
-   
-    private func addTargets() {  // устанавливаем селекторы на кнопки и движения
+    private func addTargets() {
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
-
     private func setupInfoLargeView() {
         infoLargeView.backgroundColor = Constants.setupInfoLargeView.infoLargeViewBackgroundColor
         infoLargeView.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewCornerRadius
         infoLargeView.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewShadowColor
-        infoLargeView.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewShadowOpacity //0.5
+        infoLargeView.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewShadowOpacity
         infoLargeView.layer.shadowOffset = CGSize(width: Constants.setupInfoLargeView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoLargeView.infoLargeViewShadowOffsetHeight)
         infoLargeView.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewShadowRadius
         
         infoLargeViewDepth.backgroundColor = Constants.setupInfoLargeView.infoLargeViewDepthBackgroundColor
         infoLargeViewDepth.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewDepthCornerRadius
         infoLargeViewDepth.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewDepthShadowColor
-        infoLargeViewDepth.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewDepthShadowOpacity //0.5
+        infoLargeViewDepth.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewDepthShadowOpacity
         infoLargeViewDepth.layer.shadowOffset = Constants.setupInfoLargeView.infoLargeViewDepthShadowOffset
         infoLargeViewDepth.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewDepthShadowRadius
         
@@ -152,13 +126,11 @@ class InfoViewController: UIViewController {
         infoLargeViewHideButton.layer.borderWidth = Constants.setupInfoLargeView.infoLargeViewHideButtonBorderWidth
         infoLargeViewHideButton.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewHideButtonCornerRaidus
     }
-    
     @objc private func hideButtonPressed(sender: UIButton) {
-        print("closed!")
         dismiss(animated: false)
     }
 }
-
+// MARK: Extension
 extension InfoViewController {
     enum Constants {
         enum Constraints {
@@ -176,6 +148,7 @@ extension InfoViewController {
             static let infoLargeViewHideButtonTop = 20
         }
         enum setupInfoLargeView {
+            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
             static let infoLargeViewBackgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
             static let infoLargeViewCornerRadius: CGFloat = 25
             static let infoLargeViewShadowColor = UIColor.black.cgColor
@@ -192,7 +165,7 @@ extension InfoViewController {
             static let infoLargeViewDepthShadowRadius:CGFloat = 10
             
             static let infoLargeViewTitleLabelText = "INFO"
-            static let infoLargeViewLabelAttributedString  = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
+            static let infoLargeViewLabelAttributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
             static let infoLargeViewLabelNumberOfLines = 7
             static let infoLargeViewLabelLineSPacing: CGFloat = 20
 
@@ -207,7 +180,6 @@ extension InfoViewController {
             static let infoLargeViewHideButtonBorderColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1).cgColor
             static let infoLargeViewHideButtonBorderWidth:CGFloat = 1.5
             static let infoLargeViewHideButtonCornerRaidus:CGFloat = 15
-        }
-      
+        }      
     }
 }

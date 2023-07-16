@@ -5,8 +5,6 @@
 //  Created by Alex on 16.05.2023.
 //
 
-//  при дергании камня (рефреше) - сделать мерцание цифр? погасить на 0.5 - 1 сек
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -30,10 +28,10 @@ class MainViewController: UIViewController {
         }
     }
     
-    private let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
-    private let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
+    private let locationPinIcon = Constants.Icons.locationPinIcon
+    private let searchIcon = Constants.Icons.searchIcon
     private let backgroundView: UIImageView = {
-        let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+        let backgroundView = Constants.Images.backgroundView
         backgroundView.contentMode = .scaleAspectFill
         return backgroundView
     }()
@@ -69,7 +67,6 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-    
     let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView()
         infoButtonShadow.backgroundColor = UIColor.yellow
@@ -138,7 +135,6 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonShadowViewLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoButtonShadowViewHeight)
         }
-        
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -146,7 +142,6 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoButtonHeight)
         }
-        
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationPinIconBottom)
@@ -160,7 +155,7 @@ class MainViewController: UIViewController {
             make.height.equalTo(Constants.Constraints.searchIconHeight)
         }
     }
-    private func addTargets() {  // устанавливаем селекторы на кнопки и движения
+    private func addTargets() {  // устанавливает селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
         Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
@@ -177,7 +172,6 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
     private func updateWeatherState(_ state: State, _ windSpeed: Double, _ internetConnection: Bool) { // регулирует состояния
         switch state {
         case .noInternet:
@@ -202,19 +196,19 @@ class MainViewController: UIViewController {
             stoneImageView.image =  UIImage(named: Constants.Stones.normalStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaMist
             windAnimationRotate()
-        case .cracks: // (windSpeed: let windSpeed):
+        case .cracks:
             stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaStandart
-        case .wet: //(windSpeed: let windSpeed):
+        case .wet:
             stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaStandart
-        case .snow: //(windSpeed: let windSpeed):
+        case .snow:
             stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaStandart
-        case .fog:  //(windSpeed: let windSpeed):
+        case .fog:
             stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaMist
-        case .normal: //(windSpeed: let windSpeed):
+        case .normal:
             stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaStandart
         }
@@ -230,22 +224,16 @@ class MainViewController: UIViewController {
         animation.duration = 4
         animation.fillMode = .both
         animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ] //- рабочий вариант. не удалять!
-        //        animation.values = [0, Double.pi/10, 0, -(Double.pi/10), 0 ]
-        //        animation.keyTimes = [NSNumber(value: 0.0),
-        //                              NSNumber(value: 0.5), //0.3
-        //                              NSNumber(value: 1.0)    //1.0
-        
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ]
         animation.keyTimes = [NSNumber(value: 0.0),
                               NSNumber(value: 0.3),
                               NSNumber(value: 0.5),
-                              NSNumber(value: 0.8), //0.3
-                              NSNumber(value: 1.0)    //1.0
+                              NSNumber(value: 0.8),
+                              NSNumber(value: 1.0)
         ]
         stoneImageView.layer.add(animation, forKey: "rotate")
     }
-    
-    func flash() {
+    private func flash() {
         let flash = CABasicAnimation(keyPath: "opacity")
         flash.duration = 0.2
         flash.fromValue = 1
@@ -255,22 +243,17 @@ class MainViewController: UIViewController {
         temperatureLabel.layer.add(flash, forKey: nil)
         conditionsLabel.layer.add(flash, forKey: nil)
     }
-    
-    
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
-        print("INFO opened")
         infoViewController.modalPresentationStyle = .fullScreen
         present(infoViewController, animated: false)
     }
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied { //&& self.infoButtonPressed == false {
-                print("Internet connection - OK 24")
+            if path.status == .satisfied {
                 self.stoneImageView.isHidden = false
             } else {
-                print("There is NO internet connection 26")
                 self.stoneImageView.isHidden = true
             }
         }
@@ -287,14 +270,8 @@ class MainViewController: UIViewController {
             let isConnected = self.isConnected
             self.state = .init(temprature, conditionCode, windSpeed, isConnected)
         }
-        print("func refreshAction done")
-        
-        temperatureLabel.isHidden = false
-        conditionsLabel.isHidden = false
-        
         refreshControl.endRefreshing()
     }
-    
     @objc func alarmAlertActivate(){
         temperatureLabel.isHidden = !temperatureLabel.isHidden
         conditionsLabel.isHidden = !conditionsLabel.isHidden
@@ -312,19 +289,19 @@ extension MainViewController {
         case noInternet
         init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double, _ internetConnection: Bool) {
             if internetConnection == true {
-                if temperature > Constants.Conditions.temprature { // && windSpeed < 3.0 {
+                if temperature > Constants.Conditions.temprature {
                     self = .cracks(windSpeed: windSpeed)
                     print("its cracks case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 100 && conditionCode <= 531 { // && windSpeed < 3.0 {
+                } else if temperature < Constants.Conditions.temprature && conditionCode >= 100 && conditionCode <= 531 {
                     self = .wet(windSpeed: windSpeed)
                     print("its wet case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 600 && conditionCode <= 622 { // && windSpeed < 3.0 {
+                } else if temperature < Constants.Conditions.temprature && conditionCode >= 600 && conditionCode <= 622 {
                     self = .snow(windSpeed: windSpeed)
                     print("its snow case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 701 && conditionCode <= 781 { // && windSpeed < 3.0 {
+                } else if temperature < Constants.Conditions.temprature && conditionCode >= 701 && conditionCode <= 781 {
                     self = .fog(windSpeed: windSpeed)
                     print("its fog case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 800 && conditionCode <= 805 { // && windSpeed < 3.0 {
+                } else if temperature < Constants.Conditions.temprature && conditionCode >= 800 && conditionCode <= 805 {
                     self = .normal(windSpeed: windSpeed)
                     print("its normal case! And Windy")
                 } else {
@@ -367,7 +344,6 @@ extension MainViewController: CLLocationManagerDelegate {
 //MARK: Constants
 extension MainViewController {
     enum Constants {
-        
         enum Text {
             static let labelTextColor = UIColor(red: 102/255, green: 178/255, blue: 255/255, alpha: 1)
             static let temperatureLabelFontName = "SFProDisplay-Bold"
@@ -423,23 +399,25 @@ extension MainViewController {
             
             static let temprature = 30
         }
-        
         enum Stones {
             static let normalStoneImage = "image_stone_normal.png"
             static let wetStoneImage = "image_stone_wet.png"
             static let snowStoneImage = "image_stone_snow.png"
             static let cracksStoneImage = "image_stone_cracks.png"
         }
-        
+        enum Icons {
+            static let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
+            static let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
+        }
+        enum Images {
+            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+        }
         enum Borders {
             static let frameBorderColor = UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1).cgColor
-            //            static let cgSizeHeight = 105
         }
         enum Colors {
             static let mainBackgroundColor = UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1)
             static let firstCellBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
         }
-        
-        
     }
 }

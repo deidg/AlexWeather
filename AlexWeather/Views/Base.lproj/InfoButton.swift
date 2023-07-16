@@ -26,12 +26,10 @@ class InfoButton: UIButton {
         self.layer.addSublayer(infoButtonGradientLayer)
         infoButtonGradientLayer.frame = self.bounds
     }
-    
     override func layoutSubviews() {
             super.layoutSubviews()
-            infoButtonGradientLayer.frame = bounds // Update the gradient layer frame
+            infoButtonGradientLayer.frame = bounds
         }
-    
     required init?(coder: NSCoder) {
         return nil
     }
@@ -41,9 +39,7 @@ extension InfoButton {
     enum Constants {
         static let topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
         static let bottomColor = UIColor(red: 249/255, green: 80/255, blue: 27/255, alpha: 1)
-        
         static let cornerRadius: CGFloat = 15.0
-        
     }
 }
 
