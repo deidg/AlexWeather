@@ -105,13 +105,15 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
             make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
         }
-        view.addSubview(conditionsLabel)
-        conditionsLabel.snp.makeConstraints{ make in
-            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.conditionsLabelBottomBottom)
-            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
-            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
-            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
-        }
+//        view.addSubview(conditionsLabel)
+//        conditionsLabel.snp.makeConstraints{ make in
+//
+//            make.top.equalTo(view.snp.top).inset(Constants.Constraints.conditionsLabelToTop)
+//
+//            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
+//            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
+//            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
+//        }
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -362,10 +364,10 @@ extension MainViewController {
             static let temperatureLabelTrailing = 200
             static let temperatureLabelHeight = 100
             
-            static let conditionsLabelBottomBottom = 250
-            static let conditionsLabelBottomLeading = 20
-            static let conditionsLabelBottomTrailing = 100
-            static let conditionsLabelBottomHeight = 50
+//            static let conditionsLabelToTop = 100
+//            static let conditionsLabelBottomLeading = 20
+//            static let conditionsLabelBottomTrailing = 100
+//            static let conditionsLabelBottomHeight = 50
             
             static let locationLabelBottom = 70
             static let locationLabelLeadingTrailing = 100

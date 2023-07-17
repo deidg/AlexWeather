@@ -24,6 +24,9 @@ class InfoViewController: UIViewController { // INFO view
         return infoLargeViewDepth
     }()
     private let infoLargeViewTitleLabel: UILabel = {
+        var infoLargeViewTitleLabel = UILabel()
+//        infoLargeViewTitleLabel.textAlignment = .justified
+//        infoLargeViewTitleLabel.sizeToFit()
         let label = UILabel()
         return label
     }()
@@ -53,36 +56,54 @@ class InfoViewController: UIViewController { // INFO view
             make.edges.equalToSuperview()
         }
         view.addSubview(infoButtonShadowView)
-        view.addSubview(infoLargeViewDepth)
+        view.addSubview(infoLargeViewDepth)    // глубинf
         infoLargeViewDepth.snp.makeConstraints{ make in
-            make.top.bottom.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
+            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
             make.leading.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthLeading)
             make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
+            make.height.equalTo(400)
         }
-        infoLargeViewDepth.addSubview(infoLargeView)
+        infoLargeViewDepth.addSubview(infoLargeView)  // основной оранжевый
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            make.top.bottom.equalTo(view).inset(200)
+            make.top.equalTo(view).inset(100)
             make.leading.trailing.equalTo(view).inset(60)
+            make.height.equalTo(400)
+
         }
-        view.addSubview(infoLargeViewTitleLabel)
+        view.addSubview(infoLargeViewTitleLabel)    // INFO
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
             make.top.equalTo(infoLargeView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
+//            make.bottom.equalTo(ConstraintRelatableTarget)
         }
-        view.addSubview(infoLargeViewLabel)
+        
+        view.addSubview(infoLargeViewLabel)   // сам текст
         infoLargeViewLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
             make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
+            make.height.equalTo(300)
+            
+//      make.bottom.equalTo(infoLargeViewHideButton.snp.bottom).inset(Constants.Constraints.infoLargeViewLabelHideButtonBottom)
+            
         }
+        
+        
+        
         view.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
             make.top.equalTo(infoLargeViewLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
+        
+        
+     
+        
+        
+        
     }
     private func addTargets() {
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
@@ -105,7 +126,7 @@ class InfoViewController: UIViewController { // INFO view
         infoLargeViewTitleLabel.text = Constants.setupInfoLargeView.infoLargeViewTitleLabelText
         infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
         infoLargeViewTitleLabel.textAlignment = .center
-        infoLargeViewLabel.numberOfLines = Constants.setupInfoLargeView.infoLargeViewLabelNumberOfLines
+        infoLargeViewLabel.numberOfLines = 0 // Constants.setupInfoLargeView.infoLargeViewLabelNumberOfLines
         infoLargeViewLabel.textAlignment = .left
         let attributedString = Constants.setupInfoLargeView.infoLargeViewLabelAttributedString
         let paragraphStyle = NSMutableParagraphStyle()
@@ -134,7 +155,7 @@ class InfoViewController: UIViewController { // INFO view
 extension InfoViewController {
     enum Constants {
         enum Constraints {
-            static let infoLargeViewDepthTop = 200
+            static let infoLargeViewDepthTop = 100
             static let infoLargeViewDepthLeading = 80
             static let infoLargeViewDepthTrailing = 40
             
@@ -142,10 +163,11 @@ extension InfoViewController {
             static let infoLargeViewTitleLabelTop = 30
             
             static let infoLargeViewLabelLeadingTrailing = 30
-            static let infoLargeViewLabelTop = 50
+            static let infoLargeViewLabelTop = 10
             
+
             static let infoLargeViewHideButtonLeadingTrailing = 30
-            static let infoLargeViewHideButtonTop = 20
+            static let infoLargeViewHideButtonTop = 5
         }
         enum setupInfoLargeView {
             static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
@@ -167,7 +189,7 @@ extension InfoViewController {
             static let infoLargeViewTitleLabelText = "INFO"
             static let infoLargeViewLabelAttributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
             static let infoLargeViewLabelNumberOfLines = 7
-            static let infoLargeViewLabelLineSPacing: CGFloat = 20
+            static let infoLargeViewLabelLineSPacing: CGFloat = 10
 
             static let infoButtonShadowFrame = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
             static let infoButtonShadowShadowOpacity: Float = 0.2
