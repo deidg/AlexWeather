@@ -26,9 +26,8 @@ class MainViewController: UIViewController {
             updateWeatherState(state, windSpeed, isConnected)
         }
     }
-    
-    private let locationPinIcon = Constants.Icons.locationPinIcon
-    private let searchIcon = Constants.Icons.searchIcon
+    private let locationPinIcon = UIImageView(image: UIImage(named: Constants.Icons.locationPinIcon))
+    private let searchIcon = UIImageView(image: UIImage(named: Constants.Icons.searchIcon))
     private let backgroundView: UIImageView = {
         let backgroundView = Constants.Images.backgroundView
         backgroundView.contentMode = .scaleAspectFill
@@ -64,7 +63,7 @@ class MainViewController: UIViewController {
         let infoButtonShadow = UIView()
         infoButtonShadow.backgroundColor = UIColor.yellow
         infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
-        infoButtonShadow.layer.shadowOpacity = Constants.Shadows.infoButtonShadowOpacity // 0.25
+        infoButtonShadow.layer.shadowOpacity = Constants.Shadows.infoButtonShadowOpacity
         infoButtonShadow.layer.shadowOffset = CGSize(width: Constants.Shadows.infoButtonShadowOffsetWidth, height: Constants.Shadows.infoButtonShadowOffsetHeight)
         infoButtonShadow.layer.shadowRadius = Constants.Shadows.infoButtonShadowShadowRadius
         infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
@@ -243,8 +242,8 @@ class MainViewController: UIViewController {
     }
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
-        infoViewController.modalPresentationStyle = .fullScreen
-        present(infoViewController, animated: false)
+        infoViewController.modalPresentationStyle = .pageSheet
+        present(infoViewController, animated: true )
     }
     
     @objc func makingNetworkMonitor() {
@@ -402,8 +401,8 @@ extension MainViewController {
             static let cracksStoneImage = "image_stone_cracks.png"
         }
         enum Icons {
-            static let locationPinIcon = UIImageView(image: UIImage(named: "icon_location.png"))
-            static let searchIcon = UIImageView(image: UIImage(named: "icon_search.png"))
+            static let locationPinIcon = "icon_location.png"
+            static let searchIcon = "icon_search.png"
         }
         enum Images {
             static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))

@@ -127,7 +127,7 @@ class InfoViewController: UIViewController { // INFO view
         infoLargeViewHideButton.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewHideButtonCornerRaidus
     }
     @objc private func hideButtonPressed(sender: UIButton) {
-        dismiss(animated: false)
+        dismiss(animated: true)
     }
 }
 // MARK: Extension
