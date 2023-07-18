@@ -17,6 +17,8 @@ class MainViewController: UIViewController {
     private let weatherManager = WeatherManager()
     private let locationManager = CLLocationManager()
     private var networkMonitor: NWPathMonitor?
+    private var isFallingAnimationActive = false
+
     private var emitterLayer: CAEmitterLayer?
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
@@ -314,41 +316,47 @@ class MainViewController: UIViewController {
         present(infoViewController, animated: true )
     }
     
-//    private func startNetworkMonitoring() {
-//        networkMonitor = NWPathMonitor()
-//        networkMonitor?.pathUpdateHandler = { path in
-//            DispatchQueue.main.async {
-//                if path.status == .satisfied {
-//                    self.stoneImageView.isHidden = false
-//                } else {
-//                    // Internet connection lost, trigger fallAnimation()
-//                    self.fallAnimation()
-//                    self.stoneImageView.isHidden = true
-//
-//                }
-//            }
-//        }
-//        let queue = DispatchQueue(label: "NetworkMonitorQueue")
-//        networkMonitor?.start(queue: queue)
-//    }
-    
-    
-    
-    
-    // РАБОЧИЙ КОД НИЖЕ
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                self.stoneImageView.isHidden = false
-            } else {
-//                self.stoneImageView.isHidden = true
-                self.fallAnimation()
+            DispatchQueue.main.async {
+                if path.status == .satisfied {
+                    // Internet connection is available
+                    self.stopFallAnimation() // Stop the fallAnimation if it's active
+                    self.stoneImageView.isHidden = false // Show the stoneImageView
+                    print("Internet connection is available.")
+                } else {
+                    // Internet connection is lost
+                    self.fallAnimation() // Trigger the fallAnimation
+                    self.stoneImageView.isHidden = true // Hide the stoneImageView
+                    print("Internet connection is lost.")
+                }
             }
         }
-        let queue = DispatchQueue.main //- рабочий вариант
+        let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
+    
+    private func stopFallAnimation() {
+        stoneImageView.layer.removeAnimation(forKey: "fallAnimation") // Remove the fallAnimation if it's active
+        isFallingAnimationActive = false
+    }
+    
+    // РАБОЧИЙ КОД НИЖЕ
+//    @objc func makingNetworkMonitor() {
+//        let monitor = NWPathMonitor()
+//        monitor.pathUpdateHandler = { path in
+//            if path.status == .satisfied {
+//                self.stoneImageView.isHidden = false
+//                print("its monitoring 344")
+//            } else {
+////                self.stoneImageView.isHidden = true
+//                self.fallAnimation()
+//            }
+//        }
+//        let queue = DispatchQueue.main //- рабочий вариант
+//        monitor.start(queue: queue)
+//    }
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         flash()
@@ -364,9 +372,11 @@ class MainViewController: UIViewController {
     }
     
     private func fallAnimation() {
+        print("fallAnimation in progress!")
         let animation = CAKeyframeAnimation(keyPath: "position")
         animation.duration = 3.0
-        animation.repeatCount = 0
+//        animation.
+        animation.repeatCount = 0.0
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         animation.values = [
             NSValue(cgPoint: stoneImageView.center),
@@ -374,6 +384,7 @@ class MainViewController: UIViewController {
         ]
         animation.keyTimes = [0, 1]
         stoneImageView.layer.add(animation, forKey: "fallAnimation")
+        isFallingAnimationActive = true
     }
 
     
