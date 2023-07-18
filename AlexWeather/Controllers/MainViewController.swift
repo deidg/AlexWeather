@@ -45,8 +45,7 @@ class MainViewController: UIViewController {
     private var stoneImageView:  UIImageView = {
        let stoneImageView = UIImageView()
         
-        
-       
+  
         return stoneImageView
     }()
     private let temperatureLabel: UILabel = {
@@ -85,7 +84,9 @@ class MainViewController: UIViewController {
         setupUI()
         addTargets()
         startLocationManager()
-        startNetworkMonitoring()
+//        startNetworkMonitoring()
+        
+        makingNetworkMonitor()
     }
     // MARK: methods
     private func setupUI() {
@@ -123,6 +124,15 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
             make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
         }
+        
+        view.addSubview(conditionsLabel)
+                conditionsLabel.snp.makeConstraints{ make in
+                    make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.conditionsLabelToTop)
+                    make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
+                    make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
+                    make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
+                }
+        
 //        view.addSubview(conditionsLabel)
 //        conditionsLabel.snp.makeConstraints{ make in
 //
@@ -304,40 +314,41 @@ class MainViewController: UIViewController {
         present(infoViewController, animated: true )
     }
     
-    private func startNetworkMonitoring() {
-        networkMonitor = NWPathMonitor()
-        networkMonitor?.pathUpdateHandler = { path in
-            DispatchQueue.main.async {
-                if path.status == .satisfied {
-                    self.stoneImageView.isHidden = false
-                } else {
-                    // Internet connection lost, trigger fallAnimation()
-                    self.fallAnimation()
-                }
-            }
-        }
-        let queue = DispatchQueue(label: "NetworkMonitorQueue")
-        networkMonitor?.start(queue: queue)
-    }
+//    private func startNetworkMonitoring() {
+//        networkMonitor = NWPathMonitor()
+//        networkMonitor?.pathUpdateHandler = { path in
+//            DispatchQueue.main.async {
+//                if path.status == .satisfied {
+//                    self.stoneImageView.isHidden = false
+//                } else {
+//                    // Internet connection lost, trigger fallAnimation()
+//                    self.fallAnimation()
+//                    self.stoneImageView.isHidden = true
+//
+//                }
+//            }
+//        }
+//        let queue = DispatchQueue(label: "NetworkMonitorQueue")
+//        networkMonitor?.start(queue: queue)
+//    }
     
     
     
     
     // РАБОЧИЙ КОД НИЖЕ
-//    @objc func makingNetworkMonitor() {
-//        let monitor = NWPathMonitor()
-//        monitor.pathUpdateHandler = { path in
-//            if path.status == .satisfied {
-//                self.stoneImageView.isHidden = false
-//            } else {
-////                self.stoneImageView.isHidden = true
-//                self.fallAnimation()
-//
-//            }
-//        }
-//        let queue = DispatchQueue.main
-//        monitor.start(queue: queue)
-//    }
+    @objc func makingNetworkMonitor() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.stoneImageView.isHidden = false
+            } else {
+//                self.stoneImageView.isHidden = true
+                self.fallAnimation()
+            }
+        }
+        let queue = DispatchQueue.main //- рабочий вариант
+        monitor.start(queue: queue)
+    }
     
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         flash()
@@ -355,6 +366,7 @@ class MainViewController: UIViewController {
     private func fallAnimation() {
         let animation = CAKeyframeAnimation(keyPath: "position")
         animation.duration = 3.0
+        animation.repeatCount = 0
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         animation.values = [
             NSValue(cgPoint: stoneImageView.center),
@@ -456,10 +468,10 @@ extension MainViewController {
             static let temperatureLabelTrailing = 200
             static let temperatureLabelHeight = 100
             
-//            static let conditionsLabelToTop = 100
-//            static let conditionsLabelBottomLeading = 20
-//            static let conditionsLabelBottomTrailing = 100
-//            static let conditionsLabelBottomHeight = 50
+            static let conditionsLabelToTop = 250//100
+            static let conditionsLabelBottomLeading = 20
+            static let conditionsLabelBottomTrailing = 100
+            static let conditionsLabelBottomHeight = 50
             
             static let locationLabelBottom = 70
             static let locationLabelLeadingTrailing = 100
