@@ -17,29 +17,57 @@ class InfoViewController: UIViewController { // INFO view
     }()
     private let infoLargeView: UIView = {
         let infoLargeView = UIView()
+        infoLargeView.backgroundColor = Constants.setupInfoLargeView.infoLargeViewBackgroundColor
+        infoLargeView.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewCornerRadius
+        infoLargeView.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewShadowColor
+        infoLargeView.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewShadowOpacity
+        infoLargeView.layer.shadowOffset = CGSize(width: Constants.setupInfoLargeView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoLargeView.infoLargeViewShadowOffsetHeight)
+        infoLargeView.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewShadowRadius
         return infoLargeView
     }()
     private let infoLargeViewDepth: UIView = {
         let infoLargeViewDepth = UIView()
+        infoLargeViewDepth.backgroundColor = Constants.setupInfoLargeView.infoLargeViewDepthBackgroundColor
+        infoLargeViewDepth.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewDepthCornerRadius
+        infoLargeViewDepth.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewDepthShadowColor
+        infoLargeViewDepth.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewDepthShadowOpacity
+        infoLargeViewDepth.layer.shadowOffset = Constants.setupInfoLargeView.infoLargeViewDepthShadowOffset
+        infoLargeViewDepth.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewDepthShadowRadius
         return infoLargeViewDepth
     }()
     private let infoLargeViewTitleLabel: UILabel = {
         var infoLargeViewTitleLabel = UILabel()
-//        infoLargeViewTitleLabel.textAlignment = .justified
-//        infoLargeViewTitleLabel.sizeToFit()
-        let label = UILabel()
-        return label
+        infoLargeViewTitleLabel.text = Constants.setupInfoLargeView.infoLargeViewTitleLabelText
+        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
+        infoLargeViewTitleLabel.textAlignment = .center
+        return infoLargeViewTitleLabel
     }()
     private let infoLargeViewLabel: UILabel = {
-        let label = UILabel()
-        return label
+        let infoLargeViewLabel = UILabel()
+        infoLargeViewLabel.numberOfLines = 0
+        infoLargeViewLabel.textAlignment = .left
+        return infoLargeViewLabel
     }()
+    let infoButtonShadow = Constants.setupInfoLargeView.infoButtonShadowFrame
+    
     private let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView()
+        infoButtonShadow.backgroundColor = UIColor.yellow
+        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
+        infoButtonShadow.layer.shadowOpacity = Constants.setupInfoLargeView.infoButtonShadowShadowOpacity
+        infoButtonShadow.layer.shadowOffset = Constants.setupInfoLargeView.infoButtonShadowShadowOffset
+        infoButtonShadow.layer.shadowRadius = Constants.setupInfoLargeView.infoButtonShadowShadowRadius
+        infoButtonShadow.layer.cornerRadius = Constants.setupInfoLargeView.infoButtonShadowCornerRadius
         return infoButtonShadow
     }()
     private let infoLargeViewHideButton: UIButton = {
         let infoLargeViewHideButton = UIButton()
+        infoLargeViewHideButton.isEnabled = true
+        infoLargeViewHideButton.setTitle(Constants.setupInfoLargeView.infoLargeViewHideButtonTitle, for: .normal)
+        infoLargeViewHideButton.setTitleColor(Constants.setupInfoLargeView.infoLargeViewHideButtonTitleColor, for: .normal)
+        infoLargeViewHideButton.layer.borderColor = Constants.setupInfoLargeView.infoLargeViewHideButtonBorderColor
+        infoLargeViewHideButton.layer.borderWidth = Constants.setupInfoLargeView.infoLargeViewHideButtonBorderWidth
+        infoLargeViewHideButton.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewHideButtonCornerRaidus
         return infoLargeViewHideButton
     }()
     //MARK: VIewDidLoad
@@ -69,83 +97,36 @@ class InfoViewController: UIViewController { // INFO view
             make.top.equalTo(view).inset(100)
             make.leading.trailing.equalTo(view).inset(60)
             make.height.equalTo(400)
-
         }
         view.addSubview(infoLargeViewTitleLabel)    // INFO
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
             make.top.equalTo(infoLargeView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
-//            make.bottom.equalTo(ConstraintRelatableTarget)
         }
-        
         view.addSubview(infoLargeViewLabel)   // сам текст
         infoLargeViewLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
             make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
             make.height.equalTo(300)
-            
-//      make.bottom.equalTo(infoLargeViewHideButton.snp.bottom).inset(Constants.Constraints.infoLargeViewLabelHideButtonBottom)
-            
-        }
-        
-        
-        
+ }
         view.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
             make.top.equalTo(infoLargeViewLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
-        
-        
-     
-        
-        
-        
     }
     private func addTargets() {
         infoLargeViewHideButton.addTarget(self, action: #selector(hideButtonPressed), for: .touchUpInside)
     }
     private func setupInfoLargeView() {
-        infoLargeView.backgroundColor = Constants.setupInfoLargeView.infoLargeViewBackgroundColor
-        infoLargeView.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewCornerRadius
-        infoLargeView.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewShadowColor
-        infoLargeView.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewShadowOpacity
-        infoLargeView.layer.shadowOffset = CGSize(width: Constants.setupInfoLargeView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoLargeView.infoLargeViewShadowOffsetHeight)
-        infoLargeView.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewShadowRadius
-        
-        infoLargeViewDepth.backgroundColor = Constants.setupInfoLargeView.infoLargeViewDepthBackgroundColor
-        infoLargeViewDepth.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewDepthCornerRadius
-        infoLargeViewDepth.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewDepthShadowColor
-        infoLargeViewDepth.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewDepthShadowOpacity
-        infoLargeViewDepth.layer.shadowOffset = Constants.setupInfoLargeView.infoLargeViewDepthShadowOffset
-        infoLargeViewDepth.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewDepthShadowRadius
-        
-        infoLargeViewTitleLabel.text = Constants.setupInfoLargeView.infoLargeViewTitleLabelText
-        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
-        infoLargeViewTitleLabel.textAlignment = .center
-        infoLargeViewLabel.numberOfLines = 0 // Constants.setupInfoLargeView.infoLargeViewLabelNumberOfLines
-        infoLargeViewLabel.textAlignment = .left
         let attributedString = Constants.setupInfoLargeView.infoLargeViewLabelAttributedString
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = Constants.setupInfoLargeView.infoLargeViewLabelLineSPacing
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         infoLargeViewLabel.attributedText = attributedString
-        let infoButtonShadow = Constants.setupInfoLargeView.infoButtonShadowFrame
-        infoButtonShadow.backgroundColor = UIColor.yellow
-        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
-        infoButtonShadow.layer.shadowOpacity = Constants.setupInfoLargeView.infoButtonShadowShadowOpacity
-        infoButtonShadow.layer.shadowOffset = Constants.setupInfoLargeView.infoButtonShadowShadowOffset
-        infoButtonShadow.layer.shadowRadius = Constants.setupInfoLargeView.infoButtonShadowShadowRadius
-        infoButtonShadow.layer.cornerRadius = Constants.setupInfoLargeView.infoButtonShadowCornerRadius
-        infoLargeViewHideButton.isEnabled = true
-        infoLargeViewHideButton.setTitle(Constants.setupInfoLargeView.infoLargeViewHideButtonTitle, for: .normal)
-        infoLargeViewHideButton.setTitleColor(Constants.setupInfoLargeView.infoLargeViewHideButtonTitleColor, for: .normal)
-        infoLargeViewHideButton.layer.borderColor = Constants.setupInfoLargeView.infoLargeViewHideButtonBorderColor
-        infoLargeViewHideButton.layer.borderWidth = Constants.setupInfoLargeView.infoLargeViewHideButtonBorderWidth
-        infoLargeViewHideButton.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewHideButtonCornerRaidus
     }
     @objc private func hideButtonPressed(sender: UIButton) {
         dismiss(animated: true)
