@@ -12,13 +12,11 @@ class InfoButton: UIButton {
     private var bottomColor = Constants.bottomColor
     private let infoButtonGradientLayer: CAGradientLayer = {
         let infoButtonGradientLayer = CAGradientLayer()
-//        infoButtonGradientLayer.frame = bounds
         return infoButtonGradientLayer
     }()
- 
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
         setupUI()
         setupLayers()
     }
@@ -43,7 +41,6 @@ class InfoButton: UIButton {
         infoButtonGradientLayer.locations = [0,1]
         self.layer.addSublayer(infoButtonGradientLayer)
         infoButtonGradientLayer.frame = self.bounds
-//        infoButtonGradientLayer.frame = bounds
     }
 }
 
