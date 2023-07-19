@@ -16,17 +16,17 @@ class MainViewController: UIViewController {
     private let infoButton = InfoButton()
     private let weatherManager = WeatherManager()
     private let locationManager = CLLocationManager()
+    
     private var networkMonitor: NWPathMonitor?
-    
+    private var isConnected: Bool = true
+
     private var isFallingAnimationActive = false
-    private var isStoneFalling = false // Add this property to keep track of the stone's falling state
-    
-    
+    private var isStoneFalling = false
     private var emitterLayer: CAEmitterLayer?
+    
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     
-    private var isConnected: Bool = true
     
     private var state: State = .normal(windSpeed: 0.0) {
         didSet {
@@ -47,12 +47,7 @@ class MainViewController: UIViewController {
         return view
     }()
     private let contentView = UIView()
-    private var stoneImageView:  UIImageView = {
-        let stoneImageView = UIImageView()
-        
-        
-        return stoneImageView
-    }()
+    private var stoneImageView = UIImageView()
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -82,27 +77,21 @@ class MainViewController: UIViewController {
         return infoButtonShadow
     }()
     
-    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         addTargets()
         startLocationManager()
-        //        startNetworkMonitoring()
-        
         makingNetworkMonitor()
     }
     // MARK: methods
     private func setupUI() {
         emitterLayer = CAEmitterLayer()
-        
         if let emitterLayer = emitterLayer {
             stoneImageView.layer.addSublayer(emitterLayer)
         }
-        
-        
-        
+    
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -129,7 +118,6 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
             make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
         }
-        
         view.addSubview(conditionsLabel)
         conditionsLabel.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.conditionsLabelToTop)
@@ -137,16 +125,6 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
             make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
         }
-        
-        //        view.addSubview(conditionsLabel)
-        //        conditionsLabel.snp.makeConstraints{ make in
-        //
-        //            make.top.equalTo(view.snp.top).inset(Constants.Constraints.conditionsLabelToTop)
-        //
-        //            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
-        //            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
-        //            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
-        //        }
         view.addSubview(locationLabel)
         locationLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -154,7 +132,6 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Constants.Constraints.locationLabelLeadingTrailing)
             make.height.equalTo(Constants.Constraints.locationLabelHeight)
         }
-        
         view.addSubview(infoButtonShadowView)
         infoButtonShadowView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -191,8 +168,6 @@ class MainViewController: UIViewController {
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
-        //        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(makingNetworkMonitor),
-        //                             userInfo: nil, repeats: true)
     }
     
     private func startLocationManager() {
@@ -255,82 +230,23 @@ class MainViewController: UIViewController {
         print("from uppdateData")
         print(state)
     }
-    
-    private func windAnimationRotate() {
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.duration = 4
-        animation.fillMode = .both
-        animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ]
-        animation.keyTimes = [NSNumber(value: 0.0),
-                              NSNumber(value: 0.3),
-                              NSNumber(value: 0.5),
-                              NSNumber(value: 0.8),
-                              NSNumber(value: 1.0)
-        ]
-        stoneImageView.layer.add(animation, forKey: "rotate")
-    }
-    
-    
-    //    private func fallAnimation() {
-    //        let emitterLayer = CAEmitterLayer()
-    //        emitterLayer.emitterPosition = CGPoint(x: stoneImageView.bounds.midX, y: -10) // Position of the emitter at the top of the stoneImageView
-    //        let cell = CAEmitterCell()
-    //        cell.birthRate = 10
-    //        cell.lifetime = 1
-    //        cell.velocity = 100
-    //        cell.scale = 0.1
-    //        cell.emissionRange = CGFloat.pi * 2.0
-    //        cell.contents = UIImage(named: Constants.Stones.normalStoneImage)?.cgImage // Use the stone image for the particles
-    //        emitterLayer.emitterCells = [cell]
-    //        stoneImageView.layer.addSublayer(emitterLayer)
-    //    }
-    
-    
-    //    private func fallAnimation () {
-    //        let emitterLayer = CAEmitterLayer()
-    //            emitterLayer.emitterPosition = CGPoint(x: 200, y: 200)
-    //            let cell = CAEmitterCell()
-    //            cell.birthRate = 10
-    //            cell.lifetime = 1
-    //            cell.velocity = 100
-    //            cell.scale = 0.1
-    //
-    //            cell.emissionRange = CGFloat.pi * 2.0
-    //            cell.contents = stoneImageView)
-    //            emitterLayer.emitterCells = [cell]
-    //
-    //            view.layer.addSublayer(emitterLayer)
-    //
-    //    }
-    
-    private func flash() {
-        let flash = CABasicAnimation(keyPath: "opacity")
-        flash.duration = 0.2
-        flash.fromValue = 1
-        flash.toValue = 0.0
-        flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        flash.autoreverses = true
-        temperatureLabel.layer.add(flash, forKey: nil)
-        conditionsLabel.layer.add(flash, forKey: nil)
-    }
+  
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         infoViewController.modalPresentationStyle = .pageSheet
         present(infoViewController, animated: true )
     }
     
+    //НЕ отслеживает автоматически?
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
             DispatchQueue.main.async {
                 if path.status == .satisfied {
-                    // Internet connection is available
-                    self.showStoneImage() // Show the stoneImageView
+                    self.showStoneImage()
                     print("Internet connection is available.")
                 } else {
-                    // Internet connection is lost
-                    self.fallAnimation() // Trigger the fallAnimation
+                    self.fallAnimation()
                     print("Internet connection is lost.")
                 }
             }
@@ -338,29 +254,7 @@ class MainViewController: UIViewController {
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
-    //}
-    
-    private func stopFallAnimation() {
-        stoneImageView.layer.removeAnimation(forKey: "fallAnimation") // Remove the fallAnimation if it's active
-        isFallingAnimationActive = false
-    }
-    
-    // РАБОЧИЙ КОД НИЖЕ
-    //    @objc func makingNetworkMonitor() {
-    //        let monitor = NWPathMonitor()
-    //        monitor.pathUpdateHandler = { path in
-    //            if path.status == .satisfied {
-    //                self.stoneImageView.isHidden = false
-    //                print("its monitoring 344")
-    //            } else {
-    ////                self.stoneImageView.isHidden = true
-    //                self.fallAnimation()
-    //            }
-    //        }
-    //        let queue = DispatchQueue.main //- рабочий вариант
-    //        monitor.start(queue: queue)
-    //    }
-    
+
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         flash()
         makingNetworkMonitor()
@@ -374,11 +268,35 @@ class MainViewController: UIViewController {
         }
         refreshControl.endRefreshing()
     }
-    
-    
+ 
+    //MARK: animation
+     private func windAnimationRotate() {
+         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+         animation.duration = 4
+         animation.fillMode = .both
+         animation.repeatCount = .infinity
+         animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ]
+         animation.keyTimes = [NSNumber(value: 0.0),
+                               NSNumber(value: 0.3),
+                               NSNumber(value: 0.5),
+                               NSNumber(value: 0.8),
+                               NSNumber(value: 1.0)
+         ]
+         stoneImageView.layer.add(animation, forKey: "rotate")
+     }
+     private func flash() {
+         let flash = CABasicAnimation(keyPath: "opacity")
+         flash.duration = 0.2
+         flash.fromValue = 1
+         flash.toValue = 0.0
+         flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+         flash.autoreverses = true
+         temperatureLabel.layer.add(flash, forKey: nil)
+         conditionsLabel.layer.add(flash, forKey: nil)
+     }
     
     private func fallAnimation() {
-        guard !isStoneFalling else { return } // Check if the stone is already falling, don't repeat the animation
+        guard !isStoneFalling else { return }
         let animation = CAKeyframeAnimation(keyPath: "position")
         animation.duration = 3.0
         animation.repeatCount = 0.0
@@ -388,7 +306,6 @@ class MainViewController: UIViewController {
             NSValue(cgPoint: CGPoint(x: stoneImageView.center.x, y: view.bounds.height + stoneImageView.bounds.height))
         ]
         animation.keyTimes = [0, 1]
-        // When the animation is done, hide the stoneImageView
         animation.delegate = self
         stoneImageView.layer.add(animation, forKey: "fallAnimation")
         isStoneFalling = true
@@ -397,10 +314,7 @@ class MainViewController: UIViewController {
         stoneImageView.isHidden = false
         isStoneFalling = false
     }
-    
 }
-
-
 
 //MARK: extension MainViewController
 extension MainViewController {
@@ -464,16 +378,13 @@ extension MainViewController: CLLocationManagerDelegate {
         }
     }
 }
-
 extension MainViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if flag {
-            // Animation finished, hide the stoneImageView
             stoneImageView.isHidden = true
         }
     }
 }
-
 
 //MARK: Constants
 extension MainViewController {
