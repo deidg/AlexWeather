@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     
     private var networkMonitor: NWPathMonitor?
     private var isConnected: Bool = true
-
+    
     private var isFallingAnimationActive = false
     private var isStoneFalling = false
     private var emitterLayer: CAEmitterLayer?
@@ -91,7 +91,7 @@ class MainViewController: UIViewController {
         if let emitterLayer = emitterLayer {
             stoneImageView.layer.addSublayer(emitterLayer)
         }
-    
+        
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -182,10 +182,8 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func updateWeatherState(_ state: State, _ windSpeed: Double) { //, _ internetConnection: Bool) { // регулирует состояния
-        
+    private func updateWeatherState(_ state: State, _ windSpeed: Double) {
         switch state {
-            
         case .hot(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
@@ -233,63 +231,26 @@ class MainViewController: UIViewController {
                 print("its cracks case! NOT windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
             }
+        case .normal(windy: let isWindy):
+            if isWindy {
+                windAnimationRotate()
+                print("its normal case! Windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+            } else {
+                print("its normal case! NOT windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+            }
         case .noInternet:
             stoneImageView.isHidden = true
         }
-        
-        
     }
-        
-        /*
-        makingNetworkMonitor()
-        switch state {
-        case .noInternet:
-            stoneImageView.isHidden = true
-        case .normal(windSpeed: let windSpeed) where windSpeed > Constants.Conditions.windSpeedLimit:
-            stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-            windAnimationRotate()
-        case .wet(windSpeed: let windSpeed) where windSpeed > Constants.Conditions.windSpeedLimit:
-            stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-            windAnimationRotate()
-        case .snow(windSpeed: let windSpeed) where windSpeed > Constants.Conditions.windSpeedLimit:
-            stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-            windAnimationRotate()
-        case .cracks(windSpeed: let windSpeed) where windSpeed > Constants.Conditions.windSpeedLimit:
-            stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-            windAnimationRotate()
-        case .fog(windSpeed: let windSpeed) where windSpeed > Constants.Conditions.windSpeedLimit:
-            stoneImageView.image =  UIImage(named: Constants.Stones.normalStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaMist
-            windAnimationRotate()
-        case .cracks:
-            stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-        case .wet:
-            stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-        case .snow:
-            stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-        case .fog:
-            stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaMist
-        case .normal:
-            stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
-            stoneImageView.alpha = Constants.Conditions.alphaStandart
-        }
-         */
-//    }
     
     private func updateData(_ data: CompletionData, isConnected: Bool) {
         state = .init(temperature: data.temperature, conditionCode: data.id, windSpeed: data.windSpeed)
         print("from uppdateData")
         print(state)
     }
-  
+    
     //MARK: OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         infoViewController.modalPresentationStyle = .pageSheet
@@ -313,7 +274,7 @@ class MainViewController: UIViewController {
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
-
+    
     @objc func refreshAction(sender: AnyObject) {  // ОБНОВЛЯЕТ данные на экране
         flash()
         makingNetworkMonitor()
@@ -327,32 +288,33 @@ class MainViewController: UIViewController {
         }
         refreshControl.endRefreshing()
     }
- 
+    
     //MARK: animation
-     private func windAnimationRotate() {
-         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-         animation.duration = 4
-         animation.fillMode = .both
-         animation.repeatCount = .infinity
-         animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ]
-         animation.keyTimes = [NSNumber(value: 0.0),
-                               NSNumber(value: 0.3),
-                               NSNumber(value: 0.5),
-                               NSNumber(value: 0.8),
-                               NSNumber(value: 1.0)
-         ]
-         stoneImageView.layer.add(animation, forKey: "rotate")
-     }
-     private func flash() {
-         let flash = CABasicAnimation(keyPath: "opacity")
-         flash.duration = 0.2
-         flash.fromValue = 1
-         flash.toValue = 0.0
-         flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-         flash.autoreverses = true
-         temperatureLabel.layer.add(flash, forKey: nil)
-         conditionsLabel.layer.add(flash, forKey: nil)
-     }
+    private func windAnimationRotate() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        animation.duration = 4
+        animation.fillMode = .both
+        animation.repeatCount = .infinity
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ]
+        animation.keyTimes = [NSNumber(value: 0.0),
+                              NSNumber(value: 0.3),
+                              NSNumber(value: 0.5),
+                              NSNumber(value: 0.8),
+                              NSNumber(value: 1.0)
+        ]
+        stoneImageView.layer.add(animation, forKey: "rotate")
+    }
+    
+    private func flash() {
+        let flash = CABasicAnimation(keyPath: "opacity")
+        flash.duration = 0.2
+        flash.fromValue = 1
+        flash.toValue = 0.0
+        flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        flash.autoreverses = true
+        temperatureLabel.layer.add(flash, forKey: nil)
+        conditionsLabel.layer.add(flash, forKey: nil)
+    }
     
     private func fallAnimation() {
         guard !isStoneFalling else { return }
@@ -383,6 +345,7 @@ extension MainViewController {
         case fog(windy: Bool)
         case hot(windy: Bool)
         case snow(windy: Bool)
+        case normal(windy: Bool)
         case noInternet
         
         var isWindy: Bool {
@@ -400,61 +363,27 @@ extension MainViewController {
                 return windy
             case .fog(let windy):
                 return windy
+            case .normal(let windy):
+                return windy
             }
         }
         
         init(temperature: Int, conditionCode: Int, windSpeed: Double) {
             if temperature > 30 {
-                self = .hot(windy: windSpeed > 5)
-            } else if conditionCode >= 100 && conditionCode <= 531 {
-                self = .rain(windy: windSpeed > 5)
-            } else if conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow(windy: windSpeed > 5)
-            } else if conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog(windy: windSpeed > 5)
-            } else if conditionCode > 800 {
-                self = .sunny(windy: windSpeed > 5)
+                self = .hot(windy: windSpeed > 3)
+            } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
+                self = .rain(windy: windSpeed > 3)
+            } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
+                self = .snow(windy: windSpeed > 3)
+            } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
+                self = .fog(windy: windSpeed > 3)
+            } else if temperature < 30 && conditionCode > 800 {
+                self = .normal(windy: windSpeed > 3)
             } else {
-                self = .sunny(windy: false)
+                self = .normal(windy: false)
             }
         }
     }
-
-    
-    
-//    enum State: Equatable {
-//        case cracks(windSpeed: Double)
-//        case wet(windSpeed: Double)
-//        case snow(windSpeed: Double)
-//        case fog(windSpeed: Double)
-//        case normal(windSpeed: Double)
-//        case noInternet
-//        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double, _ internetConnection: Bool) {
-//            if internetConnection == true {
-//                if temperature > Constants.Conditions.temprature {
-//                    self = .cracks(windSpeed: windSpeed)
-//                    print("its cracks case!")
-//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 100 && conditionCode <= 531 {
-//                    self = .wet(windSpeed: windSpeed)
-//                    print("its wet case!")
-//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 600 && conditionCode <= 622 {
-//                    self = .snow(windSpeed: windSpeed)
-//                    print("its snow case!")
-//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 701 && conditionCode <= 781 {
-//                    self = .fog(windSpeed: windSpeed)
-//                    print("its fog case!")
-//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 800 && conditionCode <= 805 {
-//                    self = .normal(windSpeed: windSpeed)
-//                    print("its normal case! And Windy")
-//                } else {
-//                    self = .normal(windSpeed: windSpeed)
-//                    print("you§re here and conditionCode! - \(conditionCode)")
-//                }
-//            } else {
-//                self = .noInternet
-//            }
-//        }
-//    }
 }
 
 //MARK: LocationManagerDelegate
@@ -467,7 +396,7 @@ extension MainViewController: CLLocationManagerDelegate {
             let city = complitionData.city
             let country = complitionData.country
             let windSpeedData = complitionData.windSpeed
-            let responseStatusCode = complitionData.weather
+            let conditionsCode = complitionData.cod
             DispatchQueue.main.async { [self] in
                 self.temperatureLabel.text = temperature + "°"
                 self.conditionsLabel.text = weatherConditions
@@ -475,9 +404,9 @@ extension MainViewController: CLLocationManagerDelegate {
                 self.updateData(complitionData, isConnected: isConnected)
                 self.windSpeed = windSpeedData
                 
+                print("condtion code  - \(conditionsCode)")
                 print("windspeed m/sec - \(windSpeedData)")
                 scrollView.refreshControl = refreshControl
-                print("response status code - \(responseStatusCode)")
             }
         }
     }
@@ -570,5 +499,7 @@ extension MainViewController {
         }
     }
 }
+
+
 
 
