@@ -28,9 +28,9 @@ class MainViewController: UIViewController {
     private var windSpeed: Double = 0.0
     
     
-    private var state: State = .normal(windSpeed: 0.0) {
+    private var state: State = .sunny(windy: false){
         didSet {
-            updateWeatherState(state, windSpeed, isConnected)
+            updateWeatherState(state, windSpeed)
         }
     }
     private let locationPinIcon = UIImageView(image: UIImage(named: Constants.Icons.locationPinIcon))
@@ -182,7 +182,65 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func updateWeatherState(_ state: State, _ windSpeed: Double, _ internetConnection: Bool) { // регулирует состояния
+    private func updateWeatherState(_ state: State, _ windSpeed: Double) { //, _ internetConnection: Bool) { // регулирует состояния
+        
+        switch state {
+            
+        case .hot(windy: let isWindy):
+            if isWindy {
+                windAnimationRotate()
+                print("its hot case! Windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+            } else {
+                print("its cracks case! NOT windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+            }
+        case .rain(windy: let isWindy):
+            if isWindy {
+                windAnimationRotate()
+                print("its hot case! Windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
+            } else {
+                print("its cracks case! NOT windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
+            }
+        case .snow(windy: let isWindy):
+            if isWindy {
+                windAnimationRotate()
+                print("its hot case! Windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
+            } else {
+                print("its cracks case! NOT windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
+            }
+        case .fog(windy: let isWindy):
+            if isWindy {
+                windAnimationRotate()
+                print("its hot case! Windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneImageView.alpha = Constants.Conditions.alphaStandart
+            } else {
+                print("its cracks case! NOT windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneImageView.alpha = Constants.Conditions.alphaStandart
+            }
+        case .sunny(windy: let isWindy):
+            if isWindy {
+                windAnimationRotate()
+                print("its hot case! Windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
+            } else {
+                print("its cracks case! NOT windy!")
+                stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
+            }
+        case .noInternet:
+            stoneImageView.isHidden = true
+        }
+        
+        
+    }
+        
+        /*
         makingNetworkMonitor()
         switch state {
         case .noInternet:
@@ -223,10 +281,11 @@ class MainViewController: UIViewController {
             stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
             stoneImageView.alpha = Constants.Conditions.alphaStandart
         }
-    }
+         */
+//    }
     
     private func updateData(_ data: CompletionData, isConnected: Bool) {
-        state = .init(data.temperature, data.id, data.windSpeed, isConnected)
+        state = .init(temperature: data.temperature, conditionCode: data.id, windSpeed: data.windSpeed)
         print("from uppdateData")
         print(state)
     }
@@ -264,7 +323,7 @@ class MainViewController: UIViewController {
             let conditionCode = completionData.id
             let windSpeed = completionData.windSpeed
             let isConnected = self.isConnected
-            self.state = .init(temprature, conditionCode, windSpeed, isConnected)
+            self.state = .init(temperature: temprature, conditionCode: conditionCode, windSpeed: windSpeed)
         }
         refreshControl.endRefreshing()
     }
@@ -319,38 +378,83 @@ class MainViewController: UIViewController {
 //MARK: extension MainViewController
 extension MainViewController {
     enum State: Equatable {
-        case cracks(windSpeed: Double)
-        case wet(windSpeed: Double)
-        case snow(windSpeed: Double)
-        case fog(windSpeed: Double)
-        case normal(windSpeed: Double)
+        case rain(windy: Bool)
+        case sunny(windy: Bool)
+        case fog(windy: Bool)
+        case hot(windy: Bool)
+        case snow(windy: Bool)
         case noInternet
-        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double, _ internetConnection: Bool) {
-            if internetConnection == true {
-                if temperature > Constants.Conditions.temprature {
-                    self = .cracks(windSpeed: windSpeed)
-                    print("its cracks case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 100 && conditionCode <= 531 {
-                    self = .wet(windSpeed: windSpeed)
-                    print("its wet case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 600 && conditionCode <= 622 {
-                    self = .snow(windSpeed: windSpeed)
-                    print("its snow case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 701 && conditionCode <= 781 {
-                    self = .fog(windSpeed: windSpeed)
-                    print("its fog case!")
-                } else if temperature < Constants.Conditions.temprature && conditionCode >= 800 && conditionCode <= 805 {
-                    self = .normal(windSpeed: windSpeed)
-                    print("its normal case! And Windy")
-                } else {
-                    self = .normal(windSpeed: windSpeed)
-                    print("you§re here and conditionCode! - \(conditionCode)")
-                }
+        
+        var isWindy: Bool {
+            switch self {
+            case .noInternet:
+                print("There is no internet")
+                return false
+            case .snow(let windy):
+                return windy
+            case .hot(let windy):
+                return windy
+            case .rain(let windy):
+                return windy
+            case .sunny(let windy):
+                return windy
+            case .fog(let windy):
+                return windy
+            }
+        }
+        
+        init(temperature: Int, conditionCode: Int, windSpeed: Double) {
+            if temperature > 30 {
+                self = .hot(windy: windSpeed > 5)
+            } else if conditionCode >= 100 && conditionCode <= 531 {
+                self = .rain(windy: windSpeed > 5)
+            } else if conditionCode >= 600 && conditionCode <= 622 {
+                self = .snow(windy: windSpeed > 5)
+            } else if conditionCode >= 701 && conditionCode <= 781 {
+                self = .fog(windy: windSpeed > 5)
+            } else if conditionCode > 800 {
+                self = .sunny(windy: windSpeed > 5)
             } else {
-                self = .noInternet
+                self = .sunny(windy: false)
             }
         }
     }
+
+    
+    
+//    enum State: Equatable {
+//        case cracks(windSpeed: Double)
+//        case wet(windSpeed: Double)
+//        case snow(windSpeed: Double)
+//        case fog(windSpeed: Double)
+//        case normal(windSpeed: Double)
+//        case noInternet
+//        init(_ temperature: Int, _ conditionCode: Int, _ windSpeed: Double, _ internetConnection: Bool) {
+//            if internetConnection == true {
+//                if temperature > Constants.Conditions.temprature {
+//                    self = .cracks(windSpeed: windSpeed)
+//                    print("its cracks case!")
+//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 100 && conditionCode <= 531 {
+//                    self = .wet(windSpeed: windSpeed)
+//                    print("its wet case!")
+//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 600 && conditionCode <= 622 {
+//                    self = .snow(windSpeed: windSpeed)
+//                    print("its snow case!")
+//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 701 && conditionCode <= 781 {
+//                    self = .fog(windSpeed: windSpeed)
+//                    print("its fog case!")
+//                } else if temperature < Constants.Conditions.temprature && conditionCode >= 800 && conditionCode <= 805 {
+//                    self = .normal(windSpeed: windSpeed)
+//                    print("its normal case! And Windy")
+//                } else {
+//                    self = .normal(windSpeed: windSpeed)
+//                    print("you§re here and conditionCode! - \(conditionCode)")
+//                }
+//            } else {
+//                self = .noInternet
+//            }
+//        }
+//    }
 }
 
 //MARK: LocationManagerDelegate
