@@ -11,7 +11,7 @@ import SnapKit
 import Network
 
 class MainViewController: UIViewController {
-    //MARK: elements
+    //MARK: - elements
     private let infoViewController = InfoViewController()
     private let infoButton = InfoButton()
     private let weatherManager = WeatherManager()
@@ -75,21 +75,17 @@ class MainViewController: UIViewController {
         infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
         return infoButtonShadow
     }()
-    //MARK: viewDidLoad
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
+        makingEmitterLayer()
     }
-    // MARK: methods
+    // MARK: - methods
     private func setupUI() {
-        scrollView.refreshControl = refreshControl
-        emitterLayer = CAEmitterLayer()
-        if let emitterLayer = emitterLayer {
-            stoneImageView.layer.addSublayer(emitterLayer)
-        }
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -156,9 +152,7 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(Constants.Constraints.searchIconTrailing)
             make.height.equalTo(Constants.Constraints.searchIconHeight)
         }
-        emitterLayer?.emitterPosition = CGPoint(x: stoneImageView.bounds.midX, y: -10)
-        emitterLayer?.emitterSize = CGSize(width: stoneImageView.bounds.width, height: 0)
-        emitterLayer?.emitterShape = .line
+        scrollView.refreshControl = refreshControl
     }
     
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
@@ -186,7 +180,7 @@ class MainViewController: UIViewController {
                 print("its hot case! Windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
             } else {
-                print("its cracks case! NOT windy!")
+                print("its hot case! NOT windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
             }
         case .rain(windy: let isWindy):
@@ -195,36 +189,36 @@ class MainViewController: UIViewController {
                 print("its rain case! Windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
             } else {
-                print("its cracks case! NOT windy!")
+                print("its rain case! NOT windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
             }
         case .snow(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
-                print("its hot case! Windy!")
+                print("its snow case! Windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
             } else {
-                print("its cracks case! NOT windy!")
+                print("its snow case! NOT windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
             }
         case .fog(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
-                print("its hot case! Windy!")
+                print("its fog case! Windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
                 stoneImageView.alpha = Constants.Conditions.alphaStandart
             } else {
-                print("its cracks case! NOT windy!")
+                print("its fog case! NOT windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
                 stoneImageView.alpha = Constants.Conditions.alphaStandart
             }
         case .sunny(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
-                print("its hot case! Windy!")
+                print("its sunny case! Windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
             } else {
-                print("its cracks case! NOT windy!")
+                print("its sunny case! NOT windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
             }
         case .normal(windy: let isWindy):
@@ -246,8 +240,7 @@ class MainViewController: UIViewController {
         print("from uppdateData")
         print(state)
     }
-    
-    //MARK: OBJC methods
+    //MARK: - OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
         infoViewController.modalPresentationStyle = .pageSheet
         present(infoViewController, animated: true )
@@ -282,7 +275,19 @@ class MainViewController: UIViewController {
         }
         refreshControl.endRefreshing()
     }
-    //MARK: animation
+    //MARK: - animation
+    private func makingEmitterLayer() {
+        emitterLayer = CAEmitterLayer()
+        if let emitterLayer = emitterLayer {
+            stoneImageView.layer.addSublayer(emitterLayer)
+        }
+        emitterLayer?.emitterPosition = CGPoint(x: stoneImageView.bounds.midX,
+                                                y: -10)
+        emitterLayer?.emitterSize = CGSize(width: stoneImageView.bounds.width,
+                                           height: 0)
+        emitterLayer?.emitterShape = .line
+    }
+    
     private func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.duration = 4
@@ -330,7 +335,7 @@ class MainViewController: UIViewController {
         isStoneFalling = false
     }
 }
-//MARK: extension MainViewController
+//MARK: - extension MainViewController
 extension MainViewController {
     enum State: Equatable {
         case rain(windy: Bool)
@@ -363,15 +368,15 @@ extension MainViewController {
         
         init(temperature: Int, conditionCode: Int, windSpeed: Double) {
             if temperature > 30 {
-                self = .hot(windy: windSpeed > 3)
+                self = .hot(windy: windSpeed > Constants.Conditions.windSpeedLimit)
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                self = .rain(windy: windSpeed > 3)
+                self = .rain(windy: windSpeed > Constants.Conditions.windSpeedLimit)
             } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow(windy: windSpeed > 3)
+                self = .snow(windy: windSpeed > Constants.Conditions.windSpeedLimit)
             } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog(windy: windSpeed > 3)
+                self = .fog(windy: windSpeed > Constants.Conditions.windSpeedLimit)
             } else if temperature < 30 && conditionCode > 800 {
-                self = .normal(windy: windSpeed > 3)
+                self = .normal(windy: windSpeed > Constants.Conditions.windSpeedLimit)
             } else {
                 self = .normal(windy: false)
             }

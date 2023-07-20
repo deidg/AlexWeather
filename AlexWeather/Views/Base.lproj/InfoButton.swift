@@ -8,15 +8,12 @@
 import UIKit
 
 class InfoButton: UIButton {
-    
-    private let infoButtonGradientLayer: CAGradientLayer = {
-        let infoButtonGradientLayer = CAGradientLayer()
-        return infoButtonGradientLayer
-    }()
+    //MARK: - elements
+    private let infoButtonGradientLayer = CAGradientLayer()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setupUI()
+        defaultConfiguration()
         setupLayers()
     }
     
@@ -28,8 +25,8 @@ class InfoButton: UIButton {
     required init?(coder: NSCoder) {
         return nil
     }
-    
-    func setupUI() {
+    //MARK: - methods
+    func defaultConfiguration() {
         setTitle("INFO", for: .normal)
         setTitleColor(.black, for: .normal)
         contentVerticalAlignment = .top
@@ -45,7 +42,7 @@ class InfoButton: UIButton {
         self.layer.addSublayer(infoButtonGradientLayer)
     }
 }
-
+//MARK: - extension
 extension InfoButton {
     enum Constants {
         static let topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
