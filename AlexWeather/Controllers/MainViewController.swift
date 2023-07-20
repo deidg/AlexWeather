@@ -76,7 +76,6 @@ class MainViewController: UIViewController {
         infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
         return infoButtonShadow
     }()
-    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +90,6 @@ class MainViewController: UIViewController {
         if let emitterLayer = emitterLayer {
             stoneImageView.layer.addSublayer(emitterLayer)
         }
-        
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -158,11 +156,9 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(Constants.Constraints.searchIconTrailing)
             make.height.equalTo(Constants.Constraints.searchIconHeight)
         }
-        
         emitterLayer?.emitterPosition = CGPoint(x: stoneImageView.bounds.midX, y: -10)
         emitterLayer?.emitterSize = CGSize(width: stoneImageView.bounds.width, height: 0)
         emitterLayer?.emitterShape = .line
-        
     }
     
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
@@ -283,7 +279,7 @@ class MainViewController: UIViewController {
             let temprature = completionData.temperature
             let conditionCode = completionData.id
             let windSpeed = completionData.windSpeed
-            let isConnected = self.isConnected
+//            let isConnected = self.isConnected
             self.state = .init(temperature: temprature, conditionCode: conditionCode, windSpeed: windSpeed)
         }
         refreshControl.endRefreshing()
@@ -474,7 +470,6 @@ extension MainViewController {
             static let windSpeedLimit = 3.0
             static let alphaStandart = 1.0
             static let alphaMist = 0.3
-            
             static let temprature = 30
         }
         enum Stones {

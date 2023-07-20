@@ -49,7 +49,6 @@ class InfoViewController: UIViewController { // INFO view
         return infoLargeViewLabel
     }()
     let infoButtonShadow = Constants.setupInfoLargeView.infoButtonShadowFrame
-    
     private let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView()
         infoButtonShadow.backgroundColor = UIColor.yellow
@@ -84,19 +83,20 @@ class InfoViewController: UIViewController { // INFO view
             make.edges.equalToSuperview()
         }
         view.addSubview(infoButtonShadowView)
-        view.addSubview(infoLargeViewDepth)    // глубинf
+        
+        view.addSubview(infoLargeViewDepth)    // глубина
         infoLargeViewDepth.snp.makeConstraints{ make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
             make.leading.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthLeading)
             make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
-            make.height.equalTo(400)
+            make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
         }
         infoLargeViewDepth.addSubview(infoLargeView)  // основной оранжевый
         infoLargeView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
-            make.top.equalTo(view).inset(100)
-            make.leading.trailing.equalTo(view).inset(60)
-            make.height.equalTo(400)
+            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
+            make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
+            make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
         }
         view.addSubview(infoLargeViewTitleLabel)    // INFO
         infoLargeViewTitleLabel.snp.makeConstraints{ make in
@@ -109,7 +109,7 @@ class InfoViewController: UIViewController { // INFO view
             make.centerX.equalTo(self.infoLargeView)
             make.leading.trailing.equalTo(infoLargeView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
             make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
-            make.height.equalTo(300)
+            make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
  }
         view.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
@@ -139,13 +139,18 @@ extension InfoViewController {
             static let infoLargeViewDepthTop = 100
             static let infoLargeViewDepthLeading = 80
             static let infoLargeViewDepthTrailing = 40
+            static let infoLargeViewDepthHeight = 400
+            
+            static let infoLargeViewTop = 100
+            static let infoLargeViewLeadingTrailing = 60
+            static let infoLargeViewHeight = 400
             
             static let infoLargeViewTitleLabelLeadingTrailing = 30
             static let infoLargeViewTitleLabelTop = 30
             
             static let infoLargeViewLabelLeadingTrailing = 30
             static let infoLargeViewLabelTop = 10
-            
+            static let infoLargeViewLabelHeight = 300
 
             static let infoLargeViewHideButtonLeadingTrailing = 30
             static let infoLargeViewHideButtonTop = 5
