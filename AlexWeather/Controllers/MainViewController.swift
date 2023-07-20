@@ -27,7 +27,6 @@ class MainViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     
-    
     private var state: State = .sunny(windy: false){
         didSet {
             updateWeatherState(state, windSpeed)
@@ -86,6 +85,7 @@ class MainViewController: UIViewController {
     }
     // MARK: methods
     private func setupUI() {
+        scrollView.refreshControl = refreshControl
         emitterLayer = CAEmitterLayer()
         if let emitterLayer = emitterLayer {
             stoneImageView.layer.addSublayer(emitterLayer)
@@ -192,7 +192,7 @@ class MainViewController: UIViewController {
         case .rain(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
-                print("its hot case! Windy!")
+                print("its rain case! Windy!")
                 stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
             } else {
                 print("its cracks case! NOT windy!")
@@ -253,7 +253,6 @@ class MainViewController: UIViewController {
         present(infoViewController, animated: true )
     }
     
-    //НЕ отслеживает автоматически?
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
@@ -279,19 +278,17 @@ class MainViewController: UIViewController {
             let temprature = completionData.temperature
             let conditionCode = completionData.id
             let windSpeed = completionData.windSpeed
-//            let isConnected = self.isConnected
             self.state = .init(temperature: temprature, conditionCode: conditionCode, windSpeed: windSpeed)
         }
         refreshControl.endRefreshing()
     }
-    
     //MARK: animation
     private func windAnimationRotate() {
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         animation.duration = 4
         animation.fillMode = .both
         animation.repeatCount = .infinity
-        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0 ]
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0]
         animation.keyTimes = [NSNumber(value: 0.0),
                               NSNumber(value: 0.3),
                               NSNumber(value: 0.5),
@@ -327,12 +324,12 @@ class MainViewController: UIViewController {
         stoneImageView.layer.add(animation, forKey: "fallAnimation")
         isStoneFalling = true
     }
+    
     private func showStoneImage() {
         stoneImageView.isHidden = false
         isStoneFalling = false
     }
 }
-
 //MARK: extension MainViewController
 extension MainViewController {
     enum State: Equatable {
@@ -381,8 +378,7 @@ extension MainViewController {
         }
     }
 }
-
-//MARK: LocationManagerDelegate
+//MARK: - LocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
@@ -402,11 +398,11 @@ extension MainViewController: CLLocationManagerDelegate {
                 
                 print("condtion code  - \(conditionsCode)")
                 print("windspeed m/sec - \(windSpeedData)")
-                scrollView.refreshControl = refreshControl
             }
         }
     }
 }
+//MARK: - CAAnimationDelegate
 extension MainViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if flag {
@@ -414,8 +410,7 @@ extension MainViewController: CAAnimationDelegate {
         }
     }
 }
-
-//MARK: Constants
+//MARK: - Constants
 extension MainViewController {
     enum Constants {
         enum Text {

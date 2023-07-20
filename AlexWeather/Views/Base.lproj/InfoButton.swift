@@ -8,22 +8,23 @@
 import UIKit
 
 class InfoButton: UIButton {
-    private var topColor = Constants.topColor
-    private var bottomColor = Constants.bottomColor
+    
     private let infoButtonGradientLayer: CAGradientLayer = {
         let infoButtonGradientLayer = CAGradientLayer()
         return infoButtonGradientLayer
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupUI()
         setupLayers()
     }
+    
     override func layoutSubviews() {
-            super.layoutSubviews()
-            infoButtonGradientLayer.frame = bounds //не убирать! или вкл 42. Кнопка жёлтая
-        }
+        super.layoutSubviews()
+        infoButtonGradientLayer.frame = bounds
+    }
+    
     required init?(coder: NSCoder) {
         return nil
     }
@@ -37,10 +38,11 @@ class InfoButton: UIButton {
     }
     
     func setupLayers() {
+        let topColor = Constants.topColor
+        let bottomColor = Constants.bottomColor
         infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
         infoButtonGradientLayer.locations = [0,1]
         self.layer.addSublayer(infoButtonGradientLayer)
-        infoButtonGradientLayer.frame = self.bounds
     }
 }
 
