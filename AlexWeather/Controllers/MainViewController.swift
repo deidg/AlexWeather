@@ -27,6 +27,18 @@ class MainViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     
+    
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+   
+    
+    
+//    private let infoLargeViewWidth = UIScreen.main.bounds.width
+//    private let infoLargeViewHeight = UIScreen.main.bounds.height
+//    let initialY = UIScreen.main.bounds.height //= screenHeight // Set initial Y position below the screen
+//    let finalY = infoLargeViewHeight - 100 // Adjust the distance from the bottom as needed
+    
+    
     private var state: State = .sunny(windy: false){
         didSet {
             updateWeatherState(state, windSpeed)
@@ -65,7 +77,7 @@ class MainViewController: UIViewController {
         locationLabel.textAlignment = .center
         return locationLabel
     }()
-    let infoButtonShadowView: UIView = {
+    private let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView()
         infoButtonShadow.backgroundColor = UIColor.yellow
         infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
@@ -75,10 +87,43 @@ class MainViewController: UIViewController {
         infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
         return infoButtonShadow
     }()
+    
+   
+    
+    
+    private let infoLargeView: UIView = {
+        var infoLargeView = UIView()
+        
+        infoLargeView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
+        infoLargeView.contentMode = .scaleAspectFill
+//        infoLargeView.frame = CGRect(x: 0, y: 100, width: screenWidth, height: screenHeight)
+        return infoLargeView
+    }()
+  
+      //  КОНТЕЙНЕР ВЬЮ
+        
+//        infoLargeView = Constants.setupInfoLargeView.backgroundView
+//        infoLargeView.contentMode = .scaleAspectFill
+//        infoLargeView.frame = CGRect(x: 0, y: 100, width: infoLargeView.frame.width, height:  infoLargeView.frame.height)
+//
+//
+//
+//        infoLargeView.backgroundColor = .blue  // Constants.setupInfoLargeView.infoLargeViewBackgroundColor
+//        infoLargeView.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewCornerRadius
+//        infoLargeView.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewShadowColor
+//        infoLargeView.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewShadowOpacity
+//        infoLargeView.layer.shadowOffset = CGSize(width: Constants.setupInfoLargeView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoLargeView.infoLargeViewShadowOffsetHeight)
+//        infoLargeView.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewShadowRadius
+//        return infoLargeView
+//    }()
+    
+    
+    
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupInfoLargeView()
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
@@ -152,7 +197,47 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(locationLabel).offset(Constants.Constraints.searchIconTrailing)
             make.height.equalTo(Constants.Constraints.searchIconHeight)
         }
+        
+//        view.addSubview(infoLargeView)
+
+        view.addSubview(infoLargeView)
+//        infoLargeView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         scrollView.refreshControl = refreshControl
+    }
+    
+    private func setupInfoLargeView() {
+        
+        let infoLargeViewWidth = screenWidth * 0.8 // Adjust the multiplier as needed
+        let infoLargeViewHeight = screenHeight * 0.5 // Adjust the multiplier as needed
+        let initialY = screenHeight // Set initial Y position below the screen
+        let finalY = screenHeight - infoLargeViewHeight - 100
+        
+        let infoLargeView = UIView(frame: CGRect(x: 0, y: initialY, width: infoLargeViewWidth, height: infoLargeViewHeight))
+        infoLargeView.backgroundColor = .white
+        // Add the view to the main view
+        self.view.addSubview(infoLargeView)
+        // Animate the view into the visible area
+        UIView.animate(withDuration: 0.1, delay: 1.0, options: .curveEaseInOut, animations: {
+            infoLargeView.frame = CGRect(x: (self.screenWidth - infoLargeViewWidth) / 2, y: finalY, width: infoLargeViewWidth, height: infoLargeViewHeight)
+        }, completion: nil)
+        
+        
+//        let finalY = infoLargeViewHeight
+//        infoLargeView.frame = CGRect(x: 0, y: finalY, width: infoLargeViewWidth, height: infoLargeViewHeight)
+//        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+//            self.infoLargeView.frame = CGRect(x: (infoLargeViewWidth - infoLargeViewWidth) / 2, y: finalY, width: infoLargeViewWidth, height: infoLargeViewHeight)
+//        }, completion: nil)
     }
     
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
@@ -465,6 +550,33 @@ extension MainViewController {
             static let searchIconBottom = 80
             static let searchIconTrailing = 30
             static let searchIconHeight = 20
+            
+//            ======
+            
+            static let infoLargeViewDepthTop = 100
+            static let infoLargeViewDepthLeading = 80
+            static let infoLargeViewDepthTrailing = 40
+            static let infoLargeViewDepthHeight = 400
+            
+            static let infoLargeViewTop = 100
+            static let infoLargeViewLeadingTrailing = 60
+            static let infoLargeViewHeight = 400
+            
+            static let infoLargeViewTitleLabelLeadingTrailing = 30
+            static let infoLargeViewTitleLabelTop = 30
+            
+            static let infoLargeViewLabelLeadingTrailing = 30
+            static let infoLargeViewLabelTop = 10
+            static let infoLargeViewLabelHeight = 300
+
+            static let infoLargeViewHideButtonLeadingTrailing = 30
+            static let infoLargeViewHideButtonTop = 5
+            
+            
+            
+            
+            
+            
         }
         enum Conditions {
             static let windSpeedLimit = 3.0
@@ -491,6 +603,42 @@ extension MainViewController {
         enum Colors {
             static let mainBackgroundColor = UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1)
             static let firstCellBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
+        }
+        
+//        ===========
+        enum setupInfoLargeView {
+            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+            static let infoLargeViewBackgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
+            static let infoLargeViewCornerRadius: CGFloat = 25
+            static let infoLargeViewShadowColor = UIColor.black.cgColor
+            static let infoLargeViewShadowOpacity: Float = 0.2
+            static let infoLargeViewShadowOffsetWidth = 0
+            static let infoLargeViewShadowOffsetHeight = 10
+            static let infoLargeViewShadowRadius: CGFloat = 10
+            
+            static let infoLargeViewDepthBackgroundColor = UIColor (red: 251/255, green: 95/255, blue: 41/255, alpha: 1)
+            static let infoLargeViewDepthCornerRadius: CGFloat = 25
+            static let infoLargeViewDepthShadowColor = UIColor.black.cgColor
+            static let infoLargeViewDepthShadowOpacity: Float = 0.2
+            static let infoLargeViewDepthShadowOffset = CGSize(width: 0, height: 10)
+            static let infoLargeViewDepthShadowRadius:CGFloat = 10
+            
+            static let infoLargeViewTitleLabelText = "INFO"
+            static let infoLargeViewLabelAttributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
+            static let infoLargeViewLabelNumberOfLines = 7
+            static let infoLargeViewLabelLineSPacing: CGFloat = 10
+            
+            static let infoButtonShadowFrame = UIView(frame: CGRect(x: 110, y: 800, width: 175, height: 85))
+            static let infoButtonShadowShadowOpacity: Float = 0.2
+            static let infoButtonShadowShadowOffset = CGSize(width: 10, height: 5)
+            static let infoButtonShadowShadowRadius: CGFloat = 5
+            static let infoButtonShadowCornerRadius: CGFloat = 15
+            
+            static let infoLargeViewHideButtonTitle = "Hide"
+            static let infoLargeViewHideButtonTitleColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1)
+            static let infoLargeViewHideButtonBorderColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1).cgColor
+            static let infoLargeViewHideButtonBorderWidth:CGFloat = 1.5
+            static let infoLargeViewHideButtonCornerRaidus:CGFloat = 15
         }
     }
 }
