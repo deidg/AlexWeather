@@ -188,6 +188,6 @@
 //            static let infoLargeViewHideButtonBorderColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1).cgColor
 //            static let infoLargeViewHideButtonBorderWidth:CGFloat = 1.5
 //            static let infoLargeViewHideButtonCornerRaidus:CGFloat = 15
-//        }      
+//        }
 //    }
 //}

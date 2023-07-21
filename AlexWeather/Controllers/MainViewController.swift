@@ -4,7 +4,7 @@
 //
 //  Created by Alex on 16.05.2023.
 //
-
+// TODO:  посмотреть фиолетовые предупреждения в иерархии вьюшек
 
 import UIKit
 import CoreLocation
@@ -117,10 +117,6 @@ class MainViewController: UIViewController {
         return infoConditionsView
     }()
     
-    
-    
-    
-    
     private let infoConditionsViewDepth: UIView = {
         let infoConditionsViewDepth = UIView()
         infoConditionsViewDepth.backgroundColor = Constants.setupInfoView.infoLargeViewDepthBackgroundColor
@@ -131,14 +127,16 @@ class MainViewController: UIViewController {
         infoConditionsViewDepth.layer.shadowRadius = Constants.setupInfoView.infoLargeViewDepthShadowRadius
         return infoConditionsViewDepth
     }()
-    private let infoLargeViewTitleLabel: UILabel = {
+    
+    private let infoConditionsViewTitleLabel: UILabel = {
         var infoLargeViewTitleLabel = UILabel()
         infoLargeViewTitleLabel.text = Constants.setupInfoView.infoLargeViewTitleLabelText
         infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
         infoLargeViewTitleLabel.textAlignment = .center
         return infoLargeViewTitleLabel
     }()
-    private let infoLargeViewLabel: UILabel = {
+    
+    private let infoConditionsViewMainLabel: UILabel = {
         let infoLargeViewLabel = UILabel()
         infoLargeViewLabel.numberOfLines = 0
         infoLargeViewLabel.textAlignment = .left
@@ -176,7 +174,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupInfoLargeView()
+        setupInfoView()
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
@@ -254,9 +252,41 @@ class MainViewController: UIViewController {
         
     }
     
-    private func setupContraintsForInfo() {
-     
+//    private func setupContraintsForInfo() {
+//
+//
+//        infoView.addSubview(infoConditionsViewDepth)    // глубина
+//        infoConditionsViewDepth.snp.makeConstraints{ make in
+//            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
+//            make.leading.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthLeading)
+//            make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
+//            make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
+//        }
+//        infoView.addSubview(infoConditionsView)
+//        infoConditionsView.snp.makeConstraints { make in
+//            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
+//            make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
+//            make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
+//        }
+//        infoConditionsView.addSubview(infoConditionsViewTitleLabel)
+//        infoConditionsViewTitleLabel.snp.makeConstraints { make in
+//            make.centerX.equalTo(self.infoConditionsView)
+//            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
+//            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
+//        }
+//        infoConditionsView.addSubview(infoConditionsViewMainLabel)
+//        infoConditionsViewMainLabel.snp.makeConstraints { make in
+//            make.centerX.equalTo(self.infoConditionsView)
+//            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
+//            make.top.equalTo(infoConditionsViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
+//            make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
+//        }
+//
         
+        
+        
+        //===
+        /*
 //        infoConditionsView.addSubview(infoConditionsViewDepth)    // глубина
 //        infoConditionsViewDepth.snp.makeConstraints{ make in
 //            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
@@ -271,30 +301,33 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
         }
-        view.addSubview(infoLargeViewTitleLabel)    // INFO
-        infoLargeViewTitleLabel.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.infoConditionsView)
-            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
-            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
-        }
-        view.addSubview(infoLargeViewLabel)   // сам текст
-        infoLargeViewLabel.snp.makeConstraints{ make in
+        
+        infoConditionsView.addSubview(infoConditionsViewTitleLabel)    // INFO title
+//        infoConditionsViewTitleLabel.snp.makeConstraints{ make in
+//            make.centerX.equalTo(self.infoConditionsView)
+//            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
+//            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
+//        }
+        
+        infoConditionsView.addSubview(infoConditionsViewMainLabel)   // сам текст
+        infoConditionsViewMainLabel.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoConditionsView)
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
-            make.top.equalTo(infoLargeViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
+            make.top.equalTo(infoConditionsViewTitleLabel.snp.bottom).inset(Constants.Constraints.infoLargeViewLabelTop)
             make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
         }
+        
         view.addSubview(infoLargeViewHideButton)
         infoLargeViewHideButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.infoConditionsView)
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
-            make.top.equalTo(infoLargeViewLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
+            make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
         
+        */
+        //===
         
-        
-        
-    }
+//    }
     
     
     
@@ -302,7 +335,7 @@ class MainViewController: UIViewController {
     
     
     
-    private func setupInfoLargeView() { // переименовать в openInfoLargeView
+    private func setupInfoView() { // переименовать в openInfoLargeView
         
         
         let initialY = screenHeight // Set initial Y position below the screen
@@ -317,9 +350,11 @@ class MainViewController: UIViewController {
             infoView.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
         }, completion: nil)
         
-        
+   
         //adding constraints
- 
+        
+        // вынес в setupContraintsForInfo
+
         infoView.addSubview(infoConditionsViewDepth)    // глубина
         infoConditionsViewDepth.snp.makeConstraints{ make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
@@ -327,15 +362,25 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
             make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
         }
-        
         infoView.addSubview(infoConditionsView)
         infoConditionsView.snp.makeConstraints { make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
             make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
-//            make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
             make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
         }
-        
+        infoConditionsView.addSubview(infoConditionsViewTitleLabel)
+        infoConditionsViewTitleLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(self.infoConditionsView)
+            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
+            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
+        }
+        infoConditionsView.addSubview(infoConditionsViewMainLabel)
+        infoConditionsViewMainLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(self.infoConditionsView)
+            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
+            make.top.equalTo(infoConditionsViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
+            make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
+        }
         
         
         
