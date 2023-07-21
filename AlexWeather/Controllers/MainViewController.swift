@@ -5,6 +5,7 @@
 //  Created by Alex on 16.05.2023.
 //
 
+
 import UIKit
 import CoreLocation
 import SnapKit
@@ -218,18 +219,25 @@ class MainViewController: UIViewController {
     
     private func setupInfoLargeView() {
         
-        let infoLargeViewWidth = screenWidth * 0.8 // Adjust the multiplier as needed
-        let infoLargeViewHeight = screenHeight * 0.5 // Adjust the multiplier as needed
+//        let infoLargeViewWidth = screenWidth * 0.8 // Adjust the multiplier as needed
+//        let infoLargeViewHeight = screenHeight * 0.5 // Adjust the multiplier as needed
         let initialY = screenHeight // Set initial Y position below the screen
-        let finalY = screenHeight - infoLargeViewHeight - 100
+        let finalY = screenHeight + 1 //- 100
         
-        let infoLargeView = UIView(frame: CGRect(x: 0, y: initialY, width: infoLargeViewWidth, height: infoLargeViewHeight))
-        infoLargeView.backgroundColor = .white
+        let infoLargeView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+        infoLargeView.backgroundColor = .green
         // Add the view to the main view
         self.view.addSubview(infoLargeView)
         // Animate the view into the visible area
-        UIView.animate(withDuration: 0.1, delay: 1.0, options: .curveEaseInOut, animations: {
-            infoLargeView.frame = CGRect(x: (self.screenWidth - infoLargeViewWidth) / 2, y: finalY, width: infoLargeViewWidth, height: infoLargeViewHeight)
+        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
+            
+//            UIView.animate(withDuration: 0.1, delay: 1.0, options: .curveEaseInOut, animations: {
+                
+            infoLargeView.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
+            
+//            infoLargeView.frame = CGRect(x: 0, y: finalY, width: self.screenWidth, height: self.screenHeight)
+
+//            infoLargeView.frame = CGRect(x: (self.screenWidth - infoLargeViewWidth) / 2, y: finalY, width: infoLargeViewWidth, height: infoLargeViewHeight)
         }, completion: nil)
         
         
