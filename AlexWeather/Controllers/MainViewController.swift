@@ -244,7 +244,8 @@ class MainViewController: UIViewController {
         setupInfoLargeView()
         let initialY = screenHeight
         infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
-        infoView?.backgroundColor = .clear // Set the background color you want here
+//        infoView?.backgroundColor = .clear // Set the background color you want here
+//        infoView = Constants.setupInfoView.backgroundView
         self.view.addSubview(infoView ?? backgroundView)
         // Open InfoView animation
         UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
@@ -399,13 +400,19 @@ class MainViewController: UIViewController {
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
         print("closeInfoView - done")
         let initialY = screenHeight
-        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
-            self.infoView?.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
-        }, completion: { _ in
-            self.infoView?.removeFromSuperview()
-            self.infoView = nil // Clear the infoView after it's hidden
-        })
-    }
+        UIView.animate(withDuration: 0.1, delay: 1.0, options: .curveLinear, animations: {
+//            self.infoView?.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
+            self.infoView?.frame = CGRect(x: 0, y: initialY, width: 0, height: 0)
+
+        }, completion: nil)
+            }
+                        
+//                        {
+//            //_ in
+////            self.infoView?.removeFromSuperview()
+////            self.infoView = nil // Clear the infoView after it's hidden
+//        })
+//    }
         
 //        print("closeInfoView - done")
 //        let initialY = screenHeight
