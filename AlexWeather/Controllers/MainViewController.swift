@@ -5,6 +5,7 @@
 //  Created by Alex on 16.05.2023.
 //
 // TODO:  посмотреть фиолетовые предупреждения в иерархии вьюшек
+// TODO: Переименовать функцию buttonPressed в более понятную.
 
 import UIKit
 import CoreLocation
@@ -28,10 +29,8 @@ class MainViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     
-    
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
-    
     
     private var state: State = .sunny(windy: false){
         didSet {
@@ -83,24 +82,16 @@ class MainViewController: UIViewController {
     }()
     
     
-    
-    private let infoView: UIImageView = {   // само объявление
-        var infoView = UIImageView()
-//        infoView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
-        infoView.contentMode = .scaleAspectFill
-        //настройка тени
-        //        infoLargeView.backgroundColor = .blue  // Constants.setupInfoLargeView.infoLargeViewBackgroundColor
-        //        infoLargeView.layer.cornerRadius = Constants.setupInfoLargeView.infoLargeViewCornerRadius
-        //        infoLargeView.layer.shadowColor = Constants.setupInfoLargeView.infoLargeViewShadowColor
-        //        infoLargeView.layer.shadowOpacity = Constants.setupInfoLargeView.infoLargeViewShadowOpacity
-        //        infoLargeView.layer.shadowOffset = CGSize(width: Constants.setupInfoLargeView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoLargeView.infoLargeViewShadowOffsetHeight)
-        //        infoLargeView.layer.shadowRadius = Constants.setupInfoLargeView.infoLargeViewShadowRadius
-        //        return infoLargeView
-        //    }()
-        
-        return infoView
-    }()
-    
+    private var infoView: UIView?
+//    = {   // само объявление
+//        var infoView = UIImageView()
+////        infoView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
+//        infoView.contentMode = .scaleAspectFill
+//        //настройка тени
+//
+//        return infoView
+//    }()
+//
     
     private let infoConditionsView: UIView = {   //сам большой экран с текстом
         var infoConditionsView = UIView()
@@ -140,27 +131,11 @@ class MainViewController: UIViewController {
 
     private let infoConditionsViewMainLabel: UILabel = {
         let infoConditionsViewMainLabel = UILabel()
-//        infoConditionsViewMainLabel.text =  Constants.setupInfoView.infoLargeViewLabelAttributedString
         infoConditionsViewMainLabel.numberOfLines = 0
         infoConditionsViewMainLabel.textAlignment = .left
         infoConditionsViewMainLabel.sizeToFit()
-//        infoConditionsViewMainLabel.
         return infoConditionsViewMainLabel
     }()
-    /*/===
-     дубль?
-     let infoButtonShadow = Constants.setupInfoLargeView.infoButtonShadowFrame
-     private let infoButtonShadowView: UIView = {
-     let infoButtonShadow = UIView()
-     infoButtonShadow.backgroundColor = UIColor.yellow
-     infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
-     infoButtonShadow.layer.shadowOpacity = Constants.setupInfoLargeView.infoButtonShadowShadowOpacity
-     infoButtonShadow.layer.shadowOffset = Constants.setupInfoLargeView.infoButtonShadowShadowOffset
-     infoButtonShadow.layer.shadowRadius = Constants.setupInfoLargeView.infoButtonShadowShadowRadius
-     infoButtonShadow.layer.cornerRadius = Constants.setupInfoLargeView.infoButtonShadowCornerRadius
-     return infoButtonShadow
-     }()
-     //== */
     
     private let infoLargeViewHideButton: UIButton = {
         let infoLargeViewHideButton = UIButton()
@@ -173,13 +148,11 @@ class MainViewController: UIViewController {
         return infoLargeViewHideButton
     }()
     
-    
-    
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupInfoView()
+//        setupInfoView()
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
@@ -257,9 +230,44 @@ class MainViewController: UIViewController {
         
     }
     
-//    private func setupContraintsForInfo() {
+    private func setupInfoLargeView() {
+        let attributedString = Constants.setupInfoView.infoLargeViewLabelAttributedString
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = Constants.setupInfoView.infoLargeViewLabelLineSPacing
+        paragraphStyle.paragraphSpacingBefore = 5
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        infoConditionsViewMainLabel.attributedText = attributedString
+    }
+
+    private func openInfoView() { // переименовать в openInfoLargeView
+        
+        setupInfoLargeView()
+        let initialY = screenHeight
+        infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+        infoView?.backgroundColor = .clear // Set the background color you want here
+        self.view.addSubview(infoView ?? backgroundView)
+        // Open InfoView animation
+        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
+            self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
+        }, completion: nil)
+    
+        
+        
+        
+        
+//        setupInfoLargeView()
 //
 //
+//        let initialY = screenHeight
+//        var infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+//        infoView = Constants.setupInfoView.backgroundView
+//        self.view.addSubview(infoView)
+//        // open InfoView animation
+//        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
+//            infoView.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
+//        }, completion: nil)
+//
+//        //adding constraints
 //        infoView.addSubview(infoConditionsViewDepth)    // глубина
 //        infoConditionsViewDepth.snp.makeConstraints{ make in
 //            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
@@ -267,115 +275,7 @@ class MainViewController: UIViewController {
 //            make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
 //            make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
 //        }
-//        infoView.addSubview(infoConditionsView)
-//        infoConditionsView.snp.makeConstraints { make in
-//            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
-//            make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
-//            make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
-//        }
-//        infoConditionsView.addSubview(infoConditionsViewTitleLabel)
-//        infoConditionsViewTitleLabel.snp.makeConstraints { make in
-//            make.centerX.equalTo(self.infoConditionsView)
-//            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
-//            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
-//        }
-//        infoConditionsView.addSubview(infoConditionsViewMainLabel)
-//        infoConditionsViewMainLabel.snp.makeConstraints { make in
-//            make.centerX.equalTo(self.infoConditionsView)
-//            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
-//            make.top.equalTo(infoConditionsViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
-//            make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
-//        }
-//
-        
-        
-        
-        //===
-        /*
-//        infoConditionsView.addSubview(infoConditionsViewDepth)    // глубина
-//        infoConditionsViewDepth.snp.makeConstraints{ make in
-//            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
-//            make.leading.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthLeading)
-//            make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
-//            make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
-//        }
-        infoConditionsViewDepth.addSubview(infoConditionsView)  // основной оранжевый
-        infoConditionsView.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
-            make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
-            make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
-        }
-        
-        infoConditionsView.addSubview(infoConditionsViewTitleLabel)    // INFO title
-//        infoConditionsViewTitleLabel.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.infoConditionsView)
-//            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
-//            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
-//        }
-        
-        infoConditionsView.addSubview(infoConditionsViewMainLabel)   // сам текст
-        infoConditionsViewMainLabel.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.infoConditionsView)
-            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
-            make.top.equalTo(infoConditionsViewTitleLabel.snp.bottom).inset(Constants.Constraints.infoLargeViewLabelTop)
-            make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
-        }
-        
-        view.addSubview(infoLargeViewHideButton)
-        infoLargeViewHideButton.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.infoConditionsView)
-            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
-            make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
-        }
-        
-        */
-        //===
-        
-//    }
-    
-    
-    private func setupInfoLargeView() {
-        let attributedString = Constants.setupInfoView.infoLargeViewLabelAttributedString
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = Constants.setupInfoView.infoLargeViewLabelLineSPacing
-        paragraphStyle.paragraphSpacingBefore = 5
-        paragraphStyle
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        infoConditionsViewMainLabel.attributedText = attributedString
-    }
-    
-  
-    private func setupInfoView() { // переименовать в openInfoLargeView
-        setupInfoLargeView()
-        
-        let initialY = screenHeight // Set initial Y position below the screen
-        //        let finalY = screenHeight + 1 //- 100
-        
-        var infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
-        infoView = Constants.setupInfoView.backgroundView
-        
-        
-        self.view.addSubview(infoView)
-        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
-            infoView.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
-        }, completion: nil)
-        
-
-
-   
-        //adding constraints
-        
-        // вынес в setupContraintsForInfo
-
-        infoView.addSubview(infoConditionsViewDepth)    // глубина
-        infoConditionsViewDepth.snp.makeConstraints{ make in
-            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
-            make.leading.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthLeading)
-            make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
-            make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
-        }
-        infoView.addSubview(infoConditionsView)  //  основной вью для отображения текста
+        infoView?.addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
             make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
@@ -401,13 +301,14 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
             make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
-        
-        
     }
     
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        
         refreshControl.addTarget(self, action: #selector(refreshAction(sender:)), for: UIControl.Event.valueChanged)
+        
+        infoLargeViewHideButton.addTarget(self, action: #selector(infoLargeViewHideButtonPressed), for: .touchUpInside)
     }
     
     private func startLocationManager() {
@@ -492,9 +393,26 @@ class MainViewController: UIViewController {
     }
     //MARK: - OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
-        //        infoViewController.modalPresentationStyle = .pageSheet
-        //        present(infoViewController, animated: true )
+        openInfoView()
     }
+    
+    @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
+        print("closeInfoView - done")
+        let initialY = screenHeight
+        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
+            self.infoView?.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
+        }, completion: { _ in
+            self.infoView?.removeFromSuperview()
+            self.infoView = nil // Clear the infoView after it's hidden
+        })
+    }
+        
+//        print("closeInfoView - done")
+//        let initialY = screenHeight
+//        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
+//            self.infoView.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
+//        }, completion: nil)
+//    }
     
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
@@ -736,12 +654,7 @@ extension MainViewController {
             
             static let infoLargeViewHideButtonLeadingTrailing = 30
             static let infoLargeViewHideButtonTop = 5
-            
-            
-            
-            
-            
-            
+     
         }
         enum Conditions {
             static let windSpeedLimit = 3.0
