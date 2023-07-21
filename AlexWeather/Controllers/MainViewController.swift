@@ -136,11 +136,14 @@ class MainViewController: UIViewController {
         return infoLargeViewTitleLabel
     }()
     
+//    let attributedString: String = Constants.setupInfoLargeView.infoLargeViewLabelAttributedString
+
     private let infoConditionsViewMainLabel: UILabel = {
-        let infoLargeViewLabel = UILabel()
-        infoLargeViewLabel.numberOfLines = 0
-        infoLargeViewLabel.textAlignment = .left
-        return infoLargeViewLabel
+        let infoConditionsViewMainLabel = UILabel()
+//        infoConditionsViewMainLabel.text =  Constants.setupInfoView.infoLargeViewLabelAttributedString
+        infoConditionsViewMainLabel.numberOfLines = 0
+        infoConditionsViewMainLabel.textAlignment = .left
+        return infoConditionsViewMainLabel
     }()
     /*/===
      дубль?
@@ -330,13 +333,17 @@ class MainViewController: UIViewController {
 //    }
     
     
+    private func setupInfoLargeView() {
+        let attributedString = Constants.setupInfoView.infoLargeViewLabelAttributedString
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = Constants.setupInfoView.infoLargeViewLabelLineSPacing
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        infoConditionsViewMainLabel.attributedText = attributedString
+    }
     
-    
-    
-    
-    
+  
     private func setupInfoView() { // переименовать в openInfoLargeView
-        
+        setupInfoLargeView()
         
         let initialY = screenHeight // Set initial Y position below the screen
         //        let finalY = screenHeight + 1 //- 100
@@ -350,6 +357,8 @@ class MainViewController: UIViewController {
             infoView.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
         }, completion: nil)
         
+
+
    
         //adding constraints
         
@@ -362,23 +371,23 @@ class MainViewController: UIViewController {
             make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
             make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
         }
-        infoView.addSubview(infoConditionsView)
+        infoView.addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
             make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
         }
-        infoConditionsView.addSubview(infoConditionsViewTitleLabel)
+        infoConditionsView.addSubview(infoConditionsViewTitleLabel)   /// лейбла для INFO
         infoConditionsViewTitleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(self.infoConditionsView)
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
             make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
         }
-        infoConditionsView.addSubview(infoConditionsViewMainLabel)
+        infoConditionsView.addSubview(infoConditionsViewMainLabel)  // лейбл для текста
         infoConditionsViewMainLabel.snp.makeConstraints { make in
             make.centerX.equalTo(self.infoConditionsView)
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
-            make.top.equalTo(infoConditionsViewTitleLabel.snp.top).inset(Constants.Constraints.infoLargeViewLabelTop)
+            make.top.equalTo(infoConditionsViewTitleLabel.snp.bottom).inset(Constants.Constraints.infoLargeViewLabelTop)
             make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
         }
         
