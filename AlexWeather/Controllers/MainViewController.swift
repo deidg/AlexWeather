@@ -143,6 +143,8 @@ class MainViewController: UIViewController {
 //        infoConditionsViewMainLabel.text =  Constants.setupInfoView.infoLargeViewLabelAttributedString
         infoConditionsViewMainLabel.numberOfLines = 0
         infoConditionsViewMainLabel.textAlignment = .left
+        infoConditionsViewMainLabel.sizeToFit()
+//        infoConditionsViewMainLabel.
         return infoConditionsViewMainLabel
     }()
     /*/===
@@ -337,6 +339,8 @@ class MainViewController: UIViewController {
         let attributedString = Constants.setupInfoView.infoLargeViewLabelAttributedString
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = Constants.setupInfoView.infoLargeViewLabelLineSPacing
+        paragraphStyle.paragraphSpacingBefore = 5
+        paragraphStyle
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         infoConditionsViewMainLabel.attributedText = attributedString
     }
@@ -391,7 +395,12 @@ class MainViewController: UIViewController {
             make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
         }
         
-        
+        infoConditionsView.addSubview(infoLargeViewHideButton)
+        infoLargeViewHideButton.snp.makeConstraints { make in
+            make.centerX.equalTo(self.infoConditionsView)
+            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
+            make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
+        }
         
         
     }
