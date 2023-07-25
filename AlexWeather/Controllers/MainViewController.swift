@@ -244,38 +244,16 @@ class MainViewController: UIViewController {
         setupInfoLargeView()
         let initialY = screenHeight
         infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
-//        infoView?.backgroundColor = .clear // Set the background color you want here
-//        infoView = Constants.setupInfoView.backgroundView
+        //        infoView?.backgroundColor = .clear // Set the background color you want here
+        //        infoView = Constants.setupInfoView.backgroundView
         self.view.addSubview(infoView ?? backgroundView)
         // Open InfoView animation
-        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
             self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
         }, completion: nil)
+        
     
         
-        
-        
-        
-//        setupInfoLargeView()
-//
-//
-//        let initialY = screenHeight
-//        var infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
-//        infoView = Constants.setupInfoView.backgroundView
-//        self.view.addSubview(infoView)
-//        // open InfoView animation
-//        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
-//            infoView.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
-//        }, completion: nil)
-//
-//        //adding constraints
-//        infoView.addSubview(infoConditionsViewDepth)    // глубина
-//        infoConditionsViewDepth.snp.makeConstraints{ make in
-//            make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTop)
-//            make.leading.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthLeading)
-//            make.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewDepthTrailing)
-//            make.height.equalTo(Constants.Constraints.infoLargeViewDepthHeight)
-//        }
         infoView?.addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
@@ -397,29 +375,26 @@ class MainViewController: UIViewController {
         openInfoView()
     }
     
-    @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
-        print("closeInfoView - done")
-        let initialY = screenHeight
-        UIView.animate(withDuration: 0.1, delay: 1.0, options: .curveLinear, animations: {
-//            self.infoView?.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
-            self.infoView?.frame = CGRect(x: 0, y: initialY, width: 0, height: 0)
-
-        }, completion: nil)
-            }
-                        
-//                        {
-//            //_ in
-////            self.infoView?.removeFromSuperview()
-////            self.infoView = nil // Clear the infoView after it's hidden
-//        })
-//    }
+    @objc private func infoLargeViewHideButtonPressed(sender: UIButton, view: UIView) {
+        
+        guard let infoView = infoView else { return } // Check if the infoView is not nil
+           let initialY = screenHeight // Move the infoView above the screen
+           UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+               infoView.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
+           }, completion: { _ in
+               // Once the animation is complete, remove the infoView from its superview
+               infoView.removeFromSuperview()
+               self.infoView = nil // Clear the infoView reference
+           })
         
 //        print("closeInfoView - done")
-//        let initialY = screenHeight
-//        UIView.animate(withDuration: 0.1, delay: 1.0, options: .allowAnimatedContent, animations: {
-//            self.infoView.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
-//        }, completion: nil)
-//    }
+//        print("closeInfoView - done")
+//            let initialY = screenHeight // Move the infoView above the screen
+//
+//        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: { [self] in
+//            self.infoView?.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
+//            }, completion:  nil)
+    }
     
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
