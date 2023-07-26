@@ -255,8 +255,9 @@ class MainViewController: UIViewController {
     
         
         
-        view.addSubview(backgroundView)
-    
+//        view.addSubview(backgroundView)
+//        backgroundView.addSubview(infoConditionsView)  //  основной вью для отображения текста
+        
         
         infoView?.addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
@@ -379,8 +380,8 @@ class MainViewController: UIViewController {
         openInfoView()
     }
     
-    @objc private func infoLargeViewHideButtonPressed(sender: UIButton, view: UIView) {
-        
+    @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
+//           print("heerr")
             guard let infoView = infoView else { return } // Check if the infoView is not nil
             let finalY = screenHeight - screenHeight // Move the infoView to the bottom of the screen
         UIView.animate(withDuration: 0.1, delay: 0, options: .beginFromCurrentState, animations: {
