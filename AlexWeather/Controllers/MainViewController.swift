@@ -240,7 +240,8 @@ class MainViewController: UIViewController {
     }
 
     private func openInfoView() { // переименовать в openInfoLargeView
-        
+        view.addSubview(backgroundView)
+
         setupInfoLargeView()
         let initialY = screenHeight
         infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
@@ -260,6 +261,7 @@ class MainViewController: UIViewController {
         
         
         infoView?.addSubview(infoConditionsView)  //  основной вью для отображения текста
+//        backgroundView.addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
             make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
@@ -381,7 +383,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
-//           print("heerr")
+           print("heerr")
             guard let infoView = infoView else { return } // Check if the infoView is not nil
             let finalY = screenHeight - screenHeight // Move the infoView to the bottom of the screen
         UIView.animate(withDuration: 0.1, delay: 0, options: .beginFromCurrentState, animations: {
@@ -390,6 +392,7 @@ class MainViewController: UIViewController {
         
                 infoView.removeFromSuperview()
                 self.infoView = nil
+                self.setupUI()
             })
     }
     
