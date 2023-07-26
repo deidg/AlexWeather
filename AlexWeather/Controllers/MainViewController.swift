@@ -29,8 +29,8 @@ class MainViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
+    private let screenWidth = UIScreen.main.bounds.width
+    private let screenHeight = UIScreen.main.bounds.height
     
     private var state: State = .sunny(windy: false){
         didSet {
@@ -83,15 +83,15 @@ class MainViewController: UIViewController {
     
     
     private var infoView: UIView?
-//    = {   // само объявление
-//        var infoView = UIImageView()
-////        infoView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
-//        infoView.contentMode = .scaleAspectFill
-//        //настройка тени
-//
-//        return infoView
-//    }()
-//
+    //    = {   // само объявление
+    //        var infoView = UIImageView()
+    ////        infoView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
+    //        infoView.contentMode = .scaleAspectFill
+    //        //настройка тени
+    //
+    //        return infoView
+    //    }()
+    //
     
     private let infoConditionsView: UIView = {   //сам большой экран с текстом
         var infoConditionsView = UIView()
@@ -127,8 +127,8 @@ class MainViewController: UIViewController {
         return infoLargeViewTitleLabel
     }()
     
-//    let attributedString: String = Constants.setupInfoLargeView.infoLargeViewLabelAttributedString
-
+    //    let attributedString: String = Constants.setupInfoLargeView.infoLargeViewLabelAttributedString
+    
     private let infoConditionsViewMainLabel: UILabel = {
         let infoConditionsViewMainLabel = UILabel()
         infoConditionsViewMainLabel.numberOfLines = 0
@@ -152,11 +152,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-//        setupInfoView()
+        //        setupInfoView()
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
         makingEmitterLayer()
+        setupinfoView()
+        //        openInfoView()
     }
     // MARK: - methods
     private func setupUI() {
@@ -238,30 +240,21 @@ class MainViewController: UIViewController {
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         infoConditionsViewMainLabel.attributedText = attributedString
     }
-
-    private func openInfoView() { // переименовать в openInfoLargeView
-        view.addSubview(backgroundView)
-
-        setupInfoLargeView()
-        let initialY = screenHeight
-        infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
-        backgroundView = Constants.Images.backgroundView
-        //        infoView?.backgroundColor = .clear // Set the background color you want here
-        //        infoView = Constants.setupInfoView.backgroundView
-        self.view.addSubview(infoView ?? backgroundView)
-        // Open InfoView animation
-        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
-            self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
-        }, completion: nil)
     
-        
-        
+    func setupinfoView() { // переименовать в openInfoLargeView
+        print("openInfoView started 245")
 //        view.addSubview(backgroundView)
-//        backgroundView.addSubview(infoConditionsView)  //  основной вью для отображения текста
+        setupInfoLargeView()
+        let initialY = screenHeight - screenHeight
         
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.bottom).inset(0)
+            make.trailing.leading.equalTo(view).inset(0)
+            make.height.equalTo(screenHeight)
+        }
         
-        infoView?.addSubview(infoConditionsView)  //  основной вью для отображения текста
-//        backgroundView.addSubview(infoConditionsView)  //  основной вью для отображения текста
+        backgroundView.addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
             make.top.equalTo(view).inset(Constants.Constraints.infoLargeViewTop)
             make.leading.trailing.equalTo(view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
@@ -287,7 +280,43 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
             make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
+        
+        //        let initialY = screenHeight
+        infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+        backgroundView = Constants.Images.backgroundView
+        self.view.addSubview(infoView ?? backgroundView)
+        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
+            
+            
+            
+            //            self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
+        }, completion: nil)
+        
+        
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(initialY)
+            make.trailing.leading.equalTo(view).inset(0)
+            make.height.equalTo(screenHeight)
+        }
+        
+        
     }
+    
+    private func openInfoView() {
+        let initialY = screenHeight
+
+        infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+        backgroundView = Constants.Images.backgroundView
+        self.view.addSubview(infoView ?? backgroundView)
+        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
+            
+            
+            
+            //            self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
+        }, completion: nil)
+    }
+    
     
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
@@ -383,17 +412,15 @@ class MainViewController: UIViewController {
     }
     
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
-           print("heerr")
-            guard let infoView = infoView else { return } // Check if the infoView is not nil
-            let finalY = screenHeight - screenHeight // Move the infoView to the bottom of the screen
-        UIView.animate(withDuration: 0.1, delay: 0, options: .beginFromCurrentState, animations: {
-                infoView.frame = CGRect(x: 0, y: finalY, width: self.screenWidth, height: self.screenHeight)
-            }, completion: { _ in
-        
-                infoView.removeFromSuperview()
-                self.infoView = nil
-                self.setupUI()
-            })
+        guard let infoView = infoView else { return }
+        let finalY = screenHeight - screenHeight
+        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
+            infoView.frame = CGRect(x: 0, y: finalY, width: self.screenWidth, height: self.screenHeight)
+        }, completion: { _ in
+            infoView.removeFromSuperview()
+            self.infoView = nil
+            self.setupUI()
+        })
     }
     
     @objc func makingNetworkMonitor() {
@@ -636,7 +663,7 @@ extension MainViewController {
             
             static let infoLargeViewHideButtonLeadingTrailing = 30
             static let infoLargeViewHideButtonTop = 5
-     
+            
         }
         enum Conditions {
             static let windSpeedLimit = 3.0
@@ -666,7 +693,7 @@ extension MainViewController {
         }
         
         //        ===========
-//    TODO: убрать из названий large
+        //    TODO: убрать из названий large
         enum setupInfoView {
             static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
             static let infoLargeViewBackgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
