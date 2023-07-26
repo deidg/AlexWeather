@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
     }
     private let locationPinIcon = UIImageView(image: UIImage(named: Constants.Icons.locationPinIcon))
     private let searchIcon = UIImageView(image: UIImage(named: Constants.Icons.searchIcon))
-    private let backgroundView: UIImageView = {
+    private var backgroundView: UIImageView = {
         let backgroundView = Constants.Images.backgroundView
         backgroundView.contentMode = .scaleAspectFill
         return backgroundView
@@ -244,6 +244,7 @@ class MainViewController: UIViewController {
         setupInfoLargeView()
         let initialY = screenHeight
         infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+        backgroundView = Constants.Images.backgroundView
         //        infoView?.backgroundColor = .clear // Set the background color you want here
         //        infoView = Constants.setupInfoView.backgroundView
         self.view.addSubview(infoView ?? backgroundView)
@@ -251,7 +252,10 @@ class MainViewController: UIViewController {
         UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
             self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
         }, completion: nil)
+    
         
+        
+        view.addSubview(backgroundView)
     
         
         infoView?.addSubview(infoConditionsView)  //  основной вью для отображения текста
@@ -377,23 +381,15 @@ class MainViewController: UIViewController {
     
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton, view: UIView) {
         
-        guard let infoView = infoView else { return } // Check if the infoView is not nil
-           let initialY = screenHeight // Move the infoView above the screen
-           UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
-               infoView.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
-           }, completion: { _ in
-               // Once the animation is complete, remove the infoView from its superview
-               infoView.removeFromSuperview()
-               self.infoView = nil // Clear the infoView reference
-           })
+            guard let infoView = infoView else { return } // Check if the infoView is not nil
+            let finalY = screenHeight - screenHeight // Move the infoView to the bottom of the screen
+        UIView.animate(withDuration: 0.1, delay: 0, options: .beginFromCurrentState, animations: {
+                infoView.frame = CGRect(x: 0, y: finalY, width: self.screenWidth, height: self.screenHeight)
+            }, completion: { _ in
         
-//        print("closeInfoView - done")
-//        print("closeInfoView - done")
-//            let initialY = screenHeight // Move the infoView above the screen
-//
-//        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: { [self] in
-//            self.infoView?.frame = CGRect(x: 0, y: initialY, width: self.screenWidth, height: self.screenHeight)
-//            }, completion:  nil)
+                infoView.removeFromSuperview()
+                self.infoView = nil
+            })
     }
     
     @objc func makingNetworkMonitor() {
