@@ -29,8 +29,15 @@ class MainViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
     
+    private var topConstraint: Constraint?
+    private var widthConstaint: Constraint?
+    private var heightConstraint: Constraint?
+    private var centerConstraint: Constraint?
+    private var centerXConstraint: Constraint?
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
+    
+    
     
     private var state: State = .sunny(windy: false){
         didSet {
