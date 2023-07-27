@@ -89,50 +89,52 @@ class MainViewController: UIViewController {
     }()
     
     
-    private var infoView: UIView?
-    //    = {   // само объявление
-    //        var infoView = UIImageView()
-    ////        infoView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
-    //        infoView.contentMode = .scaleAspectFill
-    //        //настройка тени
-    //
-    //        return infoView
-    //    }()
-    //
+//    private var infoView: InfoView = { // само объявление
+//            var infoView = InfoView()
+//        infoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
+//        infoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
+//        infoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
+//        infoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
+//        infoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
+//
+//
+//            return infoView
+//        }()
     
-    private let infoConditionsView: UIView = {   //сам большой экран с текстом
-        var infoConditionsView = UIView()
-        
-        infoConditionsView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
-        infoConditionsView.contentMode = .scaleAspectFill
-        //настройка тени
-        infoConditionsView.backgroundColor = Constants.setupInfoView.infoLargeViewBackgroundColor
-        infoConditionsView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
-        infoConditionsView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
-        infoConditionsView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
-        infoConditionsView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
-        infoConditionsView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
-        return infoConditionsView
-    }()
     
-    private let infoConditionsViewDepth: UIView = {
-        let infoConditionsViewDepth = UIView()
-        infoConditionsViewDepth.backgroundColor = Constants.setupInfoView.infoLargeViewDepthBackgroundColor
-        infoConditionsViewDepth.layer.cornerRadius = Constants.setupInfoView.infoLargeViewDepthCornerRadius
-        infoConditionsViewDepth.layer.shadowColor = Constants.setupInfoView.infoLargeViewDepthShadowColor
-        infoConditionsViewDepth.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewDepthShadowOpacity
-        infoConditionsViewDepth.layer.shadowOffset = Constants.setupInfoView.infoLargeViewDepthShadowOffset
-        infoConditionsViewDepth.layer.shadowRadius = Constants.setupInfoView.infoLargeViewDepthShadowRadius
-        return infoConditionsViewDepth
-    }()
+//    private let infoConditionsView: UIView = {   //сам большой экран с текстом
+//        var infoConditionsView = UIView()
+//
+//        infoConditionsView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
+//        infoConditionsView.contentMode = .scaleAspectFill
+//        //настройка тени
+//        infoConditionsView.backgroundColor = Constants.setupInfoView.infoLargeViewBackgroundColor
+//        infoConditionsView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
+//        infoConditionsView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
+//        infoConditionsView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
+//        infoConditionsView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
+//        infoConditionsView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
+//        return infoConditionsView
+//    }()
     
-    private let infoConditionsViewTitleLabel: UILabel = {
-        var infoLargeViewTitleLabel = UILabel()
-        infoLargeViewTitleLabel.text = Constants.setupInfoView.infoLargeViewTitleLabelText
-        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
-        infoLargeViewTitleLabel.textAlignment = .center
-        return infoLargeViewTitleLabel
-    }()
+//    private let infoConditionsViewDepth: UIView = {
+//        let infoConditionsViewDepth = UIView()
+//        infoConditionsViewDepth.backgroundColor = Constants.setupInfoView.infoLargeViewDepthBackgroundColor
+//        infoConditionsViewDepth.layer.cornerRadius = Constants.setupInfoView.infoLargeViewDepthCornerRadius
+//        infoConditionsViewDepth.layer.shadowColor = Constants.setupInfoView.infoLargeViewDepthShadowColor
+//        infoConditionsViewDepth.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewDepthShadowOpacity
+//        infoConditionsViewDepth.layer.shadowOffset = Constants.setupInfoView.infoLargeViewDepthShadowOffset
+//        infoConditionsViewDepth.layer.shadowRadius = Constants.setupInfoView.infoLargeViewDepthShadowRadius
+//        return infoConditionsViewDepth
+//    }()
+//
+//    private let infoConditionsViewTitleLabel: UILabel = {
+//        var infoLargeViewTitleLabel = UILabel()
+//        infoLargeViewTitleLabel.text = Constants.setupInfoView.infoLargeViewTitleLabelText
+//        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
+//        infoLargeViewTitleLabel.textAlignment = .center
+//        return infoLargeViewTitleLabel
+//    }()
     
     //    let attributedString: String = Constants.setupInfoLargeView.infoLargeViewLabelAttributedString
     
@@ -164,7 +166,9 @@ class MainViewController: UIViewController {
         startLocationManager()
         makingNetworkMonitor()
         makingEmitterLayer()
-        setupinfoView()
+        
+//        setupinfoView()
+        
         //        openInfoView()
     }
     // MARK: - methods
@@ -248,6 +252,7 @@ class MainViewController: UIViewController {
         infoConditionsViewMainLabel.attributedText = attributedString
     }
     
+    /*
     func setupinfoView() { // переименовать в openInfoLargeView
         print("openInfoView started 245")
 //        view.addSubview(backgroundView)
@@ -306,24 +311,25 @@ class MainViewController: UIViewController {
             make.trailing.leading.equalTo(view).inset(0)
             make.height.equalTo(screenHeight)
         }
+     }
+      */
         
-        
-    }
-    
-    private func openInfoView() {
-        let initialY = screenHeight
 
-        infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
-        backgroundView = Constants.Images.backgroundView
-        self.view.addSubview(infoView ?? backgroundView)
-        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
-            
-            
-            
-            //            self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
-        }, completion: nil)
-    }
     
+//    private func openInfoView() {
+//        let initialY = screenHeight
+//
+////        infoView = UIView(frame: CGRect(x: 0, y: initialY, width: screenWidth, height: screenHeight))
+//        backgroundView = Constants.Images.backgroundView
+//        self.view.addSubview(infoView ?? backgroundView)
+//        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
+//
+//
+//
+//            //            self.infoView?.frame = CGRect(x: 0, y: 0, width: self.screenWidth, height: self.screenHeight)
+//        }, completion: nil)
+//    }
+//
     
     private func addTargets() {  // устанавливает селекторы на кнопки и движения
         infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
@@ -415,19 +421,21 @@ class MainViewController: UIViewController {
     }
     //MARK: - OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
-        openInfoView()
+//        openInfoView()
+//        infoView.setupUI()
     }
     
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
-        guard let infoView = infoView else { return }
-        let finalY = screenHeight - screenHeight
-        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
-            infoView.frame = CGRect(x: 0, y: finalY, width: self.screenWidth, height: self.screenHeight)
-        }, completion: { _ in
-            infoView.removeFromSuperview()
-            self.infoView = nil
-            self.setupUI()
-        })
+//        infoView.infoViewHide()
+//        guard let infoView = infoView else { return }
+//        let finalY = screenHeight - screenHeight
+//        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
+//            infoView.frame = CGRect(x: 0, y: finalY, width: self.screenWidth, height: self.screenHeight)
+//        }, completion: { _ in
+//            infoView.removeFromSuperview()
+//            self.infoView = nil
+//            self.setupUI()
+//        })
     }
     
     @objc func makingNetworkMonitor() {
