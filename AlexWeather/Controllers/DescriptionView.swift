@@ -5,10 +5,13 @@
 //  Created by Alex on 27.07.2023.
 //
 
+
+// TODO: поменять название на DescriptionView
+
 import Foundation
 import UIKit
 
-class InfoView: UIView {
+class DescriptionView: UIView {
     //MARK: elements
     let mainViewController = MainViewController()
     private let screenWidth = UIScreen.main.bounds.width
@@ -151,7 +154,7 @@ class InfoView: UIView {
 }
 
 
-extension InfoView {
+extension DescriptionView {
     enum Constants {
         enum Text {
             static let labelTextColor = UIColor(red: 102/255, green: 178/255, blue: 255/255, alpha: 1)

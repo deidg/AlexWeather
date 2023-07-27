@@ -89,17 +89,17 @@ class MainViewController: UIViewController {
     }()
     
     
-//    private var infoView: InfoView = { // само объявление
-//            var infoView = InfoView()
-//        infoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
-//        infoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
-//        infoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
-//        infoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
-//        infoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
-//
-//
-//            return infoView
-//        }()
+    private var DescriptionView: DescriptionView = { // само объявление
+            var DescriptionView = DescriptionView()
+        DescriptionView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
+        DescriptionView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
+        DescriptionView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
+        DescriptionView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
+        DescriptionView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
+
+
+            return DescriptionView
+        }()
     
     
 //    private let infoConditionsView: UIView = {   //сам большой экран с текстом
@@ -422,11 +422,14 @@ class MainViewController: UIViewController {
     //MARK: - OBJC methods
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
 //        openInfoView()
-//        infoView.setupUI()
+        
+        DescriptionView.setupUI()
     }
     
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
-//        infoView.infoViewHide()
+        
+        DescriptionView.infoViewHide()
+        
 //        guard let infoView = infoView else { return }
 //        let finalY = screenHeight - screenHeight
 //        UIView.animate(withDuration: 0.1, delay: 0, options: .allowAnimatedContent, animations: {
@@ -436,6 +439,7 @@ class MainViewController: UIViewController {
 //            self.infoView = nil
 //            self.setupUI()
 //        })
+        
     }
     
     @objc func makingNetworkMonitor() {
