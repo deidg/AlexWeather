@@ -66,17 +66,17 @@ class MainViewController: UIViewController {
         temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
-    private let conditionsLabel: UILabel = {
-        let conditionsLabel = UILabel()
-        conditionsLabel.textColor = .black
-        conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
-        return conditionsLabel
-    }()
-    private let locationLabel: UILabel = {
-        let locationLabel = UILabel()
-        locationLabel.textAlignment = .center
-        return locationLabel
-    }()
+//    private let conditionsLabel: UILabel = {
+//        let conditionsLabel = UILabel()
+//        conditionsLabel.textColor = .black
+//        conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
+//        return conditionsLabel
+//    }()
+//    private let locationLabel: UILabel = {
+//        let locationLabel = UILabel()
+//        locationLabel.textAlignment = .center
+//        return locationLabel
+//    }()
     private let infoButtonShadowView: UIView = {
         let infoButtonShadow = UIView()
         infoButtonShadow.backgroundColor = UIColor.yellow
