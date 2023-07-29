@@ -41,8 +41,6 @@ class MainViewController: UIViewController {
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
     
-    
-    
     private var state: State = .sunny(windy: false){
         didSet {
             updateWeatherState(state, windSpeed)
@@ -62,7 +60,14 @@ class MainViewController: UIViewController {
         return view
     }()
     private let contentView = UIView()
-    private var stoneImageView = UIImageView()
+//    private var stoneView = UIImageView()
+    private let stoneView: StoneView = {
+        let stoneView = StoneView()
+        
+        return stoneView
+    }()
+    
+    
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -71,11 +76,15 @@ class MainViewController: UIViewController {
         return temperatureLabel
     }()
     
-    private var weatherInfoView: WeatherInfoView = {
-        let weatherInfoView = WeatherInfoView()
-        
-        return weatherInfoView
-    }()
+    private var WeatherInfoView: WeatherInfoView = { // само объявление
+            var WeatherInfoView = WeatherInfoView()
+        WeatherInfoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
+        WeatherInfoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
+        WeatherInfoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
+        WeatherInfoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
+        WeatherInfoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
+            return WeatherInfoView
+        }()
 
     private let stoneView: StoneView = {
         let stoneView = StoneView()
@@ -114,17 +123,7 @@ class MainViewController: UIViewController {
     }()
     
     
-    private var WeatherInfoView: WeatherInfoView = { // само объявление
-            var WeatherInfoView = WeatherInfoView()
-        WeatherInfoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
-        WeatherInfoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
-        WeatherInfoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
-        WeatherInfoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
-        WeatherInfoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
-
-
-            return WeatherInfoView
-        }()
+   
     
     
 //    private let infoConditionsView: UIView = {   //сам большой экран с текстом
