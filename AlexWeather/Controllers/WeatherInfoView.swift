@@ -11,7 +11,7 @@
 import Foundation
 import UIKit
 
-class DescriptionView: UIView {
+class WeatherInfoView: UIView {
     //MARK: elements
     let mainViewController = MainViewController()
     private let screenWidth = UIScreen.main.bounds.width
@@ -154,7 +154,7 @@ class DescriptionView: UIView {
 }
 
 
-extension DescriptionView {
+extension WeatherInfoView {
     enum Constants {
         enum Text {
             static let labelTextColor = UIColor(red: 102/255, green: 178/255, blue: 255/255, alpha: 1)

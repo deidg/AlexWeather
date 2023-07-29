@@ -15,6 +15,10 @@ import Network
 class MainViewController: UIViewController {
     //MARK: - elements
     //    private let infoViewController = InfoViewController()
+    
+//    private let weatherInfoView = WeatherInfoView()
+//    private let stoneView = StoneView()
+//    private let infoView = InfoView()
     private let infoButton = InfoButton()
     private let weatherManager = WeatherManager()
     private let locationManager = CLLocationManager()
@@ -66,6 +70,27 @@ class MainViewController: UIViewController {
         temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
+    
+    private var weatherInfoView: WeatherInfoView = {
+        let weatherInfoView = WeatherInfoView()
+        
+        return weatherInfoView
+    }()
+
+    private let stoneView: StoneView = {
+        let stoneView = StoneView()
+        
+        return stoneView
+    }()
+    
+    private let infoView: InfoView = {
+        let infoView = InfoView()
+        
+        return infoView
+    }()
+
+    
+    
 //    private let conditionsLabel: UILabel = {
 //        let conditionsLabel = UILabel()
 //        conditionsLabel.textColor = .black
@@ -89,16 +114,16 @@ class MainViewController: UIViewController {
     }()
     
     
-    private var DescriptionView: DescriptionView = { // само объявление
-            var DescriptionView = DescriptionView()
-        DescriptionView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
-        DescriptionView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
-        DescriptionView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
-        DescriptionView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
-        DescriptionView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
+    private var WeatherInfoView: WeatherInfoView = { // само объявление
+            var WeatherInfoView = WeatherInfoView()
+        WeatherInfoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
+        WeatherInfoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
+        WeatherInfoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
+        WeatherInfoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
+        WeatherInfoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
 
 
-            return DescriptionView
+            return WeatherInfoView
         }()
     
     
