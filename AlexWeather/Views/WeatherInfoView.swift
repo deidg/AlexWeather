@@ -56,7 +56,7 @@ class WeatherInfoView: UIView {
     func setConditions(conditions: String) {
         conditionsLabel.text = conditions
     }
-}WeatherInfoView
+}
 
 extension WeatherInfoView {
     enum Constants {
