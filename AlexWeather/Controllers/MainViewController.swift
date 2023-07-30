@@ -250,7 +250,7 @@ class MainViewController: UIViewController {
             if isWindy {
                 windAnimationRotate()
                 print("its fog case! Windy!")
-                stoneView. stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
                 stoneImageView.alpha = Constants.Conditions.alphaStandart
             } else {
                 print("its fog case! NOT windy!")
