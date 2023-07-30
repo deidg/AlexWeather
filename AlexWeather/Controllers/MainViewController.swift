@@ -17,12 +17,11 @@ class MainViewController: UIViewController {
     //MARK: - elements
     
 //    private let weatherInfoView = WeatherInfoView()
-    private let stoneView = StoneView()
-    private let weatherInfoView = WeatherInfoView()
-    private let locationInfo = LocationInfo()
-    private let infoView = InfoView()
-    private let infoButton = InfoButton()
-    private let descriptionView = DescriptionView()
+    private let stoneView = StoneView()  // stone image
+    private let weatherInfoView = WeatherInfoView()  // temprature and conditions of the weather
+    private let locationInfo = LocationInfo() // location, city, search icons
+    private let infoButton = InfoButton()  // infoButton
+    private let descriptionView = DescriptionView()  // view with description of stone states
     private let weatherManager = WeatherManager()
     private let locationManager = CLLocationManager()
     
@@ -106,15 +105,10 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        //        setupInfoView()
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
         makingEmitterLayer()
-        
-//        setupinfoView()
-        
-        //        openInfoView()
     }
     // MARK: - methods
     private func setupUI() {
@@ -131,8 +125,8 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(scrollView)
             make.top.bottom.equalTo(scrollView).offset(Constants.Constraints.contentViewTopBottomOffset)
         }
-        contentView.addSubview(stoneImageView)
-        stoneImageView.snp.makeConstraints { make in
+        contentView.addSubview(stoneView)
+        stoneView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
             make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
@@ -144,20 +138,20 @@ class MainViewController: UIViewController {
             make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
             make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
         }
-        view.addSubview(conditionsLabel)
-        conditionsLabel.snp.makeConstraints{ make in
-            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.conditionsLabelToTop)
-            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
-            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
-            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
-        }
-        view.addSubview(locationLabel)
-        locationLabel.snp.makeConstraints{ make in
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationLabelBottom)
-            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.locationLabelLeadingTrailing)
-            make.height.equalTo(Constants.Constraints.locationLabelHeight)
-        }
+//        view.addSubview(conditionsLabel)
+//        conditionsLabel.snp.makeConstraints{ make in
+//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.conditionsLabelToTop)
+//            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
+//            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
+//            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
+//        }
+//        view.addSubview(locationLabel)
+//        locationLabel.snp.makeConstraints{ make in
+//            make.centerX.equalTo(self.view)
+//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationLabelBottom)
+//            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.locationLabelLeadingTrailing)
+//            make.height.equalTo(Constants.Constraints.locationLabelHeight)
+//        }
         view.addSubview(infoButtonShadowView)
         infoButtonShadowView.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -175,13 +169,13 @@ class MainViewController: UIViewController {
         view.addSubview(locationPinIcon)
         locationPinIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationPinIconBottom)
-            make.leading.equalTo(locationLabel).inset(Constants.Constraints.locationPinIconLeading)
+            make.leading.equalTo(weatherInfoView.snp.bottom).inset(Constants.Constraints.locationPinIconLeading)
             make.height.equalTo(Constants.Constraints.locationPinIconHeight)
         }
         view.addSubview(searchIcon)
         searchIcon.snp.makeConstraints{ make in
             make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.searchIconBottom)
-            make.trailing.equalTo(locationLabel).offset(Constants.Constraints.searchIconTrailing)
+            make.trailing.equalTo(weatherInfoView.snp.bottom).offset(Constants.Constraints.searchIconTrailing)
             make.height.equalTo(Constants.Constraints.searchIconHeight)
         }
         scrollView.refreshControl = refreshControl
