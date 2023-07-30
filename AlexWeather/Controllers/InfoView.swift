@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class InfoView: UIView {
+   
+    
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)

@@ -155,7 +155,6 @@
 				FAA67D8D2A72903100746F5A /* StoneView.swift */,
 				FA9FD4F42A7529BE00018983 /* WeatherInfoView.swift */,
 				FA99BE472A7632A700B6F061 /* LocationInfo.swift */,
-				FAA67D8F2A72905F00746F5A /* InfoView.swift */,
 				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
 				FAA67D8B2A7270E700746F5A /* DescriptionView.swift */,
 			);
@@ -241,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				FA9FCF052A13550000D13D2A /* MainViewController.swift */,
+				FAA67D8F2A72905F00746F5A /* InfoView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

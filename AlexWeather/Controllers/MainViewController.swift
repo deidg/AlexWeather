@@ -6,6 +6,7 @@
 //
 // TODO:  посмотреть фиолетовые предупреждения в иерархии вьюшек
 // TODO: Переименовать функцию buttonPressed в более понятную.
+//TODO: расставить в логическом порядке MARK: - elements
 
 import UIKit
 import CoreLocation
@@ -14,21 +15,23 @@ import Network
 
 class MainViewController: UIViewController {
     //MARK: - elements
-    //    private let infoViewController = InfoViewController()
     
 //    private let weatherInfoView = WeatherInfoView()
-//    private let stoneView = StoneView()
-//    private let infoView = InfoView()
+    private let stoneView = StoneView()
+    private let weatherInfoView = WeatherInfoView()
+    private let locationInfo = LocationInfo()
+    private let infoView = InfoView()
     private let infoButton = InfoButton()
+    private let descriptionView = DescriptionView()
     private let weatherManager = WeatherManager()
     private let locationManager = CLLocationManager()
     
     private var networkMonitor: NWPathMonitor?
+    private var emitterLayer: CAEmitterLayer?
+
     private var isConnected: Bool = true
-    
     private var isFallingAnimationActive = false
     private var isStoneFalling = false
-    private var emitterLayer: CAEmitterLayer?
     
     private let refreshControl = UIRefreshControl()
     private var windSpeed: Double = 0.0
@@ -61,12 +64,12 @@ class MainViewController: UIViewController {
     }()
     private let contentView = UIView()
 //    private var stoneView = UIImageView()
-    private let stoneView: StoneView = {
-        let stoneView = StoneView()
-        
-        return stoneView
-    }()
-    
+//    private let stoneView: StoneView = {
+//        let stoneView = StoneView()
+//
+//        return stoneView
+//    }()
+//
     
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
@@ -75,28 +78,24 @@ class MainViewController: UIViewController {
         temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
-    
-    private var WeatherInfoView: WeatherInfoView = { // само объявление
-            var WeatherInfoView = WeatherInfoView()
-        WeatherInfoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
-        WeatherInfoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
-        WeatherInfoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
-        WeatherInfoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
-        WeatherInfoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
-            return WeatherInfoView
-        }()
 
-    private let stoneView: StoneView = {
-        let stoneView = StoneView()
-        
-        return stoneView
-    }()
+//    private var WeatherInfoView: WeatherInfoView = { // temperature and weather conditions stack
+//            var WeatherInfoView = WeatherInfoView()
+//        WeatherInfoView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
+//        WeatherInfoView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
+//        WeatherInfoView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
+//        WeatherInfoView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
+//        WeatherInfoView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
+//            return WeatherInfoView
+//        }()
+
     
-    private let infoView: InfoView = {
-        let infoView = InfoView()
-        
-        return infoView
-    }()
+    
+//    private let infoView: InfoView = {
+//        let infoView = InfoView()
+//        
+//        return infoView
+//    }()
 
     
     
@@ -408,7 +407,7 @@ class MainViewController: UIViewController {
             if isWindy {
                 windAnimationRotate()
                 print("its fog case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneView. stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
                 stoneImageView.alpha = Constants.Conditions.alphaStandart
             } else {
                 print("its fog case! NOT windy!")
@@ -440,6 +439,8 @@ class MainViewController: UIViewController {
     
     private func updateData(_ data: CompletionData, isConnected: Bool) {
         state = .init(temperature: data.temperature, conditionCode: data.id, windSpeed: data.windSpeed)
+        weatherInfoView.setTemperature(temperature: String(data.temperature))
+        weatherInfoView.setConditions(conditions:  String(data.id))
         print("from uppdateData")
         print(state)
     }
@@ -447,12 +448,12 @@ class MainViewController: UIViewController {
     @objc private func buttonPressed(sender: UIButton) {  // нажатие кнопки INFO
 //        openInfoView()
         
-        DescriptionView.setupUI()
+        descriptionView.setupUI()
     }
     
     @objc private func infoLargeViewHideButtonPressed(sender: UIButton) {
         
-        DescriptionView.infoViewHide()
+        descriptionView.infoViewHide()
         
 //        guard let infoView = infoView else { return }
 //        let finalY = screenHeight - screenHeight
