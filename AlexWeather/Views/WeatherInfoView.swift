@@ -1,14 +1,17 @@
 //
-//  InfoView.swift
+//  WeatherInfoView.swift
 //  AlexWeather
 //
-//  Created by Alex on 27.07.2023.
+//  Created by Alex on 29.07.2023.
 //
+
+
 
 import Foundation
 import UIKit
 
-class InfoView: UIView {
+class WeatherInfoView: UIView {
+    
     private let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -16,6 +19,7 @@ class InfoView: UIView {
         temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
+    
     private let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
         conditionsLabel.textColor = .black
@@ -23,15 +27,38 @@ class InfoView: UIView {
         return conditionsLabel
     }()
     
-    private let locationLabel: UILabel = {
-        let locationLabel = UILabel()
-        locationLabel.textAlignment = .center
-        return locationLabel
-    }()
-}
+    init() {
+        super.init(frame: .zero)
+        setupUI()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("")
+    }
+    private func setupUI() {
+        addSubview(temperatureLabel)
+        temperatureLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(Constants.Constraints.temperatureLabelBottom)
+            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
+            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
+        }
+        addSubview(conditionsLabel)
+        conditionsLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(Constants.Constraints.conditionsLabelToTop)
+            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
+            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
+            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
+        }
+    }
+    func setTemperature(temperature: String) {
+        temperatureLabel.text = temperature
+    }
+    
+    func setConditions(conditions: String) {
+        conditionsLabel.text = conditions
+    }
+}WeatherInfoView
 
-
-extension InfoView {
+extension WeatherInfoView {
     enum Constants {
         enum Text {
             static let labelTextColor = UIColor(red: 102/255, green: 178/255, blue: 255/255, alpha: 1)
@@ -168,8 +195,3 @@ extension InfoView {
         }
     }
 }
-
-
-
-
-

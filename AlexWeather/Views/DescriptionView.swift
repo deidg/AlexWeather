@@ -154,7 +154,7 @@ class DescriptionView: UIView {
 }
 
 
-extension WeatherInfoView {
+extension DescriptionView {
     enum Constants {
         enum Text {
             static let labelTextColor = UIColor(red: 102/255, green: 178/255, blue: 255/255, alpha: 1)
