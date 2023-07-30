@@ -217,60 +217,60 @@ class MainViewController: UIViewController {
             if isWindy {
                 windAnimationRotate()
                 print("its hot case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneView.setStoneImage(Constants.Stones.normalStoneImage)
             } else {
                 print("its hot case! NOT windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneView.setStoneImage(Constants.Stones.normalStoneImage)
             }
         case .rain(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
                 print("its rain case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
+                stoneView.setStoneImage(Constants.Stones.wetStoneImage)
             } else {
                 print("its rain case! NOT windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.wetStoneImage)
+                stoneView.setStoneImage(Constants.Stones.wetStoneImage)
             }
         case .snow(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
                 print("its snow case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
+                stoneView.setStoneImage(Constants.Stones.snowStoneImage)
             } else {
                 print("its snow case! NOT windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.snowStoneImage)
+                stoneView.setStoneImage(Constants.Stones.snowStoneImage)
             }
         case .fog(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
                 print("its fog case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
-                stoneImageView.alpha = Constants.Conditions.alphaStandart
+                stoneView.setStoneImage(Constants.Stones.normalStoneImage)
+                stoneView.alpha = Constants.Conditions.alphaStandart
             } else {
                 print("its fog case! NOT windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
-                stoneImageView.alpha = Constants.Conditions.alphaStandart
+                stoneView.setStoneImage(Constants.Stones.normalStoneImage)
+                stoneView.alpha = Constants.Conditions.alphaStandart
             }
         case .sunny(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
                 print("its sunny case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
+                stoneView.setStoneImage(Constants.Stones.cracksStoneImage)
             } else {
                 print("its sunny case! NOT windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.cracksStoneImage)
+                stoneView.setStoneImage(Constants.Stones.cracksStoneImage)
             }
         case .normal(windy: let isWindy):
             if isWindy {
                 windAnimationRotate()
                 print("its normal case! Windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneView.setStoneImage(Constants.Stones.normalStoneImage)
             } else {
                 print("its normal case! NOT windy!")
-                stoneImageView.image = UIImage(named: Constants.Stones.normalStoneImage)
+                stoneView.setStoneImage(Constants.Stones.normalStoneImage)
             }
         case .noInternet:
-            stoneImageView.isHidden = true
+            stoneView.isHidden = true
         }
     }
     
@@ -327,11 +327,11 @@ class MainViewController: UIViewController {
     private func makingEmitterLayer() {
         emitterLayer = CAEmitterLayer()
         if let emitterLayer = emitterLayer {
-            stoneImageView.layer.addSublayer(emitterLayer)
+            stoneView.layer.addSublayer(emitterLayer)
         }
-        emitterLayer?.emitterPosition = CGPoint(x: stoneImageView.bounds.midX,
+        emitterLayer?.emitterPosition = CGPoint(x: stoneView.bounds.midX,
                                                 y: -10)
-        emitterLayer?.emitterSize = CGSize(width: stoneImageView.bounds.width,
+        emitterLayer?.emitterSize = CGSize(width: stoneView.bounds.width,
                                            height: 0)
         emitterLayer?.emitterShape = .line
     }
@@ -348,7 +348,7 @@ class MainViewController: UIViewController {
                               NSNumber(value: 0.8),
                               NSNumber(value: 1.0)
         ]
-        stoneImageView.layer.add(animation, forKey: "rotate")
+        stoneView.layer.add(animation, forKey: "rotate")
     }
     
     private func flash() {
@@ -543,10 +543,10 @@ extension MainViewController {
             static let temprature = 30
         }
         enum Stones {
-            static let normalStoneImage = "image_stone_normal.png"
-            static let wetStoneImage = "image_stone_wet.png"
-            static let snowStoneImage = "image_stone_snow.png"
-            static let cracksStoneImage = "image_stone_cracks.png"
+            static let normalStoneImage = UIImage(named: "image_stone_normal.png")
+            static let wetStoneImage = UIImage(named:"image_stone_wet.png")
+            static let snowStoneImage = UIImage(named:"image_stone_snow.png")
+            static let cracksStoneImage = UIImage(named:"image_stone_cracks.png")
         }
         enum Icons {
             static let locationPinIcon = "icon_location.png"
