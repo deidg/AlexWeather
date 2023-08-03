@@ -358,8 +358,8 @@ class MainViewController: UIViewController {
         flash.toValue = 0.0
         flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         flash.autoreverses = true
-        temperatureLabel.layer.add(flash, forKey: nil)
-        conditionsLabel.layer.add(flash, forKey: nil)
+        weatherInfoView.temperatureLabel.layer.add(flash, forKey: nil)
+        weatherInfoView.conditionsLabel.layer.add(flash, forKey: nil)
     }
     
     private func fallAnimation() {
@@ -369,17 +369,17 @@ class MainViewController: UIViewController {
         animation.repeatCount = 0.0
         animation.timingFunction = CAMediaTimingFunction(name: .easeIn)
         animation.values = [
-            NSValue(cgPoint: stoneImageView.center),
-            NSValue(cgPoint: CGPoint(x: stoneImageView.center.x, y: view.bounds.height + stoneImageView.bounds.height))
+            NSValue(cgPoint: stoneView.center),
+            NSValue(cgPoint: CGPoint(x: stoneView.center.x, y: view.bounds.height + stoneView.bounds.height))
         ]
         animation.keyTimes = [0, 1]
         animation.delegate = self
-        stoneImageView.layer.add(animation, forKey: "fallAnimation")
+        stoneView.layer.add(animation, forKey: "fallAnimation")
         isStoneFalling = true
     }
     
     private func showStoneImage() {
-        stoneImageView.isHidden = false
+        stoneView.isHidden = false
         isStoneFalling = false
     }
 }
@@ -443,9 +443,9 @@ extension MainViewController: CLLocationManagerDelegate {
             let windSpeedData = complitionData.windSpeed
             let conditionsCode = complitionData.cod
             DispatchQueue.main.async { [self] in
-                self.temperatureLabel.text = temperature + "°"
-                self.conditionsLabel.text = weatherConditions
-                self.locationLabel.text = city + ", " + country
+                weatherInfoView.temperatureLabel.text = temperature + "°"
+                weatherInfoView.conditionsLabel.text = weatherConditions
+                locationInfo.locationLabel.text = city + ", " + country
                 self.updateData(complitionData, isConnected: isConnected)
                 self.windSpeed = windSpeedData
                 
@@ -459,7 +459,7 @@ extension MainViewController: CLLocationManagerDelegate {
 extension MainViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if flag {
-            stoneImageView.isHidden = true
+            stoneView.isHidden = true
         }
     }
 }

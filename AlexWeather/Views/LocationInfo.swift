@@ -10,7 +10,7 @@ import UIKit
 
 class LocationInfo: UIView {
     
-    private let locationLabel: UILabel = {
+     let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textAlignment = .center
         return locationLabel

@@ -10,7 +10,7 @@ import UIKit
 
 class WeatherInfoView: UIView {
     
-    private let temperatureLabel: UILabel = {
+     let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
         temperatureLabel.textColor = .black
@@ -18,7 +18,7 @@ class WeatherInfoView: UIView {
         return temperatureLabel
     }()
     
-    private let conditionsLabel: UILabel = {
+     let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
         conditionsLabel.textColor = .black
         conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)

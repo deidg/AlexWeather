@@ -20,53 +20,5 @@
             landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E9B4C4E4-DA3A-46C7-A7C2-16ABF8EE83FB"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AlexWeather/Views/Base.lproj/InfoButton.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "InfoButton"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "E9B4C4E4-DA3A-46C7-A7C2-16ABF8EE83FB - 961d1f2d114481de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AlexWeather.InfoButton.__allocating_init(frame: __C.CGRect) -&gt; AlexWeather.InfoButton"
-                  moduleName = "AlexWeather"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/Desktop/Xcode%20projects/Vlad/AlexWeather/AlexWeather/Views/Base.lproj/InfoButton.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "31">
-               </Location>
-               <Location
-                  uuid = "E9B4C4E4-DA3A-46C7-A7C2-16ABF8EE83FB - f616339c8fe2b09a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AlexWeather.InfoButton.init(frame: __C.CGRect) -&gt; AlexWeather.InfoButton"
-                  moduleName = "AlexWeather"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/Desktop/Xcode%20projects/Vlad/AlexWeather/AlexWeather/Views/Base.lproj/InfoButton.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "12"
-                  endingLineNumber = "12"
-                  offsetFromSymbolStart = "88">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
