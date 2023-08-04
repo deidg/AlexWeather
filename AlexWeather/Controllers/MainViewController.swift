@@ -443,10 +443,10 @@ extension MainViewController: CLLocationManagerDelegate {
             let windSpeedData = complitionData.windSpeed
             let conditionsCode = complitionData.cod
             DispatchQueue.main.async { [self] in
-                weatherInfoView.temperatureLabel.text = temperature + "°"
-                weatherInfoView.conditionsLabel.text = weatherConditions
-                locationInfo.locationLabel.text = city + ", " + country
-                self.updateData(complitionData, isConnected: isConnected)
+            self.weatherInfoView.temperatureLabel.text = temperature + "°"
+            self.weatherInfoView.conditionsLabel.text = weatherConditions
+            self.locationInfo.locationLabel.text = city + ", " + country
+            self.updateData(complitionData, isConnected: self.isConnected)
                 self.windSpeed = windSpeedData
                 
                 print("condtion code  - \(conditionsCode)")
