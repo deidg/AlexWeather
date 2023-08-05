@@ -8,6 +8,10 @@
 // TODO: Переименовать функцию buttonPressed в более понятную.
 //TODO: расставить в логическом порядке MARK: - elements
 
+
+
+
+
 import UIKit
 import CoreLocation
 import SnapKit
@@ -23,8 +27,8 @@ class MainViewController: UIViewController {
     private let infoButton = InfoButton()  // infoButton
     private let descriptionView = DescriptionView()  // view with description of stone states
     private let weatherManager = WeatherManager()
+   
     private let locationManager = CLLocationManager()
-    
     private var networkMonitor: NWPathMonitor?
     private var emitterLayer: CAEmitterLayer?
 
@@ -169,6 +173,7 @@ class MainViewController: UIViewController {
         
     }
     
+    //TODO: rename
     private func setupInfoLargeView() {
         let attributedString = Constants.setupInfoView.infoLargeViewLabelAttributedString
         let paragraphStyle = NSMutableParagraphStyle()
@@ -552,7 +557,7 @@ extension MainViewController {
         //    TODO: убрать из названий large
         
         enum setupInfoView {
-            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+//            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
             static let infoLargeViewBackgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
             static let infoLargeViewCornerRadius: CGFloat = 25
             static let infoLargeViewShadowColor = UIColor.black.cgColor
