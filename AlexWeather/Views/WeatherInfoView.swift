@@ -27,11 +27,13 @@ class WeatherInfoView: UIView {
     
     init() {
         super.init(frame: .zero)
-        setupUI()
+//        setupUI()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
+    
+    
     private func setupUI() {
         addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints { make in
@@ -76,4 +78,6 @@ extension WeatherInfoView {
             static let conditionsLabelBottomHeight = 50
         }
     }
+     
+     
 }

@@ -1,6 +1,8 @@
 
 import Foundation
 
+
+
 struct WeatherData: Codable {
     var name: String
     var sys: Sys 
