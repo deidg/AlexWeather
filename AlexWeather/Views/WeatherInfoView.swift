@@ -27,7 +27,7 @@ class WeatherInfoView: UIView {
     
     init() {
         super.init(frame: .zero)
-//        setupUI()
+        setupUI()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("")

@@ -135,6 +135,7 @@ class MainViewController: UIViewController {
             make.trailing.leading.equalTo(contentView)
             make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
         }
+        
 //        view.addSubview(temperatureLabel)
 //        temperatureLabel.snp.makeConstraints{ make in
 //            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.temperatureLabelBottom)
