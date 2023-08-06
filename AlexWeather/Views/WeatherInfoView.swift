@@ -10,6 +10,7 @@ import UIKit
 
 class WeatherInfoView: UIView {
     
+    
      let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -79,5 +80,5 @@ extension WeatherInfoView {
         }
     }
      
-     
+   
 }

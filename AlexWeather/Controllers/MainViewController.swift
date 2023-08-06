@@ -60,13 +60,15 @@ class MainViewController: UIViewController {
 //        return backgroundView
 //    }()
     private let scrollView: UIScrollView = {
-        var view = UIScrollView()
-        view.isScrollEnabled = true
-        view.alwaysBounceVertical = true
-        return view
+        var scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.alwaysBounceVertical = true
+        return scrollView
     }()
-    private let contentView = UIView()
-    
+    private let contentView: UIView = {
+       let contentView = UIView()
+        return contentView
+    }()
 //    private let temperatureLabel: UILabel = {
 //        let temperatureLabel = UILabel()
 //        temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -134,6 +136,12 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
             make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
+        }
+        view.addSubview(weatherInfoView)
+        weatherInfoView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(400)
+            make.horizontalEdges.equalToSuperview().inset(80)
+            make.height.equalTo(50)
         }
         
 //        view.addSubview(temperatureLabel)
