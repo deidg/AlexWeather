@@ -13,7 +13,7 @@ import UIKit
 
 class DescriptionView: UIView {
     //MARK: elements
-    let mainViewController = MainViewController()
+//    let mainViewController = MainViewController()
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
     private let backgroundView: UIImageView = {
@@ -85,20 +85,20 @@ class DescriptionView: UIView {
     
      func setupUI() {
 
-        mainViewController.view.addSubview(backgroundView)
+        addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
-            make.top.equalTo(mainViewController.view.snp.bottom).inset(0)
-            make.trailing.leading.equalTo(mainViewController.view).inset(0)
+            make.top.equalToSuperview().inset(0)
+            make.trailing.leading.equalToSuperview().inset(0)
             make.height.equalTo(screenHeight)
         }
         
-        backgroundView.addSubview(infoConditionsView)  //  основной вью для отображения текста
+        addSubview(infoConditionsView)  //  основной вью для отображения текста
         infoConditionsView.snp.makeConstraints { make in
-            make.top.equalTo(mainViewController.view).inset(Constants.Constraints.infoLargeViewTop)
-            make.leading.trailing.equalTo(mainViewController.view).inset(Constants.Constraints.infoLargeViewLeadingTrailing)
+            make.top.equalToSuperview().inset(Constants.Constraints.infoLargeViewTop)
+            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoLargeViewLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
         }
-        infoConditionsView.addSubview(infoConditionsViewTitleLabel)   /// лейбла для INFO
+        addSubview(infoConditionsViewTitleLabel)   /// лейбла для INFO
         infoConditionsViewTitleLabel.snp.makeConstraints { make in
             make.centerX.equalTo(self.infoConditionsView)
             make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
@@ -119,10 +119,10 @@ class DescriptionView: UIView {
             make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
         }
         
-    mainViewController.view.addSubview(backgroundView)
+    addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
 //            make.top.equalTo(initialY)
-            make.trailing.leading.equalTo(mainViewController.view).inset(0)
+            make.trailing.leading.equalToSuperview().inset(0)
             make.height.equalTo(screenHeight)
         }
     }
