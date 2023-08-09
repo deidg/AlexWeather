@@ -52,13 +52,6 @@ class MainViewController: UIViewController {
             updateWeatherState(state, windSpeed)
         }
     }
-//    private let locationPinIcon = UIImageView(image: UIImage(named: Constants.Icons.locationPinIcon))
-//    private let searchIcon = UIImageView(image: UIImage(named: Constants.Icons.searchIcon))
-//    private var backgroundView: UIImageView = {
-//        let backgroundView = Constants.Images.backgroundView
-//        backgroundView.contentMode = .scaleAspectFill
-//        return backgroundView
-//    }()
     private let scrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
@@ -69,43 +62,6 @@ class MainViewController: UIViewController {
        let contentView = UIView()
         return contentView
     }()
-//    private let temperatureLabel: UILabel = {
-//        let temperatureLabel = UILabel()
-//        temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
-//        temperatureLabel.textColor = .black
-//        temperatureLabel.textAlignment = .left
-//        return temperatureLabel
-//    }()
-
-//    private let infoButtonShadowView: UIView = {
-//        let infoButtonShadow = UIView()
-//        infoButtonShadow.backgroundColor = UIColor.yellow
-//        infoButtonShadow.layer.shadowColor = UIColor.black.cgColor
-//        infoButtonShadow.layer.shadowOpacity = Constants.Shadows.infoButtonShadowOpacity
-//        infoButtonShadow.layer.shadowOffset = CGSize(width: Constants.Shadows.infoButtonShadowOffsetWidth, height: Constants.Shadows.infoButtonShadowOffsetHeight)
-//        infoButtonShadow.layer.shadowRadius = Constants.Shadows.infoButtonShadowShadowRadius
-//        infoButtonShadow.layer.cornerRadius = Constants.Shadows.infoButtonShadowCornerRadius
-//        return infoButtonShadow
-//    }()
-//
-//    private let infoConditionsViewMainLabel: UILabel = {
-//        let infoConditionsViewMainLabel = UILabel()
-//        infoConditionsViewMainLabel.numberOfLines = 0
-//        infoConditionsViewMainLabel.textAlignment = .left
-//        infoConditionsViewMainLabel.sizeToFit()
-//        return infoConditionsViewMainLabel
-//    }()
-//
-//    private let infoLargeViewHideButton: UIButton = {
-//        let infoLargeViewHideButton = UIButton()
-//        infoLargeViewHideButton.isEnabled = true
-//        infoLargeViewHideButton.setTitle(Constants.setupInfoView.infoLargeViewHideButtonTitle, for: .normal)
-//        infoLargeViewHideButton.setTitleColor(Constants.setupInfoView.infoLargeViewHideButtonTitleColor, for: .normal)
-//        infoLargeViewHideButton.layer.borderColor = Constants.setupInfoView.infoLargeViewHideButtonBorderColor
-//        infoLargeViewHideButton.layer.borderWidth = Constants.setupInfoView.infoLargeViewHideButtonBorderWidth
-//        infoLargeViewHideButton.layer.cornerRadius = Constants.setupInfoView.infoLargeViewHideButtonCornerRaidus
-//        return infoLargeViewHideButton
-//    }()
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -143,22 +99,6 @@ class MainViewController: UIViewController {
             make.horizontalEdges.equalToSuperview().inset(80)
             make.height.equalTo(50)
         }
-        
-//        view.addSubview(temperatureLabel)
-//        temperatureLabel.snp.makeConstraints{ make in
-//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.temperatureLabelBottom)
-//            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
-//            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
-//            make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
-//        }
-
-//        view.addSubview(infoButtonShadowView)
-//        infoButtonShadowView.snp.makeConstraints{ make in
-//            make.centerX.equalTo(self.view)
-//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.infoButtonShadowViewBottom)
-//            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonShadowViewLeadingTrailing)
-//            make.height.equalTo(Constants.Constraints.infoButtonShadowViewHeight)
-//        }
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -166,18 +106,7 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoButtonHeight)
         }
-//        view.addSubview(locationPinIcon)
-//        locationPinIcon.snp.makeConstraints{ make in
-//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationPinIconBottom)
-//            make.leading.equalTo(weatherInfoView.snp.bottom).inset(Constants.Constraints.locationPinIconLeading)
-//            make.height.equalTo(Constants.Constraints.locationPinIconHeight)
-//        }
-//        view.addSubview(searchIcon)
-//        searchIcon.snp.makeConstraints{ make in
-//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.searchIconBottom)
-//            make.trailing.equalTo(weatherInfoView.snp.bottom).offset(Constants.Constraints.searchIconTrailing)
-//            make.height.equalTo(Constants.Constraints.searchIconHeight)
-//        }
+
         scrollView.refreshControl = refreshControl
         
     }
@@ -482,20 +411,7 @@ extension MainViewController {
         enum Constraints {
             static let contentViewTopBottomOffset = -60
             static let stoneImageViewTopOffset = -570
-            
-//            static let temperatureLabelBottom = 300
-//            static let temperatureLabelLeading = 20
-//            static let temperatureLabelTrailing = 200
-//            static let temperatureLabelHeight = 100
-            
-//            static let conditionsLabelToTop = 250//100
-//            static let conditionsLabelBottomLeading = 20
-//            static let conditionsLabelBottomTrailing = 100
-//            static let conditionsLabelBottomHeight = 50
-            
-//            static let locationLabelBottom = 70
-//            static let locationLabelLeadingTrailing = 100
-//            static let locationLabelHeight = 50
+
             
             static let infoButtonShadowViewBottom = -20
             static let infoButtonShadowViewLeadingTrailing = 100
@@ -504,15 +420,6 @@ extension MainViewController {
             static let infoButtonBottom = -20
             static let infoButtonLeadingTrailing = 100
             static let infoButtonHeight = 70
-            
-//            static let locationPinIconBottom = 80
-//            static let locationPinIconLeading = -30
-//            static let locationPinIconHeight = 20
-//
-//            static let searchIconBottom = 80
-//            static let searchIconTrailing = 30
-//            static let searchIconHeight = 20
-            
             //            ======
             
             static let infoLargeViewDepthTop = 100
