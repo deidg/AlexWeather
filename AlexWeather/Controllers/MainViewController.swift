@@ -92,37 +92,20 @@ class MainViewController: UIViewController {
             make.top.bottom.equalTo(scrollView).offset(Constants.Constraints.contentViewTopBottomOffset)
         }
             
-//            make.centerX.equalTo(view)
-//            make.height.equalTo(300)//(Constants.Constraints.infoButtonHeight)
-//            make.leading.trailing.equalToSuperview().inset(60)//(Constants.Constraints.infoButtonLeadingTrailing)
-//
-////            make.centerX.equalTo(self.view)
-//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.infoButtonBottom)
-////            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonLeadingTrailing)
-//            make.height.equalTo(Constants.Constraints.infoButtonHeight)
-//
+//        contentView.addSubview(stoneView)
+//        stoneView.snp.makeConstraints { make in
+//            make.centerX.equalTo(contentView)
+//            make.trailing.leading.equalTo(contentView)
+//            make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
 //        }
-        
-        
-        
-        contentView.addSubview(stoneView)
-        //        view.addSubview(stoneView)
-        stoneView.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-            make.trailing.leading.equalTo(contentView)
-            make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
-            
-        }
         
         view.addSubview(weatherInfoView)
         weatherInfoView.snp.makeConstraints { make in
 //            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.temperatureLabelBottom)
-            
-            chatgpt спросить или посмотреть еще раз как ставить констрейнты в классах и mainVC
-            
-            make.top.equalTo(view.snp.top).offset(450)
+                    
+            make.top.equalTo(view).offset(450)
             make.horizontalEdges.equalToSuperview().inset(10)
-            
+            make.height.equalTo(80)
 //            make.top.equalTo(view.snp.top).inset(400)
 //            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
 //            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
