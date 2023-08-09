@@ -15,20 +15,20 @@ class StoneView: UIView {
     
     init() {
         super.init(frame: .zero)
-        setupUI()
+//        setupUI()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
     
-    private func setupUI() {
-        addSubview(stoneImageView)
-        stoneImageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.trailing.leading.equalToSuperview()
-            make.top.equalToSuperview().offset(Constants.Constraints.stoneImageViewTopOffset)
-        }
-    }
+//    private func setupUI() {
+//        addSubview(stoneImageView)
+//        stoneImageView.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.trailing.leading.equalToSuperview()
+//            make.top.equalToSuperview().offset(Constants.Constraints.stoneImageViewTopOffset)
+//        }
+//    }
     
     func setStoneImage(_ image: UIImage?) {
         stoneImageView.image = image
@@ -39,7 +39,7 @@ class StoneView: UIView {
 extension StoneView {
     enum Constants {
         enum Constraints {
-            static let stoneImageViewTopOffset = -570
+            static let stoneImageViewTopOffset = 10 //-570
         }
     }
 }

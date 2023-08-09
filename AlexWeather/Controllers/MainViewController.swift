@@ -91,18 +91,61 @@ class MainViewController: UIViewController {
             make.centerX.equalTo(scrollView)
             make.top.bottom.equalTo(scrollView).offset(Constants.Constraints.contentViewTopBottomOffset)
         }
+            
+//            make.centerX.equalTo(view)
+//            make.height.equalTo(300)//(Constants.Constraints.infoButtonHeight)
+//            make.leading.trailing.equalToSuperview().inset(60)//(Constants.Constraints.infoButtonLeadingTrailing)
+//
+////            make.centerX.equalTo(self.view)
+//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.infoButtonBottom)
+////            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonLeadingTrailing)
+//            make.height.equalTo(Constants.Constraints.infoButtonHeight)
+//
+//        }
+        
+        
+        
         contentView.addSubview(stoneView)
+        //        view.addSubview(stoneView)
         stoneView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView)
             make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
+            
         }
+        
         view.addSubview(weatherInfoView)
         weatherInfoView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(400)
-            make.horizontalEdges.equalToSuperview().inset(80)
-            make.height.equalTo(50)
+//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.temperatureLabelBottom)
+            
+            chatgpt спросить или посмотреть еще раз как ставить констрейнты в классах и mainVC
+            
+            make.top.equalTo(view.snp.top).offset(450)
+            make.horizontalEdges.equalToSuperview().inset(10)
+            
+//            make.top.equalTo(view.snp.top).inset(400)
+//            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
+//            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
+//            make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
         }
+        
+        view.addSubview(locationInfo)
+        locationInfo.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationLabelBottom)
+            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.locationLabelLeadingTrailing)
+            make.height.equalTo(Constants.Constraints.locationLabelHeight)
+        }
+        
+//        view.addSubview(weatherInfoView)
+//        weatherInfoView.snp.makeConstraints { make in
+//            make.bottom.equalTo(locationInfo.snp.top).inset(Constants.Constraints.temperatureLabelBottom)
+//            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
+//            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
+//            make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
+//        }
+        
+//
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
@@ -110,6 +153,8 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoButtonLeadingTrailing)
             make.height.equalTo(Constants.Constraints.infoButtonHeight)
         }
+        
+       
 
         scrollView.refreshControl = refreshControl
         
@@ -415,6 +460,15 @@ extension MainViewController {
         enum Constraints {
             static let contentViewTopBottomOffset = -60
             static let stoneImageViewTopOffset = -570
+
+            static let temperatureLabelBottom = 60 //300
+            static let temperatureLabelLeading = 20
+            static let temperatureLabelTrailing = 200
+            static let temperatureLabelHeight = 100
+            
+            static let locationLabelBottom = 70
+            static let locationLabelLeadingTrailing = 100
+            static let locationLabelHeight = 50
 
             
             static let infoButtonShadowViewBottom = -20
