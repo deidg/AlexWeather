@@ -10,8 +10,6 @@
 
 
 
-
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -21,6 +19,11 @@ class MainViewController: UIViewController {
     //MARK: - elements
     
 //    private let weatherInfoView = WeatherInfoView()
+    private var backgroundView: UIImageView = {
+          let backgroundView = Constants.Images.backgroundView
+          backgroundView.contentMode = .scaleAspectFill
+          return backgroundView
+      }()
     private let stoneView = StoneView() // stone image
     private let weatherInfoView = WeatherInfoView()  // temprature and conditions of the weather
     private let locationInfo = LocationInfo() // location, city, search icons
@@ -52,15 +55,16 @@ class MainViewController: UIViewController {
             updateWeatherState(state, windSpeed)
         }
     }
+    
+    private let contentView: UIView = {
+       let contentView = UIView()
+        return contentView
+    }()
     private let scrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
         scrollView.alwaysBounceVertical = true
         return scrollView
-    }()
-    private let contentView: UIView = {
-       let contentView = UIView()
-        return contentView
     }()
     
     //MARK: - viewDidLoad
@@ -74,10 +78,10 @@ class MainViewController: UIViewController {
     }
     // MARK: - methods
     private func setupUI() {
-//        view.addSubview(backgroundView)
-//        backgroundView.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
-//        }
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
