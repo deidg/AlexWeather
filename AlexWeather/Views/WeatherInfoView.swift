@@ -28,28 +28,28 @@ class WeatherInfoView: UIView {
     
     init() {
         super.init(frame: .zero)
-//        setupUI()
+        setupUI()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
     
     
-//    private func setupUI() {
-//        addSubview(temperatureLabel)
-//        temperatureLabel.snp.makeConstraints { make in
-//            make.bottom.equalToSuperview().inset(Constants.Constraints.temperatureLabelBottom)
-//            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
-//            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
-//        }
-//        addSubview(conditionsLabel)
-//        conditionsLabel.snp.makeConstraints { make in
-//            make.bottom.equalToSuperview().inset(Constants.Constraints.conditionsLabelToTop)
-//            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
-//            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
-//            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
-//        }
-//    }
+    private func setupUI() {
+        addSubview(temperatureLabel)
+        temperatureLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(Constants.Constraints.temperatureLabelBottom)
+            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
+            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
+        }
+        addSubview(conditionsLabel)
+        conditionsLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(Constants.Constraints.conditionsLabelToTop)
+            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
+            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
+            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
+        }
+    }
     func setTemperature(temperature: String) {
         temperatureLabel.text = temperature
     }

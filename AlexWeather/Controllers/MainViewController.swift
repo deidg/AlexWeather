@@ -92,43 +92,19 @@ class MainViewController: UIViewController {
             make.top.bottom.equalTo(scrollView).offset(Constants.Constraints.contentViewTopBottomOffset)
         }
             
-//        contentView.addSubview(stoneView)
-//        stoneView.snp.makeConstraints { make in
-//            make.centerX.equalTo(contentView)
-//            make.trailing.leading.equalTo(contentView)
-//            make.top.equalTo(contentView).offset(Constants.Constraints.stoneImageViewTopOffset)
-//        }
-        
+
         view.addSubview(weatherInfoView)
         weatherInfoView.snp.makeConstraints { make in
-//            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.temperatureLabelBottom)
-                    
-            make.top.equalTo(view).offset(450)
+            make.top.equalTo(view.snp.top).offset(850)
             make.horizontalEdges.equalToSuperview().inset(10)
-            make.height.equalTo(80)
-//            make.top.equalTo(view.snp.top).inset(400)
-//            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
-//            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
-//            make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
         }
         
         view.addSubview(locationInfo)
         locationInfo.snp.makeConstraints { make in
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(view.snp.bottom).inset(Constants.Constraints.locationLabelBottom)
-            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.locationLabelLeadingTrailing)
-            make.height.equalTo(Constants.Constraints.locationLabelHeight)
+            make.top.equalTo(view.snp.top).offset(850)
+            make.horizontalEdges.equalToSuperview().inset(10)
         }
-        
-//        view.addSubview(weatherInfoView)
-//        weatherInfoView.snp.makeConstraints { make in
-//            make.bottom.equalTo(locationInfo.snp.top).inset(Constants.Constraints.temperatureLabelBottom)
-//            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
-//            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
-//            make.height.equalTo(Constants.Constraints.temperatureLabelHeight)
-//        }
-        
-//
+
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints{ make in
             make.centerX.equalTo(self.view)
