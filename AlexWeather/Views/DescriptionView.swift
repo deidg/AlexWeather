@@ -11,7 +11,15 @@
 import Foundation
 import UIKit
 
+protocol DescriptionViewDelegate: AnyObject {
+    func hideInfo()
+}
+
+
 class DescriptionView: UIView {
+    
+    weak var delegate: DescriptionViewDelegate?
+
     //MARK: elements
 //    let mainViewController = MainViewController()
     private let screenWidth = UIScreen.main.bounds.width
@@ -127,8 +135,12 @@ class DescriptionView: UIView {
         }
     }
     
-    func infoViewHide() {
-
+//    func infoViewHide() {
+//
+//    }
+    
+    @objc private func hideInfo() {
+        self.delegate?.hideInfo()
     }
 }
 

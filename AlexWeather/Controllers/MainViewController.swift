@@ -80,15 +80,43 @@ class MainViewController: UIViewController {
             centerXConstraint = make.center.equalToSuperview().priority(.low).constraint
             centerXConstraint = make.centerX.equalToSuperview().priority(.low).constraint
         }
-        
-        
-        
+    }
+    
+    private func defaultConfiguration() {
+        view.backgroundColor = .white
+        descriptionView.delegate = self
+        scrollView.refreshControl = refreshControl
+    }
+    
+    private func addTargets() {
+        infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
+        refreshControl.addTarget(self, action: #selector(refreshControl), for: .valueChanged)
+    }
+    
+    private func updateData(_ data: CompletionData) {
+        let viewData = ViewData(temp: String(data.temperature) + "º", city: data.city, weather: data.weather)
+        self.weatherInfoView.viewData = viewData
+        stoneView.stoneState = .init(temperature: data.temprerature,
+                                     conditionCode: data.id,
+                                     windSpeed: data.windSpeed)
+    }
+    
+    private func startLocationManager() {
+        locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            locationManager.pausesLocationUpdatesAutomatically = false   //  why not TRUE?
+            locationManager.startUpdatingLocation()
+            
+        }
+    }
+    
+    @objc private func showInfo() {
         
     }
     
-    private func defaultConfiguration(){
-        
-    }
+    
 }
 
 
