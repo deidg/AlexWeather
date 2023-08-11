@@ -90,7 +90,7 @@ class MainViewController: UIViewController {
     
     private func addTargets() {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
-        refreshControl.addTarget(self, action: #selector(refreshControl), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     private func updateData(_ data: CompletionData) {
@@ -113,10 +113,51 @@ class MainViewController: UIViewController {
     }
     
     @objc private func showInfo() {
-        
+        self.topConstraint?.update(priority: .low)
+        self.centerXConstraint?.update(priority: .low)
+        self.centerConstraint?.update(priority: .high)
+        self.infoButton.isHidden = true
+        self.stoneView.isHidden = true
+        self.weatherInfoView.isHidden = true
+        UIView.animate(withDuration: 1) {
+            self.view.layoutIfNeeded()
+        }
     }
     
-    
+    @objc private func refresh(_ sender: AnyObject) {
+        guard let location = locationManager.location else { return }
+        WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longtitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
+            self.updateData(completionData)
+        }
+        refreshControl.endRefreshing()
+    }
+}
+
+extension MainViewController: InfoViewDelegate {
+    func hideInfo() {
+        self.topConstraint?.update(priority: .high)
+        self.centerXConstraint?.update(priority: .high)
+        self.centerConstraint?.update(priority: .low)
+        UIView.animate(withDuration: 1) {
+            self.view.layoutIfNeeded()
+        } completion: { [weak self] done in
+            if done {
+                guard let self else { return }
+                self.infoButton.isHidden = false
+                self.stoneView.isHidden = false
+                self.weatherInfoView.isHidden = false
+            }
+        }
+    }
+}
+extension MainViewControlle: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let lastLocation = locations.last else { return }
+        WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { [weak self] completionData in
+            guard let self else { return }
+            self.updateData(completionData)
+        }
+    }
 }
 
 
