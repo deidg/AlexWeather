@@ -31,6 +31,15 @@ final class WeatherInfoView: UIView {
         conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
         return conditionsLabel
     }()
+    //TODO: проверить текст и настройки лейбла
+    let locationLabe: UILabel = {
+        let locationLabe = UILabel()
+        locationLabe.textColor = .black
+        locationLabe.font = .systemFont(ofSize: 17)
+        return locationLabe
+    }()
+    private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
+    private let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
     
     init() {
         super.init(frame: .zero)
@@ -40,7 +49,7 @@ final class WeatherInfoView: UIView {
         fatalError("")
     }
     
-    
+       ТУТ остановился
     private func setupUI() {
         addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints { make in

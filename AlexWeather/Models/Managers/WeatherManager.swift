@@ -2,6 +2,11 @@ import Foundation
 
 final class WeatherManager {
     private let queue = DispatchQueue(label: "WeatherManager_working_queue", qos: .userInitiated)
+    //MARK: Singleton
+    static var shared = WeatherManager()
+    
+    private init() {}
+    
     func updateWeatherInfo(latitude: Double,
                            longtitude: Double,
                            completion: ((CompletionData) -> Void)?) {
@@ -9,6 +14,7 @@ final class WeatherManager {
         queue.async {
             let task = URLSession.shared.dataTask(with: url) { data, responce, error in
                 if let data = data, let weather = try? JSONDecoder().decode(WeatherData.self, from: data) {
+                    DispatchQueue.main.async {
                     let completionData = CompletionData(
                         city: weather.name,
                         country: weather.sys.country,
@@ -16,14 +22,18 @@ final class WeatherManager {
                         weather: weather.weather.first?.main ?? "",
                         id: weather.weather.first?.id ?? 0,
                         windSpeed: weather.wind.speed,
-                        cod: weather.cod
-                    )
-                    DispatchQueue.main.async {
+                        cod: weather.cod)
                         completion?(completionData)
                     }
                 }
             }
             task.resume()
         }
+    }
+}
+
+extension WeatherManager: NSCopying {
+    func copy(with zone: NSZone? = nil) -> Any {
+        return self
     }
 }
