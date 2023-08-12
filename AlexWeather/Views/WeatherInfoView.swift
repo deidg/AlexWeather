@@ -5,11 +5,17 @@
 //  Created by Alex on 29.07.2023.
 //
 
-import Foundation
 import UIKit
+import SnapKit
 
-class WeatherInfoView: UIView {
-    
+final class WeatherInfoView: UIView {
+    var viewData: ViewData? {
+        didSet {
+            temperatureLabel.text = viewData?.temp
+            conditionsLabel.text = viewData?.weather
+            locationLabel.text = viewData?.city
+        }
+    }
     
      let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()

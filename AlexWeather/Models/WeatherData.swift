@@ -1,11 +1,15 @@
+//
+//  WeatherData.swift
+//  AlexWeather
+//
+//  Created by Alex on 12.08.2023.
+//
 
 import Foundation
 
-
-
 struct WeatherData: Codable {
     var name: String
-    var sys: Sys 
+    var sys: Sys
     var weather: [Weather]
     var main: Main
     var wind: Wind
@@ -27,26 +31,3 @@ struct Main: Codable {
 struct Cod: Codable {
     var cod: Int
 }
-struct CompletionData {
-    let city: String
-    let country: String
-    let temperature: Int
-    let weather: String
-    let id: Int
-    let windSpeed: Double
-    let cod: Int
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

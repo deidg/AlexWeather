@@ -14,6 +14,9 @@
 		FA10B4EC2A5E881000642445 /* Ubuntu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */; };
 		FA96C0A62A5800400092E4F4 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96C0A42A5800400092E4F4 /* InfoButton.swift */; };
 		FA99BE482A7632A700B6F061 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99BE472A7632A700B6F061 /* LocationInfo.swift */; };
+		FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C02A874BDF00971944 /* ViewData.swift */; };
+		FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C22A874BF200971944 /* WeatherData.swift */; };
+		FA9EC7C52A874C1400971944 /* CompletionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C42A874C1400971944 /* CompletionData.swift */; };
 		FA9FCF022A13550000D13D2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FCF012A13550000D13D2A /* AppDelegate.swift */; };
 		FA9FCF042A13550000D13D2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FCF032A13550000D13D2A /* SceneDelegate.swift */; };
 		FA9FCF062A13550000D13D2A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9FCF052A13550000D13D2A /* MainViewController.swift */; };
@@ -26,7 +29,6 @@
 		FAA28DC52A4472A2008472FE /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA28DC42A4472A2008472FE /* WeatherManager.swift */; };
 		FAA67D8C2A7270E700746F5A /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA67D8B2A7270E700746F5A /* DescriptionView.swift */; };
 		FAA67D8E2A72903100746F5A /* StoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA67D8D2A72903100746F5A /* StoneView.swift */; };
-		FAD4665C2A18A7220028760C /* CurrentWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,9 @@
 		FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Regular.ttf"; sourceTree = "<group>"; };
 		FA96C0A52A5800400092E4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/InfoButton.swift; sourceTree = "<group>"; };
 		FA99BE472A7632A700B6F061 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
+		FA9EC7C02A874BDF00971944 /* ViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewData.swift; sourceTree = "<group>"; };
+		FA9EC7C22A874BF200971944 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		FA9EC7C42A874C1400971944 /* CompletionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionData.swift; sourceTree = "<group>"; };
 		FA9FCEFE2A13550000D13D2A /* AlexWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlexWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA9FCF012A13550000D13D2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA9FCF032A13550000D13D2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,7 +77,6 @@
 		FAA28DC42A4472A2008472FE /* WeatherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		FAA67D8B2A7270E700746F5A /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
 		FAA67D8D2A72903100746F5A /* StoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneView.swift; sourceTree = "<group>"; };
-		FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +136,10 @@
 		FA9772512A605DC900547DAE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FA9772552A605F7400547DAE /* Models */,
 				FAA73D682A1A42DF0043D4D6 /* Managers */,
+				FA9EC7C02A874BDF00971944 /* ViewData.swift */,
+				FA9EC7C22A874BF200971944 /* WeatherData.swift */,
+				FA9EC7C42A874C1400971944 /* CompletionData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -165,14 +171,6 @@
 				FA9FCF0A2A13550100D13D2A /* Assets.xcassets */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		FA9772552A605F7400547DAE /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				FAD4665B2A18A7220028760C /* CurrentWeatherData.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		FA9FCEF52A13550000D13D2A = {
@@ -433,13 +431,15 @@
 			files = (
 				FA99BE482A7632A700B6F061 /* LocationInfo.swift in Sources */,
 				FAA28DC52A4472A2008472FE /* WeatherManager.swift in Sources */,
-				FAD4665C2A18A7220028760C /* CurrentWeatherData.swift in Sources */,
+				FA9EC7C52A874C1400971944 /* CompletionData.swift in Sources */,
 				FA9FCF062A13550000D13D2A /* MainViewController.swift in Sources */,
 				FA96C0A62A5800400092E4F4 /* InfoButton.swift in Sources */,
 				FA9FCF022A13550000D13D2A /* AppDelegate.swift in Sources */,
 				FA9FCF042A13550000D13D2A /* SceneDelegate.swift in Sources */,
 				FAA67D8E2A72903100746F5A /* StoneView.swift in Sources */,
 				FA9FD4F52A7529BE00018983 /* WeatherInfoView.swift in Sources */,
+				FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */,
+				FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */,
 				FAA67D8C2A7270E700746F5A /* DescriptionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
