@@ -17,7 +17,7 @@ final class WeatherInfoView: UIView {
         }
     }
     
-     let temperatureLabel: UILabel = {
+    let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
         temperatureLabel.textColor = .black
@@ -25,18 +25,18 @@ final class WeatherInfoView: UIView {
         return temperatureLabel
     }()
     
-     let conditionsLabel: UILabel = {
+    let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
         conditionsLabel.textColor = .black
         conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
         return conditionsLabel
     }()
     //TODO: проверить текст и настройки лейбла
-    let locationLabe: UILabel = {
-        let locationLabe = UILabel()
-        locationLabe.textColor = .black
-        locationLabe.font = .systemFont(ofSize: 17)
-        return locationLabe
+    let locationLabel: UILabel = {
+        let locationLabel = UILabel()
+        locationLabel.textColor = .black
+        locationLabel.font = .systemFont(ofSize: 17)
+        return locationLabel
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
     private let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
@@ -45,35 +45,43 @@ final class WeatherInfoView: UIView {
         super.init(frame: .zero)
         setupUI()
     }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("")
-    }
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("")
+//    }
     
-       ТУТ остановился
     private func setupUI() {
         addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(Constants.Constraints.temperatureLabelBottom)
-            make.leading.equalToSuperview().inset(Constants.Constraints.temperatureLabelLeading)
-            make.trailing.equalToSuperview().inset(Constants.Constraints.temperatureLabelTrailing)
+            make.top.leading.equalToSuperview()
         }
         addSubview(conditionsLabel)
         conditionsLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(Constants.Constraints.conditionsLabelToTop)
-            make.leading.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomLeading)
-            make.trailing.equalToSuperview().inset(Constants.Constraints.conditionsLabelBottomTrailing)
-            make.height.equalTo(Constants.Constraints.conditionsLabelBottomHeight)
+            make.top.equalTo(temperatureLabel.snp.bottom)
+            make.leading.equalToSuperview()
+        }
+        addSubview(locationLabel)
+        locationLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(conditionsLabel.snp.bottom).offset(50)
+            make.bottom.equalToSuperview()
+        }
+        addSubview(locationImageView)
+        locationImageView.snp.makeConstraints { make in
+            make.trailing.equalTo(locationLabel.snp.leading).inset(-20)
+            make.centerY.equalTo(locationLabel)
+        }
+        addSubview(searchImageView)
+        searchImageView.snp.makeConstraints { make in
+            make.leading.equalTo(locationLabel.snp.trailing).offset(20)
+            make.centerY.equalTo(locationLabel)
         }
     }
-    func setTemperature(temperature: String) {
-        temperatureLabel.text = temperature
-    }
     
-    func setConditions(conditions: String) {
-        conditionsLabel.text = conditions
+    required init?(coder: NSCoder) {
+        return nil
     }
 }
-
+    
 extension WeatherInfoView {
     enum Constants {
         enum Text {
@@ -87,13 +95,13 @@ extension WeatherInfoView {
             static let temperatureLabelLeading = 20
             static let temperatureLabelTrailing = 200
             static let temperatureLabelHeight = 100
-            
+
             static let conditionsLabelToTop = 250//100
             static let conditionsLabelBottomLeading = 20
             static let conditionsLabelBottomTrailing = 100
             static let conditionsLabelBottomHeight = 50
         }
     }
-     
-   
+
+
 }
