@@ -6,10 +6,9 @@
 //
 
 
-// TODO: поменять название на DescriptionView
 
-import Foundation
 import UIKit
+import SnapKit
 
 protocol DescriptionViewDelegate: AnyObject {
     func hideInfo()
@@ -20,124 +19,83 @@ class DescriptionView: UIView {
     
     weak var delegate: DescriptionViewDelegate?
 
-    //MARK: elements
-//    let mainViewController = MainViewController()
-    private let screenWidth = UIScreen.main.bounds.width
-    private let screenHeight = UIScreen.main.bounds.height
-    private let backgroundView: UIImageView = {
-        let backgroundView = Constants.Images.backgroundView
-        backgroundView.contentMode = .scaleAspectFill
-        return backgroundView
+    private let infoView: UIView = {
+        let infoView = UIView()
+        infoView.backgroundColor = Constants.backgroundColor
+        infoView.layer.cornerRadius = Constants.cornerRadius
+        return infoView
     }()
-    
-    private let infoConditionsView: UIView = {   //сам большой экран с текстом
-        var infoConditionsView = UIView()
-        
-        infoConditionsView.backgroundColor = .blue // Constants.setupInfoLargeView.backgroundView
-        infoConditionsView.contentMode = .scaleAspectFill
-        //настройка тени
-        infoConditionsView.backgroundColor = Constants.setupInfoView.infoLargeViewBackgroundColor
-        infoConditionsView.layer.cornerRadius = Constants.setupInfoView.infoLargeViewCornerRadius
-        infoConditionsView.layer.shadowColor = Constants.setupInfoView.infoLargeViewShadowColor
-        infoConditionsView.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewShadowOpacity
-        infoConditionsView.layer.shadowOffset = CGSize(width: Constants.setupInfoView.infoLargeViewShadowOffsetWidth, height: Constants.setupInfoView.infoLargeViewShadowOffsetHeight)
-        infoConditionsView.layer.shadowRadius = Constants.setupInfoView.infoLargeViewShadowRadius
-        return infoConditionsView
+    private let titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = Constants.Title.text
+        titleLabel.textColor = Constants.labelColor
+        titleLabel.font = Constants.Title.font
+        return titleLabel
     }()
-    
-    private let infoConditionsViewDepth: UIView = {
-        let infoConditionsViewDepth = UIView()
-        infoConditionsViewDepth.backgroundColor = Constants.setupInfoView.infoLargeViewDepthBackgroundColor
-        infoConditionsViewDepth.layer.cornerRadius = Constants.setupInfoView.infoLargeViewDepthCornerRadius
-        infoConditionsViewDepth.layer.shadowColor = Constants.setupInfoView.infoLargeViewDepthShadowColor
-        infoConditionsViewDepth.layer.shadowOpacity = Constants.setupInfoView.infoLargeViewDepthShadowOpacity
-        infoConditionsViewDepth.layer.shadowOffset = Constants.setupInfoView.infoLargeViewDepthShadowOffset
-        infoConditionsViewDepth.layer.shadowRadius = Constants.setupInfoView.infoLargeViewDepthShadowRadius
-        return infoConditionsViewDepth
+    private let infoLabel: UILabel = {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.74    //?????  почему 1.74?
+        let infoLabel = UILabel()
+        infoLabel.numberOfLines = 0
+        infoLabel.attributedText = NSMutableAttributedString(
+            string: Constants.InfoLabel.text,
+            attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        infoLabel.textColor = Constants.labelColor
+        infoLabel.font = Constants.InfoLabel.font
+        return infoLabel
     }()
-    
-    private let infoConditionsViewTitleLabel: UILabel = {
-        var infoLargeViewTitleLabel = UILabel()
-        infoLargeViewTitleLabel.text = Constants.setupInfoView.infoLargeViewTitleLabelText
-        infoLargeViewTitleLabel.font = UIFont.boldSystemFont(ofSize: infoLargeViewTitleLabel.font.pointSize)
-        infoLargeViewTitleLabel.textAlignment = .center
-        return infoLargeViewTitleLabel
-    }()
-    
-    private let infoConditionsViewMainLabel: UILabel = {
-        let infoConditionsViewMainLabel = UILabel()
-        infoConditionsViewMainLabel.numberOfLines = 0
-        infoConditionsViewMainLabel.textAlignment = .left
-        infoConditionsViewMainLabel.sizeToFit()
-        return infoConditionsViewMainLabel
-    }()
-    
-    private let infoLargeViewHideButton: UIButton = {
-        let infoLargeViewHideButton = UIButton()
-        infoLargeViewHideButton.isEnabled = true
-        infoLargeViewHideButton.setTitle(Constants.setupInfoView.infoLargeViewHideButtonTitle, for: .normal)
-        infoLargeViewHideButton.setTitleColor(Constants.setupInfoView.infoLargeViewHideButtonTitleColor, for: .normal)
-        infoLargeViewHideButton.layer.borderColor = Constants.setupInfoView.infoLargeViewHideButtonBorderColor
-        infoLargeViewHideButton.layer.borderWidth = Constants.setupInfoView.infoLargeViewHideButtonBorderWidth
-        infoLargeViewHideButton.layer.cornerRadius = Constants.setupInfoView.infoLargeViewHideButtonCornerRaidus
-        return infoLargeViewHideButton
+    private let hideButton: UIButton = {
+        let hideButton =  UIButton()
+        hideButton.setTitle(Constants.HideButton.titleText, for: .normal)
+        hideButton.layer.cornerRadius = Constants.HideButton.cornerRadius
+        hideButton.layer.borderColor = Constants.HideButton.borderColor
+        hideButton.layer.borderWidth = Constants.HideButton.borderWidth
+        hideButton.setTitleColor(Constants.HideButton.titleColor, for: .normal)
+        hideButton.titleLabel?.font = Constants.HideButton.titleFont
+        return hideButton
     }()
     
     init() {
-        super.init(frame: CGRect(x: 0, y: screenHeight, width: screenWidth, height: screenHeight))
+        super.init(frame: .zero)
+        defaultConfiguration()
         setupUI()
     }
+    
     required init?(coder: NSCoder) {
-        fatalError("")
+        return nil
     }
     
-     func setupUI() {
-
-        addSubview(backgroundView)
-        backgroundView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(0)
-            make.trailing.leading.equalToSuperview().inset(0)
-            make.height.equalTo(screenHeight)
+    private func setupUI() {
+        addSubview(infoView)
+        infoView.snp.makeConstraints { make in
+            make.top.bottom.leading.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constants.Offsets.infoViewTrailing)
         }
-        
-        addSubview(infoConditionsView)  //  основной вью для отображения текста
-        infoConditionsView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Constants.Constraints.infoLargeViewTop)
-            make.leading.trailing.equalToSuperview().inset(Constants.Constraints.infoLargeViewLeadingTrailing)
-            make.height.equalTo(Constants.Constraints.infoLargeViewHeight)
+        infoView.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(Constants.Offsets.spacing)
+            make.centerX.equalToSuperview()
         }
-        addSubview(infoConditionsViewTitleLabel)   /// лейбла для INFO
-        infoConditionsViewTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.infoConditionsView)
-            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewTitleLabelLeadingTrailing)
-            make.top.equalTo(infoConditionsView.snp.top).inset(Constants.Constraints.infoLargeViewTitleLabelTop)
+        infoView.addSubview(infoLabel)
+        infoLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Constants.Offsets.spacing)
+            make.centerX.equalToSuperview()
         }
-        infoConditionsView.addSubview(infoConditionsViewMainLabel)  // лейбл для текста
-        infoConditionsViewMainLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.infoConditionsView)
-            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewLabelLeadingTrailing)
-            make.top.equalTo(infoConditionsViewTitleLabel.snp.bottom).inset(Constants.Constraints.infoLargeViewLabelTop)
-            make.height.equalTo(Constants.Constraints.infoLargeViewLabelHeight)
-        }
-        
-        infoConditionsView.addSubview(infoLargeViewHideButton)
-        infoLargeViewHideButton.snp.makeConstraints { make in
-            make.centerX.equalTo(self.infoConditionsView)
-            make.leading.trailing.equalTo(infoConditionsView).inset(Constants.Constraints.infoLargeViewHideButtonLeadingTrailing)
-            make.top.equalTo(infoConditionsViewMainLabel.snp.bottom).offset(Constants.Constraints.infoLargeViewHideButtonTop)
-        }
-        
-    addSubview(backgroundView)
-        backgroundView.snp.makeConstraints { make in
-//            make.top.equalTo(initialY)
-            make.trailing.leading.equalToSuperview().inset(0)
-            make.height.equalTo(screenHeight)
+        infoView.addSubview(hideButton)
+        hideButton.snp.makeConstraints { make in
+            make.top.equalTo(infoLabel.snp.bottom).offset(Constants.Offsets.top)
+            make.bottom.equalToSuperview().inset(Constants.Offsets.spacing)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(Constants.Offsets.hideButtonHeight)
+            make.width.equalTo(Constants.Offsets.hideButtonWidth)
         }
     }
     
-//    func infoViewHide() {
-//
-//    }
+    private func defaultConfiguration() {
+        backgroundColor = Constants.backgroundDark    /// ??????????
+        layer.cornerRadius = Constants.cornerRadius
+        hideButton.addTarget(self, action: #selector(hideInfo), for: .touchUpInside)
+    }
     
     @objc private func hideInfo() {
         self.delegate?.hideInfo()
@@ -146,56 +104,33 @@ class DescriptionView: UIView {
 
 extension DescriptionView {
     enum Constants {
-        enum Constraints {
-
-            static let infoLargeViewTop = 100
-            static let infoLargeViewLeadingTrailing = 60
-            static let infoLargeViewHeight = 400
-            
-            static let infoLargeViewLabelLeadingTrailing = 30
-            static let infoLargeViewLabelTop = 10
-            static let infoLargeViewLabelHeight = 300
-//
-            static let infoLargeViewTitleLabelLeadingTrailing = 30
-            static let infoLargeViewTitleLabelTop = 30
-            
-            static let infoLargeViewHideButtonLeadingTrailing = 30
-                        static let infoLargeViewHideButtonTop = 5
+        static let backgroundDark = UIColor(red: 0.984, green: 0.373, blue: 0.161, alpha: 1)
+        static let backgroundColor = UIColor(red: 1, green: 0.6, blue: 0.375, alpha: 1)
+        static let cornerRadius: CGFloat = 15
+        static let labelColor = UIColor(red: 0.175, green: 0.175, blue: 0.175, alpha: 1)
+        enum Title {
+            static let text = "INFO"
+            static let font = UIFont(name: "SFProDisplay-SemiBold", size: 18) ?? UIFont.systemFont(ofSize: 18)
         }
-        enum Images {
-            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
+        enum InfoLabel {
+            static let text = "Brick is wet - raining\nBrick is dry - sunny \nBrick is hard to see - fog\nBrick with cracks - very hot \nBrick with snow - snow\nBrick is swinging- windy\nBrick is gone - No Internet "
+            static let font = UIFont(name: "SFProDisplay-Light", size: 15) ?? UIFont.systemFont(ofSize: 15)
         }
-
-        enum setupInfoView {
-//            static let backgroundView = UIImageView(image: UIImage(named: "image_background.png"))
-            static let infoLargeViewBackgroundColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
-            static let infoLargeViewCornerRadius: CGFloat = 25
-            static let infoLargeViewShadowColor = UIColor.black.cgColor
-            static let infoLargeViewShadowOpacity: Float = 0.2
-            static let infoLargeViewShadowOffsetWidth = 0
-            static let infoLargeViewShadowOffsetHeight = 10
-            static let infoLargeViewShadowRadius: CGFloat = 10
-//
-            static let infoLargeViewDepthBackgroundColor = UIColor (red: 251/255, green: 95/255, blue: 41/255, alpha: 1)
-            static let infoLargeViewDepthCornerRadius: CGFloat = 25
-            static let infoLargeViewDepthShadowColor = UIColor.black.cgColor
-            static let infoLargeViewDepthShadowOpacity: Float = 0.2
-            static let infoLargeViewDepthShadowOffset = CGSize(width: 0, height: 10)
-            static let infoLargeViewDepthShadowRadius:CGFloat = 10
-//
-            static let infoLargeViewTitleLabelText = "INFO"
-            static let infoLargeViewLabelAttributedString = NSMutableAttributedString(string: "Brick is wet - raining \nBrick is dry - sunny \nBrick is hard to see - fog \nBrick with cracks - very hot \nBrick with snow - snow \nBrick is swinging - windy \nBrick is gone - No Internet")
-            static let infoLargeViewLabelNumberOfLines = 7
-            static let infoLargeViewLabelLineSPacing: CGFloat = 10
-            static let infoLargeViewHideButtonTitle = "Hide"
-            static let infoLargeViewHideButtonTitleColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1)
-            static let infoLargeViewHideButtonBorderColor = UIColor(red: 87/255, green: 87/255, blue: 87/255, alpha: 1).cgColor
-            static let infoLargeViewHideButtonBorderWidth:CGFloat = 1.5
-            static let infoLargeViewHideButtonCornerRaidus:CGFloat = 15
+        enum HideButton {
+            static let titleText = "Hide"
+            static let cornerRadius: CGFloat = 15
+            static let borderColor = UIColor(red: 0.342, green: 0.342, blue: 0.342, alpha: 1).cgColor
+            static let borderWidth: CGFloat = 1
+            static let titleColor = UIColor(red: 0.342, green: 0.342, blue: 0.342, alpha: 1)
+            static let titleFont = UIFont(name: "SFProDisplay-Semibold", size: 15) ?? UIFont.systemFont(ofSize: 15)
+        }
+        enum Offsets {
+            static let spacing: CGFloat = 24
+            static let top: CGFloat = 32
+            static let hideButtonHeight: CGFloat = 31
+            static let hideButtonWidth: CGFloat = 115
+            static let infoViewTrailing: CGFloat =  8
         }
     }
 }
-
-
-
 
