@@ -103,10 +103,4 @@ extension StoneImageView {
             }
         }
     }
-    
-    enum Constants {
-        enum Constraints {
-            static let stoneImageViewTopOffset = 10 //-570
-        }
-    }
 }

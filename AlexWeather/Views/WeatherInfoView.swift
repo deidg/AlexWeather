@@ -35,6 +35,7 @@ final class WeatherInfoView: UIView {
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textColor = .black
+        locationLabel.text = "UzbekiRuljat"
         locationLabel.font = .systemFont(ofSize: 17)
         return locationLabel
     }()

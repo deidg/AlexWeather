@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
-    private let stoneView = StoneView()
+    private let stoneView = StoneImageView()
     private let weatherInfoView = WeatherInfoView()
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
