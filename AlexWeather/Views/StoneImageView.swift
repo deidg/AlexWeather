@@ -17,9 +17,9 @@ final class StoneImageView: UIImageView {
     
     private let pendulumAnimation: CABasicAnimation = {
        let animation = CABasicAnimation(keyPath: "transform.rotation")
-        animation.fromValue = 0
-        animation.toValue = Double.pi / 10
-        animation.duration = 2
+        animation.fromValue = -(Double.pi / 50)
+        animation.toValue = Double.pi / 50
+        animation.duration = 4
         animation.autoreverses = true
         animation.repeatCount = Float.infinity
         return animation
