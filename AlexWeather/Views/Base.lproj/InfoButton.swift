@@ -19,6 +19,7 @@ final class InfoButton: UIButton {
         infoButtonGradientLayer.startPoint = Constants.startPointCGPoint
         infoButtonGradientLayer.endPoint = Constants.endPointCGPoint
         infoButtonGradientLayer.cornerRadius = Constants.cornerRadius
+        return infoButtonGradientLayer
     }()
     
     init() {

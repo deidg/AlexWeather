@@ -96,7 +96,7 @@ class MainViewController: UIViewController {
     private func updateData(_ data: CompletionData) {
         let viewData = ViewData(temp: String(data.temperature) + "º", city: data.city, weather: data.weather)
         self.weatherInfoView.viewData = viewData
-        stoneView.stoneState = .init(temperature: data.temprerature,
+        stoneView.stoneState = .init(temperature: data.temperature,
                                      conditionCode: data.id,
                                      windSpeed: data.windSpeed)
     }
@@ -133,7 +133,7 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: InfoViewDelegate {
+extension MainViewController: DescriptionViewDelegate {
     func hideInfo() {
         self.topConstraint?.update(priority: .high)
         self.centerXConstraint?.update(priority: .high)
@@ -150,7 +150,7 @@ extension MainViewController: InfoViewDelegate {
         }
     }
 }
-extension MainViewControlle: CLLocationManagerDelegate {
+extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
         WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { [weak self] completionData in
