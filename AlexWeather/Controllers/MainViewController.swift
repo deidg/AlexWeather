@@ -111,7 +111,6 @@ class MainViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             locationManager.pausesLocationUpdatesAutomatically = false   //  why not TRUE?
             locationManager.startUpdatingLocation()
-            
         }
     }
     
@@ -129,7 +128,7 @@ class MainViewController: UIViewController {
     
     @objc private func refresh(_ sender: AnyObject) {
         guard let location = locationManager.location else { return }
-        WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longtitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
+        WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
             self.updateData(completionData)
         }
         refreshControl.endRefreshing()
@@ -156,7 +155,7 @@ extension MainViewController: DescriptionViewDelegate {
 extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
-        WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longtitude: lastLocation.coordinate.longitude) { [weak self] completionData in
+        WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
         }
