@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CoreLocation
+import Foundation
 
 final class StoneImageView: UIImageView {
     var stoneState: StoneState = .normal(windy: false) {
@@ -17,17 +19,28 @@ final class StoneImageView: UIImageView {
     
     private let pendulumAnimation: CABasicAnimation = {
        let animation = CABasicAnimation(keyPath: "transform.rotation")
-        animation.fromValue = -(Double.pi / 50)
-        animation.toValue = Double.pi / 50
-        animation.duration = 4
+//        animation.fromValue = NSNumber(value: -(Double.pi / 10))//-(Double.pi / 50)
+//        animation.toValue = NSNumber(value: Double.pi / 10)  //Double.pi / 50
+  
+        animation.duration = 1
         animation.autoreverses = true
         animation.repeatCount = Float.infinity
+     
+        похоже что такого больше нет - надо найти замену. гуглить -  animation.values
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0]
+            animation.keyTimes = [NSNumber(value: 0.0),
+                                  NSNumber(value: 0.3),
+                                  NSNumber(value: 0.5),
+                                  NSNumber(value: 0.8),
+                                  NSNumber(value: 1.0)
+            ]
+    self.layer.add(animation, forKey: "rotate")
         return animation
     }()
     
     init() {
         super.init(frame: .zero)
-        applyState(state: .normal(windy: true))
+        applyState(state: .normal(windy: false))
         
     }
     required init?(coder: NSCoder) {
