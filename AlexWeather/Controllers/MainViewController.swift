@@ -4,6 +4,8 @@
 //
 //  Created by Alex on 16.05.2023.
 //
+//  TODO:   убрать progress bar
+//TODO: убрать бар справа при прокручивании
 // TODO:  расставить MARKs
 
 
@@ -37,7 +39,8 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         defaultConfiguration()
         setupUI()
-        
+        addTargets()
+        startLocationManager()
     }
     
     private func setupUI() {
