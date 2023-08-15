@@ -24,6 +24,7 @@ final class InfoButton: UIButton {
     
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 175, height: 85))
+        defaultConfiguration()
     }
     
     required init?(coder: NSCoder) {
@@ -31,11 +32,18 @@ final class InfoButton: UIButton {
     }
     //MARK: - methods
     func defaultConfiguration() {
+        
         setTitle("INFO", for: .normal)
         setTitleColor(.black, for: .normal)
-        contentVerticalAlignment = .top
-        clipsToBounds = true
-        layer.cornerRadius = Constants.cornerRadius
+        infoButtonGradientLayer.frame = self.frame
+        titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 47, right: 0)
+        layer.insertSublayer(infoButtonGradientLayer, at: 0)
+        
+//        setTitle("INFO", for: .normal)
+//        setTitleColor(.black, for: .normal)
+//        contentVerticalAlignment = .top
+//        clipsToBounds = true
+//        layer.cornerRadius = Constants.cornerRadius
     }
     
 //    func setupLayers() {

@@ -57,8 +57,9 @@ class MainViewController: UIViewController {
         }
         contentView.addSubview(stoneView)
         stoneView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView).inset(60)
+            make.top.equalTo(contentView).offset(-570) //(Constants.Constraints.stoneImageViewTopOffset)
         }
         view.addSubview(weatherInfoView)
         weatherInfoView.snp.makeConstraints { make in
@@ -67,10 +68,13 @@ class MainViewController: UIViewController {
         }
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+
+//            make.centerX.equalToSuperview()
+            make.centerX.equalTo(self.view)
             make.width.equalTo(175)
             make.height.equalTo(85)
             make.bottom.equalToSuperview().inset(-25)
+//            make.bottom.equalTo(view.snp.bottom).inset(-25)
         }
         view.addSubview(descriptionView)
         descriptionView.snp.makeConstraints { make in
@@ -80,6 +84,7 @@ class MainViewController: UIViewController {
             centerXConstraint = make.center.equalToSuperview().priority(.low).constraint
             centerXConstraint = make.centerX.equalToSuperview().priority(.low).constraint
         }
+//        scrollView.refreshControl = refreshControl
     }
     
     private func defaultConfiguration() {
