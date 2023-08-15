@@ -20,7 +20,11 @@ class MainViewController: UIViewController {
     private let locationManager = CLLocationManager()
     
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
-    private let scrollView = UIScrollView()
+    private let scrollView: UIScrollView = {
+        var scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
     private let contentView = UIView()
     
     private let stoneView = StoneImageView()
@@ -107,6 +111,17 @@ class MainViewController: UIViewController {
                                      windSpeed: data.windSpeed)
     }
     
+    private func flash() {
+        let flash = CABasicAnimation(keyPath: "opacity")
+        flash.duration = 0.2
+        flash.fromValue = 1
+        flash.toValue = 0.0
+        flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        flash.autoreverses = true
+        weatherInfoView.temperatureLabel.layer.add(flash, forKey: nil)
+        weatherInfoView.conditionsLabel.layer.add(flash, forKey: nil)
+    }
+    
     private func startLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
@@ -130,6 +145,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func refresh(_ sender: AnyObject) {
+        flash()
         guard let location = locationManager.location else { return }
         WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
             self.updateData(completionData)
