@@ -86,7 +86,7 @@ class MainViewController: UIViewController {
             topConstraint = make.top.equalTo(infoButton.snp.bottom).priority(.high).constraint
             widthConstraint = make.width.equalTo(270).priority(.high).constraint
             heightConstraint = make.height.equalTo(400).priority(.high).constraint
-            centerXConstraint = make.center.equalToSuperview().priority(.low).constraint
+            centerConstraint = make.center.equalToSuperview().priority(.low).constraint
             centerXConstraint = make.centerX.equalToSuperview().priority(.low).constraint
         }
         scrollView.refreshControl = refreshControl
