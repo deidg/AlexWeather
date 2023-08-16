@@ -4,8 +4,6 @@
 //
 //  Created by Alex on 16.05.2023.
 //
-//  TODO:   убрать progress bar
-//TODO: убрать бар справа при прокручивании
 // TODO:  расставить MARKs
 
 

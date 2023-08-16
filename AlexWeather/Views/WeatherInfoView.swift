@@ -35,7 +35,7 @@ final class WeatherInfoView: UIView {
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textColor = .black
-        locationLabel.text = "UzbekiRuljat"
+        locationLabel.text = "Home"
         locationLabel.font = .systemFont(ofSize: 17)
         return locationLabel
     }()
@@ -46,9 +46,9 @@ final class WeatherInfoView: UIView {
         super.init(frame: .zero)
         setupUI()
     }
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("")
-//    }
+    required init?(coder: NSCoder) {
+        return nil
+    }
     
     private func setupUI() {
         addSubview(temperatureLabel)
@@ -76,10 +76,6 @@ final class WeatherInfoView: UIView {
             make.leading.equalTo(locationLabel.snp.trailing).offset(20)
             make.centerY.equalTo(locationLabel)
         }
-    }
-    
-    required init?(coder: NSCoder) {
-        return nil
     }
 }
     

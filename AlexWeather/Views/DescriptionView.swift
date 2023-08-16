@@ -34,7 +34,7 @@ class DescriptionView: UIView {
     }()
     private let infoLabel: UILabel = {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.74    //?????  почему 1.74?
+        paragraphStyle.lineHeightMultiple = 1.75  
         let infoLabel = UILabel()
         infoLabel.numberOfLines = 0
         infoLabel.attributedText = NSMutableAttributedString(

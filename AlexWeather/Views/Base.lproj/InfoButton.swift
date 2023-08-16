@@ -38,30 +38,17 @@ final class InfoButton: UIButton {
         infoButtonGradientLayer.frame = self.frame
         titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 47, right: 0)
         layer.insertSublayer(infoButtonGradientLayer, at: 0)
-        
-//        setTitle("INFO", for: .normal)
-//        setTitleColor(.black, for: .normal)
-//        contentVerticalAlignment = .top
-//        clipsToBounds = true
-//        layer.cornerRadius = Constants.cornerRadius
+    }
+}
+    //MARK: - extension
+    extension InfoButton {
+        enum Constants {
+            static let topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
+            static let bottomColor = UIColor(red: 249/255, green: 80/255, blue: 27/255, alpha: 1)
+            static let startPointCGPoint = CGPoint(x: 0.5, y: 0.25)
+            static let endPointCGPoint = CGPoint(x: 0.5, y: 0.75)
+            static let cornerRadius: CGFloat = 15.0
+        }
     }
     
-//    func setupLayers() {
-//        let topColor = Constants.topColor
-//        let bottomColor = Constants.bottomColor
-//        infoButtonGradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
-//        infoButtonGradientLayer.locations = [0,1]
-//        self.layer.addSublayer(infoButtonGradientLayer)
-//    }
-}
-//MARK: - extension
-extension InfoButton {
-    enum Constants {
-        static let topColor = UIColor(red: 255/255, green: 153/255, blue: 96/255, alpha: 1)
-        static let bottomColor = UIColor(red: 249/255, green: 80/255, blue: 27/255, alpha: 1)
-        static let startPointCGPoint = CGPoint(x: 0.5, y: 0.25)
-        static let endPointCGPoint = CGPoint(x: 0.5, y: 0.75)
-        static let cornerRadius: CGFloat = 15.0
-    }
-}
 
