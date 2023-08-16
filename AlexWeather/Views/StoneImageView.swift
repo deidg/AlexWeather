@@ -17,24 +17,19 @@ final class StoneImageView: UIImageView {
     }
     
     
-    private let pendulumAnimation: CABasicAnimation = {
-       let animation = CABasicAnimation(keyPath: "transform.rotation")
-//        animation.fromValue = NSNumber(value: -(Double.pi / 10))//-(Double.pi / 50)
-//        animation.toValue = NSNumber(value: Double.pi / 10)  //Double.pi / 50
-  
-        animation.duration = 1
-        animation.autoreverses = true
-        animation.repeatCount = Float.infinity
-     
-        похоже что такого больше нет - надо найти замену. гуглить -  animation.values
-        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0]
-            animation.keyTimes = [NSNumber(value: 0.0),
-                                  NSNumber(value: 0.3),
-                                  NSNumber(value: 0.5),
-                                  NSNumber(value: 0.8),
-                                  NSNumber(value: 1.0)
-            ]
-    self.layer.add(animation, forKey: "rotate")
+    private let pendulumAnimation: CAKeyframeAnimation = {
+       
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
+          animation.duration = 4.0
+          animation.fillMode = .both
+          animation.repeatCount = Float.infinity
+          animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0]
+                    animation.keyTimes = [NSNumber(value: 0.0),
+                                          NSNumber(value: 0.3),
+                                          NSNumber(value: 0.5),
+                                          NSNumber(value: 0.8),
+                                          NSNumber(value: 1.0)
+                                          ]
         return animation
     }()
     
@@ -102,15 +97,15 @@ extension StoneImageView {
         
         init(temperature: Int, conditionCode: Int, windSpeed: Double) {
             if temperature > 30 {
-                self = .hot(windy: windSpeed > 5)
+                self = .hot(windy: windSpeed > 1)
             } else if temperature < 30 && conditionCode >= 100 && conditionCode <= 531 {
-                self = .rain(windy: windSpeed > 5)
+                self = .rain(windy: windSpeed > 1)
             } else if temperature < 30 && conditionCode >= 600 && conditionCode <= 622 {
-                self = .snow(windy: windSpeed > 5)
+                self = .snow(windy: windSpeed > 1)
             } else if temperature < 30 && conditionCode >= 701 && conditionCode <= 781 {
-                self = .fog(windy: windSpeed > 5)
+                self = .fog(windy: windSpeed > 1)
             } else if temperature < 30 && conditionCode > 800 {
-                self = .normal(windy: windSpeed > 5)
+                self = .normal(windy: windSpeed > 1)
             } else {
                 self = .normal(windy: false)
             }
