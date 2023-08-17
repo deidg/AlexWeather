@@ -15,24 +15,20 @@ final class StoneImageView: UIImageView {
             applyState(state: stoneState)
         }
     }
-    
-    
     private let pendulumAnimation: CAKeyframeAnimation = {
-       
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
-          animation.duration = 4.0
-          animation.fillMode = .both
-          animation.repeatCount = Float.infinity
-          animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0]
-                    animation.keyTimes = [NSNumber(value: 0.0),
-                                          NSNumber(value: 0.3),
-                                          NSNumber(value: 0.5),
-                                          NSNumber(value: 0.8),
-                                          NSNumber(value: 1.0)
-                                          ]
+        animation.duration = 4.0
+        animation.fillMode = .both
+        animation.repeatCount = Float.infinity
+        animation.values = [0, Double.pi/50, 0, -(Double.pi/50), 0]
+        animation.keyTimes = [NSNumber(value: 0.0),
+                              NSNumber(value: 0.3),
+                              NSNumber(value: 0.5),
+                              NSNumber(value: 0.8),
+                              NSNumber(value: 1.0)
+        ]
         return animation
     }()
-    
     init() {
         super.init(frame: .zero)
         applyState(state: .normal(windy: false))
@@ -41,7 +37,6 @@ final class StoneImageView: UIImageView {
     required init?(coder: NSCoder) {
         return nil
     }
-    
     private func applyState(state: StoneState) {
         let image: UIImage?
         let alpha: CGFloat

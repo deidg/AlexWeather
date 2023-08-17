@@ -18,7 +18,6 @@ final class WeatherInfoView: UIView {
             locationLabel.text = viewData?.city
         }
     }
-    
     let temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
         temperatureLabel.font = UIFont(name: Constants.Text.temperatureLabelFontName, size: Constants.Text.temperatureLabelFontSize)
@@ -26,7 +25,6 @@ final class WeatherInfoView: UIView {
         temperatureLabel.textAlignment = .left
         return temperatureLabel
     }()
-    
     let conditionsLabel: UILabel = {
         let conditionsLabel = UILabel()
         conditionsLabel.textColor = .black
@@ -43,8 +41,7 @@ final class WeatherInfoView: UIView {
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
 //     let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
-    
-    
+
     init() {
         super.init(frame: .zero)
         setupUI()

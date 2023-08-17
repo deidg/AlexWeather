@@ -14,7 +14,7 @@ import CoreLocation
 import SnapKit
 import Network
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     private let searchViewContoller = SearchViewController()
     
@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
             make.top.equalTo(contentView).offset(-670) //(Constants.Constraints.stoneImageViewTopOffset)
         }
         
-       
+        
         
         
         view.addSubview(infoButton)
@@ -94,7 +94,7 @@ class MainViewController: UIViewController {
         locationButton.snp.makeConstraints { make in
             make.left.equalTo(weatherInfoView).inset(80)
             make.bottom.equalTo(infoButton.snp.top).offset(-20)
-
+            
         }
         
         view.addSubview(searchButton)
@@ -102,7 +102,7 @@ class MainViewController: UIViewController {
             make.right.equalTo(weatherInfoView).inset(80)
             make.bottom.equalTo(view.snp.bottom).inset(80)
         }
-//
+        //
         
         view.addSubview(descriptionView)
         descriptionView.snp.makeConstraints { make in
@@ -180,14 +180,14 @@ class MainViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
-//    @objc private func search() {
-//        view.addSubview(searchView)
-//        searchView.snp.makeConstraints { make in
-//            make.center.equalToSuperview()
-//        }
-//
-//        print("lets search!")
-//    }
+    //    @objc private func search() {
+    //        view.addSubview(searchView)
+    //        searchView.snp.makeConstraints { make in
+    //            make.center.equalToSuperview()
+    //        }
+    //
+    //        print("lets search!")
+    //    }
 }
 
 extension MainViewController: DescriptionViewDelegate {
