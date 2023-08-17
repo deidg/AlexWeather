@@ -14,8 +14,6 @@ final class SearchButton: UIButton {
     // MARK: Inits
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
-
-//        super.init(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
         defaultConfiguration()
     }
     
