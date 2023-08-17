@@ -30,8 +30,9 @@ class MainViewController: UIViewController {
     
     private let stoneView = StoneImageView()
     private let weatherInfoView = WeatherInfoView()
-//    private let searchView = SearchView()
+    
     private let searchButton = SearchButton()
+    private let locationButton = LocationButton()
     
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
@@ -73,10 +74,7 @@ class MainViewController: UIViewController {
             make.top.equalTo(contentView).offset(-670) //(Constants.Constraints.stoneImageViewTopOffset)
         }
         
-        view.addSubview(searchButton)
-        searchButton.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
+       
         
         
         view.addSubview(infoButton)
@@ -91,6 +89,20 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(infoButton.snp.top).inset(-20)  // TODO: UPDATE
             make.trailing.leading.equalToSuperview().inset(10)
         }
+        
+        view.addSubview(locationButton)
+        locationButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+//        view.addSubview(searchButton)
+//        searchButton.snp.makeConstraints { make in
+////            make.leading.equalTo(weatherInfoView).offset(20)
+////            make.top.equalTo(infoButton).inset(20)
+////            make.centerY.equalTo(locationLabel)
+//        }
+//        
+        
         view.addSubview(descriptionView)
         descriptionView.snp.makeConstraints { make in
             topConstraint = make.top.equalTo(infoButton.snp.bottom).priority(.high).constraint
@@ -170,7 +182,7 @@ class MainViewController: UIViewController {
 //        searchView.snp.makeConstraints { make in
 //            make.center.equalToSuperview()
 //        }
-//        
+//
 //        print("lets search!")
 //    }
 }

@@ -42,7 +42,7 @@ final class WeatherInfoView: UIView {
         return locationLabel
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
-     let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
+//     let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
     
     
     init() {
@@ -69,16 +69,16 @@ final class WeatherInfoView: UIView {
             make.top.equalTo(conditionsLabel.snp.bottom).offset(50)
             make.bottom.equalToSuperview()
         }
-        addSubview(locationImageView)
-        locationImageView.snp.makeConstraints { make in
-            make.trailing.equalTo(locationLabel.snp.leading).inset(-20)
-            make.centerY.equalTo(locationLabel)
-        }
-        addSubview(searchImageView)
-        searchImageView.snp.makeConstraints { make in
-            make.leading.equalTo(locationLabel.snp.trailing).offset(20)
-            make.centerY.equalTo(locationLabel)
-        }
+//        addSubview(locationImageView)
+//        locationImageView.snp.makeConstraints { make in
+//            make.trailing.equalTo(locationLabel.snp.leading).inset(-20)
+//            make.centerY.equalTo(locationLabel)
+//        }
+//        addSubview(searchImageView)
+//        searchImageView.snp.makeConstraints { make in
+//            make.leading.equalTo(locationLabel.snp.trailing).offset(20)
+//            make.centerY.equalTo(locationLabel)
+//        }
     }
     
      func printin() {
