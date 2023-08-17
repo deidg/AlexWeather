@@ -92,16 +92,17 @@ class MainViewController: UIViewController {
         
         view.addSubview(locationButton)
         locationButton.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.left.equalTo(weatherInfoView).inset(80)
+            make.bottom.equalTo(infoButton.snp.top).offset(-20)
+
         }
         
-//        view.addSubview(searchButton)
-//        searchButton.snp.makeConstraints { make in
-////            make.leading.equalTo(weatherInfoView).offset(20)
-////            make.top.equalTo(infoButton).inset(20)
-////            make.centerY.equalTo(locationLabel)
-//        }
-//        
+        view.addSubview(searchButton)
+        searchButton.snp.makeConstraints { make in
+            make.right.equalTo(weatherInfoView).inset(80)
+            make.bottom.equalTo(view.snp.bottom).inset(80)
+        }
+//
         
         view.addSubview(descriptionView)
         descriptionView.snp.makeConstraints { make in
@@ -162,6 +163,8 @@ class MainViewController: UIViewController {
         self.centerConstraint?.update(priority: .high)
         self.infoButton.isHidden = true
         self.stoneView.isHidden = true
+        self.locationButton.isHidden = true
+        self.searchButton.isHidden = true
         self.weatherInfoView.isHidden = true
         UIView.animate(withDuration: 1) {
             self.view.layoutIfNeeded()
@@ -199,6 +202,8 @@ extension MainViewController: DescriptionViewDelegate {
                 guard let self else { return }
                 self.infoButton.isHidden = false
                 self.stoneView.isHidden = false
+                self.locationButton.isHidden = false
+                self.searchButton.isHidden = false
                 self.weatherInfoView.isHidden = false
             }
         }

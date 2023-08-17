@@ -38,7 +38,7 @@ final class WeatherInfoView: UIView {
         let locationLabel = UILabel()
         locationLabel.textColor = .black
         locationLabel.text = "Home"
-        locationLabel.font = .systemFont(ofSize: 17)
+        locationLabel.font = .systemFont(ofSize: 23)
         return locationLabel
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
