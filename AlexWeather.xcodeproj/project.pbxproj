@@ -14,6 +14,7 @@
 		FA10B4EC2A5E881000642445 /* Ubuntu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */; };
 		FA96C0A62A5800400092E4F4 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96C0A42A5800400092E4F4 /* InfoButton.swift */; };
 		FA98C8632A8D2C0A004934BC /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C8622A8D2C0A004934BC /* SearchView.swift */; };
+		FA99789D2A8E3543004EAEC9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */; };
 		FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C02A874BDF00971944 /* ViewData.swift */; };
 		FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C22A874BF200971944 /* WeatherData.swift */; };
 		FA9EC7C52A874C1400971944 /* CompletionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C42A874C1400971944 /* CompletionData.swift */; };
@@ -60,6 +61,7 @@
 		FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Regular.ttf"; sourceTree = "<group>"; };
 		FA96C0A52A5800400092E4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/InfoButton.swift; sourceTree = "<group>"; };
 		FA98C8622A8D2C0A004934BC /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FA9EC7C02A874BDF00971944 /* ViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewData.swift; sourceTree = "<group>"; };
 		FA9EC7C22A874BF200971944 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		FA9EC7C42A874C1400971944 /* CompletionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionData.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				FA9FCF052A13550000D13D2A /* MainViewController.swift */,
+				FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA99789D2A8E3543004EAEC9 /* SearchViewController.swift in Sources */,
 				FAA28DC52A4472A2008472FE /* WeatherManager.swift in Sources */,
 				FA9EC7C52A874C1400971944 /* CompletionData.swift in Sources */,
 				FA9FCF062A13550000D13D2A /* MainViewController.swift in Sources */,
