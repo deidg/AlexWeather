@@ -5,6 +5,8 @@
 //  Created by Alex on 29.07.2023.
 //
 
+// TODO: удалить searchView,?
+
 import UIKit
 import SnapKit
 
@@ -40,7 +42,8 @@ final class WeatherInfoView: UIView {
         return locationLabel
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
-    private let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
+     let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
+    
     
     init() {
         super.init(frame: .zero)
@@ -77,6 +80,12 @@ final class WeatherInfoView: UIView {
             make.centerY.equalTo(locationLabel)
         }
     }
+    
+     func printin() {
+        
+    }
+    
+    
 }
     
 extension WeatherInfoView {

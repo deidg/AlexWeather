@@ -13,15 +13,16 @@ final class SearchButton: UIButton {
     
     
     init() {
-        super.init()(frame: CGRect(x: 0, y: 0, width: 400, height: 50))
+        super.init(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         defaultConfiguration()
     }
-    required init?(coder: NSCoder) {
-        return nil
-    }
     
+    required init?(coder: NSCoder) {
+                return nil
+    }
+ 
     
     func defaultConfiguration() {
-         
+        
     }
 }

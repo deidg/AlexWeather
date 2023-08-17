@@ -6,6 +6,7 @@
 //
 // TODO:  расставить MARKs
 
+//  TODO: после нажатия серча появляется вью с тексфилдом (как в задаии с 5 филдами). туда вводиться город. после этого по АПИ получается результат, убирается вью и отображается пгода по этому городу
 
 
 import UIKit
@@ -27,6 +28,7 @@ class MainViewController: UIViewController {
     
     private let stoneView = StoneImageView()
     private let weatherInfoView = WeatherInfoView()
+    private let searchView = SearchView()
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
     private let refreshControl = UIRefreshControl()
@@ -151,6 +153,15 @@ class MainViewController: UIViewController {
             self.updateData(completionData)
         }
         refreshControl.endRefreshing()
+    }
+    
+    @objc private func search() {
+        view.addSubview(searchView)
+        searchView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        print("lets search!")
     }
 }
 
