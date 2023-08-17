@@ -23,6 +23,6 @@ final class SearchButton: UIButton {
  
     
     func defaultConfiguration() {
-        
+        setImage(UIImage(named: "icon_search"), for: UIControl.State.normal)
     }
 }

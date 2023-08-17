@@ -10,13 +10,15 @@ import CoreLocation
 import SnapKit
 import Network
 
-class SearchViewController {
+class SearchViewController: UIViewController {
     
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     
     
-     func viewDidLoad() {
-//        super.viewDidLoad()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         defaultConfiguration()
         setupUI()
 //        addTargets()
@@ -33,6 +35,10 @@ class SearchViewController {
     private func defaultConfiguration() {
         
     }
+    
+//    private func setupDelegates() {
+//        self.collectionView.delegate = self
+//    }
 
     
     

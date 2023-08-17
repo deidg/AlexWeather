@@ -16,6 +16,8 @@ import Network
 
 class MainViewController: UIViewController {
     
+    private let searchViewContoller = SearchViewController()
+    
     private let locationManager = CLLocationManager()
     
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
@@ -28,7 +30,9 @@ class MainViewController: UIViewController {
     
     private let stoneView = StoneImageView()
     private let weatherInfoView = WeatherInfoView()
-    private let searchView = SearchView()
+//    private let searchView = SearchView()
+    private let searchButton = SearchButton()
+    
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
     private let refreshControl = UIRefreshControl()
@@ -68,6 +72,12 @@ class MainViewController: UIViewController {
             make.trailing.leading.equalTo(contentView).inset(60)
             make.top.equalTo(contentView).offset(-670) //(Constants.Constraints.stoneImageViewTopOffset)
         }
+        
+        view.addSubview(searchButton)
+        searchButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
         
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints { make in
@@ -155,14 +165,14 @@ class MainViewController: UIViewController {
         refreshControl.endRefreshing()
     }
     
-    @objc private func search() {
-        view.addSubview(searchView)
-        searchView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        
-        print("lets search!")
-    }
+//    @objc private func search() {
+//        view.addSubview(searchView)
+//        searchView.snp.makeConstraints { make in
+//            make.center.equalToSuperview()
+//        }
+//        
+//        print("lets search!")
+//    }
 }
 
 extension MainViewController: DescriptionViewDelegate {
