@@ -4,18 +4,13 @@
 //
 //  Created by Alex on 16.05.2023.
 //
-// TODO:  расставить MARKs
-
-//  TODO: после нажатия серча появляется вью с тексфилдом (как в задаии с 5 филдами). туда вводиться город. после этого по АПИ получается результат, убирается вью и отображается пгода по этому городу
-
-
 import UIKit
 import CoreLocation
 import SnapKit
 import Network
 
 final class MainViewController: UIViewController {
-    
+    //MARK: Elements
     private let searchViewContoller = SearchViewController()
     
     private let locationManager = CLLocationManager()
@@ -43,7 +38,7 @@ final class MainViewController: UIViewController {
     private var heightConstraint: Constraint?
     private var centerConstraint: Constraint?
     private var centerXConstraint: Constraint?
-    
+    //MARK: lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         defaultConfiguration()
@@ -51,7 +46,7 @@ final class MainViewController: UIViewController {
         addTargets()
         startLocationManager()
     }
-    
+    //MARK: Items On View
     private func setupUI() {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
@@ -71,12 +66,8 @@ final class MainViewController: UIViewController {
         stoneView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
             make.trailing.leading.equalTo(contentView).inset(60)
-            make.top.equalTo(contentView).offset(-670) //(Constants.Constraints.stoneImageViewTopOffset)
+            make.top.equalTo(contentView).offset(-670)
         }
-        
-        
-        
-        
         view.addSubview(infoButton)
         infoButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -86,24 +77,19 @@ final class MainViewController: UIViewController {
         }
         view.addSubview(weatherInfoView)
         weatherInfoView.snp.makeConstraints { make in
-            make.bottom.equalTo(infoButton.snp.top).inset(-20)  // TODO: UPDATE
+            make.bottom.equalTo(infoButton.snp.top).inset(-20)
             make.trailing.leading.equalToSuperview().inset(10)
         }
-        
         view.addSubview(locationButton)
         locationButton.snp.makeConstraints { make in
             make.left.equalTo(weatherInfoView).inset(80)
             make.bottom.equalTo(infoButton.snp.top).offset(-20)
-            
         }
-        
         view.addSubview(searchButton)
         searchButton.snp.makeConstraints { make in
             make.right.equalTo(weatherInfoView).inset(80)
             make.bottom.equalTo(view.snp.bottom).inset(80)
         }
-        //
-        
         view.addSubview(descriptionView)
         descriptionView.snp.makeConstraints { make in
             topConstraint = make.top.equalTo(infoButton.snp.bottom).priority(.high).constraint
@@ -114,7 +100,7 @@ final class MainViewController: UIViewController {
         }
         scrollView.refreshControl = refreshControl
     }
-    
+    // MARK: Methods
     private func defaultConfiguration() {
         view.backgroundColor = .white
         descriptionView.delegate = self
@@ -179,17 +165,8 @@ final class MainViewController: UIViewController {
         }
         refreshControl.endRefreshing()
     }
-    
-    //    @objc private func search() {
-    //        view.addSubview(searchView)
-    //        searchView.snp.makeConstraints { make in
-    //            make.center.equalToSuperview()
-    //        }
-    //
-    //        print("lets search!")
-    //    }
 }
-
+// MARK: extensions - DescriptionViewDelegate
 extension MainViewController: DescriptionViewDelegate {
     func hideInfo() {
         self.topConstraint?.update(priority: .high)
@@ -209,6 +186,7 @@ extension MainViewController: DescriptionViewDelegate {
         }
     }
 }
+// MARK: extensions - CLLocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }

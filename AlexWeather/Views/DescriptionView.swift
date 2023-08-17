@@ -10,13 +10,13 @@
 import UIKit
 import SnapKit
 
+// MARK: Protocol
 protocol DescriptionViewDelegate: AnyObject {
     func hideInfo()
 }
 
-
 class DescriptionView: UIView {
-    
+    // MARK: Elements
     weak var delegate: DescriptionViewDelegate?
 
     private let infoView: UIView = {
@@ -54,17 +54,16 @@ class DescriptionView: UIView {
         hideButton.titleLabel?.font = Constants.HideButton.titleFont
         return hideButton
     }()
-    
+    // MARK: Inits
     init() {
         super.init(frame: .zero)
         defaultConfiguration()
         setupUI()
     }
-    
     required init?(coder: NSCoder) {
         return nil
     }
-    
+    // MARK: Methods
     private func setupUI() {
         addSubview(infoView)
         infoView.snp.makeConstraints { make in
@@ -92,7 +91,7 @@ class DescriptionView: UIView {
     }
     
     private func defaultConfiguration() {
-        backgroundColor = Constants.backgroundDark    /// ??????????
+        backgroundColor = Constants.backgroundDark
         layer.cornerRadius = Constants.cornerRadius
         hideButton.addTarget(self, action: #selector(hideInfo), for: .touchUpInside)
     }
@@ -101,7 +100,7 @@ class DescriptionView: UIView {
         self.delegate?.hideInfo()
     }
 }
-
+// MARK: Extension
 extension DescriptionView {
     enum Constants {
         static let backgroundDark = UIColor(red: 0.984, green: 0.373, blue: 0.161, alpha: 1)

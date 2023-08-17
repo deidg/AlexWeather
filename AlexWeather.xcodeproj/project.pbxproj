@@ -13,7 +13,6 @@
 		FA10B4EA2A5E7E2100642445 /* SFPRODISPLAYBOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = FA10B4E72A5E7E2100642445 /* SFPRODISPLAYBOLD.OTF */; };
 		FA10B4EC2A5E881000642445 /* Ubuntu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */; };
 		FA96C0A62A5800400092E4F4 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96C0A42A5800400092E4F4 /* InfoButton.swift */; };
-		FA98C8632A8D2C0A004934BC /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C8622A8D2C0A004934BC /* SearchView.swift */; };
 		FA99789D2A8E3543004EAEC9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */; };
 		FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C02A874BDF00971944 /* ViewData.swift */; };
 		FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C22A874BF200971944 /* WeatherData.swift */; };
@@ -60,7 +59,6 @@
 		FA10B4E72A5E7E2100642445 /* SFPRODISPLAYBOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPRODISPLAYBOLD.OTF; sourceTree = "<group>"; };
 		FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Regular.ttf"; sourceTree = "<group>"; };
 		FA96C0A52A5800400092E4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/InfoButton.swift; sourceTree = "<group>"; };
-		FA98C8622A8D2C0A004934BC /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FA9EC7C02A874BDF00971944 /* ViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewData.swift; sourceTree = "<group>"; };
 		FA9EC7C22A874BF200971944 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 				FA9FD4F42A7529BE00018983 /* WeatherInfoView.swift */,
 				FABF1F6E2A8CF52D0044825C /* LocationButton.swift */,
 				FA96C0A42A5800400092E4F4 /* InfoButton.swift */,
-				FA98C8622A8D2C0A004934BC /* SearchView.swift */,
 				FABF1F6C2A8CF50D0044825C /* SearchButton.swift */,
 				FAA67D8B2A7270E700746F5A /* DescriptionView.swift */,
 			);
@@ -449,7 +446,6 @@
 				FAA67D8E2A72903100746F5A /* StoneImageView.swift in Sources */,
 				FA9FD4F52A7529BE00018983 /* WeatherInfoView.swift in Sources */,
 				FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */,
-				FA98C8632A8D2C0A004934BC /* SearchView.swift in Sources */,
 				FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */,
 				FAA67D8C2A7270E700746F5A /* DescriptionView.swift in Sources */,
 				FABF1F6D2A8CF50E0044825C /* SearchButton.swift in Sources */,

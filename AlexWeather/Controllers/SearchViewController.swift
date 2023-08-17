@@ -11,11 +11,8 @@ import SnapKit
 import Network
 
 class SearchViewController: UIViewController {
-    
+    // MARK: Elements
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +21,14 @@ class SearchViewController: UIViewController {
 //        addTargets()
 //        startLocationManager()
     }
-    
+    //MARK: Items On View
     private func setupUI() {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
-    
+    //MARK: Methods
     private func defaultConfiguration() {
         
     }

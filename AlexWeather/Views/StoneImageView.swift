@@ -10,6 +10,7 @@ import CoreLocation
 import Foundation
 
 final class StoneImageView: UIImageView {
+    // MARK: Elements
     var stoneState: StoneState = .normal(windy: false) {
         didSet {
             applyState(state: stoneState)
@@ -29,6 +30,7 @@ final class StoneImageView: UIImageView {
         ]
         return animation
     }()
+    // MARK: Inits
     init() {
         super.init(frame: .zero)
         applyState(state: .normal(windy: false))
@@ -37,6 +39,7 @@ final class StoneImageView: UIImageView {
     required init?(coder: NSCoder) {
         return nil
     }
+    // MARK: Methods
     private func applyState(state: StoneState) {
         let image: UIImage?
         let alpha: CGFloat
@@ -66,7 +69,7 @@ final class StoneImageView: UIImageView {
         }
     }
 }
-
+// MARK: Extension
 extension StoneImageView {
     enum StoneState {
         case normal(windy: Bool)

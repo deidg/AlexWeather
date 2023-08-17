@@ -11,6 +11,7 @@ import UIKit
 import SnapKit
 
 final class WeatherInfoView: UIView {
+    // MARK: Elements
     var viewData: ViewData? {
         didSet {
             temperatureLabel.text = viewData?.temp
@@ -31,7 +32,6 @@ final class WeatherInfoView: UIView {
         conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
         return conditionsLabel
     }()
-    //TODO: проверить текст и настройки лейбла
     let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textColor = .black
@@ -41,7 +41,7 @@ final class WeatherInfoView: UIView {
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
 //     let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
-
+    // MARK: Inits
     init() {
         super.init(frame: .zero)
         setupUI()
@@ -49,7 +49,7 @@ final class WeatherInfoView: UIView {
     required init?(coder: NSCoder) {
         return nil
     }
-    
+    // MARK: Methods
     private func setupUI() {
         addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints { make in
@@ -84,7 +84,7 @@ final class WeatherInfoView: UIView {
     
     
 }
-    
+// MARK: Extension
 extension WeatherInfoView {
     enum Constants {
         enum Text {
