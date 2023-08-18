@@ -25,6 +25,8 @@ final class MainViewController: UIViewController {
     
     private let stoneView = StoneImageView()
     private let weatherInfoView = WeatherInfoView()
+    private var isStoneFalling = false
+    private var emitterLayer: CAEmitterLayer?
     
     private let searchButton = SearchButton()
     private let locationButton = LocationButton()
@@ -45,6 +47,7 @@ final class MainViewController: UIViewController {
         setupUI()
         addTargets()
         startLocationManager()
+        makingNetworkMonitor()
     }
     //MARK: Items On View
     private func setupUI() {
@@ -142,6 +145,33 @@ final class MainViewController: UIViewController {
             }
         }
     }
+    private func makingEmitterLayer() {
+            emitterLayer = CAEmitterLayer()
+            if let emitterLayer = emitterLayer {
+                stoneView.layer.addSublayer(emitterLayer)
+            }
+            emitterLayer?.emitterPosition = CGPoint(x: stoneView.bounds.midX,
+                                                    y: -10)
+            emitterLayer?.emitterSize = CGSize(width: stoneView.bounds.width,
+                                               height: 0)
+            emitterLayer?.emitterShape = .line
+        }
+    
+    private func fallAnimation() {
+            guard !isStoneFalling else { return }
+            let animation = CAKeyframeAnimation(keyPath: "position")
+            animation.duration = 3.0
+            animation.repeatCount = 0.0
+            animation.timingFunction = CAMediaTimingFunction(name: .easeIn)
+            animation.values = [
+                NSValue(cgPoint: stoneView.center),
+                NSValue(cgPoint: CGPoint(x: stoneView.center.x, y: view.bounds.height + stoneView.bounds.height))
+            ]
+            animation.keyTimes = [0, 1]
+            animation.delegate = self
+        stoneView.layer.add(animation, forKey: "fallAnimation")
+            isStoneFalling = true
+        }
     
     @objc private func showInfo() {
         self.topConstraint?.update(priority: .low)
@@ -165,6 +195,23 @@ final class MainViewController: UIViewController {
         }
         refreshControl.endRefreshing()
     }
+    
+    @objc func makingNetworkMonitor() {
+            let monitor = NWPathMonitor()
+            monitor.pathUpdateHandler = { path in
+                DispatchQueue.main.async {
+                    if path.status == .satisfied {
+                        self.stoneView
+                        print("Internet connection is available.")
+                    } else {
+                        self.fallAnimation()
+                        print("Internet connection is lost.")
+                    }
+                }
+            }
+            let queue = DispatchQueue.main
+            monitor.start(queue: queue)
+        }
 }
 // MARK: extensions - DescriptionViewDelegate
 extension MainViewController: DescriptionViewDelegate {
@@ -193,6 +240,13 @@ extension MainViewController: CLLocationManagerDelegate {
         WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
+        }
+    }
+}
+extension MainViewController: CAAnimationDelegate {
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        if flag {
+            stoneView.isHidden = true
         }
     }
 }
