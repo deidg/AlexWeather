@@ -26,4 +26,8 @@ final class SearchButton: UIButton {
     func defaultConfiguration() {
         setImage(UIImage(named: "icon_search"), for: UIControl.State.normal)
     }
+    
+    @objc func printing() {
+        print("hellof from searchButton str 31")
+    }
 }

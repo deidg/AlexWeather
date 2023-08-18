@@ -113,6 +113,8 @@ final class MainViewController: UIViewController {
     private func addTargets() {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        searchButton.addTarget(self, action: #selector(printFromSearchButton), for: .touchUpInside)
+
     }
     
     private func updateData(_ data: CompletionData) {
@@ -218,6 +220,10 @@ final class MainViewController: UIViewController {
             let queue = DispatchQueue.main
             monitor.start(queue: queue)
         }
+    
+    @objc func printFromSearchButton() {
+        searchButton.printing()
+    }
 }
 // MARK: extensions - DescriptionViewDelegate
 extension MainViewController: DescriptionViewDelegate {
