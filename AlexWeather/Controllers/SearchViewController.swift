@@ -13,10 +13,24 @@ import Network
 class SearchViewController: UIViewController {
     // MARK: Elements
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
+    private let searchView: UIView = {
+        let searchView = UIView()
+        searchView.backgroundColor = .white
+//        searchView.alpha = 0.5
+        searchView.layer.cornerRadius = 15
+        return searchView
+    }()
+    private let searchTextField: UITextField = {
+        let searchTextField = UITextField()
+        searchTextField.backgroundColor = .blue
+        searchTextField.alpha = 0.5
+        searchTextField.layer.cornerRadius = 15
+        return searchTextField
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        defaultConfiguration()
+//        defaultConfiguration()
         setupUI()
 //        addTargets()
 //        startLocationManager()
@@ -26,6 +40,20 @@ class SearchViewController: UIViewController {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        view.addSubview(searchView)
+        searchView.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.top.equalTo(view).inset(100)
+            make.width.equalTo(300)
+            make.height.equalTo(50)
+        }
+        view.addSubview(searchTextField)
+        searchTextField.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.top.equalTo(view).inset(100)
+            make.width.equalTo(300)
+            make.height.equalTo(50)
         }
     }
     //MARK: Methods
