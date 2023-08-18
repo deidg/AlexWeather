@@ -10,6 +10,9 @@ import CoreLocation
 import SnapKit
 import Network
 
+
+//TODO: make adjustable number of lines for answers
+
 class SearchViewController: UIViewController {
     // MARK: Elements
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
@@ -22,10 +25,17 @@ class SearchViewController: UIViewController {
     }()
     private let searchTextField: UITextField = {
         let searchTextField = UITextField()
-        searchTextField.backgroundColor = .blue
-        searchTextField.alpha = 0.5
+        searchTextField.backgroundColor = .white
+        searchTextField.alpha = 0.6
         searchTextField.layer.cornerRadius = 15
         return searchTextField
+    }()
+    private let preSelectionTableView: UITableView = {
+        let preSelectionTableView = UITableView()
+        preSelectionTableView.backgroundColor = .white
+        preSelectionTableView.alpha = 0.5
+        preSelectionTableView.layer.cornerRadius = 15
+        return preSelectionTableView
     }()
     
     override func viewDidLoad() {
@@ -45,25 +55,28 @@ class SearchViewController: UIViewController {
         searchView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
             make.top.equalTo(view).inset(100)
-            make.width.equalTo(300)
+            make.horizontalEdges.equalTo(view).inset(30)
             make.height.equalTo(50)
         }
         view.addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
             make.centerX.equalTo(view)
             make.top.equalTo(view).inset(100)
-            make.width.equalTo(300)
+            make.horizontalEdges.equalTo(view).inset(30)
             make.height.equalTo(50)
+        }
+        view.addSubview(preSelectionTableView)
+        preSelectionTableView.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.top.equalTo(view).inset(100)
+            make.horizontalEdges.equalTo(view).inset(30)
+            make.bottom.equalTo(view.snp.bottom).inset(50+150)
         }
     }
     //MARK: Methods
     private func defaultConfiguration() {
         
     }
-    
-//    private func setupDelegates() {
-//        self.collectionView.delegate = self
-//    }
 
     
     
