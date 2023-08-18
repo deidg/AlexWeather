@@ -173,6 +173,17 @@ final class MainViewController: UIViewController {
             isStoneFalling = true
         }
     
+//    private func updateData(_ data: CompletionData, isConnected: Bool) {
+//            state = .init(temperature: data.temperature, conditionCode: data.id, windSpeed: data.windSpeed)
+//            print("from uppdateData")
+//            print(state)
+//        }
+    
+    private func showStoneImage() {
+            stoneView.isHidden = false
+            isStoneFalling = false
+        }
+    
     @objc private func showInfo() {
         self.topConstraint?.update(priority: .low)
         self.centerXConstraint?.update(priority: .low)
@@ -189,6 +200,7 @@ final class MainViewController: UIViewController {
     
     @objc private func refresh(_ sender: AnyObject) {
         flash()
+        makingNetworkMonitor()
         guard let location = locationManager.location else { return }
         WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
             self.updateData(completionData)
@@ -201,7 +213,7 @@ final class MainViewController: UIViewController {
             monitor.pathUpdateHandler = { path in
                 DispatchQueue.main.async {
                     if path.status == .satisfied {
-                        self.stoneView
+                        self.showStoneImage()
                         print("Internet connection is available.")
                     } else {
                         self.fallAnimation()
