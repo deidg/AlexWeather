@@ -4,6 +4,9 @@
 //
 //  Created by Alex on 16.05.2023.
 //
+
+
+
 import UIKit
 import CoreLocation
 import SnapKit
@@ -113,7 +116,7 @@ final class MainViewController: UIViewController {
     private func addTargets() {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        searchButton.addTarget(self, action: #selector(printFromSearchButton), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(openSearchViewController), for: .touchUpInside)
 
     }
     
@@ -221,8 +224,9 @@ final class MainViewController: UIViewController {
             monitor.start(queue: queue)
         }
     
-    @objc func printFromSearchButton() {
-        searchButton.printing()
+    @objc func openSearchViewController() {
+        self.present(searchViewContoller, animated: true)
+        searchButton.printing()   // УДАЛИТЬ потом
     }
 }
 // MARK: extensions - DescriptionViewDelegate
