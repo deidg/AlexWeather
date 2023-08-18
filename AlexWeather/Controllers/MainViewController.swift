@@ -173,12 +173,6 @@ final class MainViewController: UIViewController {
             isStoneFalling = true
         }
     
-//    private func updateData(_ data: CompletionData, isConnected: Bool) {
-//            state = .init(temperature: data.temperature, conditionCode: data.id, windSpeed: data.windSpeed)
-//            print("from uppdateData")
-//            print(state)
-//        }
-    
     private func showStoneImage() {
             stoneView.isHidden = false
             isStoneFalling = false
