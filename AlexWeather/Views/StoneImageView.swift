@@ -61,7 +61,11 @@ final class StoneImageView: UIImageView {
         case .hot:
             image = UIImage(named: "image_stone_cracks")
             alpha = 1
+        case .noInternet:
+            image = UIImage(named: "image_stone_normal")
+            alpha = 0
         }
+        
         self.image = image
         self.alpha = alpha
         if state.isWindy {
@@ -77,9 +81,13 @@ extension StoneImageView {
         case snow(windy: Bool)
         case fog(windy: Bool)
         case hot(windy: Bool)
+        case noInternet
         
         var isWindy: Bool {
             switch self {
+            case .noInternet:
+                print("There is no internet")
+                return false
             case .normal(let windy):
                 return windy
             case .rain(let windy):
