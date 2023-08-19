@@ -267,6 +267,17 @@ extension MainViewController: CAAnimationDelegate {
     }
 }
 
+extension MainViewController: SearchDataDelegate {
+    func fetchSearchData(_ cityName: String) {
+        print("cityName from search - \(cityName)")
+
+    }
+    
+    
+//    func updateCityName( cityName: String) {
+//    }
+}
+
 
 
 
