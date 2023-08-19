@@ -150,13 +150,18 @@ extension SearchViewController: UITextFieldDelegate {
             // Called when Return/Done is pressed on the keyboard
             textField.resignFirstResponder() // Hide the keyboard
             return true
-        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     
-    
-    
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 //        if let text = searchTextField.text,
 //           let textRange = Range(range, in: text) {
 //            let updatedText = text.replacingCharacters(in: textRange, with: string)
