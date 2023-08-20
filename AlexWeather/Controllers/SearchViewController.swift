@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import CoreLocation
+import CoreLocation
 import SnapKit
 //import Network
 
@@ -17,6 +17,7 @@ import SnapKit
 class SearchViewController: UIViewController {
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
+//    let locationManager = CLLocationManager()
     
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let searchView: UIView = {
@@ -58,7 +59,7 @@ class SearchViewController: UIViewController {
         addTapToHideKeyboard()
         observeKeyboardNotificaton()
         searchTextField.delegate = self
-        
+//        locationManager.delegate = self
     }
     //MARK: Items On View
     private func setupUI() {
@@ -179,3 +180,15 @@ extension SearchViewController: UITextFieldDelegate {
 //        return true
 //    }
 }
+
+//extension SearchViewController: CLLocationManagerDelegate {
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let lastLocation = locations.last else { return }
+//
+//        print("my location is - \(lastLocation)")
+////        WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
+////            guard let self else { return }
+////            self.updateData(completionData)
+////        }
+//    }
+//}

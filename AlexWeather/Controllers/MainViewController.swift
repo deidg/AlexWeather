@@ -11,12 +11,36 @@ import UIKit
 import CoreLocation
 import SnapKit
 import Network
+import MapKit
+
 
 final class MainViewController: UIViewController {
     //MARK: Elements
     private let searchViewContoller = SearchViewController()
     
     private let locationManager = CLLocationManager()
+    
+    
+    
+    
+
+
+        var lat: Double = 55.45475
+        var long: Double = 37.37347
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let scrollView: UIScrollView = {
@@ -51,6 +75,7 @@ final class MainViewController: UIViewController {
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
+        makeGeo()
     }
     //MARK: Items On View
     private func setupUI() {
@@ -106,10 +131,52 @@ final class MainViewController: UIViewController {
         }
         scrollView.refreshControl = refreshControl
     }
+    
+    
+    
+    func makeGeo() {
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: lat, longitude: long)
+        
+        geoCoder.reverseGeocodeLocation(location, completionHandler: {
+        
+        placemarks, error -> Void in
+        
+        guard let placemark = placemarks?.first else {
+        return
+        }
+        
+        if let subThoroughfare = placemark.subThoroughfare {
+        print(subThoroughfare)
+        }
+        
+        if let thoroughfare = placemark.thoroughfare {
+        print(thoroughfare)
+        }
+        
+        if let city = placemark.locality {
+        print(city)
+        }
+        
+        if let country = placemark.isoCountryCode {
+        print(country)
+        }
+        
+        if let zip = placemark.postalCode {
+        print(zip)
+        }
+            
+        })
+        
+    }
+    
+    
+    
     // MARK: Methods
     private func defaultConfiguration() {
         view.backgroundColor = .white
         descriptionView.delegate = self
+        locationManager.delegate = self
         scrollView.refreshControl = refreshControl
     }
     
@@ -257,6 +324,12 @@ extension MainViewController: CLLocationManagerDelegate {
             guard let self else { return }
             self.updateData(completionData)
         }
+    }
+    
+    func updateLocation(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let lastLocation = locations.last else { return }
+        print("you are here - \(lastLocation)")
+        
     }
 }
 extension MainViewController: CAAnimationDelegate {
