@@ -12,7 +12,6 @@ import SnapKit
 
 
 
-
 //TODO: make adjustable number of lines for answers
 
 class SearchViewController: UIViewController {
