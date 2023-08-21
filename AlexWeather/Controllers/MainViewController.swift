@@ -19,29 +19,9 @@ final class MainViewController: UIViewController {
     private let searchViewContoller = SearchViewController()
     
     private let locationManager = CLLocationManager()
-    
-    
-    
+    private let geoCoder = CLGeocoder()
     
 
-
-        var lat: Double = 55.45475
-        var long: Double = 37.37347
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let scrollView: UIScrollView = {
         var scrollView = UIScrollView()
@@ -75,7 +55,6 @@ final class MainViewController: UIViewController {
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
-        makeGeo()
     }
     //MARK: Items On View
     private func setupUI() {
@@ -131,47 +110,7 @@ final class MainViewController: UIViewController {
         }
         scrollView.refreshControl = refreshControl
     }
-    
-    
-    
-    func makeGeo() {
-        let geoCoder = CLGeocoder()
-        let location = CLLocation(latitude: lat, longitude: long)
-        
-        geoCoder.reverseGeocodeLocation(location, completionHandler: {
-        
-        placemarks, error -> Void in
-        
-        guard let placemark = placemarks?.first else {
-        return
-        }
-        
-        if let subThoroughfare = placemark.subThoroughfare {
-        print(subThoroughfare)
-        }
-        
-        if let thoroughfare = placemark.thoroughfare {
-        print(thoroughfare)
-        }
-        
-        if let city = placemark.locality {
-        print(city)
-        }
-        
-        if let country = placemark.isoCountryCode {
-        print(country)
-        }
-        
-        if let zip = placemark.postalCode {
-        print(zip)
-        }
-            
-        })
-        
-    }
-    
-    
-    
+ 
     // MARK: Methods
     private func defaultConfiguration() {
         view.backgroundColor = .white
@@ -184,7 +123,7 @@ final class MainViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         searchButton.addTarget(self, action: #selector(openSearchViewController), for: .touchUpInside)
-
+        locationButton.addTarget(self, action: #selector(printingGeo), for: .touchUpInside)
     }
     
     private func updateData(_ data: CompletionData) {
@@ -210,7 +149,7 @@ final class MainViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         DispatchQueue.global(qos: .userInitiated).async {
             if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.delegate = self
+//                self.locationManager.delegate = self
                 self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
                 self.locationManager.pausesLocationUpdatesAutomatically = false   //  why not TRUE?
                 self.locationManager.startUpdatingLocation()
@@ -295,6 +234,46 @@ final class MainViewController: UIViewController {
         self.present(searchViewContoller, animated: true)
         searchButton.printing()   // УДАЛИТЬ потом
     }
+    
+    @objc func printingGeo() {
+        
+                let latitude = 37.77
+                let longitude = -122.41
+        
+        
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+
+        geoCoder.reverseGeocodeLocation(location,  completionHandler: {
+
+            placemarks, error -> Void in
+
+            guard let placemark = placemarks?.first else {
+               return
+            }
+
+            if let city = placemark.locality {
+//                print(city)
+                print("Your city is - \(city)")
+            }
+
+
+        })
+        
+        
+        
+        
+        
+//
+//        let latitude = 37.77
+//        let longitude = -122.41
+//
+//        print("Your position - \(latitude), \(longitude)")
+        
+        
+        
+//        print("Your city is - \(city)")
+
+    }
 }
 // MARK: extensions - DescriptionViewDelegate
 extension MainViewController: DescriptionViewDelegate {
@@ -326,11 +305,7 @@ extension MainViewController: CLLocationManagerDelegate {
         }
     }
     
-    func updateLocation(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let lastLocation = locations.last else { return }
-        print("you are here - \(lastLocation)")
-        
-    }
+
 }
 extension MainViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -343,13 +318,28 @@ extension MainViewController: CAAnimationDelegate {
 extension MainViewController: SearchDataDelegate {
     func fetchSearchData(_ cityName: String) {
         print("cityName from search - \(cityName)")
-
+        
     }
+}
+
+//extension MainViewController: LocationUpdateDelegate {
+//    func updateLocation(latitude: Double, longitude: Double) {
+//        print("Updated location: latitude: \(latitude), longitude: \(longitude)")
+//
+//    }
+//
+//
     
+    
+//    func didUpdateLocation(latitude: Double, longitude: Double) {
+//        print("Updated location: latitude: \(latitude), longitude: \(longitude)")
+//    }
+//}
+
     
 //    func updateCityName( cityName: String) {
 //    }
-}
+//}
 
 
 

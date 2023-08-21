@@ -13,6 +13,7 @@
 		FA10B4EA2A5E7E2100642445 /* SFPRODISPLAYBOLD.OTF in Resources */ = {isa = PBXBuildFile; fileRef = FA10B4E72A5E7E2100642445 /* SFPRODISPLAYBOLD.OTF */; };
 		FA10B4EC2A5E881000642445 /* Ubuntu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */; };
 		FA96C0A62A5800400092E4F4 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96C0A42A5800400092E4F4 /* InfoButton.swift */; };
+		FA981BE72A923EBE00AADC76 /* LocationUpdateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA981BE62A923EBE00AADC76 /* LocationUpdateDelegate.swift */; };
 		FA99789D2A8E3543004EAEC9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */; };
 		FA9990842A908BD5003DEE0E /* SearchDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9990832A908BD5003DEE0E /* SearchDataDelegate.swift */; };
 		FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EC7C02A874BDF00971944 /* ViewData.swift */; };
@@ -60,6 +61,7 @@
 		FA10B4E72A5E7E2100642445 /* SFPRODISPLAYBOLD.OTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPRODISPLAYBOLD.OTF; sourceTree = "<group>"; };
 		FA10B4EB2A5E881000642445 /* Ubuntu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Regular.ttf"; sourceTree = "<group>"; };
 		FA96C0A52A5800400092E4F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/InfoButton.swift; sourceTree = "<group>"; };
+		FA981BE62A923EBE00AADC76 /* LocationUpdateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdateDelegate.swift; sourceTree = "<group>"; };
 		FA99789C2A8E3543004EAEC9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		FA9990832A908BD5003DEE0E /* SearchDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataDelegate.swift; sourceTree = "<group>"; };
 		FA9EC7C02A874BDF00971944 /* ViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewData.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				FA9EC7C02A874BDF00971944 /* ViewData.swift */,
 				FA9EC7C22A874BF200971944 /* WeatherData.swift */,
 				FA9990832A908BD5003DEE0E /* SearchDataDelegate.swift */,
+				FA981BE62A923EBE00AADC76 /* LocationUpdateDelegate.swift */,
 				FA9EC7C42A874C1400971944 /* CompletionData.swift */,
 			);
 			path = Models;
@@ -452,6 +455,7 @@
 				FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */,
 				FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */,
 				FAA67D8C2A7270E700746F5A /* DescriptionView.swift in Sources */,
+				FA981BE72A923EBE00AADC76 /* LocationUpdateDelegate.swift in Sources */,
 				FABF1F6D2A8CF50E0044825C /* SearchButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
