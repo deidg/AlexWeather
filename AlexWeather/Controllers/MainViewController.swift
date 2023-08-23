@@ -237,9 +237,8 @@ final class MainViewController: UIViewController {
     
     @objc private func updateLocation() {
         locationManager.startUpdatingLocation()
-        print("from 241")
-        print("your longitude - \(locationManager.location?.coordinate.longitude)")
-        print("your latitude - \(locationManager.location?.coordinate.latitude)")
+        print("your current longitude - \(String(describing: locationManager.location?.coordinate.longitude))")
+        print("your current latitude - \(String(describing: locationManager.location?.coordinate.latitude))")
     }
 
 }
@@ -271,8 +270,6 @@ extension MainViewController: CLLocationManagerDelegate {
         WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
-            print(lastLocation)
-            print("printing staff")
         }
     }
 }

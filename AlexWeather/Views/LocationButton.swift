@@ -16,7 +16,6 @@ final class LocationButton: UIButton {
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
         defaultConfiguration()
-//        locationButton.addTarget(self, action: #selector(locationManager), for: .touchUpInside)
     }
     required init?(coder: NSCoder) {
                 return nil
