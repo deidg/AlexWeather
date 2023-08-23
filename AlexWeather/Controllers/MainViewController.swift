@@ -123,7 +123,7 @@ final class MainViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         searchButton.addTarget(self, action: #selector(openSearchViewController), for: .touchUpInside)
-        locationButton.addTarget(self, action: #selector(getter: locationManager), for: .touchUpInside)
+        locationButton.addTarget(self, action: #selector(updateLocation), for: .touchUpInside)
     }
     
     private func updateData(_ data: CompletionData) {
@@ -233,6 +233,13 @@ final class MainViewController: UIViewController {
     @objc func openSearchViewController() {
         self.present(searchViewContoller, animated: true)
         searchButton.printing()   // УДАЛИТЬ потом
+    }
+    
+    @objc private func updateLocation() {
+        locationManager.startUpdatingLocation()
+        print("from 241")
+        print("your longitude - \(locationManager.location?.coordinate.longitude)")
+        print("your latitude - \(locationManager.location?.coordinate.latitude)")
     }
 
 }
