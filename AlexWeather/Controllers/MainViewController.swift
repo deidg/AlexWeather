@@ -4,7 +4,7 @@
 //
 //  Created by Alex on 16.05.2023.
 //
-
+//TODO: настроить проверку доступности CLLocation manager (https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services#3384898)
 
 
 import UIKit
@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
     //MARK: Elements
     private let searchViewContoller = SearchViewController()
     
-    private let locationManager = CLLocationManager()
+    @objc private let locationManager = CLLocationManager()
     private let geoCoder = CLGeocoder()
     
 
@@ -123,7 +123,7 @@ final class MainViewController: UIViewController {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         searchButton.addTarget(self, action: #selector(openSearchViewController), for: .touchUpInside)
-        locationButton.addTarget(self, action: #selector(printingGeo), for: .touchUpInside)
+        locationButton.addTarget(self, action: #selector(getter: locationManager), for: .touchUpInside)
     }
     
     private func updateData(_ data: CompletionData) {
@@ -234,47 +234,9 @@ final class MainViewController: UIViewController {
         self.present(searchViewContoller, animated: true)
         searchButton.printing()   // УДАЛИТЬ потом
     }
-    
-    @objc func printingGeo() {
-        
-                let latitude = 37.77
-                let longitude = -122.41
-        
-        
-        let location = CLLocation(latitude: latitude, longitude: longitude)
 
-        geoCoder.reverseGeocodeLocation(location,  completionHandler: {
-
-            placemarks, error -> Void in
-
-            guard let placemark = placemarks?.first else {
-               return
-            }
-
-            if let city = placemark.locality {
-//                print(city)
-                print("Your city is - \(city)")
-            }
-
-
-        })
-        
-        
-        
-        
-        
-//
-//        let latitude = 37.77
-//        let longitude = -122.41
-//
-//        print("Your position - \(latitude), \(longitude)")
-        
-        
-        
-//        print("Your city is - \(city)")
-
-    }
 }
+
 // MARK: extensions - DescriptionViewDelegate
 extension MainViewController: DescriptionViewDelegate {
     func hideInfo() {
@@ -302,10 +264,10 @@ extension MainViewController: CLLocationManagerDelegate {
         WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
+            print(lastLocation)
+            print("printing staff")
         }
     }
-    
-
 }
 extension MainViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -321,26 +283,4 @@ extension MainViewController: SearchDataDelegate {
         
     }
 }
-
-//extension MainViewController: LocationUpdateDelegate {
-//    func updateLocation(latitude: Double, longitude: Double) {
-//        print("Updated location: latitude: \(latitude), longitude: \(longitude)")
-//
-//    }
-//
-//
-    
-    
-//    func didUpdateLocation(latitude: Double, longitude: Double) {
-//        print("Updated location: latitude: \(latitude), longitude: \(longitude)")
-//    }
-//}
-
-    
-//    func updateCityName( cityName: String) {
-//    }
-//}
-
-
-
 

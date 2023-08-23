@@ -25,12 +25,4 @@ final class LocationButton: UIButton {
     func defaultConfiguration() {
         setImage(UIImage(named: "icon_location"), for: UIControl.State.normal)
     }
-    
-//    @objc private func updateLocation() {
-//
-//        let latitude = 37.77
-//        let longitude = -122.41
-//
-//        delegate?.updateLocation(latitude: latitude, longitude: longitude)
-//    }
 }
