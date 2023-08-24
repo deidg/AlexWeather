@@ -11,6 +11,12 @@ import SnapKit
 //import Network
 
 
+    // надо сделать запрос который по городу находит город.
+//1. сделать ввод текста
+//2. текст преобразовать в АПИ запрос.
+//3. Полученный ответ отобразить на главном VC
+//4. Спросить у Влада - что делать с листом предложений.
+
 
 //TODO: make adjustable number of lines for answers
 
@@ -143,15 +149,17 @@ extension SearchViewController {
         view.endEditing(true)
     }
 }
-//код из V1 reverse word - надо отрегулировать переменнные.  Код отслеживает в моменте изменение текста
+
 extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            // Called when Return/Done is pressed on the keyboard
-            textField.resignFirstResponder() // Hide the keyboard
-            return true
+        
+        print(textField.text ?? "")
+        preSelectionTableView.backgroundColor = .green
+        
+        return true
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -159,36 +167,6 @@ extension SearchViewController: UITextFieldDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
-    
-    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        if let text = searchTextField.text,
-//           let textRange = Range(range, in: text) {
-//            let updatedText = text.replacingCharacters(in: textRange, with: string)
-//            if textField == reverseTextField {
-//                if updatedText == "" {
-//                    state = .initial
-//                } else {
-//                    divider.backgroundColor = Constants.Divider.dividerBackgroundColorActivated
-//                    state = .typing(text: updatedText)
-//                }
-//            } else if textField == ignoreTextField {
-//                mode = .customMode(exceptionText: updatedText)
-//                state = .typing(text: reverseTextField.text ?? "")
-//            }
-//        }
-//        return true
-//    }
 }
-
-//extension SearchViewController: CLLocationManagerDelegate {
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let lastLocation = locations.last else { return }
-//
-//        print("my location is - \(lastLocation)")
-////        WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
-////            guard let self else { return }
-////            self.updateData(completionData)
-////        }
-//    }
-//}
+    
+    
