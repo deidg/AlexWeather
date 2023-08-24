@@ -42,7 +42,7 @@ class SearchViewController: UIViewController {
         searchTextField.isEnabled = true
         searchTextField.isUserInteractionEnabled = true
         searchTextField.keyboardType = .alphabet
-        searchTextField.becomeFirstResponder()
+//        searchTextField.becomeFirstResponder()
         return searchTextField
     }()
     private let preSelectionTableView: UITableView = {
@@ -58,14 +58,10 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        defaultConfiguration()
         setupUI()
-//        addTargets()
-//        startLocationManager()
         addTapToHideKeyboard()
         observeKeyboardNotificaton()
         searchTextField.delegate = self
-//        locationManager.delegate = self
     }
     //MARK: Items On View
     private func setupUI() {
@@ -73,17 +69,6 @@ class SearchViewController: UIViewController {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-//        view.addSubview(scrollView)
-//        scrollView.snp.makeConstraints { make in
-//            make.edges.equalTo(view)
-//        }
-//
-//        scrollView.addSubview(contentView)
-//        contentView.snp.makeConstraints { make in
-//            make.edges.equalTo(scrollView)
-//        }
-        
-        
         view.addSubview(searchView)
         searchView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
@@ -107,22 +92,57 @@ class SearchViewController: UIViewController {
         }
     }
     //MARK: Methods
-                    
+       
+    private func addTapToHideKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    @objc private func toggleKeyboard() {
+        if searchTextField.isFirstResponder {
+            searchTextField.resignFirstResponder()
+        } else {
+            searchTextField.becomeFirstResponder()
+        }
+    }
+    
+    
    
     @objc private func sendCityName() {  // передает данные через Делагата с этого контроллера на главный через 
         if let cityName = searchTextField.text {
             delegate?.fetchSearchData(cityName)
         }
     }
+    
+    @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+   
+    
 }
 extension SearchViewController {
-    private func addTapToHideKeyboard() {
-        let tap = UITapGestureRecognizer(
-            target: self,
-            action: #selector(hideKeyboard(gesture:))
-        )
-        contentView.addGestureRecognizer(tap)
-    }
+//    private func addTapToHideKeyboard() {
+//        let tap = UITapGestureRecognizer(
+//            target: self,
+//            action: #selector(hideKeyboard(gesture:))
+//        )
+//        contentView.addGestureRecognizer(tap)
+//    }
+    
+//    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
+//    searchTextField.addGestureRecognizer(tapGesture)
+    
+    
+    
     private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
@@ -145,9 +165,19 @@ extension SearchViewController {
         let contentInset: UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
-    @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
-        view.endEditing(true)
-    }
+//    @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
+//        view.endEditing(true)
+//    }
+    
+//    @objc private func toggleKeyboard() {
+//        if searchTextField.isFirstResponder {
+//            searchTextField.resignFirstResponder()
+//        } else {
+//            searchTextField.becomeFirstResponder()
+//        }
+//    }
+    
+    
 }
 
 extension SearchViewController: UITextFieldDelegate {
@@ -158,14 +188,6 @@ extension SearchViewController: UITextFieldDelegate {
         preSelectionTableView.backgroundColor = .green
         
         return true
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
     }
 }
     
