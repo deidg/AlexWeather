@@ -12,7 +12,7 @@ import SnapKit
 
 
     // надо сделать запрос который по городу находит город.
-//1. сделать ввод текста
+//1. сделать ввод текста +
 //2. текст преобразовать в АПИ запрос.
 //3. Полученный ответ отобразить на главном VC
 //4. Спросить у Влада - что делать с листом предложений.
@@ -23,8 +23,9 @@ import SnapKit
 class SearchViewController: UIViewController {
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
-//    let locationManager = CLLocationManager()
     
+//    let locationManager = CLLocationManager()
+    private let citySearchManager = CitySearchManager()
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let searchView: UIView = {
         let searchView = UIView()
@@ -165,30 +166,33 @@ extension SearchViewController {
         let contentInset: UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
-//    @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
-//        view.endEditing(true)
-//    }
-    
-//    @objc private func toggleKeyboard() {
-//        if searchTextField.isFirstResponder {
-//            searchTextField.resignFirstResponder()
-//        } else {
-//            searchTextField.becomeFirstResponder()
-//        }
-//    }
-    
-    
 }
 
 extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        print(textField.text ?? "")
-        preSelectionTableView.backgroundColor = .green
-        
+        if let cityName = textField.text {
+            citySearchManager.cityNameRquest(cityName: cityName) { completionData in
+                // Handle the completion data here
+                print(completionData) // Update this line with your handling logic
+            }
+        }
         return true
     }
 }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+////        guard let textField =  textField.text else { return }
+//
+//        print(textField.text ?? "")
+//        preSelectionTableView.backgroundColor = .green
+////        citySearchManager.cityNameRquest(cityName: textField) { <#CompletionData#> in
+////            <#code#>
+////        }
+//
+//        return true
+//    }
+    
+//}
     
     
