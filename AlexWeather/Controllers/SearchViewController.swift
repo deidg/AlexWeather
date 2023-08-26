@@ -56,7 +56,6 @@ class SearchViewController: UIViewController {
     }()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,10 +93,6 @@ class SearchViewController: UIViewController {
         }
     }
     //MARK: Methods
-       
-    
-    
-    
     private func addTapToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -110,12 +105,10 @@ class SearchViewController: UIViewController {
             searchTextField.becomeFirstResponder()
         }
     }
-    
-    
-   
+ 
     @objc private func sendCityName() {  // передает данные через Делагата с этого контроллера на главный через 
         if let cityName = searchTextField.text {
-            delegate?.transferSearchData(cityName)
+//            delegate?.transferSearchData(cityName)
             completion?(cityName)
         }
         dismiss(animated: true, completion: nil)
@@ -132,9 +125,6 @@ class SearchViewController: UIViewController {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
-   
-    
 }
 extension SearchViewController {
 //    private func addTapToHideKeyboard() {
@@ -147,10 +137,7 @@ extension SearchViewController {
     
 //    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
 //    searchTextField.addGestureRecognizer(tapGesture)
-    
-    
-    
-    private func observeKeyboardNotificaton() {
+  private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -188,7 +175,6 @@ extension SearchViewController: UITextFieldDelegate {
         dismiss(animated: true, completion: nil)
         return true
     }
-    
 }
         
 //            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] SearchCompletionData in guard let self else { return }

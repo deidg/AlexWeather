@@ -231,20 +231,46 @@ final class MainViewController: UIViewController {
         }
     
     @objc func openSearchViewController() {
-       
+        searchViewContoller.completion = { [weak self] cityName in
+            self?.updateWeatherData(cityName: cityName)
+            // You can update the label here if needed
+        }
         self.present(searchViewContoller, animated: true)
-        searchButton.printing()   // УДАЛИТЬ потом
-        
-//        searchViewContoller.compl
-   
     }
+    
+    
+    private func updateWeatherData(cityName: String) {
+        WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
+            self?.updateDataFromSearch(completionData: searchCompletionData)
+        }
+    }
+    private func updateDataFromSearch(completionData: SearchCompletionData) {
+        let viewData = ViewData(temp: "\(completionData.temperature)º", city: completionData.name, weather: completionData.weather)
+        self.weatherInfoView.viewData = viewData
+        stoneView.stoneState = .init(temperature: completionData.temperature,
+                                     conditionCode: completionData.id,
+                                     windSpeed: completionData.windSpeed)
+    }
+    
+//    private func updateWeatherData(cityName: String) {
+//        WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] SearchCompletionData in
+//            self.updateDataFromSearch(completionData: searchCompletionData)
+//        }
+//    }
+//
+//    private func updateDataFromSearch(completionData: SearchCompletionData) {
+//        let viewData = ViewData(temp: "\(completionData.temperature)°", city: completionData.name, weather: completionData.weather)
+//        self.weatherInfoView.viewData = viewData
+//        stoneView.stoneState = init(temperature: CompletionData.temperature,
+//                                    conditionCode: CompletionData.id,
+//                                    windSpeed: completionData.windSpeed)
+//    }
     
     @objc private func updateLocation() {
         locationManager.startUpdatingLocation()
         print("your current longitude - \(String(describing: locationManager.location?.coordinate.longitude))")
         print("your current latitude - \(String(describing: locationManager.location?.coordinate.latitude))")
     }
-
 }
 
 // MARK: extensions - DescriptionViewDelegate
