@@ -231,8 +231,12 @@ final class MainViewController: UIViewController {
         }
     
     @objc func openSearchViewController() {
+       
         self.present(searchViewContoller, animated: true)
         searchButton.printing()   // УДАЛИТЬ потом
+        
+//        searchViewContoller.compl
+   
     }
     
     @objc private func updateLocation() {
@@ -282,9 +286,9 @@ extension MainViewController: CAAnimationDelegate {
 }
 
 extension MainViewController: SearchDataDelegate {
-    func fetchSearchData(_ cityName: String) {
+    func transferSearchData(_ cityName: String) {
         print("cityName from search - \(cityName)")
-        
+//        weatherInfoView.locationLabel = cityName
     }
 }
 

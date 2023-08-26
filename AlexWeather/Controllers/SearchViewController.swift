@@ -23,6 +23,7 @@ import SnapKit
 class SearchViewController: UIViewController {
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
+    var completion: ((String) -> Void)?
     
 //    let locationManager = CLLocationManager()
     private let citySearchManager = CitySearchManager()
@@ -94,6 +95,9 @@ class SearchViewController: UIViewController {
     }
     //MARK: Methods
        
+    
+    
+    
     private func addTapToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -111,8 +115,10 @@ class SearchViewController: UIViewController {
    
     @objc private func sendCityName() {  // передает данные через Делагата с этого контроллера на главный через 
         if let cityName = searchTextField.text {
-            delegate?.fetchSearchData(cityName)
+            delegate?.transferSearchData(cityName)
+            completion?(cityName)
         }
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
@@ -172,15 +178,36 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let cityName = textField.text {
-            citySearchManager.cityNameRquest(cityName: cityName) { completionData in
-                // Handle the completion data here
-                print(completionData) // Update this line with your handling logic
-            }
+            
+            print(cityName)
+            
+            delegate?.transferSearchData(cityName)
+            
+            
         }
+        dismiss(animated: true, completion: nil)
         return true
     }
-}
     
+}
+        
+//            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] SearchCompletionData in guard let self else { return }
+////                self.updateData(SearchCompletionData)
+//                print(SearchCompletionData)
+//
+//            }
+//
+            
+//            citySearchManager.cityNameRquest(cityName: cityName) { completionData in
+//
+//
+//                print(completionData)
+//            }
+//        }
+//        return true
+//    }
+////}
+//
 //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 ////        guard let textField =  textField.text else { return }
 //

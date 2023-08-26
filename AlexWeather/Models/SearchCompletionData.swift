@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CompletionData {
+struct SearchCompletionData {
     let country: String
     let name: String
     

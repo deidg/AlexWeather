@@ -9,6 +9,6 @@ import Foundation
 
 protocol SearchDataDelegate: AnyObject {
     
-    func fetchSearchData (_ cityName: String)
-    
+    func transferSearchData (_ cityName: String)
+        
 }
