@@ -5,25 +5,25 @@ final class WeatherManager {
     private let queue = DispatchQueue(label: "WeatherManager_working_queue", qos: .userInitiated)
     //MARK: Singleton
     static var shared = WeatherManager()
-
+    
     private init() {}
-
+    
     func updateWeatherInfo(latitude: Double,
                            longitude: Double,
                            completion: ((CompletionData) -> Void)?) {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=b341573f7a5bb123a98e2addf28cba47&units=metric") else { return }
         queue.async {
-            let task = URLSession.shared.dataTask(with: url) { data, responce, error in
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data, let weather = try? JSONDecoder().decode(WeatherData.self, from: data) {
                     DispatchQueue.main.async {
-                    let completionData = CompletionData(
-                        city: weather.name,
-                        country: weather.sys.country,
-                        temperature: Int(weather.main.temp),
-                        weather: weather.weather.first?.main ?? "",
-                        id: weather.weather.first?.id ?? 0,
-                        windSpeed: weather.wind.speed,
-                        cod: weather.cod)
+                        let completionData = CompletionData(
+                            city: weather.name,
+                            country: weather.sys.country,
+                            temperature: Int(weather.main.temp),
+                            weather: weather.weather.first?.main ?? "",
+                            id: weather.weather.first?.id ?? 0,
+                            windSpeed: weather.wind.speed,
+                            cod: weather.cod)
                         completion?(completionData)
                     }
                 }
@@ -31,7 +31,7 @@ final class WeatherManager {
             task.resume()
         }
     }
-    
+
     func updateWeatherInfobyCityName(cityName: String, completion: @escaping (SearchCompletionData) -> Void) {
         guard let encodedCityName = cityName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: "https://api.openweathermap.org/geo/1.0/direct?q=\(encodedCityName)&appid=b341573f7a5bb123a98e2addf28cba47")

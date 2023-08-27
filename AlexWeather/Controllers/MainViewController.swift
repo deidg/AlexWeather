@@ -252,20 +252,6 @@ final class MainViewController: UIViewController {
                                      windSpeed: completionData.windSpeed)
     }
     
-//    private func updateWeatherData(cityName: String) {
-//        WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] SearchCompletionData in
-//            self.updateDataFromSearch(completionData: searchCompletionData)
-//        }
-//    }
-//
-//    private func updateDataFromSearch(completionData: SearchCompletionData) {
-//        let viewData = ViewData(temp: "\(completionData.temperature)°", city: completionData.name, weather: completionData.weather)
-//        self.weatherInfoView.viewData = viewData
-//        stoneView.stoneState = init(temperature: CompletionData.temperature,
-//                                    conditionCode: CompletionData.id,
-//                                    windSpeed: completionData.windSpeed)
-//    }
-    
     @objc private func updateLocation() {
         locationManager.startUpdatingLocation()
         print("your current longitude - \(String(describing: locationManager.location?.coordinate.longitude))")
@@ -312,9 +298,12 @@ extension MainViewController: CAAnimationDelegate {
 }
 
 extension MainViewController: SearchDataDelegate {
+    
     func transferSearchData(_ cityName: String) {
+        
         print("cityName from search - \(cityName)")
 //        weatherInfoView.locationLabel = cityName
+        
     }
 }
 

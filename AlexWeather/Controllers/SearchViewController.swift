@@ -106,13 +106,13 @@ class SearchViewController: UIViewController {
         }
     }
  
-    @objc private func sendCityName() {  // передает данные через Делагата с этого контроллера на главный через 
-        if let cityName = searchTextField.text {
-//            delegate?.transferSearchData(cityName)
-            completion?(cityName)
-        }
-        dismiss(animated: true, completion: nil)
-    }
+//    @objc private func sendCityName() {  // передает данные через Делагата с этого контроллера на главный через 
+//        if let cityName = searchTextField.text {
+////            delegate?.transferSearchData(cityName)
+//            completion?(cityName)
+//        }
+//        dismiss(animated: true, completion: nil)
+//    }
     
     @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -165,12 +165,9 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let cityName = textField.text {
-            
+            completion?(cityName)
             print(cityName)
-            
-            delegate?.transferSearchData(cityName)
-            
-            
+//            delegate?.transferSearchData(cityName)
         }
         dismiss(animated: true, completion: nil)
         return true
