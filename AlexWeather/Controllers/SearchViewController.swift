@@ -165,9 +165,9 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let cityName = textField.text {
-            completion?(cityName)
+//            completion?(cityName)
             print(cityName)
-//            delegate?.transferSearchData(cityName)
+            delegate?.transferSearchData(cityName)
         }
         dismiss(animated: true, completion: nil)
         return true
