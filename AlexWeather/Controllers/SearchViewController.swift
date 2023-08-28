@@ -11,11 +11,6 @@ import SnapKit
 //import Network
 
 
-    // надо сделать запрос который по городу находит город.
-//1. сделать ввод текста +
-//2. текст преобразовать в АПИ запрос.
-//3. Полученный ответ отобразить на главном VC
-//4. Спросить у Влада - что делать с листом предложений.
 
 
 //TODO: make adjustable number of lines for answers
@@ -105,14 +100,6 @@ class SearchViewController: UIViewController {
             searchTextField.becomeFirstResponder()
         }
     }
- 
-//    @objc private func sendCityName() {  // передает данные через Делагата с этого контроллера на главный через 
-//        if let cityName = searchTextField.text {
-////            delegate?.transferSearchData(cityName)
-//            completion?(cityName)
-//        }
-//        dismiss(animated: true, completion: nil)
-//    }
     
     @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -127,16 +114,6 @@ class SearchViewController: UIViewController {
     }
 }
 extension SearchViewController {
-//    private func addTapToHideKeyboard() {
-//        let tap = UITapGestureRecognizer(
-//            target: self,
-//            action: #selector(hideKeyboard(gesture:))
-//        )
-//        contentView.addGestureRecognizer(tap)
-//    }
-    
-//    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
-//    searchTextField.addGestureRecognizer(tapGesture)
   private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
@@ -165,7 +142,6 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let cityName = textField.text {
-//            completion?(cityName)
             print(cityName)
             delegate?.transferSearchData(cityName)
         }
@@ -173,36 +149,3 @@ extension SearchViewController: UITextFieldDelegate {
         return true
     }
 }
-        
-//            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] SearchCompletionData in guard let self else { return }
-////                self.updateData(SearchCompletionData)
-//                print(SearchCompletionData)
-//
-//            }
-//
-            
-//            citySearchManager.cityNameRquest(cityName: cityName) { completionData in
-//
-//
-//                print(completionData)
-//            }
-//        }
-//        return true
-//    }
-////}
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-////        guard let textField =  textField.text else { return }
-//
-//        print(textField.text ?? "")
-//        preSelectionTableView.backgroundColor = .green
-////        citySearchManager.cityNameRquest(cityName: textField) { <#CompletionData#> in
-////            <#code#>
-////        }
-//
-//        return true
-//    }
-    
-//}
-    
-    
