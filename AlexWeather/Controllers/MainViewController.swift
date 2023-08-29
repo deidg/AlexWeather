@@ -116,6 +116,7 @@ final class MainViewController: UIViewController {
         view.backgroundColor = .white
         descriptionView.delegate = self
         locationManager.delegate = self
+        searchViewContoller.delegate = self
         scrollView.refreshControl = refreshControl
     }
     
@@ -280,12 +281,13 @@ extension MainViewController: CAAnimationDelegate {
     }
 }
 
+// MARK: extensions - SearchDataDelegate
 extension MainViewController: SearchDataDelegate {
     
     func transferSearchData(_ cityName: String) {
         
         print("cityName from search - \(cityName)")
-//        weatherInfoView.locationLabel = cityName
+//        weatherInfoView.locationLabel.text = cityName
         
     }
 }
