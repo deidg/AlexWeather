@@ -286,9 +286,16 @@ extension MainViewController: SearchDataDelegate {
     
     func transferSearchData(_ cityName: String) {
         
-        print("cityName from search - \(cityName)")
-//        weatherInfoView.locationLabel.text = cityName
-        
-    }
+            print("cityName from search - \(cityName)")
+            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
+                if let searchCompletionData = searchCompletionData {
+                    WeatherManager.shared.updateWeatherInfo(latitude: searchCompletionData.lat, longitude: searchCompletionData.lon) { [weak self] completionData in
+                        guard let self = self else { return }
+                        self.updateData(completionData)
+                    }
+                }
+            }
+        }
+    
 }
 
