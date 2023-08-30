@@ -20,13 +20,13 @@ class SearchViewController: UIViewController {
     weak var delegate: SearchDataDelegate?
     var completion: ((String) -> Void)?
     
-//    let locationManager = CLLocationManager()
+    //    let locationManager = CLLocationManager()
     private let citySearchManager = CitySearchManager()
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let searchView: UIView = {
         let searchView = UIView()
         searchView.backgroundColor = .white
-//        searchView.alpha = 0.5
+        //        searchView.alpha = 0.5
         searchView.layer.cornerRadius = 15
         return searchView
     }()
@@ -39,9 +39,14 @@ class SearchViewController: UIViewController {
         searchTextField.isEnabled = true
         searchTextField.isUserInteractionEnabled = true
         searchTextField.keyboardType = .alphabet
-//        searchTextField.becomeFirstResponder()
+        //        searchTextField.becomeFirstResponder()
         return searchTextField
     }()
+    
+    var searchResultArray: [StackCitySearch] = []
+    
+    
+    
     private let preSelectionTableView: UITableView = {
         let preSelectionTableView = UITableView()
         preSelectionTableView.backgroundColor = .white
@@ -88,6 +93,14 @@ class SearchViewController: UIViewController {
         }
     }
     //MARK: Methods
+    
+    func updateSearchResults(results: [StackCitySearch]) {
+        searchResultArray = results
+        preSelectionTableView.reloadData()
+    }
+    
+    
+    //MARK: KeyboardSetup
     private func addTapToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -108,13 +121,34 @@ class SearchViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
+    
+    не работает метод. найти в старых заданиях
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+           // Call endEditing whenever there's a change in the text field
+           view.endEditing(true)
+           return true
+       }
+//       func textFieldDidEndEditing(_ textField: UITextField) {
+//           if let cityName = textField.text {
+//               citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+//                   DispatchQueue.main.async {
+//                       self?.updateSearchResults(results: cities)
+//                       print(cities)
+//                   }
+//               }
+//           }
+//       }
+//
+    
+    
 }
 extension SearchViewController {
-  private func observeKeyboardNotificaton() {
+    private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -140,12 +174,74 @@ extension SearchViewController {
 
 extension SearchViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let cityName = textField.text {
-            print(cityName)
-            delegate?.transferSearchData(cityName)
+            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+                DispatchQueue.main.async {
+                    self?.updateSearchResults(results: cities)
+                    print(cities)
+                }
+            }
         }
-        dismiss(animated: true, completion: nil)
-        return true
+    }
+    
+    
+    
+    
+    
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if let cityName = textField.text {
+//            print("str161")
+//
+//            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+//                DispatchQueue.main.async {
+//                    self?.updateSearchResults(results: cities)
+//                    print("str161")
+//                    print(cities)
+//                }
+//            }
+//        }
+//    }
+    
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if let cityName = textField.text {
+//            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+//                DispatchQueue.main.async {
+//                    self?.updateSearchResults(results: cities)
+//                    print(cities)
+//                }
+//            }
+//        }
+//    }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        if let cityName = textField.text {
+//
+//            citySearchManager.searchAllCities(cityName: cityName)
+//
+//            //                for cities in searchResultArray
+//            //            {
+//            //                    searchResultArray.append(<#T##newElement: String##String#>)
+//            //            }
+//
+//            print(cityName)
+//            delegate?.transferSearchData(cityName)
+//        }
+//        dismiss(animated: true, completion: nil)
+//        return true
+//    }
+}
+
+extension SearchViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        cell.textLabel?.text = searchResultArray[indexPath.row].name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResultArray.count
     }
 }
