@@ -10,6 +10,18 @@ import Foundation
 
 final class CitySearchManager {
     
+    func searchAllCities(cityName: String) {
+        
+        guard let url = URL(string: "https://api.api-ninjas.com/v1/city?name=\(cityName)&limit=5") else { return }
+        var request = URLRequest(url: url)
+        request.setValue("GqcDeugbKzRuPNBIIZDbwQ==AAYTx0GW6GlEfyWN", forHTTPHeaderField: "X-Api-Key")
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
+    }
+    
 }
 //    private let queue = DispatchQueue(label: "CitySearchManager_working_queue", qos: .userInitiated)
 //    func cityNameRequest(cityName: String,

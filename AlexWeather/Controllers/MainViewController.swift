@@ -6,6 +6,8 @@
 //
 //TODO: настроить проверку доступности CLLocation manager (https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services#3384898)
 
+//TODO:  после кастомного города, при дергании камня обновляется данные по дефолтному городу - надо исправить на кастомный
+
 
 import UIKit
 import CoreLocation
@@ -17,10 +19,14 @@ import MapKit
 final class MainViewController: UIViewController {
     //MARK: Elements
     private let searchViewContoller = SearchViewController()
+    private let citySearchManager = CitySearchManager()
     
     @objc private let locationManager = CLLocationManager()
     private let geoCoder = CLGeocoder()
     
+    private var currentLatitude: Double = 0.0
+    private var currentLongitude: Double = 0.0
+
 
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let scrollView: UIScrollView = {
@@ -208,7 +214,12 @@ final class MainViewController: UIViewController {
         flash()
         makingNetworkMonitor()
         guard let location = locationManager.location else { return }
-        WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
+        
+        WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in guard let self else { return }
+        
+        
+        
+//        WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
             self.updateData(completionData)
         }
         refreshControl.endRefreshing()
@@ -265,8 +276,13 @@ extension MainViewController: DescriptionViewDelegate {
 }
 // MARK: extensions - CLLocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])  {
         guard let lastLocation = locations.last else { return }
+        
+        currentLatitude = lastLocation.coordinate.latitude
+        currentLongitude = lastLocation.coordinate.longitude
+        
+        
         WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
@@ -287,14 +303,25 @@ extension MainViewController: SearchDataDelegate {
     func transferSearchData(_ cityName: String) {
         
             print("cityName from search - \(cityName)")
+        
+        citySearchManager.searchAllCities(cityName: cityName)
+        
+        
+        
+        
             WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
                 if let searchCompletionData = searchCompletionData {
                     WeatherManager.shared.updateWeatherInfo(latitude: searchCompletionData.lat, longitude: searchCompletionData.lon) { [weak self] completionData in
                         guard let self = self else { return }
                         self.updateData(completionData)
+                        
+                        self.currentLatitude = searchCompletionData.lat
+                        self.currentLongitude = searchCompletionData.lon                 
                     }
                 }
             }
+        
+        
         }
     
 }
