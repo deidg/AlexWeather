@@ -87,7 +87,7 @@ class SearchViewController: UIViewController {
         view.addSubview(preSelectionTableView)
         preSelectionTableView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(100)
+            make.top.equalTo(searchView.snp.bottom).inset(0)
             make.horizontalEdges.equalTo(view).inset(30)
             make.bottom.equalTo(view.snp.bottom).inset(50+150)
         }
@@ -126,25 +126,11 @@ class SearchViewController: UIViewController {
         view.endEditing(true)
     }
     
-    
-    не работает метод. найти в старых заданиях
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-           // Call endEditing whenever there's a change in the text field
-           view.endEditing(true)
-           return true
-       }
-//       func textFieldDidEndEditing(_ textField: UITextField) {
-//           if let cityName = textField.text {
-//               citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-//                   DispatchQueue.main.async {
-//                       self?.updateSearchResults(results: cities)
-//                       print(cities)
-//                   }
-//               }
-//           }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//           // Call endEditing whenever there's a change in the text field
+////           view.endEditing(true)
+//           return true
 //       }
-//
-    
     
 }
 extension SearchViewController {
@@ -165,72 +151,52 @@ extension SearchViewController {
         var contentInset: UIEdgeInsets = self.scrollView.contentInset
         contentInset.bottom = keyboardFrame.size.height
         scrollView.contentInset = contentInset
+//        view.endEditing(true)
+
     }
     @objc private func keyboardWillHide(sender: NSNotification) {
         let contentInset: UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
+//        view.endEditing(true)
+
     }
 }
 
 extension SearchViewController: UITextFieldDelegate {
     
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if let cityName = textField.text {
-            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-                DispatchQueue.main.async {
-                    self?.updateSearchResults(results: cities)
-                    print(cities)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            // Combine the current text with the replacement text to get the updated text
+            if let currentText = textField.text,
+                let textRange = Range(range, in: currentText) {
+                let updatedText = currentText.replacingCharacters(in: textRange, with: string)
+                // Perform API request when text changes
+                citySearchManager.searchAllCities(cityName: updatedText) { [weak self] cities in
+                    DispatchQueue.main.async {
+                        self?.updateSearchResults(results: cities)
+                    }
                 }
             }
+            return true
         }
-    }
+
     
     
-    
-    
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        if let cityName = textField.text {
-//            print("str161")
-//
-//            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-//                DispatchQueue.main.async {
-//                    self?.updateSearchResults(results: cities)
-//                    print("str161")
-//                    print(cities)
-//                }
-//            }
-//        }
-//    }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        if let cityName = textField.text {
-//            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-//                DispatchQueue.main.async {
-//                    self?.updateSearchResults(results: cities)
-//                    print(cities)
-//                }
-//            }
-//        }
-//    }
-    
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if let cityName = textField.text {
-//
-//            citySearchManager.searchAllCities(cityName: cityName)
-//
-//            //                for cities in searchResultArray
-//            //            {
-//            //                    searchResultArray.append(<#T##newElement: String##String#>)
-//            //            }
-//
-//            print(cityName)
-//            delegate?.transferSearchData(cityName)
-//        }
-//        dismiss(animated: true, completion: nil)
-//        return true
-//    }
+    /* верный код
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           if let cityName = textField.text {
+               print(cityName)
+               
+               citySearchManager.searchAllCities(cityName: cityName)
+            
+
+               
+//               delegate?.transferSearchData(cityName)
+           }
+           dismiss(animated: true, completion: nil)
+           return true
+       }
+     */
+     
 }
 
 extension SearchViewController: UITableViewDataSource {
