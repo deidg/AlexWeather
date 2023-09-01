@@ -163,44 +163,56 @@ extension SearchViewController {
 
 extension SearchViewController: UITextFieldDelegate {
     
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let cityName = textField.text {
-            print(cityName)
-            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-                // Print all city names
-                cities.forEach { city in
-                    print(city.name)
-                    
-                }
-                // Update your searchResultArray and UI here
-                DispatchQueue.main.async {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
+            if text.isEmpty {
+                // Clear the search results and reload the table view
+                searchResultArray = []
+                preSelectionTableView.reloadData()
+            } else {
+                // Search for cities as the user types
+                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in
                     self?.searchResultArray = cities
-                    self?.preSelectionTableView.reloadData()
+                    DispatchQueue.main.async {
+                        self?.preSelectionTableView.reloadData()
+                    }
                 }
             }
-            delegate?.transferSearchData(cityName)
         }
-        dismiss(animated: true, completion: nil)
         return true
     }
+
+
+
+
+
+
+
     
-    
+    //++++++
 //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//            if let cityName = textField.text {
-//                print(cityName)
-//                citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-//                    DispatchQueue.main.async {
-//                        // Update your searchResultArray and UI here
-//                        self?.searchResultArray = cities
-//                        self?.preSelectionTableView.reloadData()
-//                    }
+//        if let cityName = textField.text {
+//            print(cityName)
+//            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+//                // Print all city names
+//                cities.forEach { city in
+//                    print(city.name)
+//
+//                }
+//                // Update your searchResultArray and UI here
+//                DispatchQueue.main.async {
+//                    self?.searchResultArray = cities
+//                    self?.preSelectionTableView.reloadData()
 //                }
 //            }
-//            textField.resignFirstResponder()
-//            return true
+//            delegate?.transferSearchData(cityName)
 //        }
-//
+//        dismiss(animated: true, completion: nil)
+//        return true
+//    }
+//    ===++++
+    
+
     
     // верный код
 //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
