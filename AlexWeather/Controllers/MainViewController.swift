@@ -304,7 +304,7 @@ extension MainViewController: SearchDataDelegate {
         
             print("cityName from search - \(cityName)")
         
-        citySearchManager.searchAllCities(cityName: cityName)
+//        citySearchManager.searchAllCities(cityName: cityName)
         
         
         

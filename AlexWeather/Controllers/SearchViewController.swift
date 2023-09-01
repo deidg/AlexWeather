@@ -10,8 +10,7 @@ import CoreLocation
 import SnapKit
 //import Network
 
-
-
+//не понятно что получилось - надо смотреть запросы уходят?  приходят?
 
 //TODO: make adjustable number of lines for answers
 
@@ -39,7 +38,7 @@ class SearchViewController: UIViewController {
         searchTextField.isEnabled = true
         searchTextField.isUserInteractionEnabled = true
         searchTextField.keyboardType = .alphabet
-        //        searchTextField.becomeFirstResponder()
+        searchTextField.becomeFirstResponder()
         return searchTextField
     }()
     
@@ -164,38 +163,59 @@ extension SearchViewController {
 
 extension SearchViewController: UITextFieldDelegate {
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            // Combine the current text with the replacement text to get the updated text
-            if let currentText = textField.text,
-                let textRange = Range(range, in: currentText) {
-                let updatedText = currentText.replacingCharacters(in: textRange, with: string)
-                // Perform API request when text changes
-                citySearchManager.searchAllCities(cityName: updatedText) { [weak self] cities in
-                    DispatchQueue.main.async {
-                        self?.updateSearchResults(results: cities)
-                    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let cityName = textField.text {
+            print(cityName)
+            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+                // Print all city names
+                cities.forEach { city in
+                    print(city.name)
+                    
+                }
+                // Update your searchResultArray and UI here
+                DispatchQueue.main.async {
+                    self?.searchResultArray = cities
+                    self?.preSelectionTableView.reloadData()
                 }
             }
-            return true
+            delegate?.transferSearchData(cityName)
         }
-
+        dismiss(animated: true, completion: nil)
+        return true
+    }
     
     
-    /* верный код
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-           if let cityName = textField.text {
-               print(cityName)
-               
-               citySearchManager.searchAllCities(cityName: cityName)
-            
-
-               
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//            if let cityName = textField.text {
+//                print(cityName)
+//                citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
+//                    DispatchQueue.main.async {
+//                        // Update your searchResultArray and UI here
+//                        self?.searchResultArray = cities
+//                        self?.preSelectionTableView.reloadData()
+//                    }
+//                }
+//            }
+//            textField.resignFirstResponder()
+//            return true
+//        }
+//
+    
+    // верный код
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//           if let cityName = textField.text {
+//               print(cityName)
+//
+//               citySearchManager.searchAllCities(cityName: cityName)
+//
+//
 //               delegate?.transferSearchData(cityName)
-           }
-           dismiss(animated: true, completion: nil)
-           return true
-       }
-     */
+//           }
+//           dismiss(animated: true, completion: nil)
+//           return true
+//       }
+     // конец верного кода
      
 }
 
