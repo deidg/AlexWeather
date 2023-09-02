@@ -242,10 +242,24 @@ final class MainViewController: UIViewController {
             monitor.start(queue: queue)
         }
     
-    @objc func openSearchViewController() {
-        self.present(searchViewContoller, animated: true)
+    @objc private func openSearchViewController() {
+        let searchViewController = SearchViewController()
+        searchViewController.delegate = self
+        self.present(searchViewController, animated: true)
     }
  
+    
+    private func handleSelectedCity(_ cityName: String, _ latitude: Double, _ longitude: Double) {
+        // Send the selected city data to WeatherManager and update the weather info
+        WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
+            DispatchQueue.main.async {
+                // Update UI with the received weather data
+                self?.updateData(completionData)
+            }
+        }
+        // Handle the selected city data as needed
+        print("Selected City: \(cityName), Latitude: \(latitude), Longitude: \(longitude)")
+    }
     
     @objc private func updateLocation() {
         locationManager.startUpdatingLocation()
@@ -320,9 +334,12 @@ extension MainViewController: SearchDataDelegate {
                     }
                 }
             }
-        
-        
         }
-    
 }
 
+extension MainViewController: SearchViewControllerDelegate {
+    func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
+        // Handle the selected city data here
+        handleSelectedCity(cityName, latitude, longitude)
+    }
+}

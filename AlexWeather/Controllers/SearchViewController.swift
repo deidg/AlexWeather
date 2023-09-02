@@ -10,13 +10,19 @@ import CoreLocation
 import SnapKit
 //import Network
 
-//не понятно что получилось - надо смотреть запросы уходят?  приходят?
-
+protocol SearchViewControllerDelegate: AnyObject {
+    func didSelectCity(cityName: String, latitude: Double, longitude: Double)
+}
+    
 //TODO: make adjustable number of lines for answers
 
 class SearchViewController: UIViewController {
+    
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
+    weak var searchVCDelegate: SearchViewControllerDelegate?
+    
+    
     var completion: ((String) -> Void)?
     
     //    let locationManager = CLLocationManager()
@@ -166,6 +172,15 @@ class SearchViewController: UIViewController {
         return true
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCity = searchResultArray[indexPath.row]
+        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
 }
 extension SearchViewController {
     private func observeKeyboardNotificaton() {
@@ -273,19 +288,8 @@ extension SearchViewController: UITableViewDataSource {
         cell.textLabel?.text = searchResultArray[indexPath.row].name
         return cell
     }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResultArray.count
     }
-    
-    
-    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-//        cell.textLabel?.text = searchResultArray[indexPath.row].name
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return searchResultArray.count
-//    }
 }

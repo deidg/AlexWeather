@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchCompletionData: Codable {
+struct SearchCompletionData: Decodable {
     let country: String
     let name: String
 
