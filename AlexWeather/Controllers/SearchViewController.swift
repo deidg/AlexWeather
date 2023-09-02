@@ -62,6 +62,8 @@ class SearchViewController: UIViewController {
         addTapToHideKeyboard()
         observeKeyboardNotificaton()
         searchTextField.delegate = self
+        preSelectionTableView.dataSource = self
+
     }
     //MARK: Items On View
     private func setupUI() {
@@ -98,8 +100,14 @@ class SearchViewController: UIViewController {
         preSelectionTableView.reloadData()
     }
     
+//    func updateSearchResults(results: [StackCitySearch]) {
+//        searchResultArray = results
+//        preSelectionTableView.reloadData()
+//    }
+    
     
     //MARK: KeyboardSetup
+    
     private func addTapToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -113,6 +121,20 @@ class SearchViewController: UIViewController {
         }
     }
     
+    
+//    private func addTapToHideKeyboard() {
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
+//        tapGesture.cancelsTouchesInView = false
+//        view.addGestureRecognizer(tapGesture)
+//    }
+//    @objc private func toggleKeyboard() {
+//        if searchTextField.isFirstResponder {
+//            searchTextField.resignFirstResponder()
+//        } else {
+//            searchTextField.becomeFirstResponder()
+//        }
+//    }
+    
     @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -125,11 +147,24 @@ class SearchViewController: UIViewController {
         view.endEditing(true)
     }
     
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//           // Call endEditing whenever there's a change in the text field
-////           view.endEditing(true)
-//           return true
-//       }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
+            if text.isEmpty {
+                // Clear the search results and reload the table view
+                searchResultArray = []
+                preSelectionTableView.reloadData()
+            } else {
+                // Search for cities as the user types
+                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in
+                    self?.searchResultArray = cities
+                    DispatchQueue.main.async {
+                        self?.preSelectionTableView.reloadData()
+                    }
+                }
+            }
+        }
+        return true
+    }
     
 }
 extension SearchViewController {
@@ -163,24 +198,24 @@ extension SearchViewController {
 
 extension SearchViewController: UITextFieldDelegate {
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
-            if text.isEmpty {
-                // Clear the search results and reload the table view
-                searchResultArray = []
-                preSelectionTableView.reloadData()
-            } else {
-                // Search for cities as the user types
-                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in
-                    self?.searchResultArray = cities
-                    DispatchQueue.main.async {
-                        self?.preSelectionTableView.reloadData()
-                    }
-                }
-            }
-        }
-        return true
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
+//            if text.isEmpty {
+//                // Clear the search results and reload the table view
+//                searchResultArray = []
+//                preSelectionTableView.reloadData()
+//            } else {
+//                // Search for cities as the user types
+//                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in
+//                    self?.searchResultArray = cities
+//                    DispatchQueue.main.async {
+//                        self?.preSelectionTableView.reloadData()
+//                    }
+//                }
+//            }
+//        }
+//        return true
+//    }
 
 
 
@@ -238,8 +273,19 @@ extension SearchViewController: UITableViewDataSource {
         cell.textLabel?.text = searchResultArray[indexPath.row].name
         return cell
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResultArray.count
     }
+    
+    
+    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+//        cell.textLabel?.text = searchResultArray[indexPath.row].name
+//        return cell
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return searchResultArray.count
+//    }
 }
