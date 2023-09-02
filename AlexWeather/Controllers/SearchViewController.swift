@@ -10,9 +10,9 @@ import CoreLocation
 import SnapKit
 //import Network
 
-protocol SearchViewControllerDelegate: AnyObject {
-    func didSelectCity(cityName: String, latitude: Double, longitude: Double)
-}
+//protocol SearchViewControllerDelegate: AnyObject {
+//    func didSelectCity(cityName: String, latitude: Double, longitude: Double)
+//}
     
 //TODO: make adjustable number of lines for answers
 
@@ -20,7 +20,7 @@ class SearchViewController: UIViewController {
     
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
-    weak var searchVCDelegate: SearchViewControllerDelegate?
+//    weak var searchVCDelegate: SearchViewControllerDelegate?
     
     
     var completion: ((String) -> Void)?
@@ -68,6 +68,8 @@ class SearchViewController: UIViewController {
         addTapToHideKeyboard()
         observeKeyboardNotificaton()
         searchTextField.delegate = self
+//        searchVCDelegate.delegate = self
+        
         preSelectionTableView.dataSource = self
 
     }
@@ -126,20 +128,6 @@ class SearchViewController: UIViewController {
             searchTextField.becomeFirstResponder()
         }
     }
-    
-    
-//    private func addTapToHideKeyboard() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
-//        tapGesture.cancelsTouchesInView = false
-//        view.addGestureRecognizer(tapGesture)
-//    }
-//    @objc private func toggleKeyboard() {
-//        if searchTextField.isFirstResponder {
-//            searchTextField.resignFirstResponder()
-//        } else {
-//            searchTextField.becomeFirstResponder()
-//        }
-//    }
     
     @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -211,72 +199,6 @@ extension SearchViewController {
 
 extension SearchViewController: UITextFieldDelegate {
     
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
-//            if text.isEmpty {
-//                // Clear the search results and reload the table view
-//                searchResultArray = []
-//                preSelectionTableView.reloadData()
-//            } else {
-//                // Search for cities as the user types
-//                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in
-//                    self?.searchResultArray = cities
-//                    DispatchQueue.main.async {
-//                        self?.preSelectionTableView.reloadData()
-//                    }
-//                }
-//            }
-//        }
-//        return true
-//    }
-
-
-
-
-
-
-
-    
-    //++++++
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if let cityName = textField.text {
-//            print(cityName)
-//            citySearchManager.searchAllCities(cityName: cityName) { [weak self] cities in
-//                // Print all city names
-//                cities.forEach { city in
-//                    print(city.name)
-//
-//                }
-//                // Update your searchResultArray and UI here
-//                DispatchQueue.main.async {
-//                    self?.searchResultArray = cities
-//                    self?.preSelectionTableView.reloadData()
-//                }
-//            }
-//            delegate?.transferSearchData(cityName)
-//        }
-//        dismiss(animated: true, completion: nil)
-//        return true
-//    }
-//    ===++++
-    
-
-    
-    // верный код
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//           if let cityName = textField.text {
-//               print(cityName)
-//
-//               citySearchManager.searchAllCities(cityName: cityName)
-//
-//
-//               delegate?.transferSearchData(cityName)
-//           }
-//           dismiss(animated: true, completion: nil)
-//           return true
-//       }
-     // конец верного кода
-     
 }
 
 extension SearchViewController: UITableViewDataSource {

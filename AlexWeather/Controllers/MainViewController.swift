@@ -123,6 +123,7 @@ final class MainViewController: UIViewController {
         descriptionView.delegate = self
         locationManager.delegate = self
         searchViewContoller.delegate = self
+        searchVCDelegate.delegate = self
         scrollView.refreshControl = refreshControl
     }
     
