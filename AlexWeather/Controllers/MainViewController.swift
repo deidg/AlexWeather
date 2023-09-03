@@ -16,7 +16,7 @@ import Network
 import MapKit
 
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, SearchViewControllerDelegate {
     //MARK: Elements
     private let searchViewContoller = SearchViewController()
     private let citySearchManager = CitySearchManager()
@@ -61,6 +61,8 @@ final class MainViewController: UIViewController {
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
+        
+        
     }
     //MARK: Items On View
     private func setupUI() {
@@ -123,7 +125,7 @@ final class MainViewController: UIViewController {
         descriptionView.delegate = self
         locationManager.delegate = self
         searchViewContoller.delegate = self
-        searchVCDelegate.delegate = self
+//        searchVCDelegate.delegate = self
         scrollView.refreshControl = refreshControl
     }
     
@@ -267,6 +269,15 @@ final class MainViewController: UIViewController {
         print("your current longitude - \(String(describing: locationManager.location?.coordinate.longitude))")
         print("your current latitude - \(String(describing: locationManager.location?.coordinate.latitude))")
     }
+    
+    
+    func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
+        // Handle the selected city data here
+        handleSelectedCity(cityName, latitude, longitude)
+    }
+    
+    
+    
 }
 
 // MARK: extensions - DescriptionViewDelegate
@@ -338,9 +349,6 @@ extension MainViewController: SearchDataDelegate {
         }
 }
 
-extension MainViewController: SearchViewControllerDelegate {
-    func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
-        // Handle the selected city data here
-        handleSelectedCity(cityName, latitude, longitude)
-    }
-}
+//extension MainViewController: SearchViewControllerDelegate {
+//
+//}

@@ -5,14 +5,17 @@
 //  Created by Alex on 17.08.2023.
 //
 
+
+
+
 import UIKit
 import CoreLocation
 import SnapKit
 //import Network
 
-//protocol SearchViewControllerDelegate: AnyObject {
-//    func didSelectCity(cityName: String, latitude: Double, longitude: Double)
-//}
+protocol SearchViewControllerDelegate: AnyObject {
+    func didSelectCity(cityName: String, latitude: Double, longitude: Double)
+}
     
 //TODO: make adjustable number of lines for answers
 
@@ -20,8 +23,9 @@ class SearchViewController: UIViewController {
     
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
-//    weak var searchVCDelegate: SearchViewControllerDelegate?
+    weak var searchVCDelegate: SearchViewControllerDelegate?
     
+    var selectedCity: StackCitySearch?
     
     var completion: ((String) -> Void)?
     
@@ -68,6 +72,10 @@ class SearchViewController: UIViewController {
         addTapToHideKeyboard()
         observeKeyboardNotificaton()
         searchTextField.delegate = self
+
+//        tableView.delegate = self
+//        tableView.dataSource = self
+
 //        searchVCDelegate.delegate = self
         
         preSelectionTableView.dataSource = self
@@ -160,12 +168,32 @@ class SearchViewController: UIViewController {
         return true
     }
     
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//            let selectedCity = searchResultArray[indexPath.row]
+//            searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+//            print(selectedCity.name)
+//            print(selectedCity.latitude)
+//            print(selectedCity.longitude)
+//            dismiss(animated: true, completion: nil)
+//        }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCity = searchResultArray[indexPath.row]
+    selectedCity = searchResultArray[indexPath.row]
+     
+        if let selectedCity = searchResultArray[indexPath.row] as? StackCitySearch {
         searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-        dismiss(animated: true, completion: nil)
+        }
+        самому подумать
+//    searchVCDelegate?.didSelectCity(cityName: selectedCity?.name, latitude: selectedCity?.latitude, longitude: selectedCity?.longitude)
+    print(selectedCity?.name)
+    print(selectedCity?.latitude)
+    print(selectedCity?.longitude)
+    dismiss(animated: true, completion: nil)
     }
+    
+    
+
+    
     
 }
 extension SearchViewController {
@@ -198,11 +226,25 @@ extension SearchViewController {
 }
 
 extension SearchViewController: UITextFieldDelegate {
-    
+
+
 }
 
+//extension SearchViewController: UITableViewDelegate {
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let selectedCity = searchResultArray[indexPath.row]
+//        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+//        print(selectedCity.name)
+//        print(selectedCity.latitude)
+//        print(selectedCity.longitude)
+//        dismiss(animated: true, completion: nil)
+//    }
+//
+//}
+
 extension SearchViewController: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         cell.textLabel?.text = searchResultArray[indexPath.row].name
@@ -212,4 +254,6 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResultArray.count
     }
+
+
 }
