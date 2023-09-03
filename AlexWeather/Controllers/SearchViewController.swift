@@ -49,6 +49,10 @@ class SearchViewController: UIViewController {
         searchTextField.isUserInteractionEnabled = true
         searchTextField.keyboardType = .alphabet
         searchTextField.becomeFirstResponder()
+        searchTextField.leftViewMode = .always
+        let spacerView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
+        searchTextField.leftView = spacerView
+        
         return searchTextField
     }()
     
@@ -73,13 +77,10 @@ class SearchViewController: UIViewController {
         observeKeyboardNotificaton()
         searchTextField.delegate = self
 
-//        tableView.delegate = self
-//        tableView.dataSource = self
-
-//        searchVCDelegate.delegate = self
+        preSelectionTableView.delegate = self
         
         preSelectionTableView.dataSource = self
-
+        
     }
     //MARK: Items On View
     private func setupUI() {
@@ -149,6 +150,10 @@ class SearchViewController: UIViewController {
         view.endEditing(true)
     }
     
+ 
+    
+    
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
             if text.isEmpty {
@@ -177,20 +182,22 @@ class SearchViewController: UIViewController {
 //            dismiss(animated: true, completion: nil)
 //        }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    selectedCity = searchResultArray[indexPath.row]
-     
-        if let selectedCity = searchResultArray[indexPath.row] as? StackCitySearch {
-        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-        }
-        самому подумать
-//    searchVCDelegate?.didSelectCity(cityName: selectedCity?.name, latitude: selectedCity?.latitude, longitude: selectedCity?.longitude)
-    print(selectedCity?.name)
-    print(selectedCity?.latitude)
-    print(selectedCity?.longitude)
-    dismiss(animated: true, completion: nil)
-    }
-    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+////    selectedCity = searchResultArray[indexPath.row]
+//
+////        if let selectedCity = searchResultArray[indexPath.row] as? StackCitySearch {
+////        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+////        }
+//
+////    searchVCDelegate?.didSelectCity(cityName: selectedCity?.name, latitude: selectedCity?.latitude, longitude: selectedCity?.longitude)
+//
+//        print("herr")
+////    print(selectedCity?.name)
+////    print(selectedCity?.latitude)
+////    print(selectedCity?.longitude)
+//    dismiss(animated: true, completion: nil)
+//    }
+//
     
 
     
@@ -230,18 +237,22 @@ extension SearchViewController: UITextFieldDelegate {
 
 }
 
-//extension SearchViewController: UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let selectedCity = searchResultArray[indexPath.row]
 //        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
 //        print(selectedCity.name)
 //        print(selectedCity.latitude)
 //        print(selectedCity.longitude)
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//}
+        
+                print("herr")
+
+        
+        dismiss(animated: true, completion: nil)
+    }
+
+}
 
 extension SearchViewController: UITableViewDataSource {
 

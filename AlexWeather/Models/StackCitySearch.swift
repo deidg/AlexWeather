@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StackCitySearch: Decodable {
+struct StackCitySearch: Codable {
     let name: String
     let latitude, longitude: Double
     let country: String

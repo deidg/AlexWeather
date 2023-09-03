@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CitySearchDatum: Decodable {
+struct CitySearchDatum: Codable {
     let name: String
     let localNames: [String: String]
     let lat, lon: Double
