@@ -246,11 +246,11 @@ final class MainViewController: UIViewController {
             monitor.start(queue: queue)
         }
     
-    @objc private func openSearchViewController() {
-        let searchViewController = SearchViewController()
-//        searchViewController.delegate = self
-        self.present(searchViewController, animated: true)
-    }
+//    @objc private func openSearchViewController() {
+//        let searchViewController = SearchViewController()
+////        searchViewController.delegate = self
+//        self.present(searchViewController, animated: true)
+//    }
  
     
     private func handleSelectedCity(_ cityName: String, _ latitude: Double, _ longitude: Double) {
@@ -275,6 +275,12 @@ final class MainViewController: UIViewController {
     func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
         // Handle the selected city data here
         handleSelectedCity(cityName, latitude, longitude)
+    }
+    
+    @objc private func openSearchViewController() {
+        let searchViewController = SearchViewController()
+        searchViewController.searchVCDelegate = self
+        self.present(searchViewController, animated: true)
     }
     
     
@@ -327,20 +333,32 @@ extension MainViewController: CAAnimationDelegate {
 // MARK: extensions - SearchDataDelegate
 extension MainViewController: SearchViewControllerDelegate {
     
-    func transferSearchData(_ cityName: String) {
-
-            print("cityName from search - \(cityName)")
-
-            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
-                if let searchCompletionData = searchCompletionData {
-                    WeatherManager.shared.updateWeatherInfo(latitude: searchCompletionData.lat, longitude: searchCompletionData.lon) { [weak self] completionData in
-                        guard let self = self else { return }
-                        self.updateData(completionData)
-
-                        self.currentLatitude = searchCompletionData.lat
-                        self.currentLongitude = searchCompletionData.lon
-                    }
-                }
-            }
-        }
+    func didSelectLocation(latitude: Double, longitude: Double) {
+          // Handle the selected location data here
+          // You can update weather information using WeatherManager.shared.updateWeatherInfo
+          WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
+              DispatchQueue.main.async {
+                  // Update UI with the received weather data
+                  self?.updateData(completionData)
+              }
+          }
+      }
+    
+    
+//    func transferSearchData(_ cityName: String) {
+//
+//            print("cityName from search - \(cityName)")
+//
+//            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
+//                if let searchCompletionData = searchCompletionData {
+//                    WeatherManager.shared.updateWeatherInfo(latitude: searchCompletionData.lat, longitude: searchCompletionData.lon) { [weak self] completionData in
+//                        guard let self = self else { return }
+//                        self.updateData(completionData)
+//
+//                        self.currentLatitude = searchCompletionData.lat
+//                        self.currentLongitude = searchCompletionData.lon
+//                    }
+//                }
+//            }
+//        }
 }

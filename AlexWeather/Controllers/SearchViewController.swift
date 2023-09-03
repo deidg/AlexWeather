@@ -14,11 +14,8 @@ import SnapKit
 //import Network
 
 protocol SearchViewControllerDelegate: AnyObject {
-
-    func didSelectLocation(latitude: Double, longitude: Double) {
-         Update the weather information for the selected location.
-    }
-
+    func didSelectLocation(latitude: Double, longitude: Double)
+}
     
 //TODO: make adjustable number of lines for answers
 
@@ -202,20 +199,29 @@ extension SearchViewController: UITextFieldDelegate {
 
 extension SearchViewController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCity = searchResultArray[indexPath.row]
-        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-   
-        func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
-            <#code#>
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let selectedCity = searchResultArray[indexPath.row]
+            searchVCDelegate?.didSelectLocation(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+            dismiss(animated: true, completion: nil)
         }
-        
-                print("herr")
-
-        dismiss(animated: true, completion: nil)
     }
+    
+    
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let selectedCity = searchResultArray[indexPath.row]
+//        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+//
+//        func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
+//            <#code#>
+//        }
+//
+//                print("herr")
+//
+//        dismiss(animated: true, completion: nil)
+//    }
 
-}
+//}
 
 extension SearchViewController: UITableViewDataSource {
 
