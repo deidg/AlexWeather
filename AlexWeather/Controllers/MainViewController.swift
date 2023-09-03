@@ -16,7 +16,7 @@ import Network
 import MapKit
 
 
-final class MainViewController: UIViewController, SearchViewControllerDelegate {
+final class MainViewController: UIViewController {
     //MARK: Elements
     private let searchViewContoller = SearchViewController()
     private let citySearchManager = CitySearchManager()
@@ -124,7 +124,8 @@ final class MainViewController: UIViewController, SearchViewControllerDelegate {
         view.backgroundColor = .white
         descriptionView.delegate = self
         locationManager.delegate = self
-        searchViewContoller.delegate = self
+        
+//        searchViewContoller.delegate = self
 //        searchVCDelegate.delegate = self
         scrollView.refreshControl = refreshControl
     }
@@ -247,7 +248,7 @@ final class MainViewController: UIViewController, SearchViewControllerDelegate {
     
     @objc private func openSearchViewController() {
         let searchViewController = SearchViewController()
-        searchViewController.delegate = self
+//        searchViewController.delegate = self
         self.present(searchViewController, animated: true)
     }
  
@@ -324,31 +325,22 @@ extension MainViewController: CAAnimationDelegate {
 }
 
 // MARK: extensions - SearchDataDelegate
-extension MainViewController: SearchDataDelegate {
+extension MainViewController: SearchViewControllerDelegate {
     
     func transferSearchData(_ cityName: String) {
-        
+
             print("cityName from search - \(cityName)")
-        
-//        citySearchManager.searchAllCities(cityName: cityName)
-        
-        
-        
-        
+
             WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
                 if let searchCompletionData = searchCompletionData {
                     WeatherManager.shared.updateWeatherInfo(latitude: searchCompletionData.lat, longitude: searchCompletionData.lon) { [weak self] completionData in
                         guard let self = self else { return }
                         self.updateData(completionData)
-                        
+
                         self.currentLatitude = searchCompletionData.lat
-                        self.currentLongitude = searchCompletionData.lon                 
+                        self.currentLongitude = searchCompletionData.lon
                     }
                 }
             }
         }
 }
-
-//extension MainViewController: SearchViewControllerDelegate {
-//
-//}

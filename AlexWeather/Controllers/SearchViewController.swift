@@ -14,12 +14,17 @@ import SnapKit
 //import Network
 
 protocol SearchViewControllerDelegate: AnyObject {
-    func didSelectCity(cityName: String, latitude: Double, longitude: Double)
-}
+
+    func didSelectLocation(latitude: Double, longitude: Double) {
+         Update the weather information for the selected location.
+    }
+
     
 //TODO: make adjustable number of lines for answers
 
-class SearchViewController: UIViewController {
+    class SearchViewController: UIViewController { // SearchViewControllerDelegate  {
+    
+
     
     // MARK: Elements
     weak var delegate: SearchDataDelegate?
@@ -57,9 +62,7 @@ class SearchViewController: UIViewController {
     }()
     
     var searchResultArray: [StackCitySearch] = []
-    
-    
-    
+ 
     private let preSelectionTableView: UITableView = {
         let preSelectionTableView = UITableView()
         preSelectionTableView.backgroundColor = .white
@@ -116,13 +119,7 @@ class SearchViewController: UIViewController {
         searchResultArray = results
         preSelectionTableView.reloadData()
     }
-    
-//    func updateSearchResults(results: [StackCitySearch]) {
-//        searchResultArray = results
-//        preSelectionTableView.reloadData()
-//    }
-    
-    
+ 
     //MARK: KeyboardSetup
     
     private func addTapToHideKeyboard() {
@@ -149,11 +146,7 @@ class SearchViewController: UIViewController {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
- 
-    
-    
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
             if text.isEmpty {
@@ -172,35 +165,6 @@ class SearchViewController: UIViewController {
         }
         return true
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//            let selectedCity = searchResultArray[indexPath.row]
-//            searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-//            print(selectedCity.name)
-//            print(selectedCity.latitude)
-//            print(selectedCity.longitude)
-//            dismiss(animated: true, completion: nil)
-//        }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-////    selectedCity = searchResultArray[indexPath.row]
-//
-////        if let selectedCity = searchResultArray[indexPath.row] as? StackCitySearch {
-////        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-////        }
-//
-////    searchVCDelegate?.didSelectCity(cityName: selectedCity?.name, latitude: selectedCity?.latitude, longitude: selectedCity?.longitude)
-//
-//        print("herr")
-////    print(selectedCity?.name)
-////    print(selectedCity?.latitude)
-////    print(selectedCity?.longitude)
-//    dismiss(animated: true, completion: nil)
-//    }
-//
-    
-
-    
     
 }
 extension SearchViewController {
@@ -234,21 +198,20 @@ extension SearchViewController {
 
 extension SearchViewController: UITextFieldDelegate {
 
-
 }
 
 extension SearchViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let selectedCity = searchResultArray[indexPath.row]
-//        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-//        print(selectedCity.name)
-//        print(selectedCity.latitude)
-//        print(selectedCity.longitude)
+        let selectedCity = searchResultArray[indexPath.row]
+        searchVCDelegate?.didSelectCity(cityName: selectedCity.name, latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+   
+        func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
+            <#code#>
+        }
         
                 print("herr")
 
-        
         dismiss(animated: true, completion: nil)
     }
 
@@ -265,6 +228,4 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResultArray.count
     }
-
-
 }
