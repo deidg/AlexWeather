@@ -48,11 +48,6 @@ final class WeatherManager {
                     localNames: citySearch.localNames,
                     lat: citySearch.lat,
                     lon: citySearch.lon
-                    //                    temperature: citySearch.temperature, //0, // Assign a default value for temperature, weather, id, windSpeed, cod
-                    //                    weather: citySearch.weather,
-                    //                    id: citySearch.id,
-                    //                    windSpeed: citySearch.windSpeed,
-                    //                    cod: citySearch.cod
                 )
                 completion(completionData)
             } else {
@@ -63,8 +58,6 @@ final class WeatherManager {
     }
     
 }
-    
-
 
 extension WeatherManager: NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {

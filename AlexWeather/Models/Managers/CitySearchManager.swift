@@ -33,8 +33,6 @@ final class CitySearchManager {
         }
         task.resume()
     }
-    //}
-    
     
     func searchAllCities(cityName: String) {
         

@@ -12,7 +12,6 @@ import SnapKit
 import Network
 import MapKit
 
-
 final class MainViewController: UIViewController {
     //MARK: Elements
     private let searchViewContoller = SearchViewController()
