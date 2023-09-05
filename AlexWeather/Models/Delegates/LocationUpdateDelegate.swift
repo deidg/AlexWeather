@@ -8,7 +8,5 @@
 import Foundation
 
 protocol LocationUpdateDelegate: AnyObject {
-    
     func updateLocation(latitude: Double, longitude: Double)
-    
 }

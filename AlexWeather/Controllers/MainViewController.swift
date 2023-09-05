@@ -4,7 +4,6 @@
 //
 //  Created by Alex on 16.05.2023.
 //
-//TODO: настроить проверку доступности CLLocation manager (https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services#3384898)
 
 import UIKit
 import CoreLocation
@@ -22,7 +21,7 @@ final class MainViewController: UIViewController {
     
     private var currentLatitude: Double = 0.0
     private var currentLongitude: Double = 0.0
-
+    
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let scrollView: UIScrollView = {
         var scrollView = UIScrollView()
@@ -35,14 +34,11 @@ final class MainViewController: UIViewController {
     private let weatherInfoView = WeatherInfoView()
     private var isStoneFalling = false
     private var emitterLayer: CAEmitterLayer?
-    
     private let searchButton = SearchButton()
     private let locationButton = LocationButton()
-    
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
     private let refreshControl = UIRefreshControl()
-    
     private var topConstraint: Constraint?
     private var widthConstraint: Constraint?
     private var heightConstraint: Constraint?
@@ -111,23 +107,19 @@ final class MainViewController: UIViewController {
         }
         scrollView.refreshControl = refreshControl
     }
- 
     // MARK: Methods
     private func defaultConfiguration() {
         view.backgroundColor = .white
         descriptionView.delegate = self
         locationManager.delegate = self
-        
         scrollView.refreshControl = refreshControl
     }
-    
     private func addTargets() {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         searchButton.addTarget(self, action: #selector(openSearchViewController), for: .touchUpInside)
         locationButton.addTarget(self, action: #selector(updateLocation), for: .touchUpInside)
     }
-    
     private func updateData(_ data: CompletionData) {
         let viewData = ViewData(temp: String(data.temperature) + "º", city: data.city, weather: data.weather)
         self.weatherInfoView.viewData = viewData
@@ -135,7 +127,6 @@ final class MainViewController: UIViewController {
                                      conditionCode: data.id,
                                      windSpeed: data.windSpeed)
     }
-    
     private func flash() {
         let flash = CABasicAnimation(keyPath: "opacity")
         flash.duration = 0.2
@@ -146,51 +137,47 @@ final class MainViewController: UIViewController {
         weatherInfoView.temperatureLabel.layer.add(flash, forKey: nil)
         weatherInfoView.conditionsLabel.layer.add(flash, forKey: nil)
     }
-    
     private func startLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         DispatchQueue.global(qos: .userInitiated).async {
             if CLLocationManager.locationServicesEnabled() {
-//                self.locationManager.delegate = self
                 self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-                self.locationManager.pausesLocationUpdatesAutomatically = false   //  why not TRUE?
+                self.locationManager.pausesLocationUpdatesAutomatically = false
                 self.locationManager.startUpdatingLocation()
             }
         }
     }
     private func makingEmitterLayer() {
-            emitterLayer = CAEmitterLayer()
-            if let emitterLayer = emitterLayer {
-                stoneView.layer.addSublayer(emitterLayer)
-            }
-            emitterLayer?.emitterPosition = CGPoint(x: stoneView.bounds.midX,
-                                                    y: -10)
-            emitterLayer?.emitterSize = CGSize(width: stoneView.bounds.width,
-                                               height: 0)
-            emitterLayer?.emitterShape = .line
+        emitterLayer = CAEmitterLayer()
+        if let emitterLayer = emitterLayer {
+            stoneView.layer.addSublayer(emitterLayer)
         }
+        emitterLayer?.emitterPosition = CGPoint(x: stoneView.bounds.midX,
+                                                y: -10)
+        emitterLayer?.emitterSize = CGSize(width: stoneView.bounds.width,
+                                           height: 0)
+        emitterLayer?.emitterShape = .line
+    }
     
     private func fallAnimation() {
-            guard !isStoneFalling else { return }
-            let animation = CAKeyframeAnimation(keyPath: "position")
-            animation.duration = 3.0
-            animation.repeatCount = 0.0
-            animation.timingFunction = CAMediaTimingFunction(name: .easeIn)
-            animation.values = [
-                NSValue(cgPoint: stoneView.center),
-                NSValue(cgPoint: CGPoint(x: stoneView.center.x, y: view.bounds.height + stoneView.bounds.height))
-            ]
-            animation.keyTimes = [0, 1]
-            animation.delegate = self
+        guard !isStoneFalling else { return }  // CHANGE
+        let animation = CAKeyframeAnimation(keyPath: "position")
+        animation.duration = 3.0
+        animation.repeatCount = 0.0
+        animation.timingFunction = CAMediaTimingFunction(name: .easeIn)
+        animation.values = [
+            NSValue(cgPoint: stoneView.center),
+            NSValue(cgPoint: CGPoint(x: stoneView.center.x, y: view.bounds.height + stoneView.bounds.height))
+        ]
+        animation.keyTimes = [0, 1]
+        animation.delegate = self
         stoneView.layer.add(animation, forKey: "fallAnimation")
-            isStoneFalling = true
-        }
-    
+        isStoneFalling = true
+    }
     private func showStoneImage() {
-            stoneView.isHidden = false
-            isStoneFalling = false
-        }
-    
+        stoneView.isHidden = false
+        isStoneFalling = false
+    }
     @objc private func showInfo() {
         self.topConstraint?.update(priority: .low)
         self.centerXConstraint?.update(priority: .low)
@@ -204,73 +191,41 @@ final class MainViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
     @objc private func refresh(_ sender: AnyObject) {
         flash()
         makingNetworkMonitor()
-        guard let location = locationManager.location else { return }
-        
         WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in guard let self else { return }
-        
             self.updateData(completionData)
         }
         refreshControl.endRefreshing()
     }
-    
     @objc func makingNetworkMonitor() {
-            let monitor = NWPathMonitor()
-            monitor.pathUpdateHandler = { path in
-                DispatchQueue.main.async {
-                    if path.status == .satisfied {
-                        self.showStoneImage()
-                        print("Internet connection is available.")
-                    } else {
-                        self.fallAnimation()
-                        print("Internet connection is lost.")
-                    }
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            DispatchQueue.main.async {
+                if path.status == .satisfied {
+                    self.showStoneImage()
+                    print("Internet connection is available.")
+                } else {
+                    self.fallAnimation()
+                    print("Internet connection is lost.")
                 }
             }
-            let queue = DispatchQueue.main
-            monitor.start(queue: queue)
         }
-    
-       
-    private func handleSelectedCity(_ cityName: String, _ latitude: Double, _ longitude: Double) {
-        // Send the selected city data to WeatherManager and update the weather info
-        WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
-            DispatchQueue.main.async {
-                // Update UI with the received weather data
-                self?.updateData(completionData)
-            }
-        }
-        // Handle the selected city data as needed
-        print("Selected City: \(cityName), Latitude: \(latitude), Longitude: \(longitude)")
+        let queue = DispatchQueue.main
+        monitor.start(queue: queue)
     }
-
-
-    
     @objc private func updateLocation() {
         locationManager.startUpdatingLocation()
         print("your current longitude - \(String(describing: locationManager.location?.coordinate.longitude))")
         print("your current latitude - \(String(describing: locationManager.location?.coordinate.latitude))")
     }
-    
-    
-    func didSelectCity(cityName: String, latitude: Double, longitude: Double) {
-        // Handle the selected city data here
-        handleSelectedCity(cityName, latitude, longitude)
-    }
-    
     @objc private func openSearchViewController() {
         let searchViewController = SearchViewController()
         searchViewController.searchVCDelegate = self
         self.present(searchViewController, animated: true)
     }
-    
-    
-    
 }
-
 // MARK: extensions - DescriptionViewDelegate
 extension MainViewController: DescriptionViewDelegate {
     func hideInfo() {
@@ -295,11 +250,8 @@ extension MainViewController: DescriptionViewDelegate {
 extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])  {
         guard let lastLocation = locations.last else { return }
-        
         currentLatitude = lastLocation.coordinate.latitude
         currentLongitude = lastLocation.coordinate.longitude
-        
-        
         WeatherManager.shared.updateWeatherInfo(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude) { [weak self] completionData in
             guard let self else { return }
             self.updateData(completionData)
@@ -313,36 +265,14 @@ extension MainViewController: CAAnimationDelegate {
         }
     }
 }
-
 // MARK: extensions - SearchDataDelegate
 extension MainViewController: SearchViewControllerDelegate {
     
     func didSelectLocation(latitude: Double, longitude: Double) {
-          // Handle the selected location data here
-          // You can update weather information using WeatherManager.shared.updateWeatherInfo
-          WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
-              DispatchQueue.main.async {
-                  // Update UI with the received weather data
-                  self?.updateData(completionData)
-              }
-          }
-      }
-    
-    
-//    func transferSearchData(_ cityName: String) {
-//
-//            print("cityName from search - \(cityName)")
-//
-//            WeatherManager.shared.updateWeatherInfobyCityName(cityName: cityName) { [weak self] searchCompletionData in
-//                if let searchCompletionData = searchCompletionData {
-//                    WeatherManager.shared.updateWeatherInfo(latitude: searchCompletionData.lat, longitude: searchCompletionData.lon) { [weak self] completionData in
-//                        guard let self = self else { return }
-//                        self.updateData(completionData)
-//
-//                        self.currentLatitude = searchCompletionData.lat
-//                        self.currentLongitude = searchCompletionData.lon
-//                    }
-//                }
-//            }
-//        }
+        WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
+            DispatchQueue.main.async {
+                self?.updateData(completionData)
+            }
+        }
+    }
 }

@@ -35,7 +35,6 @@ final class CitySearchManager {
     }
     
     func searchAllCities(cityName: String) {
-        
         guard let url = URL(string: "https://api.api-ninjas.com/v1/city?name=\(cityName)&limit=5") else { return }
         var request = URLRequest(url: url)
         request.setValue("GqcDeugbKzRuPNBIIZDbwQ==AAYTx0GW6GlEfyWN", forHTTPHeaderField: "X-Api-Key")

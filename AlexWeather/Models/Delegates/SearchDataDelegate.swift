@@ -8,7 +8,5 @@
 import Foundation
 
 protocol SearchDataDelegate: AnyObject {
-    
     func transferSearchData (_ cityName: String)
-        
 }

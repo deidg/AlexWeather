@@ -10,12 +10,9 @@ import Foundation
 struct SearchCompletionData: Codable {
     let country: String
     let name: String
-
     let localNames: [String: String]?
-
     let lat: Double
     let lon: Double
-
 }
 
 

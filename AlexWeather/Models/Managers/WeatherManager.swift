@@ -32,7 +32,6 @@ final class WeatherManager {
         }
     }
     
-    
     func updateWeatherInfobyCityName(cityName: String, completion: @escaping (SearchCompletionData?) -> Void) {
         guard let encodedCityName = cityName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: "https://api.openweathermap.org/geo/1.0/direct?q=\(encodedCityName)&appid=b341573f7a5bb123a98e2addf28cba47")
@@ -56,7 +55,6 @@ final class WeatherManager {
         }
         task.resume()
     }
-    
 }
 
 extension WeatherManager: NSCopying {
