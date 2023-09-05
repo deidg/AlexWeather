@@ -16,12 +16,6 @@ struct SearchCompletionData: Codable {
     let lat: Double
     let lon: Double
 
-
-//    let temperature: Int
-//    let weather: String
-//    let id: Int
-//    let windSpeed: Double
-//    let cod: Int
 }
 
 

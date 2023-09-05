@@ -6,9 +6,6 @@
 //
 //TODO: настроить проверку доступности CLLocation manager (https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services#3384898)
 
-//TODO:  после кастомного города, при дергании камня обновляется данные по дефолтному городу - надо исправить на кастомный
-
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -26,7 +23,6 @@ final class MainViewController: UIViewController {
     
     private var currentLatitude: Double = 0.0
     private var currentLongitude: Double = 0.0
-
 
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let scrollView: UIScrollView = {
@@ -61,8 +57,6 @@ final class MainViewController: UIViewController {
         addTargets()
         startLocationManager()
         makingNetworkMonitor()
-        
-        
     }
     //MARK: Items On View
     private func setupUI() {
@@ -125,8 +119,6 @@ final class MainViewController: UIViewController {
         descriptionView.delegate = self
         locationManager.delegate = self
         
-//        searchViewContoller.delegate = self
-//        searchVCDelegate.delegate = self
         scrollView.refreshControl = refreshControl
     }
     
@@ -221,9 +213,6 @@ final class MainViewController: UIViewController {
         
         WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in guard let self else { return }
         
-        
-        
-//        WeatherManager.shared.updateWeatherInfo(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self] completionData in guard let self else { return }
             self.updateData(completionData)
         }
         refreshControl.endRefreshing()
@@ -246,13 +235,7 @@ final class MainViewController: UIViewController {
             monitor.start(queue: queue)
         }
     
-//    @objc private func openSearchViewController() {
-//        let searchViewController = SearchViewController()
-////        searchViewController.delegate = self
-//        self.present(searchViewController, animated: true)
-//    }
- 
-    
+       
     private func handleSelectedCity(_ cityName: String, _ latitude: Double, _ longitude: Double) {
         // Send the selected city data to WeatherManager and update the weather info
         WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
@@ -264,6 +247,8 @@ final class MainViewController: UIViewController {
         // Handle the selected city data as needed
         print("Selected City: \(cityName), Latitude: \(latitude), Longitude: \(longitude)")
     }
+
+
     
     @objc private func updateLocation() {
         locationManager.startUpdatingLocation()
