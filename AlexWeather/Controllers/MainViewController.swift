@@ -34,7 +34,15 @@ final class MainViewController: UIViewController {
     private let weatherInfoView = WeatherInfoView()
     private var isStoneFalling = false
     private var emitterLayer: CAEmitterLayer?
-    private let searchButton = SearchButton()
+//    private let searchButton = SearchButton()
+    
+    private var searchButton: UIButton = {
+        var searchButton = UIButton()
+        searchButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        searchButton.setImage(UIImage(named: "icon_search"), for: .normal)
+        return searchButton
+    }()
+    
     private let locationButton = LocationButton()
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
