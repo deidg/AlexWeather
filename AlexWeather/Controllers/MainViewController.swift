@@ -43,7 +43,16 @@ final class MainViewController: UIViewController {
         return searchButton
     }()
     
-    private let locationButton = LocationButton()
+//    private let locationButton = LocationButton()
+    
+    private var locationButton: UIButton = {
+        var locationButton = UIButton()
+        locationButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        locationButton.setImage(UIImage(named: "icon_location"), for: .normal)
+        return locationButton
+    }()
+    
+    
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
     private let refreshControl = UIRefreshControl()
