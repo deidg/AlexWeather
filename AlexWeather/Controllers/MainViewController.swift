@@ -5,6 +5,8 @@
 //  Created by Alex on 16.05.2023.
 //
 
+//TODO: make cancel button in searchVC ( X )
+
 import UIKit
 import CoreLocation
 import SnapKit
@@ -34,25 +36,18 @@ final class MainViewController: UIViewController {
     private let weatherInfoView = WeatherInfoView()
     private var isStoneFalling = false
     private var emitterLayer: CAEmitterLayer?
-//    private let searchButton = SearchButton()
-    
     private var searchButton: UIButton = {
         var searchButton = UIButton()
         searchButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
         searchButton.setImage(UIImage(named: "icon_search"), for: .normal)
         return searchButton
     }()
-    
-//    private let locationButton = LocationButton()
-    
     private var locationButton: UIButton = {
         var locationButton = UIButton()
         locationButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
         locationButton.setImage(UIImage(named: "icon_location"), for: .normal)
         return locationButton
     }()
-    
-    
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
     private let refreshControl = UIRefreshControl()
@@ -233,10 +228,14 @@ final class MainViewController: UIViewController {
         monitor.start(queue: queue)
     }
     @objc private func updateLocation() {
-        locationManager.startUpdatingLocation()
-        print("your current longitude - \(String(describing: locationManager.location?.coordinate.longitude))")
-        print("your current latitude - \(String(describing: locationManager.location?.coordinate.latitude))")
+
+        WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in
+                DispatchQueue.main.async {
+                    self?.updateData(completionData)
+                }
+            }
     }
+    
     @objc private func openSearchViewController() {
         let searchViewController = SearchViewController()
         searchViewController.searchVCDelegate = self
