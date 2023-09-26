@@ -55,6 +55,20 @@ class SearchViewController: UIViewController {
     }()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+
+    private let crossButton: UIButton =  {
+        let crossButton = UIButton()
+        // var.1
+//        crossButton.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
+//        crossButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        
+        // var.2
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .large)
+        let largeCrossButton = UIImage(systemName: "xmark.circle", withConfiguration: largeConfig)
+        crossButton.setImage(largeCrossButton, for: .normal)
+        
+        return crossButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +85,10 @@ class SearchViewController: UIViewController {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+     
+        
+        
+        
         view.addSubview(searchView)
         searchView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
@@ -92,6 +110,17 @@ class SearchViewController: UIViewController {
             make.horizontalEdges.equalTo(view).inset(30)
             make.bottom.equalTo(view.snp.bottom).inset(50+150)
         }
+        
+        
+        searchView.addSubview(crossButton)
+        crossButton.snp.makeConstraints { make in
+//            make.centerX.equalTo(view)
+            make.top.equalTo(view).inset(30)
+//            make.height.equalTo(view).inset(60)
+            make.trailing.equalTo(view).inset(30)
+        }
+
+        
     }
     //MARK: Methods
     func updateSearchResults(results: [StackCitySearch]) {

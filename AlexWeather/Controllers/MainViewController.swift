@@ -228,7 +228,7 @@ final class MainViewController: UIViewController {
         monitor.start(queue: queue)
     }
     @objc private func updateLocation() {
-
+        flash()
         WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in
                 DispatchQueue.main.async {
                     self?.updateData(completionData)
