@@ -62,3 +62,7 @@ extension WeatherManager: NSCopying {
         return self
     }
 }
+
+
+//API request
+//https://api.openweathermap.org/data/2.5/weather?lat=35.7020691&lon=139.7753269&appid=b341573f7a5bb123a98e2addf28cba47&units=metric

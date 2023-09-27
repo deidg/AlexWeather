@@ -5,8 +5,6 @@
 //  Created by Alex on 17.08.2023.
 //
 
-
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -16,10 +14,10 @@ protocol SearchViewControllerDelegate: AnyObject {
 }
 
 class SearchViewController: UIViewController {
-    // MARK: Elements
+    // MARK: Delegates
     weak var delegate: SearchDataDelegate?
     weak var searchVCDelegate: SearchViewControllerDelegate?
-    
+    // MARK: Elements
     var selectedCity: StackCitySearch?
     var completion: ((String) -> Void)?
     
@@ -47,7 +45,7 @@ class SearchViewController: UIViewController {
         searchTextField.leftView = spacerView
         return searchTextField
     }()
-    var searchResultArray: [StackCitySearch] = []
+    private var searchResultArray: [StackCitySearch] = []
     private let preSelectionTableView: UITableView = {
         let preSelectionTableView = UITableView()
         preSelectionTableView.backgroundColor = .white

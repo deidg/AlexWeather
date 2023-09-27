@@ -14,28 +14,16 @@ import Network
 import MapKit
 
 final class MainViewController: UIViewController {
-    //MARK: Elements
+    //MARK: Classes
     private let searchViewContoller = SearchViewController()
     private let citySearchManager = CitySearchManager()
-    
-    @objc private let locationManager = CLLocationManager()
-    private let geoCoder = CLGeocoder()
-    
-    private var currentLatitude: Double = 0.0
-    private var currentLongitude: Double = 0.0
-    
+    //MARK: MainVC elements
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let scrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
-    private let contentView = UIView()
-    
-    private let stoneView = StoneImageView()
-    private let weatherInfoView = WeatherInfoView()
-    private var isStoneFalling = false
-    private var emitterLayer: CAEmitterLayer?
     private var searchButton: UIButton = {
         var searchButton = UIButton()
         searchButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
@@ -50,12 +38,24 @@ final class MainViewController: UIViewController {
     }()
     private let infoButton = InfoButton()
     private let descriptionView  = DescriptionView()
+    private let weatherInfoView = WeatherInfoView()
+    //MARK: Stone elements
+    private let contentView = UIView()
+    private let stoneView = StoneImageView()
+    private var emitterLayer: CAEmitterLayer?
     private let refreshControl = UIRefreshControl()
+    //MARK: variables
+    private var isStoneFalling = false
     private var topConstraint: Constraint?
     private var widthConstraint: Constraint?
     private var heightConstraint: Constraint?
     private var centerConstraint: Constraint?
     private var centerXConstraint: Constraint?
+    //MARK: GEO elements
+    private let locationManager = CLLocationManager()
+    private let geoCoder = CLGeocoder()
+    private var currentLatitude: Double = 0.0
+    private var currentLongitude: Double = 0.0
     //MARK: lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -235,7 +235,6 @@ final class MainViewController: UIViewController {
                 }
             }
     }
-    
     @objc private func openSearchViewController() {
         let searchViewController = SearchViewController()
         searchViewController.searchVCDelegate = self
@@ -283,7 +282,6 @@ extension MainViewController: CAAnimationDelegate {
 }
 // MARK: extensions - SearchDataDelegate
 extension MainViewController: SearchViewControllerDelegate {
-    
     func didSelectLocation(latitude: Double, longitude: Double) {
         WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
             DispatchQueue.main.async {
