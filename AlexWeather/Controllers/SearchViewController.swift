@@ -110,7 +110,7 @@ class SearchViewController: UIViewController {
         }
     }
     //MARK: Methods
-    func updateSearchResults(results: [StackCitySearch]) {
+    private func updateSearchResults(results: [StackCitySearch]) {
         searchResultArray = results
         preSelectionTableView.reloadData()
     }
@@ -119,48 +119,9 @@ class SearchViewController: UIViewController {
         closeButton.addTarget(self, action: #selector(self.closeSearchViewController), for: .touchUpInside)
     }
     
-    @objc  func closeSearchViewController(sender: UIButton) {
+    @objc private func closeSearchViewController(sender: UIButton) {
         dismiss(animated: true)
     }
-    
-//    //MARK: KeyboardSetup
-//    private func addTapToHideKeyboard() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
-//        tapGesture.cancelsTouchesInView = false
-//        view.addGestureRecognizer(tapGesture)
-//    }
-//    @objc private func toggleKeyboard() {
-//        if searchTextField.isFirstResponder {
-//            searchTextField.resignFirstResponder()
-//        } else {
-//            searchTextField.becomeFirstResponder()
-//        }
-//    }
-//
-//    @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
-//        view.endEditing(true)
-//    }
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        view.endEditing(true)
-//    }
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        view.endEditing(true)
-//    }
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
-//            if text.isEmpty {
-//                searchResultArray = []
-//                preSelectionTableView.reloadData()
-//            } else {
-//                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in self?.searchResultArray = cities
-//                    DispatchQueue.main.async {
-//                        self?.preSelectionTableView.reloadData()
-//                    }
-//                }
-//            }
-//        }
-//        return true
-//    }
 }
 extension SearchViewController {
     //MARK: KeyboardSetup
@@ -205,7 +166,7 @@ extension SearchViewController {
         }
         return true
     }
-
+    
     private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
@@ -230,11 +191,11 @@ extension SearchViewController {
         let contentInset: UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
-    
 }
 extension SearchViewController: UITextFieldDelegate {
     
 }
+//MARK: UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = searchResultArray[indexPath.row]
@@ -242,6 +203,7 @@ extension SearchViewController: UITableViewDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
+//MARK: UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
