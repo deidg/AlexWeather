@@ -39,8 +39,7 @@ class SearchViewController: UIViewController {
         searchTextField.keyboardType = .alphabet
         searchTextField.becomeFirstResponder()
         searchTextField.leftViewMode = .always
-        let spacerView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
-        searchTextField.leftView = spacerView
+        searchTextField.leftView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
         return searchTextField
     }()
     private var searchResultArray: [StackCitySearch] = []
