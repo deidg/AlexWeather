@@ -5,8 +5,6 @@
 //  Created by Alex on 16.05.2023.
 //
 
-//TODO: make cancel button in searchVC ( X )
-
 import UIKit
 import CoreLocation
 import SnapKit
@@ -158,7 +156,6 @@ final class MainViewController: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-                self.locationManager.pausesLocationUpdatesAutomatically = false
                 self.locationManager.startUpdatingLocation()
             }
         }
