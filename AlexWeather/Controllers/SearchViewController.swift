@@ -18,15 +18,14 @@ class SearchViewController: UIViewController {
     weak var delegate: SearchDataDelegate?
     weak var searchVCDelegate: SearchViewControllerDelegate?
     // MARK: Elements
-    var selectedCity: StackCitySearch?
-    var completion: ((String) -> Void)?
-    
+    private var selectedCity: StackCitySearch?
     private let citySearchManager = CitySearchManager()
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
     private let searchView: UIView = {
         let searchView = UIView()
         searchView.backgroundColor = .white
-        //        searchView.alpha = 0.5
         searchView.layer.cornerRadius = 15
         return searchView
     }()
@@ -53,8 +52,6 @@ class SearchViewController: UIViewController {
         preSelectionTableView.layer.cornerRadius = 15
         return preSelectionTableView
     }()
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
     
     private let closeButton: UIButton = {
         let closeButton = UIButton()
@@ -71,7 +68,7 @@ class SearchViewController: UIViewController {
         
         return closeButton
     }()
-    
+    //MARK: lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()

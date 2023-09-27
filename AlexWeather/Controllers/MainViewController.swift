@@ -126,12 +126,14 @@ final class MainViewController: UIViewController {
         locationManager.delegate = self
         scrollView.refreshControl = refreshControl
     }
+    
     private func addTargets() {
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         searchButton.addTarget(self, action: #selector(openSearchViewController), for: .touchUpInside)
         locationButton.addTarget(self, action: #selector(updateLocation), for: .touchUpInside)
     }
+    
     private func updateData(_ data: CompletionData) {
         let viewData = ViewData(temp: String(data.temperature) + "º", city: data.city, weather: data.weather)
         self.weatherInfoView.viewData = viewData
@@ -139,6 +141,7 @@ final class MainViewController: UIViewController {
                                      conditionCode: data.id,
                                      windSpeed: data.windSpeed)
     }
+    
     private func flash() {
         let flash = CABasicAnimation(keyPath: "opacity")
         flash.duration = 0.2
@@ -149,6 +152,7 @@ final class MainViewController: UIViewController {
         weatherInfoView.temperatureLabel.layer.add(flash, forKey: nil)
         weatherInfoView.conditionsLabel.layer.add(flash, forKey: nil)
     }
+    
     private func startLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -159,6 +163,7 @@ final class MainViewController: UIViewController {
             }
         }
     }
+    
     private func makingEmitterLayer() {
         emitterLayer = CAEmitterLayer()
         if let emitterLayer = emitterLayer {
@@ -186,10 +191,12 @@ final class MainViewController: UIViewController {
         stoneView.layer.add(animation, forKey: "fallAnimation")
         isStoneFalling = true
     }
+    
     private func showStoneImage() {
         stoneView.isHidden = false
         isStoneFalling = false
     }
+    
     @objc private func showInfo() {
         self.topConstraint?.update(priority: .low)
         self.centerXConstraint?.update(priority: .low)
@@ -203,6 +210,7 @@ final class MainViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
     @objc private func refresh(_ sender: AnyObject) {
         flash()
         makingNetworkMonitor()
@@ -211,6 +219,7 @@ final class MainViewController: UIViewController {
         }
         refreshControl.endRefreshing()
     }
+    
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
@@ -227,6 +236,7 @@ final class MainViewController: UIViewController {
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
     }
+    
     @objc private func updateLocation() {
         flash()
         WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in
@@ -235,6 +245,7 @@ final class MainViewController: UIViewController {
                 }
             }
     }
+    
     @objc private func openSearchViewController() {
         let searchViewController = SearchViewController()
         searchViewController.searchVCDelegate = self
