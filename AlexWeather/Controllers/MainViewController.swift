@@ -291,7 +291,7 @@ extension MainViewController: CAAnimationDelegate {
         }
     }
 }
-// MARK: extensions - SearchDataDelegate
+// MARK: extensions - SearchViewControllerDelegate
 extension MainViewController: SearchViewControllerDelegate {
     func didSelectLocation(latitude: Double, longitude: Double) {
         WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in

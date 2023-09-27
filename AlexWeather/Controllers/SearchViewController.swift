@@ -15,7 +15,6 @@ protocol SearchViewControllerDelegate: AnyObject {
 
 class SearchViewController: UIViewController {
     // MARK: Delegates
-    weak var delegate: SearchDataDelegate?
     weak var searchVCDelegate: SearchViewControllerDelegate?
     // MARK: Elements
     private var selectedCity: StackCitySearch?
@@ -52,7 +51,6 @@ class SearchViewController: UIViewController {
         preSelectionTableView.layer.cornerRadius = 15
         return preSelectionTableView
     }()
-    
     private let closeButton: UIButton = {
         let closeButton = UIButton()
         closeButton.isEnabled = true
@@ -196,6 +194,8 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = searchResultArray[indexPath.row]
         searchVCDelegate?.didSelectLocation(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+//        delegate?.didSelectLocation(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+
         dismiss(animated: true, completion: nil)
     }
 }
