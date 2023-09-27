@@ -123,12 +123,53 @@ class SearchViewController: UIViewController {
         dismiss(animated: true)
     }
     
+//    //MARK: KeyboardSetup
+//    private func addTapToHideKeyboard() {
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
+//        tapGesture.cancelsTouchesInView = false
+//        view.addGestureRecognizer(tapGesture)
+//    }
+//    @objc private func toggleKeyboard() {
+//        if searchTextField.isFirstResponder {
+//            searchTextField.resignFirstResponder()
+//        } else {
+//            searchTextField.becomeFirstResponder()
+//        }
+//    }
+//
+//    @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
+//        view.endEditing(true)
+//    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+//    }
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+//    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
+//            if text.isEmpty {
+//                searchResultArray = []
+//                preSelectionTableView.reloadData()
+//            } else {
+//                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in self?.searchResultArray = cities
+//                    DispatchQueue.main.async {
+//                        self?.preSelectionTableView.reloadData()
+//                    }
+//                }
+//            }
+//        }
+//        return true
+//    }
+}
+extension SearchViewController {
     //MARK: KeyboardSetup
     private func addTapToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
+    
     @objc private func toggleKeyboard() {
         if searchTextField.isFirstResponder {
             searchTextField.resignFirstResponder()
@@ -140,12 +181,15 @@ class SearchViewController: UIViewController {
     @objc private func hideKeyboard(gesture: UITapGestureRecognizer) {
         view.endEditing(true)
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
             if text.isEmpty {
@@ -161,8 +205,7 @@ class SearchViewController: UIViewController {
         }
         return true
     }
-}
-extension SearchViewController {
+
     private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
@@ -173,6 +216,7 @@ extension SearchViewController {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
+    
     @objc private func keyboardWillShow(sender: NSNotification) {
         guard let userInfo = sender.userInfo else { return }
         guard var keyboardFrame = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
@@ -181,10 +225,12 @@ extension SearchViewController {
         contentInset.bottom = keyboardFrame.size.height
         scrollView.contentInset = contentInset
     }
+    
     @objc private func keyboardWillHide(sender: NSNotification) {
         let contentInset: UIEdgeInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
+    
 }
 extension SearchViewController: UITextFieldDelegate {
     
@@ -193,8 +239,6 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = searchResultArray[indexPath.row]
         searchVCDelegate?.didSelectLocation(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-//        delegate?.didSelectLocation(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
-
         dismiss(animated: true, completion: nil)
     }
 }
