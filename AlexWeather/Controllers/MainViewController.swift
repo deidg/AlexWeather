@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
     private let searchViewContoller = SearchViewController()
     private let citySearchManager = CitySearchManager()
     //MARK: MainVC elements
-    private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
+    private let backgroundView = Constants.Elements.backgroundViewImage
     private let scrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
@@ -24,14 +24,14 @@ final class MainViewController: UIViewController {
     }()
     private var searchButton: UIButton = {
         var searchButton = UIButton()
-        searchButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
-        searchButton.setImage(UIImage(named: "icon_search"), for: .normal)
+        searchButton.frame = Constants.Sizes.searchAndLocationButtonSize
+        searchButton.setImage((Constants.Elements.searchButtonImage), for: .normal)
         return searchButton
     }()
     private var locationButton: UIButton = {
         var locationButton = UIButton()
-        locationButton.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
-        locationButton.setImage(UIImage(named: "icon_location"), for: .normal)
+        locationButton.frame = Constants.Sizes.searchAndLocationButtonSize
+        locationButton.setImage((Constants.Elements.locationButtonImage), for: .normal)
         return locationButton
     }()
     private let infoButton = InfoButton()
@@ -82,7 +82,7 @@ final class MainViewController: UIViewController {
         contentView.addSubview(stoneView)
         stoneView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
-            make.trailing.leading.equalTo(contentView).inset(60)
+            make.horizontalEdges.equalTo(contentView).inset(60)
             make.top.equalTo(contentView).offset(-670)
         }
         view.addSubview(infoButton)
@@ -94,17 +94,17 @@ final class MainViewController: UIViewController {
         }
         view.addSubview(weatherInfoView)
         weatherInfoView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(10)
             make.bottom.equalTo(infoButton.snp.top).inset(-20)
-            make.trailing.leading.equalToSuperview().inset(10)
         }
         view.addSubview(locationButton)
         locationButton.snp.makeConstraints { make in
-            make.left.equalTo(weatherInfoView).inset(80)
+            make.left.equalTo(weatherInfoView).inset(Constants.Sizes.screenIndentFromSize)
             make.bottom.equalTo(infoButton.snp.top).offset(-20)
         }
         view.addSubview(searchButton)
         searchButton.snp.makeConstraints { make in
-            make.right.equalTo(weatherInfoView).inset(80)
+            make.right.equalTo(weatherInfoView).inset(Constants.Sizes.screenIndentFromSize)
             make.bottom.equalTo(view.snp.bottom).inset(80)
         }
         view.addSubview(descriptionView)
@@ -222,10 +222,8 @@ final class MainViewController: UIViewController {
             DispatchQueue.main.async {
                 if path.status == .satisfied {
                     self.showStoneImage()
-                    print("Internet connection is available.")
                 } else {
                     self.fallAnimation()
-                    print("Internet connection is lost.")
                 }
             }
         }
@@ -297,3 +295,17 @@ extension MainViewController: SearchViewControllerDelegate {
         }
     }
 }
+extension MainViewController {
+    enum Constants {
+        enum Elements {
+            static let backgroundViewImage = UIImageView(image: UIImage(named: "image_background"))
+            static let searchButtonImage = UIImage(named: "icon_search")
+            static let locationButtonImage = UIImage(named: "icon_location")
+        }
+        enum Sizes {
+            static let searchAndLocationButtonSize = CGRect(x: 0, y: 0, width: 120, height: 120)
+            static let screenIndentFromSize = 80
+        }
+    }
+}
+
