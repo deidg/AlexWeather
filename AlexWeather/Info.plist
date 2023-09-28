@@ -5,8 +5,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFPRODISPLAYBOLD.OTF</string>
-		<string>SFPRODISPLAYREGULAR.OTF</string>
-		<string>SFPRODISPLAYMEDIUM.OTF</string>
 		<string>Ubuntu-Regular.ttf</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
