@@ -202,7 +202,7 @@ final class MainViewController: UIViewController {
         self.locationButton.isHidden = true
         self.searchButton.isHidden = true
         self.weatherInfoView.isHidden = true
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
     }
@@ -254,7 +254,7 @@ extension MainViewController: DescriptionViewDelegate {
         self.topConstraint?.update(priority: .high)
         self.centerXConstraint?.update(priority: .high)
         self.centerConstraint?.update(priority: .low)
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         } completion: { [weak self] done in
             if done {
