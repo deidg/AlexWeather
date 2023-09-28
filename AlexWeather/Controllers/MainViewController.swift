@@ -210,7 +210,8 @@ final class MainViewController: UIViewController {
     @objc private func refresh(_ sender: AnyObject) {
         flash()
         makingNetworkMonitor()
-        WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in guard let self else { return }
+        WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in
+            guard let self else { return }
             self.updateData(completionData)
         }
         refreshControl.endRefreshing()
@@ -218,12 +219,12 @@ final class MainViewController: UIViewController {
     
     @objc func makingNetworkMonitor() {
         let monitor = NWPathMonitor()
-        monitor.pathUpdateHandler = { path in
+        monitor.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
                 if path.status == .satisfied {
-                    self.showStoneImage()
+                    self?.showStoneImage()
                 } else {
-                    self.fallAnimation()
+                    self?.fallAnimation()
                 }
             }
         }
@@ -234,8 +235,9 @@ final class MainViewController: UIViewController {
     @objc private func updateLocation() {
         flash()
         WeatherManager.shared.updateWeatherInfo(latitude: currentLatitude, longitude: currentLongitude) { [weak self] completionData in
+            guard let self else { return }
                 DispatchQueue.main.async {
-                    self?.updateData(completionData)
+                    self.updateData(completionData)
                 }
             }
     }
@@ -278,6 +280,7 @@ extension MainViewController: CLLocationManagerDelegate {
         }
     }
 }
+// MARK: extensions - CAAnimationDelegate
 extension MainViewController: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if flag {
@@ -288,9 +291,11 @@ extension MainViewController: CAAnimationDelegate {
 // MARK: extensions - SearchViewControllerDelegate
 extension MainViewController: SearchViewControllerDelegate {
     func didSelectLocation(latitude: Double, longitude: Double) {
-        WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude) { [weak self] completionData in
+        WeatherManager.shared.updateWeatherInfo(latitude: latitude, longitude: longitude)
+        { [weak self] completionData in
+            guard let self else { return }
             DispatchQueue.main.async {
-                self?.updateData(completionData)
+                self.updateData(completionData)
             }
         }
     }

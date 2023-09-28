@@ -189,7 +189,7 @@ extension SearchViewController {
 extension SearchViewController: UITextFieldDelegate {
     
 }
-//MARK: UITableViewDelegate
+//MARK: extensions - UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = searchResultArray[indexPath.row]
@@ -197,7 +197,7 @@ extension SearchViewController: UITableViewDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
-//MARK: UITableViewDataSource
+//MARK: extensions - UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
@@ -210,7 +210,7 @@ extension SearchViewController: UITableViewDataSource {
         return searchResultArray.count
     }
 }
-// MARK: Constants
+// MARK: extensions - Constants
 extension SearchViewController {
     enum Constants {
         enum Setup {

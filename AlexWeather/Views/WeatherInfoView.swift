@@ -87,6 +87,6 @@ extension WeatherInfoView {
             static let conditionsLabelBottomHeight = 50
         }
     }
-
-
+    
+    
 }
