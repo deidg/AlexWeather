@@ -17,7 +17,7 @@ final class StoneImageView: UIImageView {
         }
     }
     private let pendulumAnimation: CAKeyframeAnimation = {
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
+        let animation = CAKeyframeAnimation(keyPath: Constants.keyPathName)
         animation.duration = 4.0
         animation.fillMode = .both
         animation.repeatCount = Float.infinity
@@ -47,29 +47,29 @@ final class StoneImageView: UIImageView {
         
         switch state {
         case .normal:
-            image = UIImage(named: "image_stone_normal")
+            image = UIImage(named: Constants.stoneImageNameNormal)
             alpha = 1
         case .rain:
-            image = UIImage(named: "image_stone_wet")
+            image = UIImage(named: Constants.stoneImageNameWet)
             alpha = 1
         case .snow:
-            image = UIImage(named: "image_stone_snow")
+            image = UIImage(named: Constants.stoneImageNameSnow)
             alpha = 1
         case .fog:
-            image = UIImage(named: "image_stone_normal")
+            image = UIImage(named: Constants.stoneImageNameNormal)
             alpha = 0.3
         case .hot:
-            image = UIImage(named: "image_stone_cracks")
+            image = UIImage(named: Constants.stoneImageNameCracks)
             alpha = 1
         case .noInternet:
-            image = UIImage(named: "image_stone_normal")
+            image = UIImage(named: Constants.stoneImageNameNormal)
             alpha = 0
         }
         
         self.image = image
         self.alpha = alpha
         if state.isWindy {
-            layer.add(pendulumAnimation, forKey: "rotationAnimation")
+            layer.add(pendulumAnimation, forKey: Constants.forKeyName)
         }
     }
 }
@@ -86,7 +86,6 @@ extension StoneImageView {
         var isWindy: Bool {
             switch self {
             case .noInternet:
-                print("There is no internet")
                 return false
             case .normal(let windy):
                 return windy
@@ -116,5 +115,16 @@ extension StoneImageView {
                 self = .normal(windy: false)
             }
         }
+    }
+}
+// MARK: Extension
+extension StoneImageView {
+    enum Constants {
+        static let stoneImageNameNormal = "image_stone_normal"
+        static let stoneImageNameWet = "image_stone_wet"
+        static let stoneImageNameSnow = "image_stone_snow"
+        static let stoneImageNameCracks = "image_stone_cracks"
+        static let keyPathName = "transform.rotation"
+        static let forKeyName = "rotationAnimation"
     }
 }
