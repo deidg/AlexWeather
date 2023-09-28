@@ -43,7 +43,7 @@ final class MainViewController: UIViewController {
     private var emitterLayer: CAEmitterLayer?
     private let refreshControl = UIRefreshControl()
     //MARK: variables
-    private var isStoneFalling = false
+    private var isStoneFalling = true
     private var topConstraint: Constraint?
     private var widthConstraint: Constraint?
     private var heightConstraint: Constraint?
@@ -173,7 +173,7 @@ final class MainViewController: UIViewController {
     }
     
     private func fallAnimation() {
-        guard !isStoneFalling else { return }  // CHANGE
+        guard isStoneFalling == true else { return }  // CHANGE
         let animation = CAKeyframeAnimation(keyPath: "position")
         animation.duration = 3.0
         animation.repeatCount = 0.0
@@ -185,12 +185,12 @@ final class MainViewController: UIViewController {
         animation.keyTimes = [0, 1]
         animation.delegate = self
         stoneView.layer.add(animation, forKey: "fallAnimation")
-        isStoneFalling = true
+        isStoneFalling = false
     }
     
     private func showStoneImage() {
         stoneView.isHidden = false
-        isStoneFalling = false
+        isStoneFalling = true
     }
     
     @objc private func showInfo() {
