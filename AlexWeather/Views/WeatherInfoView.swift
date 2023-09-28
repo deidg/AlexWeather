@@ -32,7 +32,7 @@ final class WeatherInfoView: UIView {
         conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
         return conditionsLabel
     }()
-    let locationLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textColor = .black
         locationLabel.text = "Home"
