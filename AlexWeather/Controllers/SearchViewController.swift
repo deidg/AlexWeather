@@ -9,10 +9,6 @@ import UIKit
 import CoreLocation
 import SnapKit
 
-protocol SearchViewControllerDelegate: AnyObject {
-    func didSelectLocation(latitude: Double, longitude: Double)
-}
-
 class SearchViewController: UIViewController {
     // MARK: Delegates
     weak var searchVCDelegate: SearchViewControllerDelegate?
@@ -145,22 +141,6 @@ extension SearchViewController {
         view.endEditing(true)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
-            if text.isEmpty {
-                searchResultArray = []
-                preSelectionTableView.reloadData()
-            } else {
-                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in self?.searchResultArray = cities
-                    DispatchQueue.main.async {
-                        self?.preSelectionTableView.reloadData()
-                    }
-                }
-            }
-        }
-        return true
-    }
-    
     private func observeKeyboardNotificaton() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
@@ -187,7 +167,21 @@ extension SearchViewController {
     }
 }
 extension SearchViewController: UITextFieldDelegate {
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
+            if text.isEmpty {
+                searchResultArray = []
+                preSelectionTableView.reloadData()
+            } else {
+                citySearchManager.searchAllCities(cityName: text) { [weak self] cities in self?.searchResultArray = cities
+                    DispatchQueue.main.async {
+                        self?.preSelectionTableView.reloadData()
+                    }
+                }
+            }
+        }
+        return true
+    }
 }
 //MARK: extensions - UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {

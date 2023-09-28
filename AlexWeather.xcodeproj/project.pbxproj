@@ -30,6 +30,7 @@
 		FAA1BDF52A97849000BEA737 /* CitySearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA1BDF42A97849000BEA737 /* CitySearchManager.swift */; };
 		FAA28DC52A4472A2008472FE /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA28DC42A4472A2008472FE /* WeatherManager.swift */; };
 		FAA2F8862AC59F3100A9D7C4 /* DescriptionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2F8852AC59F3100A9D7C4 /* DescriptionViewDelegate.swift */; };
+		FAA2F8882AC5AD4C00A9D7C4 /* SearchViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2F8872AC5AD4C00A9D7C4 /* SearchViewControllerDelegate.swift */; };
 		FAA67D8C2A7270E700746F5A /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA67D8B2A7270E700746F5A /* DescriptionView.swift */; };
 		FAA67D8E2A72903100746F5A /* StoneImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA67D8D2A72903100746F5A /* StoneImageView.swift */; };
 		FAB7F32F2A9F9B6800A4C33B /* StackCitySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7F32E2A9F9B6800A4C33B /* StackCitySearch.swift */; };
@@ -82,6 +83,7 @@
 		FAA1BDF42A97849000BEA737 /* CitySearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchManager.swift; sourceTree = "<group>"; };
 		FAA28DC42A4472A2008472FE /* WeatherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		FAA2F8852AC59F3100A9D7C4 /* DescriptionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewDelegate.swift; sourceTree = "<group>"; };
+		FAA2F8872AC5AD4C00A9D7C4 /* SearchViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerDelegate.swift; sourceTree = "<group>"; };
 		FAA67D8B2A7270E700746F5A /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
 		FAA67D8D2A72903100746F5A /* StoneImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneImageView.swift; sourceTree = "<group>"; };
 		FAB7F32E2A9F9B6800A4C33B /* StackCitySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackCitySearch.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				FA9FCF012A13550000D13D2A /* AppDelegate.swift */,
 				FAA2F8852AC59F3100A9D7C4 /* DescriptionViewDelegate.swift */,
 				FA981BE62A923EBE00AADC76 /* LocationUpdateDelegate.swift */,
+				FAA2F8872AC5AD4C00A9D7C4 /* SearchViewControllerDelegate.swift */,
 				FA9FCF032A13550000D13D2A /* SceneDelegate.swift */,
 			);
 			path = Delegates;
@@ -454,6 +457,7 @@
 				FA9FD4F52A7529BE00018983 /* WeatherInfoView.swift in Sources */,
 				FA9EC7C12A874BDF00971944 /* ViewData.swift in Sources */,
 				FA9EC7C32A874BF200971944 /* WeatherData.swift in Sources */,
+				FAA2F8882AC5AD4C00A9D7C4 /* SearchViewControllerDelegate.swift in Sources */,
 				FAA67D8C2A7270E700746F5A /* DescriptionView.swift in Sources */,
 				FA981BE72A923EBE00AADC76 /* LocationUpdateDelegate.swift in Sources */,
 				FA9CD3082A98864F00241029 /* SearchCompletionData.swift in Sources */,
