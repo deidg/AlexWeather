@@ -11,7 +11,7 @@ import Foundation
 final class CitySearchManager {
     
     func searchAllCities(cityName: String, completion: @escaping ([StackCitySearch]) -> Void) {
-        guard let url = URL(string: "https://api.api-ninjas.com/v1/city?name=\(cityName)&limit=5") else {
+        guard let url = URL(string: "https://api.api-ninjas.com/v1/city?name=\(cityName)&limit=8") else {
             completion([])
             return
         }
@@ -35,7 +35,7 @@ final class CitySearchManager {
     }
     
     func searchAllCities(cityName: String) {
-        guard let url = URL(string: "https://api.api-ninjas.com/v1/city?name=\(cityName)&limit=5") else { return }
+        guard let url = URL(string: "https://api.api-ninjas.com/v1/city?name=\(cityName)&limit=8") else { return }
         var request = URLRequest(url: url)
         request.setValue( Constants.apiKey, forHTTPHeaderField: "X-Api-Key")
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in

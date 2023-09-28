@@ -147,8 +147,7 @@ final class MainViewController: UIViewController {
         flash.toValue = 0.0
         flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         flash.autoreverses = true
-        weatherInfoView.temperatureLabel.layer.add(flash, forKey: nil)
-        weatherInfoView.conditionsLabel.layer.add(flash, forKey: nil)
+        weatherInfoView.layer.add(flash, forKey: nil)
     }
     
     private func startLocationManager() {

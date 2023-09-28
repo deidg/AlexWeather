@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     private let citySearchManager = CitySearchManager()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let backgroundView = UIImageView(image: UIImage(named: "image_background"))
+    private let backgroundView = Constants.Setup.backgroundViewImage
     private let searchView: UIView = {
         let searchView = UIView()
         searchView.backgroundColor = .white
@@ -39,7 +39,7 @@ class SearchViewController: UIViewController {
         searchTextField.keyboardType = .alphabet
         searchTextField.becomeFirstResponder()
         searchTextField.leftViewMode = .always
-        searchTextField.leftView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
+        searchTextField.leftView = Constants.Setup.searchTextFieldIndent
         return searchTextField
     }()
     private var searchResultArray: [StackCitySearch] = []
@@ -54,15 +54,9 @@ class SearchViewController: UIViewController {
         let closeButton = UIButton()
         closeButton.isEnabled = true
         closeButton.tintColor = UIColor.gray
-        // var.1
-        closeButton.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
-        closeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        
-        // var.2
-        //        let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .large)
-        //        let largeCloseButton = UIImage(systemName: "xmark.circle", withConfiguration: largeConfig)
-        //        closeButton.setImage(largeCloseButton, for: .normal)
-        
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .light, scale: .large)
+        let largeCloseButton = UIImage(systemName: "xmark.circle", withConfiguration: largeConfig)
+        closeButton.setImage(largeCloseButton, for: .normal)
         return closeButton
     }()
     //MARK: lifecycle
@@ -85,23 +79,23 @@ class SearchViewController: UIViewController {
         view.addSubview(searchView)
         searchView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(100)
-            make.horizontalEdges.equalTo(view).inset(30)
-            make.height.equalTo(50)
+            make.top.equalTo(view).inset(Constants.SetupUI.insetTop)
+            make.horizontalEdges.equalTo(view).inset(Constants.SetupUI.horizontalEdges)
+            make.height.equalTo(Constants.SetupUI.height)
         }
         searchView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(100)
-            make.horizontalEdges.equalTo(view).inset(30)
-            make.height.equalTo(50)
+            make.top.equalTo(view).inset(Constants.SetupUI.insetTop)
+            make.horizontalEdges.equalTo(view).inset(Constants.SetupUI.horizontalEdges)
+            make.height.equalTo(Constants.SetupUI.height)
         }
         view.addSubview(preSelectionTableView)
         preSelectionTableView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
             make.top.equalTo(searchView.snp.bottom).inset(0)
-            make.horizontalEdges.equalTo(view).inset(30)
-            make.bottom.equalTo(view.snp.bottom).inset(50+150)
+            make.horizontalEdges.equalTo(view).inset(Constants.SetupUI.horizontalEdges)
+            make.bottom.equalTo(view.snp.bottom).inset(50+130)
         }
         view.addSubview(closeButton)
         closeButton.snp.makeConstraints { make in
@@ -214,5 +208,20 @@ extension SearchViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResultArray.count
+    }
+}
+// MARK: Constants
+extension SearchViewController {
+    enum Constants {
+        enum Setup {
+            static let backgroundViewImage = UIImageView(image: UIImage(named: "image_background"))
+            static let searchTextFieldIndent = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
+            static let closeButtonImage = UIImage(systemName: "xmark.circle")
+        }
+        enum SetupUI {
+            static let insetTop = 100
+            static let horizontalEdges = 30
+            static let height = 50
+        }
     }
 }
