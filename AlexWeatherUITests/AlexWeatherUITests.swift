@@ -14,44 +14,61 @@ final class AlexWeatherUITests: XCTestCase {
     }
     
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testExample() throws {
+    func testInfoButton() throws {
         let app = XCUIApplication()
         app.launch()
-        
-        //DescriptionView
+    
         let infoButton = app.buttons["INFO"]
         XCTAssertTrue(infoButton.exists)
         
         infoButton.tap()
-
+        
         app/*@START_MENU_TOKEN@*/.buttons["Hide"].staticTexts["Hide"]/*[[".buttons[\"Hide\"].staticTexts[\"Hide\"]",".staticTexts[\"Hide\"]"],[[[-1,1],[-1,0]]],[1]]@END_MENU_TOKEN@*/.tap()
-
+    }
+        
+    func testCitySearchAndUpdateBySwiping() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
         let iconSearchButton = app.buttons["icon search"]
         iconSearchButton.tap()
-        // first city search
+ 
         let enterCityNameTextField = app.textFields["Enter city name"]
         enterCityNameTextField.typeText("Portland")
         enterCityNameTextField.tap()
-
         let cell = app.tables.children(matching: .cell).element(boundBy: 0)
         cell.tap()
-        // update data by vertical swiping stoneImage
+ 
         let element = app.scrollViews.children(matching: .other).element(boundBy: 0)
         element.tap()
+    }
 
-        //second city search
+    func testCitySearchAndUpdateByLocationButton() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let iconSearchButton = app.buttons["icon search"]
         iconSearchButton.tap()
-        enterCityNameTextField.tap()
+
+        let enterCityNameTextField = app.textFields["Enter city name"]
         enterCityNameTextField.typeText("London")
-        cell.tables.children(matching: .cell).element(boundBy: 0)
+        enterCityNameTextField.tap()
         
+        let cell = app.tables.children(matching: .cell).element(boundBy: 0)
         cell.tap()
+
         app.buttons["icon location"].tap()
-        
+    }
+    
+    func testCitySearchAndCloseButton() throws {
+        let app = XCUIApplication()
+        app.launch()
+    
+        let iconSearchButton = app.buttons["icon search"]
         iconSearchButton.tap()
+        
         app.buttons["close"].tap()
     }
     
