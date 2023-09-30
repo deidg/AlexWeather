@@ -32,7 +32,7 @@ final class WeatherInfoView: UIView {
         conditionsLabel.font = UIFont(name: Constants.Text.conditionsLabelFontName, size: Constants.Text.conditionsLabelFontSize)
         return conditionsLabel
     }()
-    let locationLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let locationLabel = UILabel()
         locationLabel.textColor = .black
         locationLabel.text = "Home"
@@ -40,7 +40,6 @@ final class WeatherInfoView: UIView {
         return locationLabel
     }()
     private let locationImageView = UIImageView(image: UIImage(named: "icon_location"))
-//     let searchImageView = UIImageView(image: UIImage(named: "icon_search"))
     // MARK: Inits
     init() {
         super.init(frame: .zero)
@@ -66,23 +65,7 @@ final class WeatherInfoView: UIView {
             make.top.equalTo(conditionsLabel.snp.bottom).offset(50)
             make.bottom.equalToSuperview()
         }
-//        addSubview(locationImageView)
-//        locationImageView.snp.makeConstraints { make in
-//            make.trailing.equalTo(locationLabel.snp.leading).inset(-20)
-//            make.centerY.equalTo(locationLabel)
-//        }
-//        addSubview(searchImageView)
-//        searchImageView.snp.makeConstraints { make in
-//            make.leading.equalTo(locationLabel.snp.trailing).offset(20)
-//            make.centerY.equalTo(locationLabel)
-//        }
     }
-    
-     func printin() {
-        
-    }
-    
-    
 }
 // MARK: Extension
 extension WeatherInfoView {
@@ -98,13 +81,12 @@ extension WeatherInfoView {
             static let temperatureLabelLeading = 20
             static let temperatureLabelTrailing = 200
             static let temperatureLabelHeight = 100
-
             static let conditionsLabelToTop = 250//100
             static let conditionsLabelBottomLeading = 20
             static let conditionsLabelBottomTrailing = 100
             static let conditionsLabelBottomHeight = 50
         }
     }
-
-
+    
+    
 }

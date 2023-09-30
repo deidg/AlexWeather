@@ -10,11 +10,6 @@
 import UIKit
 import SnapKit
 
-// MARK: Protocol
-protocol DescriptionViewDelegate: AnyObject {
-    func hideInfo()
-}
-
 class DescriptionView: UIView {
     // MARK: Elements
     weak var delegate: DescriptionViewDelegate?

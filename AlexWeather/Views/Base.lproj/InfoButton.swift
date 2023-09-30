@@ -21,18 +21,15 @@ final class InfoButton: UIButton {
         infoButtonGradientLayer.cornerRadius = Constants.cornerRadius
         return infoButtonGradientLayer
     }()
-    
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 175, height: 85))
         defaultConfiguration()
     }
-    
     required init?(coder: NSCoder) {
         return nil
     }
     //MARK: - methods
     func defaultConfiguration() {
-        
         setTitle("INFO", for: .normal)
         setTitleColor(.black, for: .normal)
         infoButtonGradientLayer.frame = self.frame
