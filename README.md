@@ -12,15 +12,17 @@ Weather forecast application that:
 - shows animation if there is a wind more then 1 m/s
 - shows animation if there is no internet
 - update your current location
-  
-## Screenshots
+
+
+## DEMO
+
+|                                |
+| :---------------------------------------------: |
+| <img src = "./assets/Simulator%20Screen%20Recording_GIF.gif" width = 200> |
+|                                                 |
 
 
 
-|                  Initial view                   | Searching                                      |                    Updating                     | Details                                         |
-| :---------------------------------------------: | ---------------------------------------------- | :---------------------------------------------: | ----------------------------------------------- |
-| <img src = "./assets/weather2.png" width = 400> | <img src = "./assets/weather6.png" width = 400> | <img src = "./assets/weather3.png" width = 400> | <img src = "./assets/weather4.png" width = 400> |
-|                                                 |                                                |                                                 |                                                 |
 
 ### Pods
 
